@@ -1,59 +1,97 @@
-import { useEffect } from 'react';
-import styled from '@emotion/styled';
-import Image from 'next/image';
+import { useEffect } from "react";
+import styled from "@emotion/styled";
+import Image from "next/image";
 
-import { css } from '@emotion/styled';
+import { css } from "@emotion/styled";
 
 export default function Layout(props) {
   useEffect(() => {
     console.log(props);
-  },[props])
+  }, [props]);
 
-  const onLoginBtn = (e) => {
-    window.location.href = '/auth/signIn';
-  }
+  const onLoginBtn = () => {
+    window.location.href = "/auth/signIn";
+  };
+
   return (
     <>
       <Nav>
         <NavContainer>
-        <Container>
-          <Image src='/assets/logo.png' alt="로고" width="150" height="60"/>
-        </Container>
+          <Container>
+            <Image src="/assets/logo.png" alt="로고" width="150" height="60" />
+          </Container>
           <List>
-            <Item><Link href='/'>Trip'yler 소개</Link></Item>
-            <Item><Link href='/'>Trip'yler 찾기</Link></Item>
-            <Item><Link href='/'>여행 후기</Link></Item>
-            <Item><Link href='/'>여행 가이드</Link></Item>
-            <Item><Link href='/'>Contact</Link></Item>
-        </List>
-          {props?.login === true ? <List>
-            <UserItem><SignInBtn hiteText>로그인</SignInBtn></UserItem>
-            <UserItem><SignUpBtn hiteText>회원가입</SignUpBtn></UserItem>
-          </List> : (
-          <List>
-            <UserItem><SignInBtn onClick={e => {onLoginBtn}}>로그인</SignInBtn></UserItem>
-            <UserItem><SignUpBtn onClick={e => {onLoginBtn}}>회원가입</SignUpBtn></UserItem>
+            <Item>
+              <Link href="/">Trip'yler 소개</Link>
+            </Item>
+            <Item>
+              <Link href="/">Trip'yler 찾기</Link>
+            </Item>
+            <Item>
+              <Link href="/">여행 후기</Link>
+            </Item>
+            <Item>
+              <Link href="/">여행 가이드</Link>
+            </Item>
+            <Item>
+              <Link href="/">Contact</Link>
+            </Item>
           </List>
-            )}
+          {props?.login === true ? (
+            <List>
+              <UserItem>
+                <SignInBtn hiteText>로그인</SignInBtn>
+              </UserItem>
+              <UserItem>
+                <SignUpBtn hiteText>회원가입</SignUpBtn>
+              </UserItem>
+            </List>
+          ) : (
+            <List>
+              <UserItem>
+                <SignInBtn
+                  onClick={(e) => {
+                    onLoginBtn;
+                  }}
+                >
+                  로그인
+                </SignInBtn>
+              </UserItem>
+              <UserItem>
+                <SignUpBtn
+                  onClick={(e) => {
+                    onLoginBtn;
+                  }}
+                >
+                  회원가입
+                </SignUpBtn>
+              </UserItem>
+            </List>
+          )}
         </NavContainer>
       </Nav>
+      <NavBottom />
+      {props.children}
     </>
   );
 }
 
+const NavBottom = styled.div`
+  width: 100%;
+  height: 120px;
+`;
+
 const Nav = styled.nav`
   background-color: #ffffff;
-  padding: 40px 0;
-
+  padding: 30px 0;
   box-shadow: 0px 1px 10px #999;
-
+  z-index: 100;
 
   align-items: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-
 `;
 
 const NavContainer = styled.div`
@@ -62,81 +100,74 @@ const NavContainer = styled.div`
   align-items: center;
   max-width: 1440px;
   margin: 0 auto;
-`
+`;
 
 const List = styled.ul`
   list-style: none;
   display: flex;
   margin: 0;
   padding-left: 0;
-  
-`
+`;
 
 const Item = styled.li`
   padding: 20px 20px;
   font-size: 20px;
-  white-space : nowrap;
+  white-space: nowrap;
   margin: 0 0.5vw;
   font-weight: 600;
-`
+`;
 
 const Link = styled.a`
   text-decoration: none;
   color: black;
-`
+`;
 
 const UserItem = styled.li`
   margin-right: 1rem;
-  white-space : nowrap;
+  white-space: nowrap;
   font-weight: bold;
-`
+`;
 
 const Container = styled.div`
   padding-left: 0;
-`
+`;
 
 const SignInBtn = styled.button`
-  ${(props) => 
-  props.hideText &&
-  css`
-      visibility: hidden;
-      border: none;
-    `
-  }
-  
-  background-color: transparent;
-  border-radius: 50px;
-  border: 2px solid #C8B6FF;
-  color: #C8B6FF;
-  letter-spacing: -2px;
-
-  font-size: 18px;
-
-  padding: 0.7rem 1.5rem;
-  cursor: pointer;
-
-  
-
-`
-
-const SignUpBtn = styled.button`
-  ${(props) => 
+  ${(props) =>
     props.hideText &&
     css`
       visibility: hidden;
       border: none;
-    `
-  }
+    `}
 
-  background-color: #C8B6FF;
-  color: white;
+  background-color: transparent;
   border-radius: 50px;
-  border: 2px solid #C8B6FF;
+  border: 2px solid #c8b6ff;
+  color: #c8b6ff;
   letter-spacing: -2px;
-  
+
   font-size: 18px;
 
   padding: 0.7rem 1.5rem;
   cursor: pointer;
+`;
 
-`
+const SignUpBtn = styled.button`
+  ${(props) =>
+    props.hideText &&
+    css`
+      visibility: hidden;
+      border: none;
+    `}
+
+  background-color: #C8B6FF;
+  color: white;
+  border-radius: 50px;
+  border: 2px solid #c8b6ff;
+  letter-spacing: -2px;
+
+  font-size: 18px;
+
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+`;
