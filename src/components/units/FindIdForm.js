@@ -8,41 +8,79 @@ import axios from 'axios';
 export default function FindIdForm() {
   const { register, handleSubmit, getValues, watch, formState: {errors} } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const phone = useRef();
-  phone.current = watch("phone");
-  useEffect(() => {
-    console.log(typeof phone.current);
-  }, [phone.current]);
 
   const [certificationOk, setCertificationOk] = useState(false);
+  const [phoneNumberOk, setPhoneNumberOk] = useState(true);
+  const [authConfirm, setAuthConfirm] = useState(false);
+
+  // 전화번호 11자 이상일 때만 button On
+  const phone = useRef('');
+  phone.current = watch("phone");
+  useEffect(() => {
+    if (phone.current?.length >= 11) {
+      setPhoneNumberOk(false);
+    } else {
+      setPhoneNumberOk(true);
+    }
+  }, [phone.current]);
 
   const onSubmit = async (e) => {
     try {      
       console.log(e);
       setIsSubmitting(true);
-        
+      const requestData = {
+        "name": getValues("name"),
+        "phone": getValues("phone")
+      }
+      if(authConfirm === true){
+        const response = await axios.post(
+          'https://api.tripyle.xyz/user/auth/name',
+          requestData,
+          {"Content-Type": "application/json; charset=utf-8"}
+        );
+        console.log(response);
+        if (response.status === 200) {
+          console.log(response.data);
+        } 
+      } else {
+        alert('휴대폰 인증을 먼저 진행해주세요.');
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const [authenticationNum, setAuthenticationNum] = useState('');
   const onSubmitCertification = async (e) => {
     try {
       console.log(e);
-      setCertificationOk(true);
-      const phoneValue = getValues("phone");
-      const requestData = {
-        "incomingPhoneNum": phoneValue,
+      console.log(getValues("phoneChk"));
+      if (getValues("phoneChk") === undefined) {
+        setCertificationOk(true);
+        const phoneValue = getValues("phone");
+        const requestData = {
+          "phone": phoneValue,
+        }
+        console.log(requestData);
+        alert('전화번호가 발송되었습니다.');
+        const response = await axios.post(
+          'https://api.tripyle.xyz/user/authentication-code/send',
+          requestData,
+          {"Content-Type": "application/json; charset=utf-8"}
+        );
+        if (response.status === 200) {
+          console.log(response);
+          setAuthenticationNum(response.data);
+        
+        } 
+      } else {
+        if (getValues("phoneChk") == authenticationNum) {
+          alert('인증 완료되었습니다.');
+          setAuthConfirm(true);
+        } else {
+          alert('인증번호가 일치하지 않습니다.');
+        }
       }
-      console.log(requestData);
-      // const response = await axios.post(
-      //   'https://api.tripyle.xyz/user/authentication-code/send',
-      //   requestData,
-      //   {"Content-Type": "application/json; charset=utf-8"}
-      // );
-      // if (response.status === 200) {
-      //   console.log(response);
-      // }
     }
     catch (error) {
       console.log(error);
@@ -72,14 +110,12 @@ export default function FindIdForm() {
           <Input
             id="phoneInput"
             placeholder="phone number"
-            {...register("phone", {
-              minLength: 11
-            })}
+            {...register("phone")}
               />
               </Wrapper>
           <PhoneBtn
             type="submit"
-            disabled={toString(phone.current) < 11 || certificationOk}
+            disabled={phoneNumberOk || certificationOk}
             onClick={handleSubmit(onSubmitCertification)}
           >
             인증번호 받기
@@ -93,7 +129,10 @@ export default function FindIdForm() {
               required
               {...register("phoneChk")}
             />
-            <Button type="button" onClick={onSubmitCertification}>
+              <Button
+                type="button"
+                onClick={onSubmitCertification}
+              >
               인증번호 확인
             </Button>
           </InputWrapper>

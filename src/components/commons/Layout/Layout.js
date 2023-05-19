@@ -26,13 +26,13 @@ export default function Layout(props) {
             <Item><Link href='/'>여행 가이드</Link></Item>
             <Item><Link href='/'>Contact</Link></Item>
         </List>
-          {props?.login === true ? <List>
-            <UserItem><SignInBtn hiteText>로그인</SignInBtn></UserItem>
-            <UserItem><SignUpBtn hiteText>회원가입</SignUpBtn></UserItem>
-          </List> : (
+          {props?.login === true ? (<List hideText>
+            <UserItem><SignInBtn hideText={true}>로그인</SignInBtn></UserItem>
+            <UserItem><SignUpBtn hideText={true}>회원가입</SignUpBtn></UserItem>
+          </List>) : (
           <List>
-            <UserItem><SignInBtn onClick={e => {onLoginBtn}}>로그인</SignInBtn></UserItem>
-            <UserItem><SignUpBtn onClick={e => {onLoginBtn}}>회원가입</SignUpBtn></UserItem>
+            <UserItem><SignInBtn  hideText={false} onClick={e => {onLoginBtn}}>로그인</SignInBtn></UserItem>
+            <UserItem><SignUpBtn  hideText={false} onClick={e => {onLoginBtn}}>회원가입</SignUpBtn></UserItem>
           </List>
             )}
         </NavContainer>
@@ -70,6 +70,8 @@ const List = styled.ul`
   margin: 0;
   padding-left: 0;
   
+  visibility: ${(props) => (props.hideText === true ? 'hidden' : 'visible')}
+
 `
 
 const Item = styled.li`
@@ -86,9 +88,12 @@ const Link = styled.a`
 `
 
 const UserItem = styled.li`
+
   margin-right: 1rem;
   white-space : nowrap;
   font-weight: bold;
+
+
 `
 
 const Container = styled.div`
@@ -96,17 +101,11 @@ const Container = styled.div`
 `
 
 const SignInBtn = styled.button`
-  ${(props) => 
-  props.hideText &&
-  css`
-      visibility: hidden;
-      border: none;
-    `
-  }
   
   background-color: transparent;
   border-radius: 50px;
   border: 2px solid #C8B6FF;
+
   color: #C8B6FF;
   letter-spacing: -2px;
 
@@ -115,19 +114,11 @@ const SignInBtn = styled.button`
   padding: 0.7rem 1.5rem;
   cursor: pointer;
 
-  
 
 `
 
 const SignUpBtn = styled.button`
-  ${(props) => 
-    props.hideText &&
-    css`
-      visibility: hidden;
-      border: none;
-    `
-  }
-
+  
   background-color: #C8B6FF;
   color: white;
   border-radius: 50px;
@@ -138,5 +129,4 @@ const SignUpBtn = styled.button`
 
   padding: 0.7rem 1.5rem;
   cursor: pointer;
-
 `

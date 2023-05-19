@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import styled from '@emotion/styled'
 
 import axios from 'axios';
 
 export default function ChnPwForm() {
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const router = useRouter();
+  const { register, handleSubmit, getValues, formState: {errors} } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   // 최소 8자, 하나의 문자, 숫자, 특수 문자를 포함해야 함
 
@@ -16,36 +18,27 @@ export default function ChnPwForm() {
     try {      
       console.log(e);
       setIsSubmitting(true);
-        
+      const requestData = {
+        "newPassword": getValues("newPw"),
+        "newPasswordCheck": getValues("newPwChk"),
+        "username": router.query.username
+      };
+      console.log(requestData);
+      const response = await axios.post(
+        'https://api.tripyle.xyz/user/password/change',
+        requestData,
+        {"Content-Type": "application/json; charset=utf-8"}
+      );
+      console.log(response);
+      if (response.status === 200 && response.data === '새로운 비밀번호로 변경되었습니다') {
+        alert('비밀번호가 변경되었습니다.');
+        router.push('/auth/signIn');
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-  // const onSubmitCertification = async (e) => {
-  //   try {
-  //     console.log(e);
-  //     setCertificationOk(true);
-  //     const phoneValue = getValues("phone");
-  //     const requestData = {
-  //       "incomingPhoneNum": phoneValue,
-  //     }
-  //     console.log(requestData);
-  //     // const response = await axios.post(
-  //     //   'https://api.tripyle.xyz/user/authentication-code/send',
-  //     //   requestData,
-  //     //   {"Content-Type": "application/json; charset=utf-8"}
-  //     // );
-  //     // if (response.status === 200) {
-  //     //   console.log(response);
-  //     // }
-  //   }
-  //   catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   return (
     <>
@@ -66,16 +59,27 @@ export default function ChnPwForm() {
                   }
               })}
               />
-              {errors && <ErrorMsg>{errors?.newPw?.message}</ErrorMsg>}
+              {errors.newPw && (<ErrorMsg>{errors.newPw.message}</ErrorMsg>)}
           </Wrapper>
         </InputWrapper>
         <InputWrapper>
           <Wrapper>
             <Label htmlFor='phoneInput'>새로운 비밀번호 확인</Label>
-            <Input
-              id="phoneInput"
-              type='password'
-            />
+              <Input
+                id="phoneInput"
+                type='password'
+                {...register("newPwChk", {
+                  validate: {
+                    matchesPreviousPassword: (value) => {
+                      const password = getValues("newPw");
+                      return password === value || "비밀번호가 일치하지 않습니다.";
+                    }
+                  }
+                })}
+              />
+              {errors.newPwChk && (
+                <ErrorMsg>{errors.newPwChk.message}</ErrorMsg>)
+              }
           </Wrapper>
         </InputWrapper>
         
@@ -131,6 +135,7 @@ const Input = styled.input`
 
 const ErrorMsg = styled.div`
   color: red;
+  visibility: ${(props) => (props.hideText === true ? 'hidden' : 'visible')}
 `
 
 const Button = styled.button`
