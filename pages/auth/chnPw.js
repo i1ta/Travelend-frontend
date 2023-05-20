@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import ChnPwForm from '../../../src/components/units/auth/findInfo/ChnPw.container.js';
+import ChnPwForm from '../../src/components/units/auth/findInfo/ChnPw.container.js';
 import Header from '@/components/commons/Layout/Layout';
 
 import naver from '../../public/assets/naver.png';

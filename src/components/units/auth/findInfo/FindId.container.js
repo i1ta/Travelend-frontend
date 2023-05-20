@@ -145,7 +145,7 @@ export default function FindIdForm() {
           </S.InputWrapper>
           )}
           <S.ButtonWrapper>
-            <OKButton type="submit">OK</OKButton>
+            <S.OKButton type="submit">OK</S.OKButton>
           </S.ButtonWrapper>
       </S.Form>
     </S.Container>

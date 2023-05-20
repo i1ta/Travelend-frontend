@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import FindPwForm from '../../../src/components/units/auth/findInfo/FindPw.container.js';
+import FindPwForm from '../../src/components/units/auth/findInfo/FindPw.container.js';
 import Header from '@/components/commons/Layout/Layout';
 
 import naver from '../../public/assets/naver.png';
