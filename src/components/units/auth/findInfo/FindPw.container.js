@@ -80,8 +80,10 @@ export default function FindPwForm() {
         );
         if (response.status === 200) {
           console.log(response);
+          setAuthenticationNum(response.data);
         }
       } else {
+        console.log(authenticationNum);
         if (getValues("phoneChk") == authenticationNum) {
           alert('인증 완료되었습니다.');
           setAuthConfirm(true);
