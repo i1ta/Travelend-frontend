@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import ChnPwForm from '@/components/units/ChnPwForm';
+import ChnPwForm from '../../../src/components/units/auth/findInfo/ChnPw.container.js';
 import Header from '@/components/commons/Layout/Layout';
 
 import naver from '../../public/assets/naver.png';
@@ -37,7 +37,6 @@ export default function chnPw() {
 };
 
 const Container = styled.div`
-  margin: 10rem 0;
 `;
 
 const Box = styled.div`
