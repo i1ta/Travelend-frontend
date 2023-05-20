@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import Image from "next/image";
 import axios from 'axios';
 
-import Layout from '../../src/components/commons/Layout/Layout.js';
-import LoginForm from '../../src/components/units/LoginForm.js';
+import Layout from '../../../src/components/commons/Layout/Layout.js';
+import LoginForm from '../../../src/components/units/auth/login/Login.container.js';
 
 
 import { REST_API_KEY, KAKAO_REDIRECT_URL } from '@/OAuth/kakao.js';
@@ -34,7 +35,7 @@ function login() {
   return (
     <>
       <Layout login />
-      <Container>
+      <div>
         <LoginForm />
         <Box>
           <Link href='/auth/findId'>아이디 찾기</Link>
@@ -44,7 +45,7 @@ function login() {
         <Box>
           <Text>Trip'yle 가 처음이신가요?</Text>
           <Button>
-            <LinkUp href='/auth/signUp'>Sign Up</LinkUp>
+            <LinkUp href='/auth/join'>Sign Up</LinkUp>
           </Button>
         </Box>
         <Box>
@@ -53,21 +54,22 @@ function login() {
           <span>⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼</span>
         </Box>
         <Box>
-          <div
-            onClick={onKaKaoHandler}
-          >KaKao</div>
-          <div
+          <SocialImg
             onClick={onNaverHandler}
-          >Naver</div>
+          >
+            <StyledImage src="/assets/naver.png" alt="naver" width="50" height="50"/>
+          </SocialImg>
+          <SocialImg
+            onClick={onKaKaoHandler}
+          >
+            <StyledImage src="/assets/kakao.png" alt="kakao" width="50" height="50" />
+          </SocialImg>
         </Box>
-      </Container>
+      </div>
     </>
   );
 };
 
-const Container = styled.div`
-  margin: 10rem 0;
-`;
 
 const Box = styled.div`
   display: flex;
@@ -117,6 +119,15 @@ const Button = styled.button`
   &:hover{
     border: 2.5px solid #9D7DFF;
   }
+`
+
+const SocialImg = styled.div`
+  margin: 0 50px;
+  cursor: pointer;
+`
+
+const StyledImage = styled(Image)`
+  border-radius: 50px;
 `
 
 export default login;

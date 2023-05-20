@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import FindPwForm from '@/components/units/FindPwForm';
+import FindPwForm from '../../../src/components/units/auth/findInfo/FindPw.container.js';
 import Header from '@/components/commons/Layout/Layout';
 
 import naver from '../../public/assets/naver.png';
@@ -37,7 +37,6 @@ export default function findPw() {
 };
 
 const Container = styled.div`
-  margin: 10rem 0;
 `;
 
 const Box = styled.div`

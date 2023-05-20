@@ -1,17 +1,23 @@
 import { useEffect } from "react";
+import { useRouter } from 'next/router';
 import styled from "@emotion/styled";
 import Image from "next/image";
 
 import { css } from "@emotion/styled";
 
 export default function Layout(props) {
+  const router = useRouter();
   useEffect(() => {
     console.log(props);
   }, [props]);
 
   const onLoginBtn = () => {
-    window.location.href = "/auth/signIn";
+    router.push('/auth/signIn')
   };
+
+  const onJoinBtn = () => {
+    router.push('/auth/join');
+  }
 
   return (
     <>
@@ -22,46 +28,46 @@ export default function Layout(props) {
           </Container>
           <List>
             <Item>
-              <Link href="/">Trip'yler 소개</Link>
+              <Link href='/'>Trip'yler 소개</Link>
             </Item>
             <Item>
-              <Link href="/">Trip'yler 찾기</Link>
+              <Link href='/'>Trip'yler 찾기</Link>
             </Item>
             <Item>
-              <Link href="/">여행 후기</Link>
+              <Link href='/'>여행 후기</Link>
             </Item>
             <Item>
-              <Link href="/">여행 가이드</Link>
+              <Link href='/'>여행 가이드</Link>
             </Item>
             <Item>
-              <Link href="/">Contact</Link>
+              <Link href='/'>Contact</Link>
             </Item>
-          </List>
-          {props?.login === true ? (
-            <List>
+        </List>
+          {props.login === true ? (
+            <List hideText>
               <UserItem>
-                <SignInBtn hiteText>로그인</SignInBtn>
+                <SignInBtn>로그인2</SignInBtn>
               </UserItem>
               <UserItem>
-                <SignUpBtn hiteText>회원가입</SignUpBtn>
+                <SignUpBtn>회원가입1</SignUpBtn>
               </UserItem>
             </List>
           ) : (
             <List>
               <UserItem>
                 <SignInBtn
-                  onClick={(e) => {
-                    onLoginBtn;
-                  }}
+                  onClick={
+                    onLoginBtn
+                  }
                 >
                   로그인
                 </SignInBtn>
               </UserItem>
               <UserItem>
                 <SignUpBtn
-                  onClick={(e) => {
-                    onLoginBtn;
-                  }}
+                  onClick={
+                    onJoinBtn
+                  }
                 >
                   회원가입
                 </SignUpBtn>
@@ -107,7 +113,10 @@ const List = styled.ul`
   display: flex;
   margin: 0;
   padding-left: 0;
-`;
+  
+  visibility: ${(props) => (props.hideText ? 'hidden' : 'visible')}
+
+`
 
 const Item = styled.li`
   padding: 20px 20px;
@@ -123,9 +132,12 @@ const Link = styled.a`
 `;
 
 const UserItem = styled.li`
+
   margin-right: 1rem;
   white-space: nowrap;
   font-weight: bold;
+
+
 `;
 
 const Container = styled.div`
@@ -133,37 +145,29 @@ const Container = styled.div`
 `;
 
 const SignInBtn = styled.button`
-  ${(props) =>
-    props.hideText &&
-    css`
-      visibility: hidden;
-      border: none;
-    `}
-
+  
   background-color: transparent;
   border-radius: 50px;
-  border: 2px solid #c8b6ff;
-  color: #c8b6ff;
+  border: 2px solid #C8B6FF;
+
+  color: #C8B6FF;
   letter-spacing: -2px;
 
   font-size: 18px;
 
   padding: 0.7rem 1.5rem;
   cursor: pointer;
+
+
 `;
 
 const SignUpBtn = styled.button`
-  ${(props) =>
-    props.hideText &&
-    css`
-      visibility: hidden;
-      border: none;
-    `}
-
+  
   background-color: #C8B6FF;
   color: white;
   border-radius: 50px;
   border: 2px solid #c8b6ff;
+  color: white;
   letter-spacing: -2px;
 
   font-size: 18px;

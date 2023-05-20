@@ -9,7 +9,6 @@ import { LoginState } from '@/States/LoginState';
 import { KAKAO_REDIRECT_URL } from '@/OAuth/kakao.js';
 
 const OAuthKaKao = () => {
-
   // 로그인 상태 설정
   const setIsLoggedIn = useSetRecoilState(LoginState);
 
@@ -35,7 +34,7 @@ const OAuthKaKao = () => {
                 console.log(response2);
                 if (response.status === 200) {
                   localStorage.setItem('login-token', response.data.accessToken);
-                  window.location.href = '/';
+                  router.push('/main');
                   setIsLoggedIn(true);
                 }
             })
@@ -44,7 +43,7 @@ const OAuthKaKao = () => {
       }
   }, [code]);
 
-  return <div>카카오 인가코드 받아서 넘기고 토큰 받아오는 과정</div>;
+  return <div></div>;
 };
 
 export default OAuthKaKao;
