@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 
 import FindIdForm from '../../src/components/units/auth/findInfo/FindId.container.js';
 import Header from '@/components/commons/Layout/Layout';
-
-import naver from '../../public/assets/naver.png';
+import SocialLogin from '@/components/commons/Layout/SocialLogin.js/SocialLogin.js';
 
 export default function findId() {
   return (
@@ -14,22 +13,8 @@ export default function findId() {
         <Box>
           <Link href='/auth/findPw'>비밀번호 찾기</Link>
         </Box>
-        <Box>
-          <Text>Trip'yle 가 처음이신가요?</Text>
-          <Button>
-            <LinkUp href='/auth/signUp'>Sign Up</LinkUp>
-          </Button>
-        </Box>
-        <Box>
-          <span>⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼ </span>
-          <Text> SNS 로그인 </Text>
-          <span> ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼</span>
-        </Box>
-        <Box>
-          <a>
-            <img src={naver} />
-          </a>
-        </Box>
+
+        <SocialLogin/>
       </Container>
     </>
   );

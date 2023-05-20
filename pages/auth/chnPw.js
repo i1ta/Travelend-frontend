@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 import ChnPwForm from '../../src/components/units/auth/findInfo/ChnPw.container.js';
 import Header from '@/components/commons/Layout/Layout';
+import SocialLogin from '@/components/commons/Layout/SocialLogin.js/SocialLogin.js';
 
-import naver from '../../public/assets/naver.png';
 
 export default function chnPw() {
   return (
@@ -14,22 +14,8 @@ export default function chnPw() {
         <Box>
           <Link href='/auth/findId'>아이디 찾기</Link>
         </Box>
-        <Box>
-          <Text>Trip'yle 가 처음이신가요?</Text>
-          <Button>
-            <LinkUp href='/auth/signUp'>Sign Up</LinkUp>
-          </Button>
-        </Box>
-        <Box>
-          <span>⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼ </span>
-          <Text> SNS 로그인 </Text>
-          <span> ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼</span>
-        </Box>
-        <Box>
-          <a>
-            <img src={naver} />
-          </a>
-        </Box>
+        
+        <SocialLogin/>
       </Container>
     </>
   );
