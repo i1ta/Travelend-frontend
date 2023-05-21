@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { css } from "@emotion/styled";
-
 export default function Layout(props) {
   const router = useRouter();
   useEffect(() => {

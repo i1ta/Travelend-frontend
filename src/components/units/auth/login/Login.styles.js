@@ -40,7 +40,7 @@ export const Input = styled.input`
   width: 400px;
   height: 60px;
 
-  &: focus{
+  &:focus{
     outline: none;
   }
 `;
@@ -65,7 +65,7 @@ export const CheckboxInput = styled.input`
   cursor: pointer;
   transition: background 0.2s;
 
-  &: checked{
+  &:checked{
     background: #D6D5D5;
     border: none;
     content:'✔';
