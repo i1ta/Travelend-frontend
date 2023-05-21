@@ -75,16 +75,21 @@ export default function LoginForm() {
             {...register('password', {required: true})}
           />
         </S.InputWrapper>
-        <S.CheckboxContainer>
-          <S.CheckboxInput
-            type='checkbox'
-            id="loginChk"
-          />
-          <S.Label htmlFor="loginChk">Remember me</S.Label>
+          <S.CheckboxContainer>
+            <S.CheckboxWrapper>
+              <S.CheckboxInput
+                type='checkbox'
+                id="loginChk"
+              />
+              <S.Label htmlFor="loginChk">Remember me</S.Label>
+            </S.CheckboxWrapper>
+          <S.Button type='submit' disabled={isSubmitting}>
+            Sign In
+          </S.Button>
         </S.CheckboxContainer>
-        <S.Button type='submit' disabled={isSubmitting}>
+        {/* <S.Button type='submit' disabled={isSubmitting}>
           Sign In
-        </S.Button>
+        </S.Button> */}
       </S.Form>
       </S.Container>
     </>

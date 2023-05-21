@@ -46,8 +46,14 @@ export const Input = styled.input`
 `;
 
 export const CheckboxContainer = styled.div`
+  flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+`;
+
+export const CheckboxWrapper = styled.div`
+  display: flex;
+  margin-left: 20px;
 `;
 
 export const CheckboxInput = styled.input`
@@ -70,6 +76,7 @@ export const Label = styled.label`
   color: #666666;
   font-size: 14px;
   letter-spacing: -0.3px;
+  margin-left: 8px;
 
   cursor: pointer;
 `;
