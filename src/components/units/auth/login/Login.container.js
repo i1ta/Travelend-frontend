@@ -43,7 +43,7 @@ export default function LoginForm() {
           setIsLoggedIn(true);
           console.log(isLoggedIn);
           alert('로그인 성공');
-          window.location.href = '/';
+          window.location.href = '/main';
         }
       }
     } catch (error) {
