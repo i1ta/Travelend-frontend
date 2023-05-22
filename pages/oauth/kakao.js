@@ -13,11 +13,13 @@ const OAuthKaKao = () => {
   const setIsLoggedIn = useSetRecoilState(LoginState);
 
   const router = useRouter();
+  console.log(router);
   const code = router.query.code;
+  console.log(code);
   
   useEffect(() => {
     if (code) {
-      axios.post(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=https://tripyle.xyz/oauth/kakao&code=${router.query.code}&client_secret=kgyjs7zgBqJ7141qoYq4xqSgOtjdFJKi`,
+      axios.post(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=https://www.tripyle.xyz/oauth/kakao&code=${router.query.code}&client_secret=kgyjs7zgBqJ7141qoYq4xqSgOtjdFJKi`,
       
         {
           "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
@@ -36,7 +38,7 @@ const OAuthKaKao = () => {
                 if (response2.status === 200) {
                   localStorage.setItem('login-token', response2.data.data.accessToken);
                   localStorage.setItem('nickname', response2.data.data.nickname);
-                  router.push('https://tripyle.xyz/main');
+                  router.push('/main');
                   setIsLoggedIn(true);
                 }
             })
