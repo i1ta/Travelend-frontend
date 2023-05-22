@@ -9,6 +9,8 @@ const OAuthNaver = () => {
   const code = router.query.code;
   console.log(code);
 
+  const setIsLoggedIn = useSetRecoilState(LoginState);
+
   useEffect(() => {
     if (code) {
       axios.post('https://api.tripyle.xyz/user/login/naver', {
@@ -18,7 +20,7 @@ const OAuthNaver = () => {
         .then((response) => {
           console.log(response);
           if (response.status === 200) {
-            localStorage.setItem('login-token', response.data.accessToken);
+            localStorage.setItem('login-token', response.data.data.accessToken);
             router.push('/main');
             setIsLoggedIn(true);
           }
