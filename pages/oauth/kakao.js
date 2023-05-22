@@ -15,26 +15,28 @@ const OAuthKaKao = () => {
   const router = useRouter();
   const code = router.query.code;
   
-
   useEffect(() => {
     if (code) {
-      axios.post(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=http://127.0.0.1:3000/oauth/kakao&code=${router.query.code}&client_secret=kgyjs7zgBqJ7141qoYq4xqSgOtjdFJKi`,
+      axios.post(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=https://tripyle.xyz/oauth/kakao&code=${router.query.code}&client_secret=kgyjs7zgBqJ7141qoYq4xqSgOtjdFJKi`,
       
         {
           "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
         })
         .then((response) => {
-          console.log(response);
+          console.log('response' + response);
           if (response.status === 200) {
             axios.post('https://api.tripyle.xyz/user/login/kakao', {
                 "snsId": response.data.id_token,
                 "snsToken": response.data.access_token,
             }, { "Content-Type": "application/json" })
               .then((response2) => {
-                console.log(response2);
-                if (response.status === 200) {
-                  localStorage.setItem('login-token', response.data.accessToken);
-                  router.push('/main');
+                console.log(response2.data.data.accessToken);
+                console.log(response2.data);
+                console.log('response2' + response2);
+                if (response2.status === 200) {
+                  localStorage.setItem('login-token', response2.data.data.accessToken);
+                  localStorage.setItem('nickname', response2.data.data.nickname);
+                  router.push('https://tripyle.xyz/main');
                   setIsLoggedIn(true);
                 }
             })
