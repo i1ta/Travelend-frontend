@@ -23,9 +23,10 @@ export const Title = styled.div`
 
 export const TitleLine = styled.div`
   height: 3px;
-  width: 139px;
   background-color: black;
   margin-bottom: 70px;
+
+  width: ${(props) => (props.kakao ? '250px' : '139px')};
 `;
 
 export const Label = styled.div`

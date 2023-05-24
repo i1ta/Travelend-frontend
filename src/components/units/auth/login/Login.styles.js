@@ -37,8 +37,8 @@ export const Input = styled.input`
 
   padding: 15px 20px;
   margin: 0.6rem;
-  width: 400px;
-  height: 60px;
+  width: 500px;
+  height: 70px;
 
   &: focus{
     outline: none;
@@ -74,7 +74,7 @@ export const CheckboxInput = styled.input`
 
 export const Label = styled.label`
   color: #666666;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: -0.3px;
   margin-left: 8px;
 
@@ -86,14 +86,14 @@ export const Button = styled.button`
   border: none;
   background-color: #C8B6FF;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
 
   padding: 15px 20px;
   margin: 20px;
 
-  width: 400px;
-  height: 60px;
+  width: 500px;
+  height: 70px;
 
   cursor: pointer;
 `
