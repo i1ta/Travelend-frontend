@@ -3,11 +3,22 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
+import { useRecoilValue } from 'recoil';
+import { LoginState, NicknameState } from '../../../States/LoginState';
+
+import { css } from "@emotion/styled";
+
+
 export default function Layout(props) {
+  const loginState = useRecoilValue(LoginState);
+  const nicknameState = useRecoilValue(NicknameState);
+  console.log(loginState);
+
+  // useEffect(() => {
+  //   console.log(loginState);
+  // }, [loginState])
+
   const router = useRouter();
-  useEffect(() => {
-    console.log(props);
-  }, [props]);
 
   const onHomeLogo = () => {
     router.push("/main");
@@ -45,25 +56,43 @@ export default function Layout(props) {
               <Link href="/">Contact</Link>
             </Item>
           </List>
-          {props.login === true ? (
-            <List hideText>
-              <UserItem>
-                <SignInBtn>로그인2</SignInBtn>
-              </UserItem>
-              <UserItem>
-                <SignUpBtn>회원가입1</SignUpBtn>
-              </UserItem>
+
+
+            {!loginState ? (
+          <List hideText={props.login}>
+            <UserItem>
+              <SignInBtn
+                onClick={
+                  onLoginBtn
+                }
+              >
+                로그인
+              </SignInBtn>
+            </UserItem>
+            <UserItem>
+              <SignUpBtn
+                onClick={
+                  onJoinBtn
+                }
+              >
+                회원가입
+              </SignUpBtn>
+            </UserItem>
             </List>
-          ) : (
-            <List>
+            ) : (
+              <List>
               <UserItem>
-                <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
-              </UserItem>
-              <UserItem>
-                <SignUpBtn onClick={onJoinBtn}>회원가입</SignUpBtn>
-              </UserItem>
-            </List>
-          )}
+              <SignInBtn
+                onClick={
+                  onLoginBtn
+                }
+              >
+                {nicknameState}
+              </SignInBtn>
+            </UserItem>
+          </List>
+            )}
+
         </NavContainer>
       </Nav>
       <NavBottom />

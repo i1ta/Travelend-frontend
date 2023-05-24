@@ -33,8 +33,8 @@ const Box = styled.div`
 const Link = styled.a`
   text-decoration: none;
   color: #666666;
-  margin: 0 20px;
-  font-size: 13px;
+  margin-bottom: 20px;
+  font-size: 16px;
   letter-spacing: -1.5px;
 
   &: hover{

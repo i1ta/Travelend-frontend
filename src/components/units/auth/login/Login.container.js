@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
 
 import * as S from "./Login.styles";
 
-import { LoginState } from '@/States/LoginState';
+import { LoginState, NicknameState } from '@/States/LoginState';
 
 import axios from 'axios';
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const { register, handleSubmit } = useForm({mode: "onChange"});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, setState] = useState({
@@ -18,6 +21,7 @@ export default function LoginForm() {
 
   // 로그인 상태 설정
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [nickname, setNickname] = useRecoilState(NicknameState);
 
   // Sign In 버튼 클릭 시
   const onSubmit = async (data) => {
@@ -31,19 +35,22 @@ export default function LoginForm() {
           "password": data.password,
           "username": data.username
         }
+        
         console.log(requestData);
         const response = await axios.post(
           'https://api.tripyle.xyz/user/login',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );
-        console.log(response);
-        if (response.data.accessToken) {
-          localStorage.setItem('login-token', response.data.accessToken);
+        console.log(response)
+        if (response.status === 200 && response.data.data.accessToken) {
+          localStorage.setItem('login-token', response.data.data.accessToken);
           setIsLoggedIn(true);
+          setNickname(response.data.data.nickname);
           console.log(isLoggedIn);
           alert('로그인 성공');
-          window.location.href = '/main';
+          router.push('/main')
+
         }
       }
     } catch (error) {

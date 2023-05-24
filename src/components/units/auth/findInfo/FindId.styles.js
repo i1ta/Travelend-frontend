@@ -20,6 +20,7 @@ export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  width: 400px;
 `;
 
 export const Wrapper = styled.div`
@@ -51,6 +52,7 @@ export const Button = styled.button`
   border: 1px solid #03045E;
   color: #03045E;
 
+ 
   padding: 14px;
   cursor: pointer;
   margin-left: 0.7rem;
@@ -88,12 +90,13 @@ export const OKButton = styled.button`
   padding: 20px 70px;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
+  width: 400px;
 
   background-color: #c8b6ff;
   color: white;
   border: none;
   border-radius: 50px;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
   
 `;

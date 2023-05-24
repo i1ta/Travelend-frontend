@@ -34,20 +34,23 @@ export default function FindIdForm() {
         "phone": getValues("phone")
       }
       // 휴대폰 인증 완료했을 경우
-      if(authConfirm === true){
+      // if(authConfirm === true){
         const response = await axios.post(
           'https://api.tripyle.xyz/user/auth/name',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );
-        console.log(response);
         if (response.status === 200) {
-          console.log(response.data);
+          console.log(response.data.data.username);
+          alert(response.data.data.username);
         } 
-      } else {
-        alert('휴대폰 인증을 먼저 진행해주세요.');
-      }
+      // } else {
+      //   alert('휴대폰 인증을 먼저 진행해주세요.');
+      // }
     } catch (error) {
+      if(error.response.status === 400){
+        alert(error.response.data.message);
+      }
       console.log(error);
     }
   };
@@ -68,16 +71,16 @@ export default function FindIdForm() {
         }
         console.log(requestData);
         alert('전화번호가 발송되었습니다.');
-        const response = await axios.post(
-          'https://api.tripyle.xyz/user/authentication-code/send',
-          requestData,
-          {"Content-Type": "application/json; charset=utf-8"}
-        );
-        if (response.status === 200) {
-          console.log(response);
-          setAuthenticationNum(response.data);
+        // const response = await axios.post(
+        //   'https://api.tripyle.xyz/user/authentication-code/send',
+        //   requestData,
+        //   {"Content-Type": "application/json; charset=utf-8"}
+        // );
+        // if (response.status === 200) {
+        //   console.log(response);
+        //   setAuthenticationNum(response.data.data);
         
-        } 
+        // } 
       }
       // 인증 번호 확인 버튼
       else {
