@@ -73,7 +73,7 @@ const LinkUp = styled.a`
 const Text = styled.span`
   color: #666666;
   margin: 0 20px;
-  font-size: 13px;
+  font-size: 18px;
   letter-spacing: -1px;
   line-height: 250%;
 `;
@@ -84,10 +84,10 @@ const Button = styled.button`
   background-color: white;
   color: #C8B6FF;
 
-  padding: 7px 15px;
+  padding: 7px 20px;
   margin: 0 20px;
 
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
 
   cursor: pointer;

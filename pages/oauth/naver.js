@@ -11,7 +11,6 @@ const OAuthNaver = () => {
   const router = useRouter();
   console.log(router.query);
   const code = router.query.code;
-  console.log(code);
 
   const setIsLoggedIn = useSetRecoilState(LoginState);
 
@@ -32,7 +31,7 @@ const OAuthNaver = () => {
     }
   }, [code]);
 
-  return <div>네이버 인가코드 받아서 넘기고 토큰 받아오는 과정</div>;
+  return <div></div>;
 };
 
 export default OAuthNaver;
