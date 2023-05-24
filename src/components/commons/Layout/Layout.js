@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { LoginState, NicknameState } from '../../../States/LoginState';
 
 import { css } from "@emotion/styled";
+
 
 export default function Layout(props) {
   const loginState = useRecoilValue(LoginState);
@@ -19,38 +20,43 @@ export default function Layout(props) {
 
   const router = useRouter();
 
+  const onHomeLogo = () => {
+    router.push("/main");
+  };
+
   const onLoginBtn = () => {
-    router.push('/auth/signIn')
+    router.push("/auth/signIn");
   };
 
   const onJoinBtn = () => {
-    router.push('/auth/join');
-  }
+    router.push("/auth/join");
+  };
 
   return (
     <>
       <Nav>
         <NavContainer>
           <Container>
-            <Image src="/assets/logo.png" alt="로고" width="150" height="60" />
+            <HomeLogo src="/assets/logo.png" alt="로고" onClick={onHomeLogo} />
           </Container>
           <List>
             <Item>
-              <Link href='/'>Trip'yler 소개</Link>
+              <Link href="/">Trip'yler 소개</Link>
             </Item>
             <Item>
-              <Link href='/'>Trip'yler 찾기</Link>
+              <Link href="/">Trip'yler 찾기</Link>
             </Item>
             <Item>
-              <Link href='/'>여행 후기</Link>
+              <Link href="/">여행 후기</Link>
             </Item>
             <Item>
-              <Link href='/'>여행 가이드</Link>
+              <Link href="/">여행 가이드</Link>
             </Item>
             <Item>
-              <Link href='/'>Contact</Link>
+              <Link href="/">Contact</Link>
             </Item>
           </List>
+
 
             {!loginState ? (
           <List hideText={props.login}>
@@ -86,6 +92,7 @@ export default function Layout(props) {
             </UserItem>
           </List>
             )}
+
         </NavContainer>
       </Nav>
       <NavBottom />
@@ -93,6 +100,12 @@ export default function Layout(props) {
     </>
   );
 }
+
+const HomeLogo = styled.img`
+  width: 150px;
+  height: 60px;
+  cursor: pointer;
+`;
 
 const NavBottom = styled.div`
   width: 100%;
@@ -125,10 +138,9 @@ const List = styled.ul`
   display: flex;
   margin: 0;
   padding-left: 0;
-  
-  visibility: ${(props) => (props.hideText ? 'hidden' : 'visible')}
 
-`
+  visibility: ${(props) => (props.hideText ? "hidden" : "visible")};
+`;
 
 const Item = styled.li`
   padding: 20px 20px;
@@ -144,12 +156,9 @@ const Link = styled.a`
 `;
 
 const UserItem = styled.li`
-
   margin-right: 1rem;
   white-space: nowrap;
   font-weight: bold;
-
-
 `;
 
 const Container = styled.div`
@@ -157,25 +166,21 @@ const Container = styled.div`
 `;
 
 const SignInBtn = styled.button`
-  
   background-color: transparent;
   border-radius: 50px;
-  border: 2px solid #C8B6FF;
+  border: 2px solid #c8b6ff;
 
-  color: #C8B6FF;
+  color: #c8b6ff;
   letter-spacing: -2px;
 
   font-size: 18px;
 
   padding: 0.7rem 1.5rem;
   cursor: pointer;
-
-
 `;
 
 const SignUpBtn = styled.button`
-  
-  background-color: #C8B6FF;
+  background-color: #c8b6ff;
   color: white;
   border-radius: 50px;
   border: 2px solid #c8b6ff;

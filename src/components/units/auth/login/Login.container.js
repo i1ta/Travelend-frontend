@@ -50,6 +50,7 @@ export default function LoginForm() {
           console.log(isLoggedIn);
           alert('로그인 성공');
           router.push('/main')
+
         }
       }
     } catch (error) {
