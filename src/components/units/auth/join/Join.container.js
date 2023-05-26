@@ -20,10 +20,13 @@ export default function Join() {
   // 기타 state
   const apiPath = "https://api.tripyle.xyz";
   const [isSendCheckNum, setIsSendCheckNum] = useState(false);
+  const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [inputCheckNum, setInputCheckNum] = useState("");
   const [authCheckNum, setAuthCheckNum] = useState("");
+  const [isUsernameAuth, setIsUsernameAuth] = useState(false);
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false);
 
   // 에러 메세지 state
   const [errorID, setErrorID] = useState(" ");
@@ -46,8 +49,27 @@ export default function Join() {
   // };
 
   // 중복확인 버튼
-  const onClickIDCheckBtn = () => {
-    alert("중복확인 api 만들어줭");
+  const onClickUsernameCheckBtn = () => {
+    if (!username) {
+      setErrorID("6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합해서 생성");
+      return;
+    } else {
+      setErrorID("");
+      axios
+        .get(apiPath + "/user/username/check/" + username)
+        .then((response) => {
+          if (response.data.data == true) {
+            alert("중복되는 ID입니다. 다른 ID를 입력해주세요.");
+            setIsUsernameAuth(false);
+          } else {
+            alert("사용가능한 ID입니다.");
+            setIsUsernameAuth(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   // 인증번호 발송 버튼
@@ -62,8 +84,6 @@ export default function Join() {
           phone,
         })
         .then((response) => {
-          console.log(response);
-          console.log(response.data);
           setAuthCheckNum(response.data.data);
           setErrorPhone("");
           setIsSendCheckNum(true);
@@ -82,6 +102,7 @@ export default function Join() {
     } else {
       alert("인증번호가 확인되었습니다.");
       setErrorPhoneCheck("");
+      setIsPhoneAuth(true);
     }
   };
 
@@ -101,12 +122,19 @@ export default function Join() {
     const birthDate = `${year}-${month}-${day}`;
 
     // 입력값 검증
-    if (!username) {
-      setErrorID("6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합해서 생성");
+    if (!isUsernameAuth) {
+      setErrorID("아이디 중복확인을 해주세요");
       return;
     } else setErrorID("");
-    if (!password) {
-      setErrorPassword("영문과 숫자를 포함하여 6자 이상 16자 이하로 생성");
+
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,16}$/;
+    const isValidPassword = passwordRegex.test(password);
+
+    if (!isValidPassword) {
+      setErrorPassword(
+        "영문과 숫자, 특수문자를 포함하여 6자 이상 16자 이하로 생성"
+      );
       return;
     } else setErrorPassword("");
 
@@ -120,10 +148,18 @@ export default function Join() {
       return;
     } else setErrorName("");
 
-    if (phone?.length !== 11 || !/^[0-9]+$/.test(phone)) {
-      setErrorPhone("휴대폰 번호를 확인해주세요");
-      return;
-    } else setErrorPhone("");
+    if (!isPhoneAuth) {
+      if (!isSendCheckNum) {
+        setErrorPhone("휴대폰 인증을 해주세요");
+        return;
+      } else {
+        setErrorPhoneCheck("휴대폰 인증을 해주세요");
+        return;
+      }
+    } else {
+      setErrorPhone("");
+      setErrorPhoneCheck("");
+    }
 
     if (!email.includes("@") || !email.includes(".com")) {
       setErrorEmail("이메일을 입력해주세요");
@@ -157,13 +193,18 @@ export default function Join() {
         username,
       })
       .then((response) => {
-        alert(response.data);
+        alert("회원가입을 축하드립니다");
         router.push("/auth/signIn");
       })
       .catch((error) => {
         console.error(error);
-        // console.log(birthDate, gender, name, password, phone, username);
       });
+  };
+
+  // 아이디 변수 저장
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value);
+    console.log(username);
   };
 
   // 휴대폰 번호 변수 저장
@@ -252,8 +293,12 @@ export default function Join() {
               <S.LabelTxt>아이디</S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
-            <S.Input placeholder={"ID"} {...register("username")}></S.Input>
-            <S.CheckBtn type="button" onClick={onClickIDCheckBtn}>
+            <S.Input
+              placeholder={"ID"}
+              {...register("username")}
+              onChange={onChangeUsername}
+            ></S.Input>
+            <S.CheckBtn type="button" onClick={onClickUsernameCheckBtn}>
               중복확인
             </S.CheckBtn>
           </S.InputWrapper>

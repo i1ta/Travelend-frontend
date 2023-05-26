@@ -90,7 +90,6 @@ export const FilterInput = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 1;
   color: #666666;
 `;
 
@@ -127,7 +126,6 @@ export const FilterFindBtnTxt = styled.div`
   margin-right: 4px;
   font-weight: 700;
   font-size: 18px;
-  line-height: 1;
   color: #ffffff;
 `;
 
@@ -143,7 +141,6 @@ export const ReviewTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 35px;
-  line-height: 1;
   color: #000000;
   margin-bottom: 60px;
 `;
@@ -164,11 +161,13 @@ export const ReviewFilterBtn = styled.button`
     props.selectedFilter == props.id ? "none" : "2px solid #999999"};
   border-radius: 50px;
   margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 
   font-weight: ${(props) => (props.selectedFilter == props.id ? "600" : "400")};
   font-size: 20px;
-  line-height: 1;
-  align-items: center;
   color: ${(props) =>
     props.selectedFilter == props.id ? "#ffffff" : "#666666"};
 `;
@@ -257,7 +256,6 @@ export const ReviewHashTagWrapper = styled.div`
 `;
 
 export const ReviewHashTag = styled.button`
-  /* width: 55px; */
   height: 20px;
   padding: 0px 8px;
   margin-right: 8px;

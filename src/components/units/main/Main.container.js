@@ -1,14 +1,19 @@
 import { useState } from "react";
 import * as S from "./Main.styles";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 
 export default function Main() {
   const [selectedFilter, setSelectedFilter] = useState("centralAsia");
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+
   const onClicRreviewFilter = (event) => {
     setSelectedFilter(event.target.id);
   };
 
   const onClcickFilterFind = () => {
     alert("리스트 페이지 이동");
+    setIsLoggedIn(false);
   };
 
   return (
