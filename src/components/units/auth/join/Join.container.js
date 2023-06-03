@@ -12,20 +12,33 @@ export default function Join() {
   // 체크박스 state
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked3, setIsChecked3] = useState(false);
+  const [isChecked4, setIsChecked4] = useState(false);
+  const [isChecked5, setIsChecked5] = useState(false);
   const [isCheckedAll, setIsCheckedAll] = useState(false);
 
   // 기타 state
   const apiPath = "https://api.tripyle.xyz";
   const [isSendCheckNum, setIsSendCheckNum] = useState(false);
+  const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
+  const [inputCheckNum, setInputCheckNum] = useState("");
+  const [authCheckNum, setAuthCheckNum] = useState("");
+  const [isUsernameAuth, setIsUsernameAuth] = useState(false);
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false);
 
   // 에러 메세지 state
   const [errorID, setErrorID] = useState(" ");
   const [errorPassword, setErrorPassword] = useState("");
   const [errorPasswordCheck, setErrorPasswordCheck] = useState("");
+  const [errorName, setErrorName] = useState("");
   const [errorPhone, setErrorPhone] = useState("");
+  const [errorPhoneCheck, setErrorPhoneCheck] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
+  const [errorGender, setErrorGender] = useState("");
+  const [errorbirthDate, setErrorBirthDate] = useState("");
+  const [errorCheckBox, setErrorCheckBox] = useState("");
 
   // const handleInputFocus = (event) => {
   //   event.target.placeholder = "";
@@ -36,8 +49,27 @@ export default function Join() {
   // };
 
   // 중복확인 버튼
-  const onClickIDCheckBtn = () => {
-    alert("중복확인 api 만들어줭");
+  const onClickUsernameCheckBtn = () => {
+    if (!username) {
+      setErrorID("6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합해서 생성");
+      return;
+    } else {
+      setErrorID("");
+      axios
+        .get(apiPath + "/user/username/check/" + username)
+        .then((response) => {
+          if (response.data.data == true) {
+            alert("중복되는 ID입니다. 다른 ID를 입력해주세요.");
+            setIsUsernameAuth(false);
+          } else {
+            alert("사용가능한 ID입니다.");
+            setIsUsernameAuth(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   // 인증번호 발송 버튼
@@ -52,7 +84,7 @@ export default function Join() {
           phone,
         })
         .then((response) => {
-          console.log(response);
+          setAuthCheckNum(response.data.data);
           setErrorPhone("");
           setIsSendCheckNum(true);
           alert("인증번호가 전송되었습니다.");
@@ -65,7 +97,13 @@ export default function Join() {
 
   // 인증확인 버튼
   const onClickAuthNumCheckBtn = () => {
-    alert("확인되었습니다.");
+    if (inputCheckNum !== String(authCheckNum)) {
+      setErrorPhoneCheck("인증번호가 잘못되었습니다.");
+    } else {
+      alert("인증번호가 확인되었습니다.");
+      setErrorPhoneCheck("");
+      setIsPhoneAuth(true);
+    }
   };
 
   // 회원가입 등록 버튼
@@ -84,8 +122,19 @@ export default function Join() {
     const birthDate = `${year}-${month}-${day}`;
 
     // 입력값 검증
-    if (!password) {
-      setErrorPassword("영문과 숫자를 포함하여 6자 이상 16자 이하로 생성");
+    if (!isUsernameAuth) {
+      setErrorID("아이디 중복확인을 해주세요");
+      return;
+    } else setErrorID("");
+
+    const passwordRegex =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,16}$/;
+    const isValidPassword = passwordRegex.test(password);
+
+    if (!isValidPassword) {
+      setErrorPassword(
+        "영문과 숫자, 특수문자를 포함하여 6자 이상 16자 이하로 생성"
+      );
       return;
     } else setErrorPassword("");
 
@@ -94,15 +143,43 @@ export default function Join() {
       return;
     } else setErrorPasswordCheck("");
 
-    if (phone?.length !== 11 || !/^[0-9]+$/.test(phone)) {
-      setErrorPhone("휴대폰 번호를 확인해주세요");
+    if (!name) {
+      setErrorName("이름을 입력해주세요");
       return;
-    } else setErrorPhone("");
+    } else setErrorName("");
+
+    if (!isPhoneAuth) {
+      if (!isSendCheckNum) {
+        setErrorPhone("휴대폰 인증을 해주세요");
+        return;
+      } else {
+        setErrorPhoneCheck("휴대폰 인증을 해주세요");
+        return;
+      }
+    } else {
+      setErrorPhone("");
+      setErrorPhoneCheck("");
+    }
 
     if (!email.includes("@") || !email.includes(".com")) {
-      setErrorEmail("이메일을 확인해주세요");
+      setErrorEmail("이메일을 입력해주세요");
       return;
     } else setErrorEmail("");
+
+    if (!gender) {
+      setErrorGender("성별을 체크해주세요");
+      return;
+    } else setErrorGender("");
+
+    if (!year || !month || !day) {
+      setErrorBirthDate("생년월일을 입력해주세요");
+      return;
+    } else setErrorBirthDate("");
+
+    if (!isChecked1 || !isChecked2 || !isChecked3) {
+      setErrorCheckBox("필수항목을 체크해주세요");
+      return;
+    } else setErrorCheckBox("");
 
     // signup api 요청
     await axios
@@ -116,16 +193,28 @@ export default function Join() {
         username,
       })
       .then((response) => {
-        alert(response.data);
+        alert("회원가입을 축하드립니다");
+        router.push("/auth/signIn");
       })
       .catch((error) => {
         console.error(error);
-        console.log(birthDate, gender, name, password, phone, username);
       });
   };
 
+  // 아이디 변수 저장
+  const onChangeUsername = (event) => {
+    setUsername(event.target.value);
+    console.log(username);
+  };
+
+  // 휴대폰 번호 변수 저장
   const onChangePhone = (event) => {
     setPhone(event.target.value);
+  };
+
+  // 휴대폰 인증번호 변수 저장
+  const onChangePhoneCheckNum = (event) => {
+    setInputCheckNum(event.target.value);
   };
 
   // 성별 선택된 값 변수 저장
@@ -138,14 +227,40 @@ export default function Join() {
     const { checked } = event.target;
     setIsChecked1(checked);
     if (!checked) setIsCheckedAll(false);
-    if (checked && isChecked2) setIsCheckedAll(true);
+    if (checked && isChecked2 && isChecked3 && isChecked4 && isChecked5)
+      setIsCheckedAll(true);
   };
 
   const onChangeCheckbox2 = (event) => {
     const { checked } = event.target;
     setIsChecked2(checked);
     if (!checked) setIsCheckedAll(false);
-    if (checked && isChecked1) setIsCheckedAll(true);
+    if (checked && isChecked1 && isChecked3 && isChecked4 && isChecked5)
+      setIsCheckedAll(true);
+  };
+
+  const onChangeCheckbox3 = (event) => {
+    const { checked } = event.target;
+    setIsChecked3(checked);
+    if (!checked) setIsCheckedAll(false);
+    if (checked && isChecked1 && isChecked2 && isChecked4 && isChecked5)
+      setIsCheckedAll(true);
+  };
+
+  const onChangeCheckbox4 = (event) => {
+    const { checked } = event.target;
+    setIsChecked4(checked);
+    if (!checked) setIsCheckedAll(false);
+    if (checked && isChecked1 && isChecked2 && isChecked3 && isChecked5)
+      setIsCheckedAll(true);
+  };
+
+  const onChangeCheckbox5 = (event) => {
+    const { checked } = event.target;
+    setIsChecked5(checked);
+    if (!checked) setIsCheckedAll(false);
+    if (checked && isChecked1 && isChecked2 && isChecked3 && isChecked4)
+      setIsCheckedAll(true);
   };
 
   const onChangeCheckboxAll = (event) => {
@@ -154,9 +269,15 @@ export default function Join() {
     if (checked) {
       setIsChecked1(true);
       setIsChecked2(true);
+      setIsChecked3(true);
+      setIsChecked4(true);
+      setIsChecked5(true);
     } else {
       setIsChecked1(false);
       setIsChecked2(false);
+      setIsChecked3(false);
+      setIsChecked4(false);
+      setIsChecked5(false);
     }
   };
 
@@ -172,8 +293,12 @@ export default function Join() {
               <S.LabelTxt>아이디</S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
-            <S.Input placeholder={"ID"} {...register("username")}></S.Input>
-            <S.CheckBtn type="button" onClick={onClickIDCheckBtn}>
+            <S.Input
+              placeholder={"ID"}
+              {...register("username")}
+              onChange={onChangeUsername}
+            ></S.Input>
+            <S.CheckBtn type="button" onClick={onClickUsernameCheckBtn}>
               중복확인
             </S.CheckBtn>
           </S.InputWrapper>
@@ -212,10 +337,10 @@ export default function Join() {
               <S.LabelTxt>이름</S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
-            <S.Input placeholder={"Username"} {...register("name")}></S.Input>
+            <S.Input placeholder={"Name"} {...register("name")}></S.Input>
             <S.BlankBtn></S.BlankBtn>
           </S.InputWrapper>
-          <S.Error></S.Error>
+          <S.Error>{errorName}</S.Error>
 
           <S.InputWrapper>
             <S.Label>
@@ -246,12 +371,12 @@ export default function Join() {
             <>
               <S.InputWrapper>
                 <S.BlankLabel></S.BlankLabel>
-                <S.Input></S.Input>
+                <S.Input onChange={onChangePhoneCheckNum}></S.Input>
                 <S.CheckBtn type="button" onClick={onClickAuthNumCheckBtn}>
                   확인
                 </S.CheckBtn>
               </S.InputWrapper>
-              <S.Error></S.Error>
+              <S.Error>{errorPhoneCheck}</S.Error>
             </>
           )}
 
@@ -288,7 +413,7 @@ export default function Join() {
             </S.GenderWrapper>
             <S.BlankBtn></S.BlankBtn>
           </S.InputWrapper>
-          <S.Error></S.Error>
+          <S.Error>{errorGender}</S.Error>
 
           <S.InputWrapper>
             <S.Label>
@@ -320,6 +445,7 @@ export default function Join() {
             </S.BirthDateWrapper>
             <S.BlankBtn></S.BlankBtn>
           </S.InputWrapper>
+          <S.Error>{errorbirthDate}</S.Error>
 
           <S.AcceptTitleWrapper>
             <S.Line></S.Line>
@@ -327,39 +453,58 @@ export default function Join() {
             <S.Line></S.Line>
           </S.AcceptTitleWrapper>
 
-          <S.AcceptLabel>
-            <S.Label style={{ width: "250px" }}>
-              아래 내용에 모두 동의합니다
-            </S.Label>
+          <S.Error>{errorCheckBox}</S.Error>
+          <S.AcceptWrapper>
             <S.CheckBox
               type="checkbox"
               checked={isCheckedAll}
               onChange={onChangeCheckboxAll}
             ></S.CheckBox>
-          </S.AcceptLabel>
-
-          <S.AcceptWrapper>
-            <S.AcceptLabel>
-              <S.Label style={{ width: "200px" }}>
-                개인정보 이용약관 동의
-              </S.Label>
-              <S.CheckBox
-                type="checkbox"
-                checked={isChecked1}
-                onChange={onChangeCheckbox1}
-              ></S.CheckBox>
+            <S.AcceptLabel style={{ fontWeight: "800", fontSize: "20px" }}>
+              전체 동의
             </S.AcceptLabel>
-            <S.AcceptContents>블라블라</S.AcceptContents>
-            <S.AcceptLabel>
-              <S.Label>마케팅 정보 수신 동의</S.Label>
-              <S.CheckBox
-                type="checkbox"
-                checked={isChecked2}
-                onChange={onChangeCheckbox2}
-              ></S.CheckBox>
-            </S.AcceptLabel>
-            <S.AcceptContents>블라블라</S.AcceptContents>
           </S.AcceptWrapper>
+          <S.AcceptWrapper>
+            <S.CheckBox
+              type="checkbox"
+              checked={isChecked1}
+              onChange={onChangeCheckbox1}
+            ></S.CheckBox>
+            <S.AcceptLabel>트리플리 이용약관 동의 (필수)</S.AcceptLabel>
+          </S.AcceptWrapper>
+          <S.AcceptWrapper>
+            <S.CheckBox
+              type="checkbox"
+              checked={isChecked2}
+              onChange={onChangeCheckbox2}
+            ></S.CheckBox>
+            <S.AcceptLabel>전자 금융거래 이용약관 동의 (필수)</S.AcceptLabel>
+          </S.AcceptWrapper>
+          <S.AcceptWrapper>
+            <S.CheckBox
+              type="checkbox"
+              checked={isChecked3}
+              onChange={onChangeCheckbox3}
+            ></S.CheckBox>
+            <S.AcceptLabel>개인정보 수집이용 동의 (필수)</S.AcceptLabel>
+          </S.AcceptWrapper>
+          <S.AcceptWrapper>
+            <S.CheckBox
+              type="checkbox"
+              checked={isChecked4}
+              onChange={onChangeCheckbox4}
+            ></S.CheckBox>
+            <S.AcceptLabel>개인정보 제3자 제공 동의 (선택)</S.AcceptLabel>
+          </S.AcceptWrapper>
+          <S.AcceptWrapper>
+            <S.CheckBox
+              type="checkbox"
+              checked={isChecked5}
+              onChange={onChangeCheckbox5}
+            ></S.CheckBox>
+            <S.AcceptLabel>마케팅 정보메일, SMS 수신 동의 (선택)</S.AcceptLabel>
+          </S.AcceptWrapper>
+
           <S.EnrollBtn onClick={onClickEnrollBtn}>회원가입</S.EnrollBtn>
         </S.Page>
       </form>

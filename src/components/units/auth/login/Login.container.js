@@ -47,9 +47,10 @@ export default function LoginForm() {
           localStorage.setItem('login-token', response.data.data.accessToken);
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
-          console.log(isLoggedIn);
+          // console.log(isLoggedIn);
           alert('로그인 성공');
           router.push('/main')
+
         }
       }
     } catch (error) {

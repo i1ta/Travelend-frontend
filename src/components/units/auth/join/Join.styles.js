@@ -54,18 +54,17 @@ export const LabelStar = styled.span`
 `;
 
 export const Input = styled.input`
-  /* margin-bottom: 10px; */
-  height: 73px;
+  height: 60px;
   width: 500px;
-  padding: 25px 35px;
+  padding: 15px 20px;
   margin-right: 15px;
 
-  border: 2px solid #d6d5d5;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: 1px solid #d6d5d5;
 
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1;
   color: #666666;
 
@@ -107,12 +106,21 @@ export const SpanLabel = styled.span`
 `;
 
 export const RadioBtn = styled.input`
+  width: 25px;
+  height: 25px;
   margin-right: 20px;
   background: #ffffff;
   border: 1.5px solid #d6d5d5;
-  width: 25px;
-  height: 25px;
-  background-color: #c8b6ff;
+  border-radius: 20px;
+  cursor: pointer;
+  appearance: none;
+  transition: background 0.2s;
+
+  &:checked {
+    background: #c8b6ff;
+    border: none;
+    content: "✔";
+  }
 `;
 
 export const InputWrapper = styled.div`
@@ -122,39 +130,39 @@ export const InputWrapper = styled.div`
 `;
 
 export const CheckBtn = styled.button`
-  width: 143px;
-  height: 73px;
-  line-height: 1;
+  width: 140px;
+  height: 60px;
 
   border: 1px solid #03045e;
-  border-radius: 5px;
+  border-radius: 10px;
 
   font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 1;
   color: #03045e;
 `;
 
 export const BlankBtn = styled.div`
   width: 143px;
-  height: 73px;
+  height: 60px;
 `;
 
 export const BlankLabel = styled.div`
   width: 170px;
-  height: 73px;
+  height: 60px;
 `;
 
 export const BirthDateWrapper = styled.div`
-  height: 73px;
+  height: 60px;
   width: 500px;
   margin-right: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #d6d5d5;
-  border-radius: 5px;
+
+  border-radius: 10px;
+  border: 1px solid #d6d5d5;
 `;
 
 export const BirthDateInput = styled.input`
@@ -180,7 +188,7 @@ export const BirthDateSlash = styled.div`
 
 export const AcceptTitleWrapper = styled.div`
   width: 500px;
-  margin: 40px 0px 40px 15px;
+  margin: 40px 0px 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -201,39 +209,43 @@ export const AcceptTitle = styled.div`
   color: #666666;
 `;
 
-export const AcceptLabel = styled.div`
-  width: 480px;
-
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-
 export const AcceptWrapper = styled.div`
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 40px;
-  border: 2px solid #a4a4a4;
-  border-radius: 5px;
-  width: 500px;
-`;
-
-export const AcceptContents = styled.div`
-  border: 2px solid #a4a4a4;
-  border-radius: 5px;
   width: 480px;
-  height: 150px;
-  margin: auto;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
-export const CheckBox = styled.input``;
+export const CheckBox = styled.input`
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  background: #ffffff;
+  border: 1px solid #d6d5d5;
+  border-radius: 5px;
+  appearance: none;
+  transition: background 0.2s;
+
+  &:checked {
+    background-color: #c8b6ff;
+    border: none;
+    content: "✔";
+  }
+`;
+
+export const AcceptLabel = styled.div`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #666666;
+`;
 
 export const EnrollBtn = styled.button`
   width: 500px;
   height: 73px;
   background: #c8b6ff;
   border-radius: 5px;
+  margin-left: 10px;
 
   font-style: normal;
   font-weight: 700;
