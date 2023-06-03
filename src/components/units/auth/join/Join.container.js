@@ -274,14 +274,14 @@ export default function Join() {
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"m"}
+                value={"M"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel style={{ marginRight: "137px" }}>남자</S.SpanLabel>
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"w"}
+                value={"W"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel>여자</S.SpanLabel>

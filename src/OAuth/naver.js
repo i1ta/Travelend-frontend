@@ -1,1 +1,1 @@
-export const CALLBACK_URL = "https://www.tripyle.xyz/oauth/naver";
+export const CALLBACK_URL = "https://tripyle.xyz/oauth/naver";
