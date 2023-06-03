@@ -14,9 +14,9 @@ export default function Layout(props) {
   const nicknameState = useRecoilValue(NicknameState);
   console.log(loginState);
 
-  // useEffect(() => {
-  //   console.log(loginState);
-  // }, [loginState])
+  useEffect(() => {
+    console.log(loginState);
+  }, [loginState])
 
   const router = useRouter();
 
@@ -57,8 +57,7 @@ export default function Layout(props) {
             </Item>
           </List>
 
-
-            {!loginState ? (
+          {!loginState ? (
           <List hideText={props.login}>
             <UserItem>
               <SignInBtn
@@ -80,15 +79,17 @@ export default function Layout(props) {
             </UserItem>
             </List>
             ) : (
-              <List>
-              <UserItem>
-              <SignInBtn
-                onClick={
-                  onLoginBtn
-                }
-              >
-                {nicknameState}
-              </SignInBtn>
+          <List>
+            <UserItem>
+              <NicknameWrapper>
+                2 건
+              </NicknameWrapper>
+            </UserItem>
+
+            <UserItem>
+              <NicknameWrapper>
+                {nicknameState} 님
+              </NicknameWrapper>
             </UserItem>
           </List>
             )}
@@ -192,3 +193,13 @@ const SignUpBtn = styled.button`
   padding: 0.7rem 1.5rem;
   cursor: pointer;
 `;
+
+const NicknameWrapper = styled.div`
+color: #C8B6FF;
+letter-spacing: -2px;
+
+font-size: 18px;
+
+padding: 0.7rem 1.5rem;
+cursor: pointer;
+`

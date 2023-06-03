@@ -12,7 +12,7 @@ export default function Signup() {
 
     const [gender, setGender] = useState("");
 
-    const onClickEnrollBtn = async (data) => {
+    const onSubmitForm  = async (data) => {
       console.log("회원가입 버튼 눌렀음");
   
       // if (!email.includes("@") || !email.includes(".com")) {
@@ -37,18 +37,20 @@ export default function Signup() {
         "gender": gender,
         "name": name
       }
-      console.log(requestData);
-      const headers = {
-        "X-AUTH-TOKEN":`${window.localStorage.getItem('login-token')}`,
-        "Content-Type": "application/json"
-      }
+      
+      axios.defaults.headers.common["x-auth-token"] = window.localStorage.getItem("login-token");
       const response = await axios
         .post("https://api.tripyle.xyz/user/signup/kakao", 
         requestData,
-        headers)
-      console.log(response)}
+        {"content-type": "application/json"})
+        console.log(response)
+        if(response.status === 200){
+          router.push('/main');
+        }
+    }
       catch (error) {
         console.log(error);
+        alert("이미 존재하는 회원입니다.");
       }
     };
 
@@ -60,7 +62,7 @@ export default function Signup() {
 
     return(
     <>
-      <form onSubmit={handleSubmit(onClickEnrollBtn)}>
+      <form onSubmit={handleSubmit(onSubmitForm)}>
         <S.Page>
           <S.Title>카카오 회원가입</S.Title>
           <S.TitleLine kakao></S.TitleLine>
@@ -94,14 +96,14 @@ export default function Signup() {
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"m"}
+                value={"M"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel style={{ marginRight: "137px" }}>남자</S.SpanLabel>
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"w"}
+                value={"W"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel>여자</S.SpanLabel>
@@ -142,7 +144,7 @@ export default function Signup() {
           </S.InputWrapper>
           <S.Error></S.Error>
 
-          <S.EnrollBtn onClick={onClickEnrollBtn}>회원가입</S.EnrollBtn>
+          <S.EnrollBtn>회원가입</S.EnrollBtn>
         </S.Page>
         </form>
         </>
