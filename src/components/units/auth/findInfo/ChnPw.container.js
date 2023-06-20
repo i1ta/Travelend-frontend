@@ -58,7 +58,7 @@ export default function ChnPwForm() {
                   }
               })}
               />
-              {errors.newPw && (<ErrorMsg>{errors.newPw.message}</ErrorMsg>)}
+              {errors.newPw && (<S.ErrorMsg>{errors.newPw.message}</S.ErrorMsg>)}
           </S.Wrapper>
         </S.InputWrapper>
         <S.InputWrapper>
