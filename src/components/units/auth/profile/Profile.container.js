@@ -1,71 +1,73 @@
 import { useForm } from "react-hook-form";
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { useRouter } from 'next/router';
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
 
 import * as S from "./Profile.styles";
+import MyProfile from "./MyProfile/MyProfile.container";
+import MyCollections from "./MyCollections/MyCollections.container";
+import Triplog from "./Triplog/Triplog.container";
+import Messenger from "./Messenger/Messenger.container";
 
-import { LoginState, NicknameState } from '@/States/LoginState';
+import { LoginState, NicknameState } from "@/States/LoginState";
 
-import axios from 'axios';
+import axios from "axios";
 
 export default function Profile() {
-    const router = useRouter();
-    return(
-        <>
-            <S.Container>
-                <S.Section>
-                    <S.Image>사진 등록</S.Image>
-                    <S.Name>user01 님</S.Name>
-                    <S.Point>보유 포인트 0 p</S.Point>
+  const [selectedCategory, setSelectedCategory] = useState("MyProfile");
 
-                    <S.CategoryWrapper>
-                        <S.Category selected> My Propile</S.Category>
-                        <S.Category>Like & Scrap</S.Category>
-                        <S.Category>Triplog</S.Category>
-                        <S.Category>Messenger</S.Category>
-                    </S.CategoryWrapper>
+  const router = useRouter();
+  const onClickCategory = (event) => {
+    setSelectedCategory(event.target.id);
+  };
+  return (
+    <>
+      <S.Container>
+        <S.SideBar>
+          <S.Image>사진 등록</S.Image>
+          <S.Name>user01 님</S.Name>
+          <S.Point>보유 포인트 0 p</S.Point>
 
-                    <S.Logout>Logout</S.Logout>
-                </S.Section>
-                <S.MainWrapper>
-                    <S.Title>My Profile</S.Title>
-                    <S.TableWrapper>
-                        <S.Table>
-                        <tr>
-                            <S.Tc>이름</S.Tc>
-                            <S.Td>홍길동</S.Td>
-                            <S.Tc>거주지</S.Tc>
-                            <S.Td>서울</S.Td>
-                        </tr>
-                        <tr>
-                            <S.Tc>나이</S.Tc>
-                            <S.Td>30세</S.Td>
-                            <S.Tc>선호 인원수</S.Tc>
-                            <S.Td>2명</S.Td>
-                        </tr>
-                        <tr>
-                            <S.Tc>이메일</S.Tc>
-                            <S.Td>honggildong@example.com</S.Td>
-                            <S.Tc>MBTI</S.Tc>
-                            <S.Td>ENFJ</S.Td>
-                        </tr>
-                        <tr>
-                            <S.Tc>연락처</S.Tc>
-                            <S.Td>010-1234-5678</S.Td>
-                            <S.Tc>여행 스타일</S.Tc>
-                            <S.Td>
-                                관광지
-                            </S.Td>
-                        </tr>
-                        </S.Table>
-                    </S.TableWrapper>
-
-                    <S.BtnWrapper>
-                        <S.Btn>프로필 수정</S.Btn>
-                    </S.BtnWrapper>
-                </S.MainWrapper>
-            </S.Container>
-        </>
-    );
+          <S.CategoryWrapper>
+            <S.Category
+              id="MyProfile"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              My Profile
+            </S.Category>
+            <S.Category
+              id="MyCollections"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              My Collections
+            </S.Category>
+            <S.Category
+              id="Triplog"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              Triplog
+            </S.Category>
+            <S.Category
+              id="Messenger"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              Messenger
+            </S.Category>
+          </S.CategoryWrapper>
+          <S.LogoutWrapper>
+            <S.LogoutImg src="/icon/logout.png" />
+            <S.LogoutTxt>Logout</S.LogoutTxt>
+          </S.LogoutWrapper>
+        </S.SideBar>
+        {selectedCategory === "MyProfile" && <MyProfile />}
+        {selectedCategory === "MyCollections" && <MyCollections />}
+        {selectedCategory === "Triplog" && <Triplog />}
+        {selectedCategory === "Messenger" && <Messenger />}
+      </S.Container>
+    </>
+  );
 }

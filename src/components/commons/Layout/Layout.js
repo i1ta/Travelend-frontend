@@ -3,11 +3,10 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { useRecoilValue } from 'recoil';
-import { LoginState, NicknameState } from '../../../States/LoginState';
+import { useRecoilValue } from "recoil";
+import { LoginState, NicknameState } from "../../../States/LoginState";
 
 import { css } from "@emotion/styled";
-
 
 export default function Layout(props) {
   const loginState = useRecoilValue(LoginState);
@@ -16,7 +15,7 @@ export default function Layout(props) {
 
   useEffect(() => {
     console.log(loginState);
-  }, [loginState])
+  }, [loginState]);
 
   const router = useRouter();
 
@@ -58,42 +57,25 @@ export default function Layout(props) {
           </List>
 
           {!loginState ? (
-          <List hideText={props.login}>
-            <UserItem>
-              <SignInBtn
-                onClick={
-                  onLoginBtn
-                }
-              >
-                로그인
-              </SignInBtn>
-            </UserItem>
-            <UserItem>
-              <SignUpBtn
-                onClick={
-                  onJoinBtn
-                }
-              >
-                회원가입
-              </SignUpBtn>
-            </UserItem>
+            <List hideText={props.login}>
+              <UserItem>
+                <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
+              </UserItem>
+              <UserItem>
+                <SignUpBtn onClick={onJoinBtn}>회원가입</SignUpBtn>
+              </UserItem>
             </List>
-            ) : (
-          <List>
-            <UserItem>
-              <NicknameWrapper>
-                2 건
-              </NicknameWrapper>
-            </UserItem>
+          ) : (
+            <List>
+              <UserItem>
+                <NicknameWrapper>2 건</NicknameWrapper>
+              </UserItem>
 
-            <UserItem>
-              <NicknameWrapper>
-                {nicknameState} 님
-              </NicknameWrapper>
-            </UserItem>
-          </List>
-            )}
-
+              <UserItem>
+                <NicknameWrapper>{nicknameState} 님</NicknameWrapper>
+              </UserItem>
+            </List>
+          )}
         </NavContainer>
       </Nav>
       <NavBottom />
@@ -114,11 +96,12 @@ const NavBottom = styled.div`
 `;
 
 const Nav = styled.nav`
+  height: 120px;
   background-color: #ffffff;
   padding: 30px 0;
   box-shadow: 0px 1px 10px #999;
   z-index: 100;
-
+  display: flex;
   align-items: center;
   position: fixed;
   top: 0;
@@ -130,7 +113,7 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1440px;
+  width: 1440px;
   margin: 0 auto;
 `;
 
@@ -195,11 +178,11 @@ const SignUpBtn = styled.button`
 `;
 
 const NicknameWrapper = styled.div`
-color: #C8B6FF;
-letter-spacing: -2px;
+  color: #c8b6ff;
+  letter-spacing: -2px;
 
-font-size: 18px;
+  font-size: 18px;
 
-padding: 0.7rem 1.5rem;
-cursor: pointer;
-`
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+`;
