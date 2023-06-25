@@ -13,7 +13,7 @@ export const Title = styled.h1`
   width: 1000px;
   font-size: 36px;
   color: #c8b6ff;
-  margin-bottom: 60px;
+  margin-bottom: 65px;
 `;
 
 // 테이블
