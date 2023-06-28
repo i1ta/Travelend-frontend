@@ -3,11 +3,21 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
+import { useRecoilValue } from "recoil";
+import { LoginState, NicknameState } from "../../../States/LoginState";
+
+import { css } from "@emotion/styled";
+
 export default function Layout(props) {
-  const router = useRouter();
+  const loginState = useRecoilValue(LoginState);
+  const nicknameState = useRecoilValue(NicknameState);
+  console.log(loginState);
+
   useEffect(() => {
-    console.log(props);
-  }, [props]);
+    console.log(loginState);
+  }, [loginState]);
+
+  const router = useRouter();
 
   const onHomeLogo = () => {
     router.push("/main");
@@ -45,22 +55,24 @@ export default function Layout(props) {
               <Link href="/">Contact</Link>
             </Item>
           </List>
-          {props.login === true ? (
-            <List hideText>
-              <UserItem>
-                <SignInBtn>로그인2</SignInBtn>
-              </UserItem>
-              <UserItem>
-                <SignUpBtn>회원가입1</SignUpBtn>
-              </UserItem>
-            </List>
-          ) : (
-            <List>
+
+          {!loginState ? (
+            <List hideText={props.login}>
               <UserItem>
                 <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
               </UserItem>
               <UserItem>
                 <SignUpBtn onClick={onJoinBtn}>회원가입</SignUpBtn>
+              </UserItem>
+            </List>
+          ) : (
+            <List>
+              <UserItem>
+                <NicknameWrapper>2 건</NicknameWrapper>
+              </UserItem>
+
+              <UserItem>
+                <NicknameWrapper>{nicknameState} 님</NicknameWrapper>
               </UserItem>
             </List>
           )}
@@ -84,11 +96,12 @@ const NavBottom = styled.div`
 `;
 
 const Nav = styled.nav`
+  height: 120px;
   background-color: #ffffff;
   padding: 30px 0;
   box-shadow: 0px 1px 10px #999;
   z-index: 100;
-
+  display: flex;
   align-items: center;
   position: fixed;
   top: 0;
@@ -100,7 +113,7 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1440px;
+  width: 1440px;
   margin: 0 auto;
 `;
 
@@ -156,6 +169,16 @@ const SignUpBtn = styled.button`
   border-radius: 50px;
   border: 2px solid #c8b6ff;
   color: white;
+  letter-spacing: -2px;
+
+  font-size: 18px;
+
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+`;
+
+const NicknameWrapper = styled.div`
+  color: #c8b6ff;
   letter-spacing: -2px;
 
   font-size: 18px;
