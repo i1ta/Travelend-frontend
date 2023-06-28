@@ -13,7 +13,6 @@ export default function Main() {
 
   const onClcickFilterFind = () => {
     alert("리스트 페이지 이동");
-    setIsLoggedIn(false);
   };
 
   return (

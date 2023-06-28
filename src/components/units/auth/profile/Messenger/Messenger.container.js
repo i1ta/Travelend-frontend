@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Messengser.styles";
 
 export default function Messenger() {
@@ -79,8 +79,8 @@ export default function Messenger() {
             </S.SendWrapper>
           </S.MsgSection>
         ) : (
-          <S.MsgSection style={{alignItems: "center"}}>
-            <S.NoneSelectedImg src='/icon/dialogue.png'/>
+          <S.MsgSection style={{ alignItems: "center" }}>
+            <S.NoneSelectedImg src="/icon/dialogue.png" />
             <S.NoneSelectedTxt>쪽지 목록을 선택해주세요</S.NoneSelectedTxt>
           </S.MsgSection>
         )}

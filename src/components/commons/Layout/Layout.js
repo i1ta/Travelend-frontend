@@ -31,6 +31,10 @@ export default function Layout(props) {
     router.push("/auth/join");
   };
 
+  const onProfileBtn = () => {
+    router.push("/auth/profile");
+  };
+
   return (
     <>
       <Nav>
@@ -72,7 +76,9 @@ export default function Layout(props) {
               </UserItem>
 
               <UserItem>
-                <NicknameWrapper>{nicknameState} 님</NicknameWrapper>
+                <NicknameWrapper onClick={onProfileBtn}>
+                  {nicknameState} 님
+                </NicknameWrapper>
               </UserItem>
             </List>
           )}
