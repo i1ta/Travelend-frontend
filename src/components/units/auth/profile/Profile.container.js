@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
 
 import * as S from "./Profile.styles";
+import Section from "./ProfileSection.container";
 
 import { LoginState, NicknameState } from '@/States/LoginState';
 
@@ -14,20 +15,7 @@ export default function Profile() {
     return(
         <>
             <S.Container>
-                <S.Section>
-                    <S.Image>사진 등록</S.Image>
-                    <S.Name>user01 님</S.Name>
-                    <S.Point>보유 포인트 0 p</S.Point>
-
-                    <S.CategoryWrapper>
-                        <S.Category selected> My Propile</S.Category>
-                        <S.Category>Like & Scrap</S.Category>
-                        <S.Category>Triplog</S.Category>
-                        <S.Category>Messenger</S.Category>
-                    </S.CategoryWrapper>
-
-                    <S.Logout>Logout</S.Logout>
-                </S.Section>
+                <Section/>
                 <S.MainWrapper>
                     <S.Title>My Profile</S.Title>
                     <S.TableWrapper>
@@ -54,9 +42,9 @@ export default function Profile() {
                             <S.Tc>연락처</S.Tc>
                             <S.Td>010-1234-5678</S.Td>
                             <S.Tc>여행 스타일</S.Tc>
-                            <S.Td>
-                                관광지
-                            </S.Td>
+                            <S.StyleTd>
+                                #떠돌이
+                            </S.StyleTd>
                         </tr>
                         </S.Table>
                     </S.TableWrapper>
