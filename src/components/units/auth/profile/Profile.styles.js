@@ -22,17 +22,42 @@ export const SideBar = styled.section`
   justify-content: space-between;
 `;
 
-export const Image = styled.div`
+export const ProfileImage = styled.div`
   width: 280px;
   height: 280px;
+  border-radius: 50%;
+  background-color: #e6e6e6;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #c8b6ff;
-  border-radius: 15px;
-
-  font-size: 20px;
+  overflow: hidden;
 `;
+
+export const defaultProfile = styled.img`
+  width: ${(props) => props.data.profileUrl ? "100%" : "150px"};
+  height: ${(props) => props.data.profileUrl ? "100%" : "150px"};
+  object-fit: cover;
+`
+
+export const profileFileBtn = styled.label`
+background-color: #c8b6ff;
+width: 200px;
+height: 50px;
+margin-top: 10px;
+font-size: 20px;
+line-height: 50px;
+text-align: center;
+cursor: pointer;
+`
+
+export const profileBtn = styled.button`
+background-color: #c8b6ff;
+width: 200px;
+height: 50px;
+margin-top: 10px;
+font-size: 20px;
+`
 
 export const Name = styled.div`
   margin: 30px 0;

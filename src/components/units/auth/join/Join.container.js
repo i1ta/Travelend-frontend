@@ -179,7 +179,7 @@ export default function Join() {
       .post(apiPath + "/user/signup", {
         birthDate,
         email,
-        firstTripStyleId: 0,
+        firstTripStyleId: 1,
         gender,
         name,
         password,
