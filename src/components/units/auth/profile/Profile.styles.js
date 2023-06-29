@@ -35,8 +35,8 @@ export const ProfileImage = styled.div`
 `;
 
 export const defaultProfile = styled.img`
-  width: ${(props) => props.data.profileUrl ? "100%" : "150px"};
-  height: ${(props) => props.data.profileUrl ? "100%" : "150px"};
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `
 
