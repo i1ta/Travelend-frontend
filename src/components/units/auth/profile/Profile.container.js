@@ -18,6 +18,7 @@ export default function Profile() {
   const [_, setIsLoggedIn] = useRecoilState(LoginState);
   const loginState = useRecoilValue(LoginState);
   const nicknameState = useRecoilValue(NicknameState);
+  const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
   const onClickCategory = (event) => {
@@ -37,7 +38,14 @@ export default function Profile() {
     secondTripStyle: "",
     thirdTripStyle: "",
   });
-  const apiPath = "https://api.tripyle.xyz";
+
+  const [msgListData, setMsgListData] = useState([]);
+  const [msgData, setMsgData] = useState({
+    chatRoomId: "",
+    name: "",
+    profileUrl: "",
+    chatContents: [],
+  });
 
   // My Profile api
   const fetchMyProfile = async () => {
@@ -57,12 +65,12 @@ export default function Profile() {
 
     if (selectedCategory === "MyProfile") fetchMyProfile();
 
-    // Messenger api
+    // 쪽지 목록 api
     const fetchMsgList = async () => {
       await axios
         .get(apiPath + "/chat/chatroom-list")
         .then((response) => {
-          console.log(response);
+          setMsgListData([...response.data]);
         })
         .catch((error) => console.error(error));
     };
@@ -73,18 +81,66 @@ export default function Profile() {
   }, [selectedCategory]);
 
   // 쪽지 보내기 api
-  const onClickSendMsg = async () => {
+  const [sendMsg, setSendMsg] = useState("");
+  // const onChangeSendMsg = (event) => {
+  //   setSendMsg(event.target.value);
+  //   console.log(sendMsg);
+  // };
+
+  const handleSendMsg = async (message) => {
     await axios
       .post(apiPath + "/chat/send", {
-        content: "안녕하세요오오",
-        recipientId: user02,
+        content: message,
+        recipientId: 36,
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log(response);
+        const result = await fetchMsgContents(msgData.chatRoomId);
+        setMsgData((prev) => ({
+          ...prev,
+          chatContents: result,
+        }));
       })
       .catch((error) => console.error(error));
   };
 
+  const onSubmitSendMsg = (event) => {
+    event.preventDefault();
+    handleSendMsg(event.target.message.value);
+    event.target.reset();
+  };
+
+  // 쪽지 내용 api
+  const fetchMsgContents = async (chatRoomId) => {
+    try {
+      const response = await axios.get(apiPath + "/chat/" + chatRoomId);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+  const onClickMsgList = async (chatRoomId, name, profileUrl) => {
+    try {
+      const result = await fetchMsgContents(chatRoomId);
+      console.log(result);
+      console.log(chatRoomId);
+      console.log(name);
+
+      setMsgData({
+        chatRoomId,
+        name,
+        profileUrl,
+        chatContents: result,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(msgData);
+  };
+
+  // 로그아웃 버튼
   const onClickLogout = () => {
     const result = confirm("로그아웃 하시겠습니까?");
     if (result) {
@@ -143,7 +199,9 @@ export default function Profile() {
             style={{ display: "none" }}
           />
           <S.profileBtn onClick={onClickUploadImg}>등록</S.profileBtn>
-          <S.profileBtn onClick={onClickDelImg}>기본 프로필로 변경</S.profileBtn>
+          <S.profileBtn onClick={onClickDelImg}>
+            기본 프로필로 변경
+          </S.profileBtn>
           {loginState && <S.Name>{nicknameState} 님</S.Name>}
           <S.Point>보유 포인트 0 p</S.Point>
 
@@ -185,7 +243,17 @@ export default function Profile() {
         {selectedCategory === "MyProfile" && <MyProfile data={myProfileData} />}
         {selectedCategory === "MyCollections" && <MyCollections />}
         {selectedCategory === "Triplog" && <Triplog />}
-        {selectedCategory === "Messenger" && <Messenger />}
+        {selectedCategory === "Messenger" && (
+          <Messenger
+            msgListData={msgListData}
+            msgData={msgData}
+            // sendMsg={sendMsg}
+            // onChangeSendMsg={onChangeSendMsg}
+            // onKeyPressSendMsg={onKeyPressSendMsg}
+            onSubmitSendMsg={onSubmitSendMsg}
+            onClickMsgList={onClickMsgList}
+          />
+        )}
       </S.Container>
     </>
   );
