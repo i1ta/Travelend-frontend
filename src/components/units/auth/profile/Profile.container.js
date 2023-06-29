@@ -62,6 +62,7 @@ export default function Profile() {
     if (result) {
       router.push("/main");
       setIsLoggedIn(false);
+      alert("로그아웃 완료");
     }
   };
 
