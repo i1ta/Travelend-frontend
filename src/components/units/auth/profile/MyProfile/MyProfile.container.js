@@ -4,33 +4,6 @@ import * as S from "./MyProfile.styles";
 import axios from "axios";
 
 export default function MyProfile(props) {
-  // const [data, setData] = useState({
-  //   name: "",
-  //   age: 0,
-  //   email: "",
-  //   gender: "",
-  //   mbti: "",
-  //   phone: "",
-  //   address: "",
-  //   profileUrl: "",
-  //   firstTripStyle: "",
-  //   secondTripStyle: "",
-  //   thirdTripStyle: "",
-  // });
-  // const apiPath = "https://api.tripyle.xyz";
-
-  // useEffect(async () => {
-  //   axios.defaults.headers.common["x-auth-token"] =
-  //     window.localStorage.getItem("login-token");
-  //   await axios
-  //     .get(apiPath + "/profile/my-profile")
-  //     .then((response) => {
-  //       const responseData = { ...response.data };
-  //       setData(responseData);
-  //     })
-  //     .catch((error) => console.error(error));
-  // }, []);
-
   const formatPhone = (phoneNum) => {
     const regex = /^(\d{3})(\d{4})(\d{4})$/;
     return phoneNum.replace(regex, "$1-$2-$3");
