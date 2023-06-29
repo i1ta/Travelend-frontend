@@ -1,6 +1,5 @@
-import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 
 import * as S from "./Profile.styles";
@@ -9,15 +8,13 @@ import MyCollections from "./MyCollections/MyCollections.container";
 import Triplog from "./Triplog/Triplog.container";
 import Messenger from "./Messenger/Messenger.container";
 
-import { LoginState, NicknameState } from "@/States/LoginState";
+import { LoginState } from "@/States/LoginState";
 
 import axios from "axios";
 
 export default function Profile() {
   const [selectedCategory, setSelectedCategory] = useState("MyProfile");
   const [_, setIsLoggedIn] = useRecoilState(LoginState);
-  const loginState = useRecoilValue(LoginState);
-  const nicknameState = useRecoilValue(NicknameState);
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
@@ -44,6 +41,7 @@ export default function Profile() {
     chatRoomId: "",
     name: "",
     profileUrl: "",
+    recipientId: 0,
     chatContents: [],
   });
 
@@ -52,13 +50,12 @@ export default function Profile() {
     await axios
       .get(apiPath + "/profile/my-profile")
       .then((response) => {
-        const responseData = { ...response.data };
+        const responseData = { ...response.data.data };
         setMyProfileData(responseData);
       })
       .catch((error) => console.error(error));
   };
 
-  // api 요청
   useEffect(() => {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
@@ -70,28 +67,22 @@ export default function Profile() {
       await axios
         .get(apiPath + "/chat/chatroom-list")
         .then((response) => {
-          setMsgListData([...response.data]);
+          setMsgListData([...response.data.data]);
         })
         .catch((error) => console.error(error));
     };
     if (selectedCategory === "Messenger") fetchMsgList();
+    console.log(msgData);
 
-    // 언마운트시 api요청 취소시키는 과정 반드시 필요...ㅠㅠ
     return () => {};
   }, [selectedCategory]);
 
   // 쪽지 보내기 api
-  const [sendMsg, setSendMsg] = useState("");
-  // const onChangeSendMsg = (event) => {
-  //   setSendMsg(event.target.value);
-  //   console.log(sendMsg);
-  // };
-
   const handleSendMsg = async (message) => {
     await axios
       .post(apiPath + "/chat/send", {
         content: message,
-        recipientId: 36,
+        recipientId: msgData.recipientId,
       })
       .then(async (response) => {
         console.log(response);
@@ -114,24 +105,21 @@ export default function Profile() {
   const fetchMsgContents = async (chatRoomId) => {
     try {
       const response = await axios.get(apiPath + "/chat/" + chatRoomId);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.error(error);
       return [];
     }
   };
 
-  const onClickMsgList = async (chatRoomId, name, profileUrl) => {
+  const onClickMsgList = async (chatRoomId, name, profileUrl, recipientId) => {
     try {
       const result = await fetchMsgContents(chatRoomId);
-      console.log(result);
-      console.log(chatRoomId);
-      console.log(name);
-
       setMsgData({
         chatRoomId,
         name,
         profileUrl,
+        recipientId,
         chatContents: result,
       });
     } catch (error) {
@@ -202,7 +190,7 @@ export default function Profile() {
           <S.profileBtn onClick={onClickDelImg}>
             기본 프로필로 변경
           </S.profileBtn>
-          {loginState && <S.Name>{nicknameState} 님</S.Name>}
+          <S.Name>{myProfileData.username} 님</S.Name>
           <S.Point>보유 포인트 0 p</S.Point>
 
           <S.CategoryWrapper>
@@ -247,9 +235,6 @@ export default function Profile() {
           <Messenger
             msgListData={msgListData}
             msgData={msgData}
-            // sendMsg={sendMsg}
-            // onChangeSendMsg={onChangeSendMsg}
-            // onKeyPressSendMsg={onKeyPressSendMsg}
             onSubmitSendMsg={onSubmitSendMsg}
             onClickMsgList={onClickMsgList}
           />

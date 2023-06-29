@@ -12,7 +12,7 @@ export default function Messenger(props) {
               id={e.chatRoomId}
               type="button"
               onClick={() =>
-                props.onClickMsgList(e.chatRoomId, e.name, e.profileUrl)
+                props.onClickMsgList(e.chatRoomId, e.name, e.profileUrl, e.recipientId)
               }
               selectedId={props.msgData.chatRoomId}
             >
@@ -41,9 +41,6 @@ export default function Messenger(props) {
             </S.ChatWrapper>
             <S.SendWrapper onSubmit={props.onSubmitSendMsg}>
               <S.SendInput
-                // onChange={props.onChangeSendMsg}
-                // value={props.sendMsg}
-                // onKeyPress={props.onKeyPressSendMsg}
                 name="message"
                 autocomplete="off"
               ></S.SendInput>
