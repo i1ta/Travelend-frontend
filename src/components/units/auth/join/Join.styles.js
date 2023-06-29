@@ -26,7 +26,7 @@ export const TitleLine = styled.div`
   background-color: black;
   margin-bottom: 70px;
 
-  width: ${(props) => (props.kakao ? '250px' : '139px')};
+  width: ${(props) => (props.kakao ? "250px" : "139px")};
 `;
 
 export const Label = styled.div`
@@ -184,6 +184,150 @@ export const BirthDateSlash = styled.div`
   font-size: 18px;
   line-height: 1;
   color: #666666;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const Modal = styled.div`
+  width: 550px;
+  padding-bottom: 27px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ModalTitle = styled.div`
+  width: 100%;
+  height: 50px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #c8b6ff;
+  text-align: center;
+  margin-bottom: 26px;
+
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 50px;
+  color: #ffffff;
+`;
+
+export const ModalInputWrapper = styled.div`
+  width: 458px;
+  height: 36px;
+  border: 1px solid #999999;
+  border-radius: 10px;
+  margin-bottom: 26px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const ModalInput = styled.input`
+  width: 422px;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  color: #999999;
+`;
+
+export const ModalInputBtn = styled.button`
+  width: 36px;
+  height: 100%;
+  background: #999999;
+  border-radius: 8px;
+
+  font-size: 30px;
+  line-height: 1;
+  color: #ffffff;
+`;
+
+export const ModalMyStyleWrapper = styled.div`
+  display: flex;
+  margin-bottom: 43px;
+`;
+
+export const ModalHashtag = styled.div`
+  width: 83px;
+  height: 27px;
+  padding: 7px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #90e0ef;
+  border-radius: 30px;
+  background-color: white;
+  cursor: pointer;
+
+  font-weight: 400;
+  font-size: 12px;
+  color: #00b4d8;
+`;
+
+export const ModalRecogStyleWrapper = styled.div`
+  width: 458px;
+  padding: 30px 0px;
+  margin-bottom: 26px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+`;
+
+export const ModalRecogTitle = styled.div`
+  width: 120px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-bottom: 24px;
+  background-color: #ffffff;
+
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  color: #666666;
+`;
+
+export const ModalBtnWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 174px;
+`;
+
+export const ModalCancelBtn = styled.button`
+  width: 80px;
+  height: 30px;
+  background-color: #ffffff;
+  color: #c8b6ff;
+  border: 1px solid #c8b6ff;
+  border-radius: 10px;
+
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+`;
+
+export const ModalSubmitBtn = styled(ModalCancelBtn)`
+  background-color: #c8b6ff;
+  color: #ffffff;
+  border: none;
 `;
 
 export const AcceptTitleWrapper = styled.div`
