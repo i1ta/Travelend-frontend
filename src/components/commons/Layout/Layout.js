@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import axios from 'axios';
 
 import { useRecoilValue } from "recoil";
 import { LoginState, NicknameState } from "../../../States/LoginState";
@@ -30,6 +31,32 @@ export default function Layout(props) {
   const onJoinBtn = () => {
     router.push("/auth/join");
   };
+
+  const onProfile = async () => {
+    axios.defaults.headers.common["x-auth-token"] = window.localStorage.getItem("login-token");
+    const response = await axios
+      .get("https://api.tripyle.xyz/profile/my-profile")
+      console.log(response)
+      if(response.status === 200){
+        localStorage.setItem("age", response.data.data.age);
+        localStorage.setItem("bio", response.data.data.bio);
+        localStorage.setItem("email", response.data.data.email);
+        localStorage.setItem("firstTripStyle", response.data.data.firstTripStyle);
+        localStorage.setItem("gender", response.data.data.gender);
+        localStorage.setItem("mbti", response.data.data.mbti);
+        localStorage.setItem("name", response.data.data.name);
+        localStorage.setItem("phone", response.data.data.phone);
+        localStorage.setItem("profileUrl", response.data.data.profileUrl);
+        localStorage.setItem("secondTripStyle", response.data.data.secondTripStyle);
+        localStorage.setItem("thirdTripStyle", response.data.data.thirdTripStyle);
+        localStorage.setItem("username", response.data.data.username);
+        router.push('/auth/profile');
+      } else{
+        console.log("오류 발생");
+        alert("로그인을 진행해주세요.");
+        router.push("/auth/signIn");
+      }
+  }
 
   return (
     <>
@@ -72,7 +99,7 @@ export default function Layout(props) {
               </UserItem>
 
               <UserItem>
-                <NicknameWrapper>{nicknameState} 님</NicknameWrapper>
+                <NicknameWrapper onClick={onProfile}>{nicknameState} 님</NicknameWrapper>
               </UserItem>
             </List>
           )}
