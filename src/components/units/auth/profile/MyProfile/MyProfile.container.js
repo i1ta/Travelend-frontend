@@ -1,21 +1,13 @@
-import { useEffect } from 'react';
-import {useRouter} from 'next/router';
-import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
 
-import { LoginState, NicknameState } from "../../../../../States/LoginState";
+import * as S from "./MyProfile.styles";
+import axios from "axios";
 
-import * as S from './MyProfile.styles'
-
-export default function MyProfile() {
-  const router = useRouter();
-  const loginState = useRecoilValue(LoginState);
-
-  useEffect(() => {
-    if(!loginState){
-      alert('로그인을 해주세요.');
-      router.push('/auth/signIn');
-    }
-  }, []);
+export default function MyProfile(props) {
+  const formatPhone = (phoneNum) => {
+    const regex = /^(\d{3})(\d{4})(\d{4})$/;
+    return phoneNum.replace(regex, "$1-$2-$3");
+  };
 
   return (
     <>
@@ -25,27 +17,27 @@ export default function MyProfile() {
           <S.Table>
             <tr>
               <S.Tc>이름</S.Tc>
-              <S.Td>{localStorage.getItem("name")}</S.Td>
+              <S.Td>{props.data.name}</S.Td>
               <S.Tc>거주지</S.Tc>
-              <S.Td>{localStorage.getItem("bio")}</S.Td>
+              <S.Td>{props.data.address}</S.Td>
             </tr>
             <tr>
               <S.Tc>나이</S.Tc>
-              <S.Td>{localStorage.getItem("age")}</S.Td>
+              <S.Td>{props.data.age}</S.Td>
               <S.Tc>선호 인원수</S.Tc>
-              <S.Td>2명</S.Td>
+              <S.Td>null</S.Td>
             </tr>
             <tr>
               <S.Tc>이메일</S.Tc>
-              <S.Td>{localStorage.getItem("email")}</S.Td>
+              <S.Td>{props.data.email}</S.Td>
               <S.Tc>MBTI</S.Tc>
-              <S.Td>{localStorage.getItem("mbti")}</S.Td>
+              <S.Td>{props.data.mbti}</S.Td>
             </tr>
             <tr>
               <S.Tc>연락처</S.Tc>
-              <S.Td>{localStorage.getItem("phone")}</S.Td>
+              <S.Td>{formatPhone(props.data.phone)}</S.Td>
               <S.Tc>여행 스타일</S.Tc>
-              <S.Td>{localStorage.getItem("firstTripStyle")}</S.Td>
+              <S.Td>{props.data.firstTripStyle}</S.Td>
             </tr>
           </S.Table>
         </S.TableWrapper>

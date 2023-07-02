@@ -3,6 +3,7 @@ import * as S from "./Join.styles";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { constSelector } from "recoil";
 
 export default function Join() {
   // 라이브러리 변수
@@ -39,14 +40,6 @@ export default function Join() {
   const [errorGender, setErrorGender] = useState("");
   const [errorbirthDate, setErrorBirthDate] = useState("");
   const [errorCheckBox, setErrorCheckBox] = useState("");
-
-  // const handleInputFocus = (event) => {
-  //   event.target.placeholder = "";
-  // };
-
-  // const handleInputBlur = (event) => {
-  //   event.target.placeholder = "ID";
-  // };
 
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
@@ -184,12 +177,15 @@ export default function Join() {
     // signup api 요청
     await axios
       .post(apiPath + "/user/signup", {
-        // birthDate,
-        // email,
+        birthDate,
+        email,
+        firstTripStyleId: 1,
         gender,
         name,
         password,
         phone,
+        secondTripStyleId: 0,
+        thirdTripStyleId: 0,
         username,
       })
       .then((response) => {
@@ -279,6 +275,49 @@ export default function Join() {
       setIsChecked4(false);
       setIsChecked5(false);
     }
+  };
+
+  // 모달 창
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [hashtag, setHashtag] = useState("");
+
+  const handleOpenModal = async () => {
+    await axios
+      .get(apiPath + "/hashtag/recommend")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleAddHashtag = async (e) => {
+    await axios
+      .get(apiPath + "/hashtag", {
+        name: hashtag,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSubmitModal = (e) => {
+    handleCloseModal();
   };
 
   return (
@@ -446,6 +485,49 @@ export default function Join() {
             <S.BlankBtn></S.BlankBtn>
           </S.InputWrapper>
           <S.Error>{errorbirthDate}</S.Error>
+
+          <S.InputWrapper>
+            <S.Label>
+              <S.LabelTxt>여행스타일</S.LabelTxt>
+              <S.LabelStar>*</S.LabelStar>
+            </S.Label>
+            <S.Input
+              placeholder={"여행 스타일을 입력하세요"}
+              readOnly
+              style={{ cursor: "default" }}
+            ></S.Input>
+            <S.CheckBtn type="button" onClick={handleOpenModal}>
+              입력하기
+            </S.CheckBtn>
+          </S.InputWrapper>
+          {isModalOpen && (
+            <S.ModalOverlay>
+              <S.Modal>
+                <S.ModalTitle>여행 스타일</S.ModalTitle>
+                <S.ModalInputWrapper>
+                  <S.ModalInput
+                    placeholder={"여행스타일을 입력하세요 (최대 3개)"}
+                  ></S.ModalInput>
+                  <S.ModalInputBtn>+</S.ModalInputBtn>
+                </S.ModalInputWrapper>
+                <S.ModalMyStyleWrapper>
+                  <S.ModalHashtag>#떠돌이</S.ModalHashtag>
+                </S.ModalMyStyleWrapper>
+                <S.ModalRecogStyleWrapper>
+                  <S.ModalRecogTitle>추천 키워드</S.ModalRecogTitle>
+                  <S.ModalHashtag>#여행</S.ModalHashtag>
+                </S.ModalRecogStyleWrapper>
+                <S.ModalBtnWrapper>
+                  <S.ModalCancelBtn onClick={handleCloseModal}>
+                    취소
+                  </S.ModalCancelBtn>
+                  <S.ModalSubmitBtn onClick={handleSubmitModal}>
+                    확인
+                  </S.ModalSubmitBtn>
+                </S.ModalBtnWrapper>
+              </S.Modal>
+            </S.ModalOverlay>
+          )}
 
           <S.AcceptTitleWrapper>
             <S.Line></S.Line>
