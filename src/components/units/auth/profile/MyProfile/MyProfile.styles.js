@@ -30,6 +30,7 @@ export const StyleHashTag = styled.div`
   font-weight: bold;
   background-color: #90e0ef;
   border: 1px solid #90e0ef;
+
   border-radius: 15px;
   color: #ffffff;
   margin: 0 10px;
@@ -37,7 +38,9 @@ export const StyleHashTag = styled.div`
   padding: 0 20px;
 `;
 
-export const StyleWrapper = styled.div``;
+export const StyleWrapper = styled.div`
+
+`;
 
 export const StyleContent = styled.div`
   display: flex;
@@ -54,6 +57,7 @@ export const StyleContent = styled.div`
 
   font-size: 20px;
 `;
+
 
 export const Title = styled.h1`
   width: 1000px;
@@ -122,7 +126,7 @@ export const EmailSecondSelect = styled.select`
 
 export const EmailOption = styled.option`
   font-size: 20px;
-`;
+';
 
 export const mbti = styled.span`
   cursor: pointer;
@@ -164,6 +168,7 @@ export const defaultProfile = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+
 export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: row;
