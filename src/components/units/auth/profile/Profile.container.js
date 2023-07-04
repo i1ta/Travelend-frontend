@@ -56,6 +56,11 @@ export default function Profile() {
       .catch((error) => console.error(error));
   };
 
+  // My Profile 수정 api
+  const modifyProfile = async () => {
+    
+  }
+
   useEffect(() => {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
@@ -96,12 +101,13 @@ export default function Profile() {
   };
 
   const onSubmitSendMsg = (event) => {
+    console.log(event.target);
     event.preventDefault();
     handleSendMsg(event.target.message.value);
-    event.target.reset();
+    event.target.reset(); // 적용 안 됨
   };
 
-  // 쪽지 내용 api
+  // 채팅방 내용 읽어오는 api
   const fetchMsgContents = async (chatRoomId) => {
     try {
       const response = await axios.get(apiPath + "/chat/" + chatRoomId);
