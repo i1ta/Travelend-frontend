@@ -28,8 +28,9 @@ export const StyleHashTag = styled.div`
   height: 42px;
   font-size: 17px;
   font-weight: bold;
-  background-color: #90E0EF;
-  border: 1px solid #90E0EF;
+  background-color: #90e0ef;
+  border: 1px solid #90e0ef;
+
   border-radius: 15px;
   color: #ffffff;
   margin: 0 10px;
@@ -55,7 +56,8 @@ export const StyleContent = styled.div`
   height: 100px;
 
   font-size: 20px;
-`
+`;
+
 
 export const Title = styled.h1`
   width: 1000px;
@@ -103,30 +105,28 @@ export const Tc = styled(Td)`
 export const EmailFirstInput = styled.input`
   height: 52px;
   width: 142px;
-  border: 2px solid #C8B6FF;
+  border: 2px solid #c8b6ff;
   border-radius: 15px;
-  font-size:20px;
-  box-shadow: 0 0 0 rgb(255, 255, 255),
-  0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const EmailAt = styled.span`
-  margin 0 10px;
+  margin: 0px 10px;
 `;
 
 export const EmailSecondSelect = styled.select`
-height: 52px;
-width: 161px;
-border: 2px solid #C8B6FF;
-border-radius: 15px;
-font-size:20px;
-box-shadow: 0 0 0 rgb(255, 255, 255),
-0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
+  height: 52px;
+  width: 161px;
+  border: 2px solid #c8b6ff;
+  border-radius: 15px;
+  font-size: 20px;
+  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const EmailOption = styled.option`
-font-size:20px;
-`;
+  font-size: 20px;
+';
 
 export const mbti = styled.span`
   cursor: pointer;
@@ -167,30 +167,31 @@ export const defaultProfile = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
+`;
+
 export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
 export const profileFileBtn = styled.label`
-background-color: #c8b6ff;
-width: 60px;
-height: 50px;
-margin-top: 10px;
-font-size: 20px;
-line-height: 50px;
-text-align: center;
-cursor: pointer;
-`
+  background-color: #c8b6ff;
+  width: 60px;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+`;
 
 export const profileBtn = styled.button`
-background-color: #c8b6ff;
-width: 60px;
-height: 50px;
-margin-top: 10px;
-font-size: 20px;
-`
+  background-color: #c8b6ff;
+  width: 60px;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 20px;
+`;
 
 // mbti 모달 창
 export const ModalOverlay = styled.div`
@@ -214,7 +215,6 @@ export const Modal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 `;
 
 export const ModalTitle = styled.div`
@@ -245,15 +245,14 @@ export const ModalMbtiContent = styled.div`
   font-size: 20px;
   padding: 10px 20px;
   margin: 10px 15px;
-  background-color: #90E0EF;
+  background-color: #90e0ef;
   color: #ffffff;
   border-radius: 15px;
 
-  &:hover{
-    background-color: #19D0F2;
+  &:hover {
+    background-color: #19d0f2;
   }
 `;
-
 
 export const ModalBtnWrapper = styled.div`
   display: flex;

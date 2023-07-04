@@ -9,8 +9,9 @@ export const Container = styled.div`
 // 사이드 바
 
 export const SideBar = styled.section`
-  height: 100%;
   width: 335px;
+  height: 100%;
+  min-height: 1200px;
   background-color: white;
   box-shadow: 2px 0px 8px #999999;
   z-index: 50;
@@ -28,7 +29,7 @@ export const ProfileImage = styled.div`
   border-radius: 50%;
   background-color: #e6e6e6;
 
-  display: flex;
+  display: flex;           
   justify-content: center;
   align-items: center;
   overflow: hidden;
