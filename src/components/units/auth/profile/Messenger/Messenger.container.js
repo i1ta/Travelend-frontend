@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import * as S from "./Messengser.styles";
 
 export default function Messenger(props) {
+  const [input, setInput] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+
+
   return (
     <>
       <S.MsgForm>
@@ -33,18 +37,44 @@ export default function Messenger(props) {
               <S.ID>{props.msgData.name}</S.ID>
             </S.UserWrapper>
             <S.ChatWrapper>
-              {props.msgData.chatContents.map((e) => (
-                <S.ChatBubbleWrapper isSend={e.sender}>
-                  <S.ChatBubble>{e.content}</S.ChatBubble>
-                </S.ChatBubbleWrapper>
-              ))}
+              {props.msgData.chatContents.map((e, index) => {
+                // 이전 메시지의 날짜와 현재 메시지의 날짜 비교
+                const currentDate = e.sendTime.split("T")[0];
+                const previousDate =
+                  index > 0 ? props.msgData.chatContents[index - 1].sendTime.split("T")[0] : "";
+
+                // 날짜가 변경되었을 때에만 ChatDate 표시
+                const showDate = currentDate !== previousDate;
+
+                return (
+                  <>
+                  {showDate && (
+                    <S.ChatDate>{e.sendTime.split("T")[0]}</S.ChatDate>
+                  )}
+                  <S.ChatBubbleWrapper 
+                    isSend={e.sender}
+                  >
+                  
+                    <S.ChatTime show={isHovered}>{e.sendTime.split("T")[1]}</S.ChatTime>
+                    <S.ChatBubble
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      {e.content}
+                    </S.ChatBubble>
+                  </S.ChatBubbleWrapper>
+                  </>
+                )
+              })}
             </S.ChatWrapper>
             <S.SendWrapper onSubmit={props.onSubmitSendMsg}>
               <S.SendInput
                 name="message"
                 autocomplete="off"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
               ></S.SendInput>
-              <S.SendBtn>Send</S.SendBtn>
+              <S.SendBtn sendOn={input.length > 0}>Send</S.SendBtn>
             </S.SendWrapper>
           </S.MsgSection>
         ) : (
