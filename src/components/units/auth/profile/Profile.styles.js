@@ -22,17 +22,42 @@ export const SideBar = styled.section`
   justify-content: space-between;
 `;
 
-export const Image = styled.div`
+export const ProfileImage = styled.div`
   width: 280px;
   height: 280px;
+  border-radius: 50%;
+  background-color: #e6e6e6;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #c8b6ff;
-  border-radius: 15px;
-
-  font-size: 20px;
+  overflow: hidden;
 `;
+
+export const defaultProfile = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+export const profileFileBtn = styled.label`
+background-color: #c8b6ff;
+width: 200px;
+height: 50px;
+margin-top: 10px;
+font-size: 20px;
+line-height: 50px;
+text-align: center;
+cursor: pointer;
+`
+
+export const profileBtn = styled.button`
+background-color: #c8b6ff;
+width: 200px;
+height: 50px;
+margin-top: 10px;
+font-size: 20px;
+`
 
 export const Name = styled.div`
   margin: 30px 0;
@@ -88,4 +113,59 @@ export const LogoutImg = styled.img`
 export const LogoutTxt = styled.div`
   font-size: 20px;
   color: #999999;
+`;
+
+export const Table = styled.table`
+    width: 1000px;
+    height: 520px;
+
+    background-color: white;
+    margin-top: 100px;
+    border-collapse: collapse;
+    border-radius: 15px;
+    border-style: hidden;
+    box-shadow: 0 0 0 2px #C8B6FF;
+`;
+
+export const Td = styled.td`
+    height: 30px;
+    width: 250px;
+    border: none;
+    font-size: 20px;
+    color: #666666;
+`;
+
+export const StyleTd = styled(Td)`
+    background: #90E0EF;
+    width: 77px;
+    height: 30px;
+    border-radius: 20px;
+    color: white;
+    margin: 100px 100px;
+`
+
+export const Tc = styled(Td)`
+    text-align: center;
+    color: #C8B6FF;
+    border: none;
+`;
+
+export const StyleBox = styled.div`
+    
+`;
+
+export const BtnWrapper = styled.div`
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+`;
+
+export const Btn = styled.button`
+    border-radius: 50px;
+    background-color: #C8B6FF;
+    padding: 15px 50px;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
 `;

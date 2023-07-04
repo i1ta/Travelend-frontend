@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import axios from 'axios';
 
 import { useRecoilValue } from "recoil";
 import { LoginState, NicknameState } from "../../../States/LoginState";
@@ -29,6 +30,10 @@ export default function Layout(props) {
 
   const onJoinBtn = () => {
     router.push("/auth/join");
+  };
+
+  const onProfileBtn = () => {
+    router.push("/auth/profile");
   };
 
   return (
@@ -72,7 +77,9 @@ export default function Layout(props) {
               </UserItem>
 
               <UserItem>
-                <NicknameWrapper>{nicknameState} 님</NicknameWrapper>
+                <NicknameWrapper onClick={onProfileBtn}>
+                  {nicknameState} 님
+                </NicknameWrapper>
               </UserItem>
             </List>
           )}

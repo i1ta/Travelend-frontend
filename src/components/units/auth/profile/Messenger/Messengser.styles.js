@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const MsgForm = styled.form`
+export const MsgForm = styled.section`
   height: calc(100vh - 120px);
   display: flex;
   align-items: center;
@@ -32,14 +32,13 @@ export const MsgList = styled.button`
   height: 70px;
   padding: 0px 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-radius: 10px;
   margin-bottom: 25px;
 
   background-color: ${(props) =>
-    props.selectedMsg == props.id ? "#c8b6ff" : "transparent"};
-  color: ${(props) => (props.selectedMsg == props.id ? "#FFFFFF" : "#000000")};
+    props.selectedId == props.id ? "#c8b6ff" : "transparent"};
+  color: ${(props) => (props.selectedId == props.id ? "#FFFFFF" : "#000000")};
 `;
 
 export const Profile = styled.img`
@@ -47,35 +46,13 @@ export const Profile = styled.img`
   height: 45px;
   background-color: aliceblue;
   border-radius: 50%;
-`;
-
-export const ListInfoWrapper = styled.div`
-  width: 210px;
-  height: 38px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  margin-right: 20px;
 `;
 
 export const ID = styled.div`
   font-weight: 600;
   font-size: 18px;
-  line-height: 1;
   margin-bottom: 3px;
-`;
-
-export const ListContents = styled.div`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1;
-`;
-
-export const isReadPoint = styled.div`
-  width: 8px;
-  height: 8px;
-  background-color: #c8b6ff;
-  border-radius: 50%;
 `;
 
 // 채팅창 부분
@@ -93,14 +70,14 @@ export const NoneSelectedImg = styled.img`
   width: 200px;
   height: 200px;
   margin-bottom: 30px;
-`
+`;
 
 export const NoneSelectedTxt = styled.div`
   font-size: 24px;
   font-weight: 700;
   line-height: 1;
   color: #666666;
-`
+`;
 
 export const UserWrapper = styled.div`
   width: 100%;
@@ -144,6 +121,7 @@ export const ChatWrapper = styled.div`
   }
 `;
 
+
 export const ChatBubbleWrapper = styled.div`
   display: flex;
   justify-content: ${(props) => (props.isSend ? "flex-end" : "flex-start")};
@@ -162,7 +140,23 @@ export const ChatBubble = styled.div`
   color: #ffffff;
 `;
 
-export const SendWrapper = styled.div`
+export const ChatDate = styled.div`
+  
+  color: #000000;
+  text-align: center;
+`;
+export const ChatTime = styled.div`
+  font-size: 12px;
+  padding: 16px 25px;
+  display: none;
+  background-color: #ffffff;
+  color: #000000;
+  display: ${(props) => (props.show ? "block" : "none")};
+`;
+
+
+
+export const SendWrapper = styled.form`
   height: 73px;
   display: flex;
   justify-content: space-between;
@@ -190,4 +184,16 @@ export const SendBtn = styled.button`
   line-height: 1;
   text-align: center;
   color: #ffffff;
+
+  &:hover{
+    background: #ffffff;
+    color: #000000;
+  }
+  ${({ sendOn }) => 
+  sendOn && 
+  `
+  background: #ffffff;
+  color: #000000;
+  `
+  }
 `;

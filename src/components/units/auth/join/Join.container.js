@@ -179,7 +179,7 @@ export default function Join() {
       .post(apiPath + "/user/signup", {
         birthDate,
         email,
-        firstTripStyleId: 0,
+        firstTripStyleId: 1,
         gender,
         name,
         password,
@@ -306,7 +306,7 @@ export default function Join() {
   const handleAddHashtag = async (e) => {
     await axios
       .get(apiPath + "/hashtag", {
-        name: hashtag
+        name: hashtag,
       })
       .then((response) => {
         console.log(response);
@@ -314,11 +314,10 @@ export default function Join() {
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
-  const handleSubmitModal =  (e) => {
+  const handleSubmitModal = (e) => {
     handleCloseModal();
-    
   };
 
   return (
