@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 
 export const MyProfileWrapper = styled.div`
   width: 1105px;
+  min-width: 1105px;
+  min-height: 960px;
   padding-top: 120px;
   display: flex;
   flex-direction: column;

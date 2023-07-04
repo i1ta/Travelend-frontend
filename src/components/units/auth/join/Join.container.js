@@ -179,13 +179,13 @@ export default function Join() {
       .post(apiPath + "/user/signup", {
         birthDate,
         email,
-        firstTripStyleId: 1,
+        firstTripStyleId: shownMyHashtag[0].id,
         gender,
         name,
         password,
         phone,
-        secondTripStyleId: 0,
-        thirdTripStyleId: 0,
+        secondTripStyleId: shownMyHashtag[1].id,
+        thirdTripStyleId: shownMyHashtag[2].id,
         username,
       })
       .then((response) => {
@@ -279,45 +279,72 @@ export default function Join() {
 
   // 모달 창
   const [isModalOpen, setModalOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [hashtag, setHashtag] = useState("");
+  const [myHashtag, setMyHashtag] = useState([]);
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+  const [hashtagList, setHashtagList] = useState([]);
+  const [errorHashtag, setErrorHashtag] = useState("");
 
   const handleOpenModal = async () => {
     await axios
-      .get(apiPath + "/hashtag/recommend")
+      .get(apiPath + "/hashtag/list")
       .then((response) => {
-        console.log(response);
+        setHashtagList([...response.data.data]);
       })
       .catch((error) => {
         console.error(error);
       });
-
     setModalOpen(true);
   };
 
+  const isDuplicate = (name) => myHashtag.some((tag) => tag.name === name);
+
+  const handleAddHashtag = (id, name) => {
+    console.log(!isDuplicate(name));
+    if (myHashtag.length < 3 && !isDuplicate(name)) {
+      setMyHashtag((prev) => [...prev, { id, name }]);
+    }
+  };
+
+  const handleDelHashtag = (event) => {
+    setMyHashtag(myHashtag.filter((e) => e.id !== parseInt(event.target.id)));
+  };
+
+  const handleSearchHashtag = async (event) => {
+    event.preventDefault();
+    if (myHashtag.length < 3 && !isDuplicate(event.target.search.value)) {
+      await axios
+        .get(apiPath + "/hashtag", {
+          params: {
+            name: event.target.search.value,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          const data = response.data.data;
+          if (data.length !== 0) {
+            handleAddHashtag(data[0].id, data[0].name);
+            setErrorHashtag("");
+          } else {
+            setErrorHashtag(
+              "해당 키워드는 존재하지 않습니다. 다시 입력해주세요."
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    event.target.reset();
+  };
+
   const handleCloseModal = () => {
+    setMyHashtag([...shownMyHashtag]);
     setModalOpen(false);
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleAddHashtag = async (e) => {
-    await axios
-      .get(apiPath + "/hashtag", {
-        name: hashtag,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleSubmitModal = (e) => {
-    handleCloseModal();
+  const handleSubmitModal = () => {
+    setShownMyHashtag([...myHashtag]);
+    setModalOpen(false);
   };
 
   return (
@@ -491,43 +518,23 @@ export default function Join() {
               <S.LabelTxt>여행스타일</S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
-            <S.Input
-              placeholder={"여행 스타일을 입력하세요"}
-              readOnly
-              style={{ cursor: "default" }}
-            ></S.Input>
+            <S.GenderWrapper style={{ gap: "20px" }}>
+              {shownMyHashtag.length === 0 ? (
+                <S.Input
+                  placeholder={"여행 스타일을 입력하세요"}
+                  readOnly
+                  style={{ cursor: "default" }}
+                ></S.Input>
+              ) : (
+                shownMyHashtag.map((e) => (
+                  <S.Hashtag key={e.id}>#{e.name}</S.Hashtag>
+                ))
+              )}
+            </S.GenderWrapper>
             <S.CheckBtn type="button" onClick={handleOpenModal}>
               입력하기
             </S.CheckBtn>
           </S.InputWrapper>
-          {isModalOpen && (
-            <S.ModalOverlay>
-              <S.Modal>
-                <S.ModalTitle>여행 스타일</S.ModalTitle>
-                <S.ModalInputWrapper>
-                  <S.ModalInput
-                    placeholder={"여행스타일을 입력하세요 (최대 3개)"}
-                  ></S.ModalInput>
-                  <S.ModalInputBtn>+</S.ModalInputBtn>
-                </S.ModalInputWrapper>
-                <S.ModalMyStyleWrapper>
-                  <S.ModalHashtag>#떠돌이</S.ModalHashtag>
-                </S.ModalMyStyleWrapper>
-                <S.ModalRecogStyleWrapper>
-                  <S.ModalRecogTitle>추천 키워드</S.ModalRecogTitle>
-                  <S.ModalHashtag>#여행</S.ModalHashtag>
-                </S.ModalRecogStyleWrapper>
-                <S.ModalBtnWrapper>
-                  <S.ModalCancelBtn onClick={handleCloseModal}>
-                    취소
-                  </S.ModalCancelBtn>
-                  <S.ModalSubmitBtn onClick={handleSubmitModal}>
-                    확인
-                  </S.ModalSubmitBtn>
-                </S.ModalBtnWrapper>
-              </S.Modal>
-            </S.ModalOverlay>
-          )}
 
           <S.AcceptTitleWrapper>
             <S.Line></S.Line>
@@ -590,6 +597,64 @@ export default function Join() {
           <S.EnrollBtn onClick={onClickEnrollBtn}>회원가입</S.EnrollBtn>
         </S.Page>
       </form>
+
+      {/* =================== 모달창  ==================== */}
+
+      {isModalOpen && (
+        <S.ModalOverlay>
+          <S.Modal>
+            <S.ModalTitle>여행 스타일</S.ModalTitle>
+            <S.ModalInputWrapper onSubmit={handleSearchHashtag}>
+              <S.ModalInput
+                placeholder={"여행스타일 검색 (최대 3개)"}
+                name="search"
+                autocomplete="off"
+              ></S.ModalInput>
+              <S.ModalInputBtn>+</S.ModalInputBtn>
+            </S.ModalInputWrapper>
+            <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError>
+            <S.ModalMyStyleWrapper>
+              {myHashtag.map((e) => (
+                <S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
+                  #{e.name}
+                </S.ModalHashtag>
+              ))}
+            </S.ModalMyStyleWrapper>
+            <S.ModalRecogStyleWrapper>
+              <S.ModalRecogTitle>키워드(50개)</S.ModalRecogTitle>
+              <S.ModalRecogHashtagWrapper>
+                {hashtagList.map((e) =>
+                  myHashtag.filter((el) => el.id == e.id).length == 0 ? (
+                    <S.ModalRecogHahstag
+                      key={e.id}
+                      id={e.id}
+                      onClick={() => handleAddHashtag(e.id, e.name)}
+                    >
+                      #{e.name}
+                    </S.ModalRecogHahstag>
+                  ) : (
+                    <S.ModalHashtag
+                      key={e.id}
+                      id={e.id}
+                      onClick={handleDelHashtag}
+                    >
+                      #{e.name}
+                    </S.ModalHashtag>
+                  )
+                )}
+              </S.ModalRecogHashtagWrapper>
+            </S.ModalRecogStyleWrapper>
+            <S.ModalBtnWrapper>
+              <S.ModalCancelBtn onClick={handleCloseModal}>
+                취소
+              </S.ModalCancelBtn>
+              <S.ModalSubmitBtn onClick={handleSubmitModal}>
+                확인
+              </S.ModalSubmitBtn>
+            </S.ModalBtnWrapper>
+          </S.Modal>
+        </S.ModalOverlay>
+      )}
     </>
   );
 }
