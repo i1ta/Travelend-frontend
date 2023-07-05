@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import axios from 'axios';
 
 import { useRecoilValue } from "recoil";
 import { LoginState, NicknameState } from "../../../States/LoginState";
