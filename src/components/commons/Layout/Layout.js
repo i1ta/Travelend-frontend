@@ -4,20 +4,18 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import axios from 'axios';
 
-import { useRecoilValue } from "recoil";
-import { LoginState, NicknameState } from "../../../States/LoginState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsFirstLogin } from "../../../States/LoginState";
 
 import { css } from "@emotion/styled";
 
 export default function Layout(props) {
   const loginState = useRecoilValue(LoginState);
-  // const nicknameState = useRecoilValue(NicknameState);
-  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const [infoMsg, setInfoMsg] = useState([]);
   const [infoMsgNum, setInfoMsgNum] = useState(-1);
 
   useEffect(() => {
-    console.log(loginState);
     if (isFirstLogin) {
       setInfoMsg([
         "여행동행자와 나눈 메세지를\n확인해보세요!",

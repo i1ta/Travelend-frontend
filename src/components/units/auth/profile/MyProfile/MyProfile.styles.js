@@ -38,9 +38,7 @@ export const StyleHashTag = styled.div`
   padding: 0 20px;
 `;
 
-export const StyleWrapper = styled.div`
-
-`;
+export const StyleWrapper = styled.div``;
 
 export const StyleContent = styled.div`
   display: flex;
@@ -57,7 +55,6 @@ export const StyleContent = styled.div`
 
   font-size: 20px;
 `;
-
 
 export const Title = styled.h1`
   width: 1000px;
@@ -126,7 +123,7 @@ export const EmailSecondSelect = styled.select`
 
 export const EmailOption = styled.option`
   font-size: 20px;
-';
+`;
 
 export const mbti = styled.span`
   cursor: pointer;
