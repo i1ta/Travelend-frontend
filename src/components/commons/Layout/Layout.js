@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -10,11 +10,21 @@ import { css } from "@emotion/styled";
 
 export default function Layout(props) {
   const loginState = useRecoilValue(LoginState);
-  const nicknameState = useRecoilValue(NicknameState);
-  console.log(loginState);
+  // const nicknameState = useRecoilValue(NicknameState);
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [infoMsg, setInfoMsg] = useState([]);
+  const [infoMsgNum, setInfoMsgNum] = useState(-1);
 
   useEffect(() => {
     console.log(loginState);
+    if (isFirstLogin) {
+      setInfoMsg([
+        "여행동행자와 나눈 메세지를\n확인해보세요!",
+        "내가 스크랩한 여행 동행자와\n여행 후기를 한눈에!",
+        "마이프로필에서 정보 추가 시,\n나와 잘맞는 동행자와 매칭률도 UP!",
+      ]);
+      setInfoMsgNum(0);
+    }
   }, [loginState]);
 
   const router = useRouter();
@@ -33,6 +43,16 @@ export default function Layout(props) {
 
   const onProfileBtn = () => {
     router.push("/auth/profile");
+  };
+
+  const onClickInfoMsgBtn = () => {
+    if (infoMsgNum < 2) {
+      setInfoMsgNum((prev) => prev + 1);
+    } else {
+      setInfoMsgNum(-1);
+      setIsFirstLogin(false);
+      router.push("/auth/profile");
+    }
   };
 
   return (
@@ -62,24 +82,38 @@ export default function Layout(props) {
 
           {!loginState ? (
             <List hideText={props.login}>
-              <UserItem>
+              <BeforeLoginItem>
                 <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
-              </UserItem>
-              <UserItem>
+              </BeforeLoginItem>
+              <BeforeLoginItem>
                 <SignUpBtn onClick={onJoinBtn}>회원가입</SignUpBtn>
-              </UserItem>
+              </BeforeLoginItem>
             </List>
           ) : (
             <List>
-              <UserItem>
-                <NicknameWrapper>2 건</NicknameWrapper>
-              </UserItem>
-
-              <UserItem>
-                <NicknameWrapper onClick={onProfileBtn}>
-                  {nicknameState} 님
-                </NicknameWrapper>
-              </UserItem>
+              <AfterLoginItem id="3">
+                <NicknameWrapper src="/icon/bell.png" />
+              </AfterLoginItem>
+              <AfterLoginItem id="0" infoMsgNum={infoMsgNum}>
+                <NicknameWrapper src="/icon/messenger.png" />
+              </AfterLoginItem>
+              <AfterLoginItem id="1" infoMsgNum={infoMsgNum}>
+                <NicknameWrapper src="/icon/heart_gray.png" />
+              </AfterLoginItem>
+              <AfterLoginItem id="2" infoMsgNum={infoMsgNum}>
+                <NicknameWrapper
+                  src="/icon/profile.png"
+                  onClick={onProfileBtn}
+                />
+              </AfterLoginItem>
+              {isFirstLogin && (
+                <InfoMsg>
+                  <InfoMsgTxt>{infoMsg[infoMsgNum]}</InfoMsgTxt>
+                  <InfoMsgBtn onClick={onClickInfoMsgBtn}>
+                    {infoMsgNum == 2 ? "마이프로필 등록" : "다음"}
+                  </InfoMsgBtn>
+                </InfoMsg>
+              )}
             </List>
           )}
         </NavContainer>
@@ -128,6 +162,7 @@ const List = styled.ul`
   display: flex;
   margin: 0;
   padding-left: 0;
+  position: relative;
 
   visibility: ${(props) => (props.hideText ? "hidden" : "visible")};
 `;
@@ -145,10 +180,24 @@ const Link = styled.a`
   color: black;
 `;
 
-const UserItem = styled.li`
+const BeforeLoginItem = styled.li`
   margin-right: 1rem;
   white-space: nowrap;
   font-weight: bold;
+`;
+
+const AfterLoginItem = styled.li`
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2px;
+  white-space: nowrap;
+  background-color: ${(props) =>
+    props.id == props.infoMsgNum ? "rgba(179, 136, 235, 30%)" : "transparent"};
+
+  border-radius: 50%;
 `;
 
 const Container = styled.div`
@@ -178,17 +227,43 @@ const SignUpBtn = styled.button`
   letter-spacing: -2px;
 
   font-size: 18px;
-
   padding: 0.7rem 1.5rem;
   cursor: pointer;
 `;
 
-const NicknameWrapper = styled.div`
-  color: #c8b6ff;
-  letter-spacing: -2px;
-
-  font-size: 18px;
-
-  padding: 0.7rem 1.5rem;
+const NicknameWrapper = styled.img`
   cursor: pointer;
+`;
+
+const InfoMsg = styled.div`
+  width: 320px;
+  height: 120px;
+  border: 1px solid #b388eb;
+  border-radius: 15px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 120%;
+  left: -25%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const InfoMsgTxt = styled.div`
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #666666;
+  white-space: pre-line;
+`;
+
+const InfoMsgBtn = styled.button`
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #b388eb;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 10px;
 `;

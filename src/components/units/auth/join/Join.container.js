@@ -40,6 +40,7 @@ export default function Join() {
   const [errorGender, setErrorGender] = useState("");
   const [errorbirthDate, setErrorBirthDate] = useState("");
   const [errorCheckBox, setErrorCheckBox] = useState("");
+  const [errorStyle, setErrorStyle] = useState("");
 
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
@@ -174,6 +175,11 @@ export default function Join() {
       return;
     } else setErrorCheckBox("");
 
+    if (!shownMyHashtag) {
+      setErrorStyle("여행스타일을 최소 한개 이상 선택해주세요");
+      return;
+    } else setErrorStyle("");
+
     // signup api 요청
     await axios
       .post(apiPath + "/user/signup", {
@@ -299,7 +305,6 @@ export default function Join() {
   const isDuplicate = (name) => myHashtag.some((tag) => tag.name === name);
 
   const handleAddHashtag = (id, name) => {
-    console.log(!isDuplicate(name));
     if (myHashtag.length < 3 && !isDuplicate(name)) {
       setMyHashtag((prev) => [...prev, { id, name }]);
     }
@@ -320,6 +325,7 @@ export default function Join() {
         })
         .then((response) => {
           console.log(response);
+          console.log(event.target.search.value);
           const data = response.data.data;
           if (data.length !== 0) {
             handleAddHashtag(data[0].id, data[0].name);
@@ -535,6 +541,7 @@ export default function Join() {
               입력하기
             </S.CheckBtn>
           </S.InputWrapper>
+          <S.Error>{errorStyle}</S.Error>
 
           <S.AcceptTitleWrapper>
             <S.Line></S.Line>
@@ -610,7 +617,9 @@ export default function Join() {
                 name="search"
                 autocomplete="off"
               ></S.ModalInput>
-              <S.ModalInputBtn>+</S.ModalInputBtn>
+              <S.ModalInputBtn>
+                <img src="/icon/search.png" />
+              </S.ModalInputBtn>
             </S.ModalInputWrapper>
             <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError>
             <S.ModalMyStyleWrapper>

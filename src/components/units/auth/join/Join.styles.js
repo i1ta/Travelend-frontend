@@ -259,6 +259,7 @@ export const ModalHashtagError = styled(Error)`
   font-size: 10px;
   margin-bottom: 15px;
   justify-content: center;
+  text-align: center;
 `;
 
 export const ModalMyStyleWrapper = styled.div`
