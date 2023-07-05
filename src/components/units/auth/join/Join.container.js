@@ -20,14 +20,14 @@ export default function Join() {
 
   // 기타 state
   const apiPath = "https://api.tripyle.xyz";
-  const [isSendCheckNum, setIsSendCheckNum] = useState(false);
+  const [isSendCheckNum, setIsSendCheckNum] = useState(true);
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [inputCheckNum, setInputCheckNum] = useState("");
   const [authCheckNum, setAuthCheckNum] = useState("");
   const [isUsernameAuth, setIsUsernameAuth] = useState(false);
-  const [isPhoneAuth, setIsPhoneAuth] = useState(false);
+  const [isPhoneAuth, setIsPhoneAuth] = useState(true);
 
   // 에러 메세지 state
   const [errorID, setErrorID] = useState(" ");
@@ -170,28 +170,28 @@ export default function Join() {
       return;
     } else setErrorBirthDate("");
 
+    if (shownMyHashtag.length == 0) {
+      setErrorStyle("여행스타일을 최소 한개 이상 선택해주세요");
+      return;
+    } else setErrorStyle("");
+
     if (!isChecked1 || !isChecked2 || !isChecked3) {
       setErrorCheckBox("필수항목을 체크해주세요");
       return;
     } else setErrorCheckBox("");
-
-    if (!shownMyHashtag) {
-      setErrorStyle("여행스타일을 최소 한개 이상 선택해주세요");
-      return;
-    } else setErrorStyle("");
 
     // signup api 요청
     await axios
       .post(apiPath + "/user/signup", {
         birthDate,
         email,
-        firstTripStyleId: shownMyHashtag[0].id,
+        firstTripStyleId: shownMyHashtag[0]?.id || 0,
         gender,
         name,
         password,
         phone,
-        secondTripStyleId: shownMyHashtag[1].id,
-        thirdTripStyleId: shownMyHashtag[2].id,
+        secondTripStyleId: shownMyHashtag[1]?.id || 0,
+        thirdTripStyleId: shownMyHashtag[2]?.id || 0,
         username,
       })
       .then((response) => {
@@ -206,7 +206,6 @@ export default function Join() {
   // 아이디 변수 저장
   const onChangeUsername = (event) => {
     setUsername(event.target.value);
-    console.log(username);
   };
 
   // 휴대폰 번호 변수 저장
