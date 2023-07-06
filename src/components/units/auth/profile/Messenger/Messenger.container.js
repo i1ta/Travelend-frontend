@@ -4,6 +4,7 @@ import * as S from "./Messengser.styles";
 export default function Messenger(props) {
   const [input, setInput] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState(null);
 
 
   return (
@@ -54,14 +55,40 @@ export default function Messenger(props) {
                   <S.ChatBubbleWrapper 
                     isSend={e.sender}
                   >
-                  
-                    <S.ChatTime show={isHovered}>{e.sendTime.split("T")[1]}</S.ChatTime>
+                    {e.sender 
+                    ?
+                    (<>
+                    <S.ChatTime show={isHovered && hoverIndex === index}>{e.sendTime.split("T")[1]}</S.ChatTime>
                     <S.ChatBubble
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
+                      onMouseEnter={() => {
+                        setIsHovered(true)
+                        setHoverIndex(index);
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered(false);
+                        setHoverIndex(null);
+                      }}
                     >
                       {e.content}
                     </S.ChatBubble>
+                    </>)
+                    :
+                    (<>
+                    <S.ChatBubble
+                      onMouseEnter={() => {
+                        setIsHovered(true)
+                        setHoverIndex(index);
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered(false);
+                        setHoverIndex(null);
+                      }}
+                    >
+                      {e.content}
+                    </S.ChatBubble>
+                    <S.ChatTime show={isHovered && hoverIndex === index}>{e.sendTime.split("T")[1]}</S.ChatTime>
+                    </>)
+                  }
                   </S.ChatBubbleWrapper>
                   </>
                 )

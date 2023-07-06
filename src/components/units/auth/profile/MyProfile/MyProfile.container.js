@@ -11,10 +11,20 @@ export default function MyProfile(props) {
 
   const [mbtiList, setMbtiList] = useState([]);
   const [mbti, setMbti] = useState(props.data.mbti);
+  const [mbtiIdx, setMbtiIdx] = useState(0);
+
+  const [email, setEmail] = useState(props.data.email);
+  const [phone, setPhone] = useState(props.data.phone);
   
   useEffect(() => {
     if(mbti === ''){
       setMbti(props.data.mbti);
+    }
+    if(email === '' && props.data.email != null){
+      setEmail(props.data.email.split("@")[0]);
+    }
+    if(phone === ''){
+      setPhone(props.data.phone);
     }
   }, [props]);
 
@@ -46,8 +56,15 @@ export default function MyProfile(props) {
   };
 
   const handleSubmitModal = (e) => {
-    console.log(e.target.innerText);
     setMbti(e.target.innerText);
+
+    for(let i = 0; i < 16; i++){
+      if(mbtiList[i].name === e.target.innerText){
+        setMbtiIdx(mbtiList[i].id);
+        console.log(mbtiList[i].id);
+      }
+    }
+    console.log(e.target.innerText);
     handleCloseModal();
   };
 
@@ -67,7 +84,7 @@ export default function MyProfile(props) {
       .post(apiPath + "/profile/profile-picture", formData)
       .then((response) => {
         console.log(response);
-        fetchMyProfile();
+        props.fetchMyProfile();
       })
       .catch((error) => console.error(error));
   };
@@ -77,10 +94,17 @@ export default function MyProfile(props) {
       .delete(apiPath + "/profile/profile-picture")
       .then((response) => {
         console.log(response);
-        fetchMyProfile();
+        props.fetchMyProfile();
       })
       .catch((error) => console.error(error));
   };
+
+  const onModifyProfile = async () => {
+    await props.modifyProfile(email, phone, mbtiIdx);
+    await props.fetchMyProfile();
+
+    setIsModify(false);
+  }
 
   return (
     <>
@@ -106,20 +130,20 @@ export default function MyProfile(props) {
         <S.Table>
           <tr>
             <S.Tc>이름</S.Tc>
-            <S.Td>{props.data.name}</S.Td>
+            <S.ModifyTd>{props.data.name}</S.ModifyTd>
             <S.Tc>성별</S.Tc>
             {props.data.gender === 'M'
             ?
-            <S.Td>남</S.Td>
+            <S.ModifyTd>남</S.ModifyTd>
             :
-            <S.Td>여</S.Td>
+            <S.ModifyTd>여</S.ModifyTd>
             }
           </tr>
           <tr>
             <S.Tc>나이</S.Tc>
-            <S.Td>{props.data.age}</S.Td>
+            <S.ModifyTd>{props.data.age}</S.ModifyTd>
             <S.Tc>MBTI</S.Tc>
-            <S.Td>
+            <S.ModifyTd>
               <S.mbti onClick={handleOpenModal}>{mbti}</S.mbti>
               {isModalOpen && (
             <S.ModalOverlay>
@@ -141,49 +165,62 @@ export default function MyProfile(props) {
               </S.Modal>
             </S.ModalOverlay>
           )}
-            </S.Td>
+            </S.ModifyTd>
           </tr>
           <tr>
             <S.Tc>이메일</S.Tc>
-            <S.Td>
+            <S.ModifyTd>
+              <S.EmailWrapper>
               <S.EmailFirstInput
                 type="text"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
               <S.EmailAt>@</S.EmailAt>
               <S.EmailSecondSelect>
                 <S.EmailOption>naver.com</S.EmailOption>
                 <S.EmailOption>gmail.com</S.EmailOption>
               </S.EmailSecondSelect>
-            </S.Td>
+              </S.EmailWrapper>
+            </S.ModifyTd>
             <S.Tc>연락처</S.Tc>
-            <S.Td>
-              <S.EmailFirstInput
+            <S.ModifyTd>
+              <S.PhoneInput
                 type="text"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
               />
-            </S.Td>
+            </S.ModifyTd>
           </tr>
           <tr>
             <S.Tc>프로필</S.Tc>
-            <S.Td>
+            <S.ModifyTd>
               <S.ProfileWrapper>
-                <input
+                <S.ProfileFileInput
                   id="upload-input"
                   type="file"
                   onChange={handleFileChange}
                 />
-                <S.profileBtn onClick={onClickUploadImg}>등록</S.profileBtn>
+              </S.ProfileWrapper>
+            </S.ModifyTd>
+            <S.Tc></S.Tc>
+            <S.ModifyTd>
+              <S.ProfileWrapper>
+                <S.profileRegisterBtn onClick={onClickUploadImg}>등록</S.profileRegisterBtn>
                 <S.profileBtn onClick={onClickDelImg}>
                   기본 프로필로 변경
                 </S.profileBtn>
               </S.ProfileWrapper>
-            </S.Td>
+            </S.ModifyTd>
           </tr>
 
         </S.Table>
       </S.TableWrapper>
 
       <S.BtnWrapper>
-        <S.Btn onClick={props.modifyProfile}>프로필 수정 완료</S.Btn>
+        <S.Btn 
+          type="button"
+          onClick={onModifyProfile}>프로필 수정 완료</S.Btn>
       </S.BtnWrapper>
     </S.MyProfileWrapper>)
       :
@@ -224,9 +261,9 @@ export default function MyProfile(props) {
             </tr>
             <tr>
               <S.Tc>이메일</S.Tc>
-              <S.Td>{props.data.email}</S.Td>
+              <S.Td>{email}</S.Td>
               <S.Tc>연락처</S.Tc>
-              <S.Td>{formatPhone(props.data.phone)}</S.Td>
+              <S.Td>{formatPhone(phone)}</S.Td>
             </tr>
   
           </S.Table>

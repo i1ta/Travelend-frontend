@@ -24,6 +24,7 @@ export default function Profile() {
 
   const [myProfileData, setMyProfileData] = useState({
     name: "",
+    username: "",
     age: 0,
     email: "",
     gender: "",
@@ -34,6 +35,9 @@ export default function Profile() {
     firstTripStyle: "",
     secondTripStyle: "",
     thirdTripStyle: "",
+    firstBio: "",
+    secondBio: "",
+    thirdBio: "",
   });
 
   const [msgListData, setMsgListData] = useState([]);
@@ -52,13 +56,37 @@ export default function Profile() {
       .then((response) => {
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
+        console.log(responseData);
       })
       .catch((error) => console.error(error));
   };
 
   // My Profile 수정 api
-  const modifyProfile = async () => {
+  const modifyProfile = async (getEmail, getPhone, getMbtiIdx) => {
+    console.log(getEmail, getPhone, getMbtiIdx);
+    console.log("modifyProfile 실행");
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    await axios
+      .patch(apiPath + "/profile/my-profile/update", {
     
+        "email": getEmail,
+        "firstBio": myProfileData.firstBio,
+        "firstTripStyleId": 0,
+        "mbtiId": getMbtiIdx,
+        "phone": getPhone,
+        "secondBio": myProfileData.secondBio,
+        "secondTripStyleId": 1,
+        "thirdBio": myProfileData.thirdBio,
+        "thirdTripStyleId": 2
+      })
+      .then((response) => {
+        console.log(response);
+        const responseData = { ...response.data.data };
+        setMyProfileData(responseData);
+      })
+      .catch((error) => console.error(error));
   }
 
   useEffect(() => {
@@ -185,17 +213,7 @@ export default function Profile() {
               data={myProfileData}
             />
           </S.ProfileImage>
-          <S.profileFileBtn htmlFor="upload-input">파일 선택</S.profileFileBtn>
-          <input
-            id="upload-input"
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-          <S.profileBtn onClick={onClickUploadImg}>등록</S.profileBtn>
-          <S.profileBtn onClick={onClickDelImg}>
-            기본 프로필로 변경
-          </S.profileBtn>
+          
           <S.Name>{myProfileData.username} 님</S.Name>
           <S.Point>보유 포인트 0 p</S.Point>
 
@@ -234,7 +252,7 @@ export default function Profile() {
             <S.LogoutTxt>Logout</S.LogoutTxt>
           </S.LogoutWrapper>
         </S.SideBar>
-        {selectedCategory === "MyProfile" && <MyProfile data={myProfileData} />}
+        {selectedCategory === "MyProfile" && <MyProfile data={myProfileData} modifyProfile={modifyProfile} fetchMyProfile={fetchMyProfile}/>}
         {selectedCategory === "MyCollections" && <MyCollections />}
         {selectedCategory === "Triplog" && <Triplog />}
         {selectedCategory === "Messenger" && (
