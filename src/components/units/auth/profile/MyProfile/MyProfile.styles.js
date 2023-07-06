@@ -87,14 +87,19 @@ export const Table = styled.table`
 `;
 
 export const Td = styled.td`
-  height: 30px;
+  max-height: 100px;
   width: 250px;
   border: none;
   font-size: 20px;
   color: #666666;
 `;
 
+export const ModifyTd = styled(Td)`
+  max-width: 250px;
+`
+
 export const Tc = styled(Td)`
+  width: 200px;
   text-align: center;
   color: #c8b6ff;
   border: none;
@@ -102,7 +107,13 @@ export const Tc = styled(Td)`
 
 // 수정 시 스타일
 
+export const EmailWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const EmailFirstInput = styled.input`
+  padding: 0 20px;
   height: 52px;
   width: 142px;
   border: 2px solid #c8b6ff;
@@ -113,9 +124,12 @@ export const EmailFirstInput = styled.input`
 
 export const EmailAt = styled.span`
   margin: 0px 10px;
+  margin-top: 10px;
+  font-weight: bold;
 `;
 
 export const EmailSecondSelect = styled.select`
+  padding: 0 20px;
   height: 52px;
   width: 161px;
   border: 2px solid #c8b6ff;
@@ -126,13 +140,24 @@ export const EmailSecondSelect = styled.select`
 
 export const EmailOption = styled.option`
   font-size: 20px;
-';
+`;
 
 export const mbti = styled.span`
   cursor: pointer;
   border: 2px solid #c8b6ff;
   border-radius: 15px;
-  padding: 5px 10px;
+  padding: 10px 20px;
+  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
+`;
+
+export const PhoneInput = styled.input`
+  padding: 0 20px;
+  height: 52px;
+  width: 200px;
+  border: 2px solid #c8b6ff;
+  border-radius: 15px;
+  font-size: 20px;
+  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const BtnWrapper = styled.div`
@@ -174,23 +199,45 @@ export const ProfileWrapper = styled.div`
   flex-direction: row;
 `;
 
+export const ProfileFileInput = styled.input`
+  background-color: #ffffff;
+`
+
 export const profileFileBtn = styled.label`
   background-color: #c8b6ff;
-  width: 60px;
+  width: 150px;
   height: 50px;
   margin-top: 10px;
   font-size: 20px;
   line-height: 50px;
   text-align: center;
   cursor: pointer;
+  margin: 0 30px;
+`;
+
+export const profileRegisterBtn = styled.button`
+  background-color: #ffffff;
+  color: #c8b6ff;
+  font-weight: bold;
+  border: 4px solid #c8b6ff;
+  border-radius: 15px;
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
+  font-size: 20px;
+  margin: 0 10px;
 `;
 
 export const profileBtn = styled.button`
   background-color: #c8b6ff;
-  width: 60px;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 0 20px;
+  width: 330px;
   height: 50px;
   margin-top: 10px;
   font-size: 20px;
+  margin: 0 10px;
 `;
 
 // mbti 모달 창
