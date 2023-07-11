@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import * as S from "./MyProfile.styles";
+import Modal from "../../../../commons/Modal/Modal";
 import axios from "axios";
 
 export default function MyProfile(props) {
@@ -13,29 +14,72 @@ export default function MyProfile(props) {
   const [mbti, setMbti] = useState(props.data.mbti);
   const [mbtiIdx, setMbtiIdx] = useState(0);
 
-  const [email, setEmail] = useState(props.data.email);
-  const [phone, setPhone] = useState(props.data.phone);
+  const [email, setEmail] = useState(props.data.email); // 이메일
+  const [phone, setPhone] = useState(props.data.phone); // 휴대폰 번호
+  const [selected, setSelectedEmail] = useState('naver.com'); // email 뒷 부분
+
+  const [myHashtag, setMyHashtag] = useState([]); // hashtag
+  const [hashtagList, setHashtagList] = useState([]);
+  const [hashtagName, setHashtagName] = useState([props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle]);
+  // const [hashtagId, setHashtagId] = useState([]);
+  const hashtagId = [];
   
-  useEffect(() => {
+  const startSetting = async () => {
     if(mbti === ''){
       setMbti(props.data.mbti);
     }
     if(email === '' && props.data.email != null){
-      setEmail(props.data.email.split("@")[0]);
+      setEmail(props.data.email);
     }
     if(phone === ''){
       setPhone(props.data.phone);
     }
-  }, [props]);
+    console.log(myHashtag);
+    if(myHashtag.length === 0){
+      await axios
+      .get(apiPath + "/hashtag/list")
+      .then((response) => {
+        setHashtagList([...response.data.data]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-  const [isModify, setIsModify] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
+      setHashtagName([props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle]);
+      
+      console.log(hashtagList, hashtagName);
+      hashtagList.forEach((hashtag) => {
+        if (hashtagName.includes(hashtag.name)) {
+          hashtagId.push(hashtag.id);
+        }
+      });
+      
+      console.log(hashtagId);
+      setMyHashtag([{ id: hashtagId[0], name: props.data.firstTripStyle }, { id: hashtagId[1], name: props.data.secondTripStyle }, { id: hashtagId[2], name: props.data.thirdTripStyle }]);
+    }
+  };
+
+  useEffect(() => {startSetting()}, [props]);
+
+  const [isModify, setIsModify] = useState(false); // 수정 여부
+  const [isModalOpen, setModalOpen] = useState(false); // mbti 모달
+  const [isProfileModal, setIsProfileModal] = useState(false); // 프로필 모달
+  const [isModifyCheckModal, setIsModifyCheckModal] = useState(false);
+  const [isStyleModalOpen, setIsStyleModalOpen] = useState(false); // 스타일 모달
 
   const apiPath = "https://api.tripyle.xyz";
 
   useEffect(() => {
     console.log(isModify);
   }, [isModify]);
+
+  useEffect(() => {
+    if(props.isProfileModal === true){
+      setSelectedFile(props.selectedFile);
+      setIsProfileModal(true);
+    }
+  }, [props.isProfileModal])
+
 
   const handleOpenModal = async () => {
     await axios
@@ -68,6 +112,20 @@ export default function MyProfile(props) {
     handleCloseModal();
   };
 
+  const handleCloseProfileModal = () => {
+    setIsProfileModal(false);
+  }
+
+  const handleSubmitProfileModal = async (e) => {
+    await onClickUploadImg();
+    setIsProfileModal(false);
+  }
+
+  const handleModifyCheckModal = async (e) => {
+    await setIsModifyCheckModal(true);
+    await console.log(isModifyCheckModal);
+  }
+
   // 프로필이미지 api
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -79,6 +137,7 @@ export default function MyProfile(props) {
   const onClickUploadImg = async () => {
     const formData = new FormData();
     formData.append("images", selectedFile);
+    console.log(selectedFile);
 
     await axios
       .post(apiPath + "/profile/profile-picture", formData)
@@ -100,31 +159,228 @@ export default function MyProfile(props) {
   };
 
   const onModifyProfile = async () => {
-    await props.modifyProfile(email, phone, mbtiIdx);
+    await setEmail(`${email.split("@")[0]}@${selected}`);
+    console.log(email);
+    await props.modifyProfile(email, phone, mbtiIdx, myHashtag);
     await props.fetchMyProfile();
+    props.setModify(true);
 
+    setIsAuthPhone(false);
+    setIsModifyCheckModal(true);
     setIsModify(false);
+    setIsModifyCheckModal(true);
   }
 
+  // style 모달
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+  const [errorHashtag, setErrorHashtag] = useState("");
+
+  const handleOpenStyleModal = async () => {
+    await axios
+      .get(apiPath + "/hashtag/list")
+      .then((response) => {
+        setHashtagList([...response.data.data]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setIsStyleModalOpen(true);
+
+    let hashtagName = [props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle];
+    
+    hashtagList.forEach((hashtag) => {
+      if (hashtagName.includes(hashtag.name)) {
+        hashtagId.push(hashtag.id);
+      }
+    });
+    
+    console.log(hashtagId);
+    setMyHashtag([{ id: hashtagId[0], name: props.data.firstTripStyle }, { id: hashtagId[1], name: props.data.secondTripStyle }, { id: hashtagId[2], name: props.data.thirdTripStyle }]);
+  };
+
+  const isDuplicate = (name) => myHashtag.some((tag) => tag.name === name);
+
+  const handleAddHashtag = (id, name) => {
+    if (myHashtag.length < 3 && !isDuplicate(name)) {
+      console.log(id, name);
+      setMyHashtag((prev) => [...prev, { id, name }]);
+    }
+  };
+
+  const handleDelHashtag = (event) => {
+    setMyHashtag(myHashtag.filter((e) => e.id !== parseInt(event.target.id)));
+  };
+
+  const handleSearchHashtag = async (event) => {
+    event.preventDefault();
+    if (myHashtag.length < 3 && !isDuplicate(event.target.search.value)) {
+      await axios
+        .get(apiPath + "/hashtag", {
+          params: {
+            name: event.target.search.value,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          console.log(event.target.search.value);
+          const data = response.data.data;
+          if (data.length !== 0) {
+            handleAddHashtag(data[0].id, data[0].name);
+            setErrorHashtag("");
+          } else {
+            setErrorHashtag(
+              "해당 키워드는 존재하지 않습니다. 다시 입력해주세요."
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    event.target.reset();
+  };
+
+  const handleCloseStyleModal = () => {
+    // setMyHashtag([...shownMyHashtag]);
+    setIsStyleModalOpen(false);
+  };
+
+  const handleSubmitStyleModal = () => {
+    setShownMyHashtag([...myHashtag]);
+    setIsStyleModalOpen(false);
+    console.log(myHashtag);
+  };
+
+  // 휴대폰 인증
+  const [isAuthPhone, setIsAuthPhone] = useState(false);
+  const [authPhone, setAuthPhone] = useState('');
+  const [authAnswer, setAuthAnswer] = useState('');
+
+  const onHandleAuth = async (e) => {
+    await axios
+        .post(apiPath + "/user/authentication-code/send", {
+          "phone": phone
+        })
+        .then((response) => {
+          if(response.code === 200){
+            setAuthAnswer(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    alert('인증번호가 전송되었습니다.');
+    setIsAuthPhone(true);
+  }
+
+  const onHandleAuthCheck = async (e) => {
+    if(authAnswer == authPhone){
+      alert('인증 번호가 일치하지 않습니다.');
+    } else{
+      alert('인증이 완료되었습니다.');
+    }
+  }
   return (
     <>
     {isModify 
     ?
-        (<S.MyProfileWrapper>
+      (<S.MyProfileWrapper>
       <S.StyleTitleWrapper>
         <S.StyleTitle>My Style</S.StyleTitle>
-        {props.data.firstTripStyle &&
-        (<S.StyleHashTag>#{props.data.firstTripStyle}</S.StyleHashTag>)}
-        {props.data.secondTripStyle &&
-        (<S.StyleHashTag>#{props.data.secondTripStyle}</S.StyleHashTag>)}
-        {props.data.thirdTripStyle &&
-        (<S.StyleHashTag>#{props.data.thirdTripStyle}</S.StyleHashTag>)}
+        {myHashtag.map((e) => (
+          e.name !== "" && 
+          (<S.StyleHashTag id={e.id}>#{e.name}</S.StyleHashTag>))
+        )}
+        
+        <S.StyleHashTag onClick={handleOpenStyleModal}>
+          <S.StyleEditImg 
+            src="/icon/edit.png"
+          />
+        </S.StyleHashTag>
+
+        {/* =================== 스타일 모달창  ==================== */}
+
+      {isStyleModalOpen && (
+        <S.ModalOverlay>
+          <S.Modal>
+          <S.ModalTitle>여행 스타일</S.ModalTitle>
+            <S.ModalInputWrapper onSubmit={handleSearchHashtag}>
+              <S.ModalInput
+                placeholder={"여행스타일 검색 (최대 3개)"}
+                name="search"
+                autocomplete="off"
+              ></S.ModalInput>
+              <S.ModalInputBtn>
+                <img src="/icon/search.png" />
+              </S.ModalInputBtn>
+            </S.ModalInputWrapper>
+            {/* <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError> */}
+            <S.ModalMyStyleWrapper>
+              {myHashtag.map((e) => (
+                e.name !== "" && (<S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
+                  #{e.name}
+                </S.ModalHashtag>)
+              ))}
+            </S.ModalMyStyleWrapper>
+            <S.ModalRecogStyleWrapper>
+              <S.ModalRecogTitle>키워드(50개)</S.ModalRecogTitle>
+              <S.ModalRecogHashtagWrapper>
+                {hashtagList.map((e) =>
+                  myHashtag.filter((el) => el.id == e.id).length == 0 ? (
+                    <S.ModalRecogHahstag
+                      key={e.id}
+                      id={e.id}
+                      onClick={() => handleAddHashtag(e.id, e.name)}
+                    >
+                      #{e.name}
+                    </S.ModalRecogHahstag>
+                  ) : (
+                    <S.ModalHashtag
+                      key={e.id}
+                      id={e.id}
+                      onClick={handleDelHashtag}
+                    >
+                      #{e.name}
+                    </S.ModalHashtag>
+                  )
+                )}
+              </S.ModalRecogHashtagWrapper>
+            </S.ModalRecogStyleWrapper>
+            <S.ModalBtnWrapper>
+              <S.ModalCancelBtn onClick={handleCloseStyleModal}>
+                취소
+              </S.ModalCancelBtn>
+              <S.ModalSubmitBtn onClick={handleSubmitStyleModal}>
+                확인
+              </S.ModalSubmitBtn>
+            </S.ModalBtnWrapper>
+          </S.Modal>
+        </S.ModalOverlay>
+      )}
+        
       </S.StyleTitleWrapper>
 
       <S.StyleWrapper>
-        <S.StyleContent>저는 북유럽 쪽을 좋아하고 즉흥적으로 많이 여행을 떠나는 편입니다!</S.StyleContent> 
+        <S.StyleContent>
+          <S.StyleLineBio>
+        {props.data.firstBio && 
+        (<S.StyleBioInput value={props.data.firstBio}/>)
+        } </S.StyleLineBio>
+
+          <S.StyleLineBio>
+        {props.data.secondBio && 
+        (<S.StyleBioInput value={props.data.secondBio}/>)}
+          </S.StyleLineBio>
+
+          <S.StyleLineBio>
+        {props.data.thirdBio && 
+        (<S.StyleBioInput value={props.data.thirdBio}/>)}
+          </S.StyleLineBio>
+        </S.StyleContent> 
       </S.StyleWrapper>
 
+      {isModifyCheckModal && (<Modal setIsModifyCheckModal={setIsModifyCheckModal} onModifyProfile={onModifyProfile}/>)}
+      
       <S.Title>My Profile</S.Title>
       <S.TableWrapper>
         <S.Table>
@@ -173,11 +429,11 @@ export default function MyProfile(props) {
               <S.EmailWrapper>
               <S.EmailFirstInput
                 type="text"
-                value={email}
+                value={email.split("@")[0]}
                 onChange={e => setEmail(e.target.value)}
               />
               <S.EmailAt>@</S.EmailAt>
-              <S.EmailSecondSelect>
+              <S.EmailSecondSelect onChange={(e) => setSelectedEmail(e.target.value)} value={selected}>
                 <S.EmailOption>naver.com</S.EmailOption>
                 <S.EmailOption>gmail.com</S.EmailOption>
               </S.EmailSecondSelect>
@@ -185,34 +441,28 @@ export default function MyProfile(props) {
             </S.ModifyTd>
             <S.Tc>연락처</S.Tc>
             <S.ModifyTd>
-              <S.PhoneInput
-                type="text"
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-              />
-            </S.ModifyTd>
-          </tr>
-          <tr>
-            <S.Tc>프로필</S.Tc>
-            <S.ModifyTd>
-              <S.ProfileWrapper>
-                <S.ProfileFileInput
-                  id="upload-input"
-                  type="file"
-                  onChange={handleFileChange}
+              <S.PhoneWrapper>
+                <S.PhoneInput
+                  type="text"
+                  value={phone}
+                  onChange={e => setPhone(e.target.value)}
                 />
-              </S.ProfileWrapper>
-            </S.ModifyTd>
-            <S.Tc></S.Tc>
-            <S.ModifyTd>
-              <S.ProfileWrapper>
-                <S.profileRegisterBtn onClick={onClickUploadImg}>등록</S.profileRegisterBtn>
-                <S.profileBtn onClick={onClickDelImg}>
-                  기본 프로필로 변경
-                </S.profileBtn>
-              </S.ProfileWrapper>
+                <S.phoneBtn onClick={onHandleAuth}>인증</S.phoneBtn>
+              </S.PhoneWrapper>
+
+              {isAuthPhone &&
+              (<S.PhoneWrapper>
+                <S.PhoneInput
+                  type="text"
+                  value={authPhone}
+                  onChange={e => setAuthPhone(e.target.value)}
+                />
+              
+                <S.phoneBtn onClick={onHandleAuthCheck}>확인</S.phoneBtn>
+              </S.PhoneWrapper>)}
             </S.ModifyTd>
           </tr>
+
 
         </S.Table>
       </S.TableWrapper>
@@ -220,23 +470,41 @@ export default function MyProfile(props) {
       <S.BtnWrapper>
         <S.Btn 
           type="button"
-          onClick={onModifyProfile}>프로필 수정 완료</S.Btn>
+          onClick={onModifyProfile}
+        >프로필 수정 완료</S.Btn>
+        <S.CancleBtn 
+          type="button"
+          onClick={() => {setIsModify(false); props.setModify(true); setIsModifyCheckModal(true);}}
+        >취소</S.CancleBtn>
       </S.BtnWrapper>
     </S.MyProfileWrapper>)
       :
       (<S.MyProfileWrapper>
         <S.StyleTitleWrapper>
           <S.StyleTitle>My Style</S.StyleTitle>
-          {props.data.firstTripStyle &&
-          (<S.StyleHashTag>#{props.data.firstTripStyle}</S.StyleHashTag>)}
-          {props.data.secondTripStyle &&
-          (<S.StyleHashTag>#{props.data.secondTripStyle}</S.StyleHashTag>)}
-          {props.data.thirdTripStyle &&
-          (<S.StyleHashTag>#{props.data.thirdTripStyle}</S.StyleHashTag>)}
+          {myHashtag.map((e) => (
+          e.name !== "" && 
+          (<S.StyleHashTag id={e.id}>#{e.name}</S.StyleHashTag>))
+        )}
         </S.StyleTitleWrapper>
-  
+        
+
         <S.StyleWrapper>
-          <S.StyleContent>저는 북유럽 쪽을 좋아하고 즉흥적으로 많이 여행을 떠나는 편입니다!</S.StyleContent> 
+        <S.StyleContent>
+        {props.data.firstBio && 
+        (<S.StyleLineBio>
+            {props.data.firstBio}
+          </S.StyleLineBio>)
+        }
+        {props.data.secondBio && 
+        (<S.StyleLineBio>
+            {props.data.secondBio}
+          </S.StyleLineBio>)}
+        {props.data.thirdBio && 
+        (<S.StyleBio>
+            {props.data.thirdBio}
+          </S.StyleBio>)}
+        </S.StyleContent> 
         </S.StyleWrapper>
   
         <S.Title>My Profile</S.Title>
@@ -270,7 +538,7 @@ export default function MyProfile(props) {
         </S.TableWrapper>
   
         <S.BtnWrapper>
-          <S.Btn onClick={() => setIsModify(true)}>프로필 수정</S.Btn>
+          <S.Btn onClick={() => {setIsModify(true); props.setModify(false);}}>프로필 수정</S.Btn>
         </S.BtnWrapper>
       </S.MyProfileWrapper>
       )
