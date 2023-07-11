@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
   display: flex;
   justify-content: center;
 `;
@@ -10,8 +10,7 @@ export const Container = styled.div`
 
 export const SideBar = styled.section`
   width: 335px;
-  height: 100%;
-  min-height: 1200px;
+  max-height: 960px;
   background-color: white;
   box-shadow: 2px 0px 8px #999999;
   z-index: 50;
@@ -20,7 +19,6 @@ export const SideBar = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 `;
 
 export const ProfileImage = styled.div`
@@ -35,17 +33,17 @@ export const ProfileImage = styled.div`
   overflow: hidden;
 `;
 
-export const defaultProfile = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
 
 export const profileFileBtn = styled.label`
-background-color: #c8b6ff;
-width: 200px;
-height: 50px;
-margin-top: 10px;
+background-color: #ffffff;
+border: 1px solid #C8B6FF;
+border-radius: 15px;
+color: #000000;
+font-weight: bold;
+width: 250px;
+height: 70px;
+margin-top: 20px;
+padding: 10px 0;
 font-size: 20px;
 line-height: 50px;
 text-align: center;
@@ -53,10 +51,16 @@ cursor: pointer;
 `
 
 export const profileBtn = styled.button`
-background-color: #c8b6ff;
-width: 200px;
-height: 50px;
-margin-top: 10px;
+background-color: #ffffff;
+border: 1px solid #C8B6FF;
+color: #000000;
+font-weight: bold;
+border-radius: 15px;
+
+width: 250px;
+height: 70px;
+margin-top: 20px;
+padding: 10px 0;
 font-size: 20px;
 `
 
@@ -169,4 +173,98 @@ export const Btn = styled.button`
     color: #ffffff;
     font-size: 18px;
     font-weight: bold;
+`;
+
+// 프로필 모달 창
+export const ModalOverlay = styled.div`
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const Modal = styled.div`
+  width: 550px;
+  padding-bottom: 27px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ModalTitle = styled.div`
+  width: 100%;
+  height: 50px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #c8b6ff;
+  text-align: center;
+  margin-bottom: 26px;
+
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 50px;
+  color: #ffffff;
+`;
+
+export const ModalMbtiWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+export const DefaultProfile = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+
+export const ModalMbtiContent = styled.div`
+  cursor: pointer;
+  text-align: center;
+  width: 17.5%;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px 15px;
+  background-color: #90e0ef;
+  color: #ffffff;
+  border-radius: 15px;
+
+  &:hover {
+    background-color: #19d0f2;
+  }
+`;
+
+export const ModalBtnWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 174px;
+`;
+
+export const ModalCancelBtn = styled.button`
+  width: 100px;
+  height: 40px;
+  background-color: #ffffff;
+  color: #c8b6ff;
+  border: 1px solid #c8b6ff;
+  border-radius: 10px;
+  margin: 0 10px;
+
+  text-align: center;
+  font-weight: 400;
+  font-size: 12px;
+`;
+
+export const ModalSubmitBtn = styled(ModalCancelBtn)`
+  background-color: #c8b6ff;
+  color: #ffffff;
+  border: none;
 `;

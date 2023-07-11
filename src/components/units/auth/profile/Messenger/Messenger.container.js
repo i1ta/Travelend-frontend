@@ -6,7 +6,6 @@ export default function Messenger(props) {
   const [isHovered, setIsHovered] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
 
-
   return (
     <>
       <S.MsgForm>
@@ -58,7 +57,7 @@ export default function Messenger(props) {
                     {e.sender 
                     ?
                     (<>
-                    <S.ChatTime show={isHovered && hoverIndex === index}>{e.sendTime.split("T")[1]}</S.ChatTime>
+                    <S.ChatTime show={isHovered && hoverIndex === index}>{`${e.sendTime.split("T")[1].split(":")[0]}:${e.sendTime.split("T")[1].split(":")[1]}`}</S.ChatTime>
                     <S.ChatBubble
                       onMouseEnter={() => {
                         setIsHovered(true)
@@ -86,7 +85,7 @@ export default function Messenger(props) {
                     >
                       {e.content}
                     </S.ChatBubble>
-                    <S.ChatTime show={isHovered && hoverIndex === index}>{e.sendTime.split("T")[1]}</S.ChatTime>
+                    <S.ChatTime show={isHovered && hoverIndex === index}>{`${e.sendTime.split("T")[1].split(":")[0]}:${e.sendTime.split("T")[1].split(":")[1]}`}</S.ChatTime>
                     </>)
                   }
                   </S.ChatBubbleWrapper>

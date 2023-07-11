@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 
 import * as S from "./Profile.styles";
+import Modal from "../../../commons/Modal/Modal";
 import MyProfile from "./MyProfile/MyProfile.container";
 import MyCollections from "./MyCollections/MyCollections.container";
 import Triplog from "./Triplog/Triplog.container";
@@ -54,6 +55,7 @@ export default function Profile() {
     await axios
       .get(apiPath + "/profile/my-profile")
       .then((response) => {
+        console.log(response);
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
         console.log(responseData);
@@ -62,25 +64,25 @@ export default function Profile() {
   };
 
   // My Profile 수정 api
-  const modifyProfile = async (getEmail, getPhone, getMbtiIdx) => {
-    console.log(getEmail, getPhone, getMbtiIdx);
-    console.log("modifyProfile 실행");
+  const modifyProfile = async (getEmail, getPhone, getMbtiIdx, getHashtag) => {
+    console.log(getEmail, getPhone, getMbtiIdx, getHashtag);
+    console.log(myProfileData.firstBio, myProfileData.secondBio, myProfileData.thirdBio);
+    console.log(getHashtag[0]?.id, getHashtag[1]?.id, getHashtag[2]?.id);
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
     await axios
       .patch(apiPath + "/profile/my-profile/update", {
-    
         "email": getEmail,
         "firstBio": myProfileData.firstBio,
-        "firstTripStyleId": 0,
+        "firstTripStyleId": getHashtag[0]?.id || 0,
         "mbtiId": getMbtiIdx,
         "phone": getPhone,
         "secondBio": myProfileData.secondBio,
-        "secondTripStyleId": 1,
+        "secondTripStyleId": getHashtag[1]?.id || 0,
         "thirdBio": myProfileData.thirdBio,
-        "thirdTripStyleId": 2
-      })
+        "thirdTripStyleId": getHashtag[2]?.id || 0
+      }, { "Content-Type": "application/json" })
       .then((response) => {
         console.log(response);
         const responseData = { ...response.data.data };
@@ -172,14 +174,23 @@ export default function Profile() {
     }
   };
 
+  const [isModify, setIsModify] = useState(true);
+  const [isModalOn, setIsModalOn] = useState(false);
+
+  const handleModify = (value) => {
+    setIsModify(value);
+  }
   // 프로필이미지 api
+  const [isProfileModal, setIsProfileModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
     console.log(event.target.files);
+    setIsProfileModal(true);
   };
 
+  useEffect(() => {},[selectedFile]);
   const onClickUploadImg = async () => {
     const formData = new FormData();
     formData.append("images", selectedFile);
@@ -203,12 +214,27 @@ export default function Profile() {
       .catch((error) => console.error(error));
   };
 
+  const handleCloseProfileModal = () => {
+    setIsProfileModal(false);
+  }
+
+  const [isModifyCheckModal, setIsModifyCheckModal] = useState(false);
+  const handleSubmitProfileModal = async (e) => {
+    await onClickUploadImg();
+    setIsModifyCheckModal(true);
+    setIsProfileModal(false);
+    
+  }
+
   return (
     <>
-      <S.Container>
+    {isModify
+    ?
+      (<S.Container>
         <S.SideBar>
+          
           <S.ProfileImage data={myProfileData}>
-            <S.defaultProfile
+            <S.DefaultProfile
               src={myProfileData.profileUrl || "/icon/defaultProfile.png"}
               data={myProfileData}
             />
@@ -252,7 +278,12 @@ export default function Profile() {
             <S.LogoutTxt>Logout</S.LogoutTxt>
           </S.LogoutWrapper>
         </S.SideBar>
-        {selectedCategory === "MyProfile" && <MyProfile data={myProfileData} modifyProfile={modifyProfile} fetchMyProfile={fetchMyProfile}/>}
+        {selectedCategory === "MyProfile" && <MyProfile 
+          data={myProfileData} 
+          modifyProfile={modifyProfile} 
+          fetchMyProfile={fetchMyProfile}
+          setModify={handleModify}
+        />}
         {selectedCategory === "MyCollections" && <MyCollections />}
         {selectedCategory === "Triplog" && <Triplog />}
         {selectedCategory === "Messenger" && (
@@ -264,6 +295,79 @@ export default function Profile() {
           />
         )}
       </S.Container>
+      )
+      :
+      (
+        <S.Container>
+        <S.SideBar>
+          <S.ProfileImage data={myProfileData}>
+            <S.DefaultProfile
+              src={myProfileData.profileUrl || "/icon/defaultProfile.png"}
+              data={myProfileData}
+            />
+          </S.ProfileImage>
+
+          <S.Name>{myProfileData.username} 님</S.Name>
+          
+          <S.profileFileBtn htmlFor="upload-input">프로필 업로드</S.profileFileBtn>
+          <input
+            id="upload-input"
+            type="file"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          {isProfileModal && (
+            <S.ModalOverlay>
+              <S.Modal>
+                <S.ModalTitle>프로필</S.ModalTitle>
+                <S.ModalMbtiWrapper>
+                <S.ProfileImage data={selectedFile}>
+                  <S.DefaultProfile
+                    src={selectedFile || "/icon/defaultProfile.png"}
+                    data={selectedFile}
+                  />
+                </S.ProfileImage>
+                </S.ModalMbtiWrapper>
+
+                <div>실제 화면에 표시되는 부분입니다.</div>
+                <S.ModalBtnWrapper>
+                  <S.ModalCancelBtn onClick={handleCloseProfileModal}>
+                    취소
+                  </S.ModalCancelBtn>
+                  <S.ModalSubmitBtn onClick={handleSubmitProfileModal}>
+                    등록
+                  </S.ModalSubmitBtn>
+                </S.ModalBtnWrapper>
+              </S.Modal>
+            </S.ModalOverlay>
+          )}
+
+          {isModifyCheckModal && (<Modal setIsModifyCheckModal={setIsModifyCheckModal} onModifyProfile={handleSubmitProfileModal}/>)}
+          <S.profileBtn onClick={onClickDelImg}>
+            기본 프로필로 변경
+          </S.profileBtn>
+        </S.SideBar>
+        {selectedCategory === "MyProfile" && <MyProfile 
+          data={myProfileData} 
+          isProfileModal={isModalOn}
+          selectedFile={selectedFile}
+          modifyProfile={modifyProfile} 
+          fetchMyProfile={fetchMyProfile} 
+          setModify={handleModify}
+        />}
+        {selectedCategory === "MyCollections" && <MyCollections />}
+        {selectedCategory === "Triplog" && <Triplog />}
+        {selectedCategory === "Messenger" && (
+          <Messenger
+            msgListData={msgListData}
+            msgData={msgData}
+            onSubmitSendMsg={onSubmitSendMsg}
+            onClickMsgList={onClickMsgList}
+          />
+        )}
+      </S.Container>
+      )
+    }
     </>
   );
 }
