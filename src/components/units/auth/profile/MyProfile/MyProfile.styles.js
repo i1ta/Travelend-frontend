@@ -62,31 +62,83 @@ export const StyleContent = styled.div`
   padding: auto;
 
   width: 1000px;
-  height: 210px;
+  height: 180px;
 
   font-size: 20px;
 `;
 
+export const BioWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const BioNoneWrapper = styled.div`
+  text-align: center;
+`
+
 export const StyleBio = styled.div`
   flex:1;
-  width: 70%;
-  height: 100%;
-  text-align: center;
+  width: 100%;
+  height: 55px;
   padding: 20px 0;
+  color: #000000;
 `
+
+export const BioBold = styled.span`
+  color: #9471FF;
+`
+
+export const StyleBioImg = styled.img`
+  width: 35px;
+  height: 35px;
+  margin-top: 15px;
+  margin-right: 10px;
+  object-fit: cover;
+`
+
+export const StyleNoneBioImg = styled.img`
+width: 60px;
+height: 60px;
+object-fit: cover;
+`;
+
+export const StyleBioDelImg = styled(StyleBioImg)`
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-top: 25px;
+  cursor: pointer;
+`;
 
 export const StyleLineBio = styled(StyleBio)`
   border-bottom: 1.5px solid #c8b6ff;
 `
 
+export const StyleModifyBioWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+  white-space: nowrap;
+  margin-top: 20px;
+`;
+
 export const StyleBioInput = styled.input`
-  flex:1;
-  height: 100%;
-  width: 50%;
-  text-align: center;
-  border: 1px solid #000000;
   font-size: 20px;
+  width: 100%;
+  white-space: nowrap;
+  margin: 0 20px;
+  margin-bottom: 10px;
+  padding: 3px 10px;
+
+  border-top: none;
+  border-left: none;
+  border-right: none;
 `
+
+export const BioInputWrapper = styled.div`
+  width: 100%;
+`;
 
 export const StyleLineBioInput = styled(StyleBio)`
   border-bottom: 1.5px solid #c8b6ff;
@@ -96,8 +148,8 @@ export const Title = styled.h1`
   width: 1000px;
   font-size: 36px;
   color: #c8b6ff;
-  margin-bottom: 65px;
   margin-top: 12px;
+  margin-bottom: 20px;
 `;
 
 // 테이블
@@ -111,8 +163,7 @@ export const Table = styled.table`
   width: 1000px;
   height: 520px;
   background-color: white;
-  margin-bottom: 50px;
-
+  margin-bottom: 15px;
   border-collapse: collapse;
   border-radius: 15px;
   border-style: hidden;
@@ -121,7 +172,8 @@ export const Table = styled.table`
 
 export const Td = styled.td`
   max-height: 100px;
-  width: 250px;
+  padding-left: 50px;
+  width: 230px;
   border: none;
   font-size: 20px;
   color: #666666;
@@ -130,10 +182,11 @@ export const Td = styled.td`
 export const ModifyTd = styled(Td)`
   max-width: 250px;
   height: 100px;
+  padding-left: 0;
 `
 
 export const Tc = styled(Td)`
-  width: 200px;
+  width: 100px;
   text-align: center;
   color: #c8b6ff;
   border: none;

@@ -23,10 +23,26 @@ export default function MyProfile(props) {
   const [hashtagName, setHashtagName] = useState([props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle]);
   // const [hashtagId, setHashtagId] = useState([]);
   const hashtagId = [];
+
+  const [firstBio, setFirstBio] = useState(props.data.firstBio);
+  const [secondBio, setSecondBio] = useState(props.data.secondBio);
+  const [thirdBio, setThirdBio] = useState(props.data.thirdBio);
   
   const startSetting = async () => {
     if(mbti === ''){
       setMbti(props.data.mbti);
+
+      // mbti 리스트 받아오기
+      await axios
+      .get(apiPath + "/profile/mbti")
+      .then( async (response) => {
+        console.log(response);
+        setMbtiList(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     }
     if(email === '' && props.data.email != null){
       setEmail(props.data.email);
@@ -34,8 +50,9 @@ export default function MyProfile(props) {
     if(phone === ''){
       setPhone(props.data.phone);
     }
-    console.log(myHashtag);
     if(myHashtag.length === 0){
+
+      // hashtag 리스트 받아오기
       await axios
       .get(apiPath + "/hashtag/list")
       .then((response) => {
@@ -46,20 +63,32 @@ export default function MyProfile(props) {
       });
 
       setHashtagName([props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle]);
-      
-      console.log(hashtagList, hashtagName);
-      hashtagList.forEach((hashtag) => {
-        if (hashtagName.includes(hashtag.name)) {
-          hashtagId.push(hashtag.id);
-        }
-      });
-      
-      console.log(hashtagId);
-      setMyHashtag([{ id: hashtagId[0], name: props.data.firstTripStyle }, { id: hashtagId[1], name: props.data.secondTripStyle }, { id: hashtagId[2], name: props.data.thirdTripStyle }]);
+    }
+    if(firstBio === ''){
+      setFirstBio(props.data.firstBio);
+    }
+    if(secondBio === ''){
+      setSecondBio(props.data.secondBio);
+    }
+    if(thirdBio === ''){
+      setThirdBio(props.data.thirdBio);
     }
   };
 
   useEffect(() => {startSetting()}, [props]);
+
+  useEffect(() => {
+    if(hashtagName[0] !== "" && myHashtag.length === 0){
+      hashtagName.forEach((name) => {
+        if(name !== ""){
+          let matchingHashtag = hashtagList.find((hashtag) => hashtag.name === name);
+          if(matchingHashtag){
+            setMyHashtag((prev) => [...prev, {id: matchingHashtag.id, name: matchingHashtag.name}])
+          }
+        }
+      });
+    }
+  }, [hashtagName]);
 
   const [isModify, setIsModify] = useState(false); // 수정 여부
   const [isModalOpen, setModalOpen] = useState(false); // mbti 모달
@@ -86,7 +115,7 @@ export default function MyProfile(props) {
       .get(apiPath + "/profile/mbti")
       .then( async (response) => {
         console.log(response);
-        await setMbtiList(response.data.data);
+        setMbtiList(response.data.data);
       })
       .catch((error) => {
         console.error(error);
@@ -102,8 +131,10 @@ export default function MyProfile(props) {
   const handleSubmitModal = (e) => {
     setMbti(e.target.innerText);
 
+    console.log(e.target.innerText);
     for(let i = 0; i < 16; i++){
-      if(mbtiList[i].name === e.target.innerText){
+      console.log(mbtiList[i]);
+      if(mbtiList[i].name == e.target.innerText){
         setMbtiIdx(mbtiList[i].id);
         console.log(mbtiList[i].id);
       }
@@ -111,20 +142,6 @@ export default function MyProfile(props) {
     console.log(e.target.innerText);
     handleCloseModal();
   };
-
-  const handleCloseProfileModal = () => {
-    setIsProfileModal(false);
-  }
-
-  const handleSubmitProfileModal = async (e) => {
-    await onClickUploadImg();
-    setIsProfileModal(false);
-  }
-
-  const handleModifyCheckModal = async (e) => {
-    await setIsModifyCheckModal(true);
-    await console.log(isModifyCheckModal);
-  }
 
   // 프로필이미지 api
   const [selectedFile, setSelectedFile] = useState(null);
@@ -158,13 +175,20 @@ export default function MyProfile(props) {
       .catch((error) => console.error(error));
   };
 
-  const onModifyProfile = async () => {
-    await setEmail(`${email.split("@")[0]}@${selected}`);
-    console.log(email);
-    await props.modifyProfile(email, phone, mbtiIdx, myHashtag);
+  const onModifyProfile = async () => {    
+    let idx = 0;
+    for(let i = 0; i < 16; i++){
+      if(mbtiList[i]?.name == mbti){
+        idx = mbtiList[i].id;
+      }
+    }
+    
+    const styleList = [firstBio, secondBio, thirdBio];
+    await props.modifyProfile(`${email.split("@")[0]}@${selected}`, phone, idx, myHashtag, styleList);
     await props.fetchMyProfile();
     props.setModify(true);
 
+    setEmail(`${email.split("@")[0]}@${selected}`);
     setIsAuthPhone(false);
     setIsModifyCheckModal(true);
     setIsModify(false);
@@ -186,21 +210,12 @@ export default function MyProfile(props) {
       });
     setIsStyleModalOpen(true);
 
-    let hashtagName = [props.data.firstTripStyle, props.data.secondTripStyle, props.data.thirdTripStyle];
-    
-    hashtagList.forEach((hashtag) => {
-      if (hashtagName.includes(hashtag.name)) {
-        hashtagId.push(hashtag.id);
-      }
-    });
-    
-    console.log(hashtagId);
-    setMyHashtag([{ id: hashtagId[0], name: props.data.firstTripStyle }, { id: hashtagId[1], name: props.data.secondTripStyle }, { id: hashtagId[2], name: props.data.thirdTripStyle }]);
   };
 
-  const isDuplicate = (name) => myHashtag.some((tag) => tag.name === name);
+  const isDuplicate = (name) => myHashtag.some((tag) => tag?.name === name);
 
   const handleAddHashtag = (id, name) => {
+    console.log(myHashtag);
     if (myHashtag.length < 3 && !isDuplicate(name)) {
       console.log(id, name);
       setMyHashtag((prev) => [...prev, { id, name }]);
@@ -241,7 +256,7 @@ export default function MyProfile(props) {
   };
 
   const handleCloseStyleModal = () => {
-    // setMyHashtag([...shownMyHashtag]);
+    setMyHashtag([...shownMyHashtag]);
     setIsStyleModalOpen(false);
   };
 
@@ -317,7 +332,7 @@ export default function MyProfile(props) {
             {/* <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError> */}
             <S.ModalMyStyleWrapper>
               {myHashtag.map((e) => (
-                e.name !== "" && (<S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
+                (<S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
                   #{e.name}
                 </S.ModalHashtag>)
               ))}
@@ -362,20 +377,47 @@ export default function MyProfile(props) {
 
       <S.StyleWrapper>
         <S.StyleContent>
-          <S.StyleLineBio>
-        {props.data.firstBio && 
-        (<S.StyleBioInput value={props.data.firstBio}/>)
-        } </S.StyleLineBio>
+          <S.BioWrapper>
+            {firstBio?.length > 0 
+              ? 
+              (<S.StyleBioImg src="/icon/check.png"/>)
+              :
+              (<S.StyleBioImg src="/icon/blackCheck.png"/>)
+            }
+            <S.StyleModifyBioWrapper>
+              함께 <S.StyleBioInput value={firstBio} onChange={(e) => setFirstBio(e.target.value)}/> 여행을 떠나려고 해요.
+            </S.StyleModifyBioWrapper>
+            <S.StyleBioDelImg onClick={e => setFirstBio('')} src="/icon/delete.png"/>
+          </S.BioWrapper>
 
-          <S.StyleLineBio>
-        {props.data.secondBio && 
-        (<S.StyleBioInput value={props.data.secondBio}/>)}
-          </S.StyleLineBio>
+          <S.BioWrapper>
+            {secondBio?.length > 0 
+              ? 
+              (<S.StyleBioImg src="/icon/check.png"/>)
+              :
+              (<S.StyleBioImg src="/icon/blackCheck.png"/>)
+            }
+            <S.StyleModifyBioWrapper>
+              저는 <S.StyleBioInput value={secondBio} onChange={(e) => setSecondBio(e.target.value)}/> 여행자에요.
+              
+            </S.StyleModifyBioWrapper>
+            <S.StyleBioDelImg onClick={e => setSecondBio('')} src="/icon/delete.png"/>
+          </S.BioWrapper>
 
-          <S.StyleLineBio>
-        {props.data.thirdBio && 
-        (<S.StyleBioInput value={props.data.thirdBio}/>)}
-          </S.StyleLineBio>
+          <S.BioWrapper>
+            {thirdBio?.length > 0 
+              ? 
+              (<S.StyleBioImg src="/icon/check.png"/>)
+              :
+              (<S.StyleBioImg src="/icon/blackCheck.png"/>)
+            }
+            <S.StyleModifyBioWrapper>
+              <S.StyleBioInput value={thirdBio} onChange={(e) => setThirdBio(e.target.value)}/>
+              
+            </S.StyleModifyBioWrapper>
+            <S.StyleBioDelImg onClick={e => setThirdBio('')} src="/icon/delete.png"/>
+            
+          </S.BioWrapper>
         </S.StyleContent> 
       </S.StyleWrapper>
 
@@ -386,18 +428,27 @@ export default function MyProfile(props) {
         <S.Table>
           <tr>
             <S.Tc>이름</S.Tc>
-            <S.ModifyTd>{props.data.name}</S.ModifyTd>
-            <S.Tc>성별</S.Tc>
-            {props.data.gender === 'M'
-            ?
-            <S.ModifyTd>남</S.ModifyTd>
-            :
-            <S.ModifyTd>여</S.ModifyTd>
-            }
+            <S.Td>{props.data.name}</S.Td>
+            
+            <S.Tc>이메일</S.Tc>
+            <S.ModifyTd>
+              <S.EmailWrapper>
+              <S.EmailFirstInput
+                type="text"
+                value={email.split("@")[0]}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <S.EmailAt>@</S.EmailAt>
+              <S.EmailSecondSelect onChange={(e) => setSelectedEmail(e.target.value)} value={selected}>
+                <S.EmailOption>naver.com</S.EmailOption>
+                <S.EmailOption>gmail.com</S.EmailOption>
+              </S.EmailSecondSelect>
+              </S.EmailWrapper>
+            </S.ModifyTd>
           </tr>
           <tr>
             <S.Tc>나이</S.Tc>
-            <S.ModifyTd>{props.data.age}</S.ModifyTd>
+            <S.Td>{props.data.age}</S.Td>
             <S.Tc>MBTI</S.Tc>
             <S.ModifyTd>
               <S.mbti onClick={handleOpenModal}>{mbti}</S.mbti>
@@ -424,21 +475,13 @@ export default function MyProfile(props) {
             </S.ModifyTd>
           </tr>
           <tr>
-            <S.Tc>이메일</S.Tc>
-            <S.ModifyTd>
-              <S.EmailWrapper>
-              <S.EmailFirstInput
-                type="text"
-                value={email.split("@")[0]}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <S.EmailAt>@</S.EmailAt>
-              <S.EmailSecondSelect onChange={(e) => setSelectedEmail(e.target.value)} value={selected}>
-                <S.EmailOption>naver.com</S.EmailOption>
-                <S.EmailOption>gmail.com</S.EmailOption>
-              </S.EmailSecondSelect>
-              </S.EmailWrapper>
-            </S.ModifyTd>
+            <S.Tc>성별</S.Tc>
+            {props.data.gender === 'M'
+            ?
+            <S.Td>남</S.Td>
+            :
+            <S.Td>여</S.Td>
+            }
             <S.Tc>연락처</S.Tc>
             <S.ModifyTd>
               <S.PhoneWrapper>
@@ -491,19 +534,36 @@ export default function MyProfile(props) {
 
         <S.StyleWrapper>
         <S.StyleContent>
-        {props.data.firstBio && 
-        (<S.StyleLineBio>
-            {props.data.firstBio}
-          </S.StyleLineBio>)
-        }
-        {props.data.secondBio && 
-        (<S.StyleLineBio>
-            {props.data.secondBio}
-          </S.StyleLineBio>)}
-        {props.data.thirdBio && 
-        (<S.StyleBio>
-            {props.data.thirdBio}
-          </S.StyleBio>)}
+          {(!props.data.firstBio && !props.data.secondBio && !props.data.thirdBio) 
+            &&
+          (
+            <S.BioNoneWrapper>
+              <S.StyleNoneBioImg src="/icon/text.png"/>
+              <S.StyleBio>소개를 입력해주세요</S.StyleBio>
+            </S.BioNoneWrapper>
+          )}
+
+          {props.data.firstBio &&
+          (<S.BioWrapper>
+            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBio>
+              함께 <S.BioBold>{props.data.firstBio}</S.BioBold> 여행을 떠나려고 해요.
+            </S.StyleBio>
+          </S.BioWrapper>)}
+
+          {props.data.secondBio &&
+          (<S.BioWrapper>
+            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBio>
+              저는 <S.BioBold>{props.data.secondBio}</S.BioBold> 여행자에요.
+            </S.StyleBio>
+          </S.BioWrapper>)}
+
+          {props.data.thirdBio &&
+          (<S.BioWrapper>
+            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBio>{props.data.thirdBio}</S.StyleBio>
+          </S.BioWrapper>)}
         </S.StyleContent> 
         </S.StyleWrapper>
   
@@ -513,13 +573,8 @@ export default function MyProfile(props) {
             <tr>
               <S.Tc>이름</S.Tc>
               <S.Td>{props.data.name}</S.Td>
-              <S.Tc>성별</S.Tc>
-              {props.data.gender === 'M'
-              ?
-              <S.Td>남</S.Td>
-              :
-              <S.Td>여</S.Td>
-              }
+              <S.Tc>이메일</S.Tc>
+              <S.Td>{email}</S.Td>
             </tr>
             <tr>
               <S.Tc>나이</S.Tc>
@@ -528,8 +583,14 @@ export default function MyProfile(props) {
               <S.Td>{mbti}</S.Td>
             </tr>
             <tr>
-              <S.Tc>이메일</S.Tc>
-              <S.Td>{email}</S.Td>
+              
+              <S.Tc>성별</S.Tc>
+              {props.data.gender === 'M'
+              ?
+              <S.Td>남</S.Td>
+              :
+              <S.Td>여</S.Td>
+              }
               <S.Tc>연락처</S.Tc>
               <S.Td>{formatPhone(phone)}</S.Td>
             </tr>
