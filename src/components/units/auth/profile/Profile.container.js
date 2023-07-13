@@ -52,6 +52,9 @@ export default function Profile() {
 
   // My Profile api
   const fetchMyProfile = async () => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+      
     await axios
       .get(apiPath + "/profile/my-profile")
       .then((response) => {
@@ -63,24 +66,32 @@ export default function Profile() {
       .catch((error) => console.error(error));
   };
 
+  
   // My Profile 수정 api
-  const modifyProfile = async (getEmail, getPhone, getMbtiIdx, getHashtag) => {
+  const modifyProfile = async (getEmail, getPhone, getMbtiIdx, getHashtag, getBio) => {
     console.log(getEmail, getPhone, getMbtiIdx, getHashtag);
     console.log(myProfileData.firstBio, myProfileData.secondBio, myProfileData.thirdBio);
     console.log(getHashtag[0]?.id, getHashtag[1]?.id, getHashtag[2]?.id);
+    console.log(getBio[0], getBio[1], getBio[2]);
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
+
+    if(selectedFile === "/icon/defaultProfile.png"){
+      await onClickDelImg();
+    } else {
+      await onClickUploadImg();
+    }
 
     await axios
       .patch(apiPath + "/profile/my-profile/update", {
         "email": getEmail,
-        "firstBio": myProfileData.firstBio,
+        "firstBio": getBio[0] || '',
         "firstTripStyleId": getHashtag[0]?.id || 0,
         "mbtiId": getMbtiIdx,
         "phone": getPhone,
-        "secondBio": myProfileData.secondBio,
+        "secondBio": getBio[1] || '',
         "secondTripStyleId": getHashtag[1]?.id || 0,
-        "thirdBio": myProfileData.thirdBio,
+        "thirdBio": getBio[2] || '',
         "thirdTripStyleId": getHashtag[2]?.id || 0
       }, { "Content-Type": "application/json" })
       .then((response) => {
@@ -182,24 +193,36 @@ export default function Profile() {
   }
   // 프로필이미지 api
   const [isProfileModal, setIsProfileModal] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(myProfileData.profileUrl);
+  const [selectedUrl, setSelectedUrl] = useState(selectedFile); 
+  const [chnFile, setChnFile] = useState(selectedFile); // 모달창에서 보이는 이미지 url
+
+  useEffect(() => {
+    if(selectedFile === ''){setSelectedFile(myProfileData.profileUrl)};
+  }, [myProfileData])
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    console.log(event.target.files);
+    setChnFile(event.target.files[0]);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onloadend = () => {
+      setSelectedUrl(reader.result);
+    }
     setIsProfileModal(true);
   };
 
   useEffect(() => {},[selectedFile]);
   const onClickUploadImg = async () => {
     const formData = new FormData();
-    formData.append("images", selectedFile);
+    formData.append("images", chnFile);
 
     await axios
       .post(apiPath + "/profile/profile-picture", formData)
       .then((response) => {
         console.log(response);
         fetchMyProfile();
+        setSelectedFile(selectedUrl);
       })
       .catch((error) => console.error(error));
   };
@@ -220,10 +243,10 @@ export default function Profile() {
 
   const [isModifyCheckModal, setIsModifyCheckModal] = useState(false);
   const handleSubmitProfileModal = async (e) => {
-    await onClickUploadImg();
-    setIsModifyCheckModal(true);
+    // setIsModifyCheckModal(true);
+    setSelectedFile(selectedUrl);
     setIsProfileModal(false);
-    
+    console.log(selectedFile);
   }
 
   return (
@@ -233,10 +256,10 @@ export default function Profile() {
       (<S.Container>
         <S.SideBar>
           
-          <S.ProfileImage data={myProfileData}>
+          <S.ProfileImage data={selectedFile}>
             <S.DefaultProfile
-              src={myProfileData.profileUrl || "/icon/defaultProfile.png"}
-              data={myProfileData}
+              src={selectedFile || "/icon/defaultProfile.png"}
+              data={selectedFile}
             />
           </S.ProfileImage>
           
@@ -300,10 +323,10 @@ export default function Profile() {
       (
         <S.Container>
         <S.SideBar>
-          <S.ProfileImage data={myProfileData}>
+          <S.ProfileImage data={selectedFile}>
             <S.DefaultProfile
-              src={myProfileData.profileUrl || "/icon/defaultProfile.png"}
-              data={myProfileData}
+              src={selectedFile || "/icon/defaultProfile.png"}
+              data={selectedFile}
             />
           </S.ProfileImage>
 
@@ -321,10 +344,10 @@ export default function Profile() {
               <S.Modal>
                 <S.ModalTitle>프로필</S.ModalTitle>
                 <S.ModalMbtiWrapper>
-                <S.ProfileImage data={selectedFile}>
+                <S.ProfileImage data={selectedUrl}>
                   <S.DefaultProfile
-                    src={selectedFile || "/icon/defaultProfile.png"}
-                    data={selectedFile}
+                    src={selectedUrl || "/icon/defaultProfile.png"}
+                    data={selectedUrl}
                   />
                 </S.ProfileImage>
                 </S.ModalMbtiWrapper>
@@ -334,7 +357,7 @@ export default function Profile() {
                   <S.ModalCancelBtn onClick={handleCloseProfileModal}>
                     취소
                   </S.ModalCancelBtn>
-                  <S.ModalSubmitBtn onClick={handleSubmitProfileModal}>
+                  <S.ModalSubmitBtn onClick={(e) => handleSubmitProfileModal()}>
                     등록
                   </S.ModalSubmitBtn>
                 </S.ModalBtnWrapper>
@@ -343,7 +366,7 @@ export default function Profile() {
           )}
 
           {isModifyCheckModal && (<Modal setIsModifyCheckModal={setIsModifyCheckModal} onModifyProfile={handleSubmitProfileModal}/>)}
-          <S.profileBtn onClick={onClickDelImg}>
+          <S.profileBtn onClick={(e) => setSelectedFile("/icon/defaultProfile.png")}>
             기본 프로필로 변경
           </S.profileBtn>
         </S.SideBar>
