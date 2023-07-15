@@ -1,7 +1,5 @@
-import FindTripylerList from '@/components/units/findTripyler/list/list.container'
+import FindTripylerList from "@/components/units/findTripyler/list/list.container";
 
 export default function FindTriplyerListPage() {
-    return (
-        <FindTripylerList></FindTripylerList>
-    )
+  return <FindTripylerList></FindTripylerList>;
 }
