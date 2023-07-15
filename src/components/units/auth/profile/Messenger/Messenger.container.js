@@ -97,7 +97,6 @@ export default function Messenger(props) {
               <S.SendInput
                 name="message"
                 autocomplete="off"
-                value={input}
                 onChange={(e) => setInput(e.target.value)}
               ></S.SendInput>
               <S.SendBtn sendOn={input.length > 0}>Send</S.SendBtn>

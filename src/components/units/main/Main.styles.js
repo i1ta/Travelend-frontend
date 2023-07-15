@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Banner = styled.div`
-  background-color: #769e9e;
+  background-color: #ffffff;
   margin: auto;
   margin-bottom: 200px;
   /* background-image: url("img/bannerImg.png"); */
@@ -12,7 +12,7 @@ export const Banner = styled.div`
 `;
 
 export const BannerImgWrapper = styled.div`
-  height: 600px;
+  height: 500px;
   width: 1920px;
   background-image: url("img/bannerImg.png");
 
@@ -49,7 +49,7 @@ export const FindFilter = styled.div`
   background: #ffffff;
   box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
   position: absolute;
-  top: 620px;
+  top: 520px;
 
   display: flex;
   justify-content: space-between;
