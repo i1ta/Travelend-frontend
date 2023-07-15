@@ -1,5 +1,5 @@
 import FindTripylerDetail from "@/components/units/findTripyler/detail/detail.container";
 
-export default function FindTriplyerDetailPage() {
+export default function FindTripylerDetailPage() {
   return <FindTripylerDetail></FindTripylerDetail>;
 }

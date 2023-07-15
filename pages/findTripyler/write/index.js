@@ -1,5 +1,5 @@
 import FindTripylerWrite from "@/components/units/findTripyler/write/write.container";
 
-export default function FindTriplyerWritePage() {
+export default function FindTripylerWritePage() {
   return <FindTripylerWrite></FindTripylerWrite>;
 }
