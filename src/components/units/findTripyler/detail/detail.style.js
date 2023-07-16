@@ -1,44 +1,5 @@
 import { styled } from "styled-components";
 
-export const Banner = styled.div`
-  width: 100%;
-  height: 450px;
-  background-color: #ddfaff;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  margin-bottom: 150px;
-`;
-
-export const BannerContents = styled.div`
-  width: 1400px;
-  height: 100%;
-  position: relative;
-`;
-
-export const BannerTitle = styled.div`
-  position: absolute;
-  top: 150px;
-  font-weight: 700;
-  font-size: 60px;
-  display: flex;
-  color: #000000;
-`;
-
-export const BannerSubTitle = styled.div`
-  position: absolute;
-  top: 246px;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 500;
-  color: #a7a7a7;
-`;
-
-export const BannerImg = styled.img`
-  position: absolute;
-  left: 720px;
-`;
-
 export const ContentsLoc = styled.div`
   width: 1400px;
   height: 65px;
