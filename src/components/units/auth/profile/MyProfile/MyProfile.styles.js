@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const MyProfileWrapper = styled.div`
   width: 1105px;
-  height: 960px;
+  min-height: 960px;
   padding-top: 25px;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const StyleBio = styled.div`
   width: 100%;
   height: 55px;
   padding: 20px 0;
-  color: #000000;
+  color: #666666;
 `
 
 export const BioBold = styled.span`
@@ -148,8 +148,8 @@ export const Title = styled.h1`
   width: 1000px;
   font-size: 36px;
   color: #c8b6ff;
-  margin-top: 12px;
-  margin-bottom: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
 `;
 
 // 테이블
@@ -161,7 +161,7 @@ export const TableWrapper = styled.div`
 
 export const Table = styled.table`
   width: 1000px;
-  height: 520px;
+  height: 420px;
   background-color: white;
   margin-bottom: 15px;
   border-collapse: collapse;
@@ -271,6 +271,7 @@ export const phoneBtn = styled.div`
 export const BtnWrapper = styled.div`
   align-items: center;
   text-align: center;
+  margin-top: 45px;
 `;
 
 export const Btn = styled.button`
