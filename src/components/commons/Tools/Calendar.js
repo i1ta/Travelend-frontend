@@ -3,6 +3,7 @@ import "react-calendar/dist/Calendar.css";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
+// props로 setTripDate, setIsOpenCalendar 두개 보내야함!!
 export default function CalendarTool(props) {
   const [selectDate, onChangeCalendar] = useState(null);
 
