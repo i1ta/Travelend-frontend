@@ -1,17 +1,10 @@
+import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
 
 export default function FindTripylerDetail() {
   return (
     <>
-      <S.Banner>
-        <S.BannerContents>
-          <S.BannerTitle>Trip'yler 찾기</S.BannerTitle>
-          <S.BannerSubTitle>
-            함께 하고 싶은 여행자를 Trip'yler에서 바로 찾아보세요
-          </S.BannerSubTitle>
-          <S.BannerImg src="/img/airplane.png" />
-        </S.BannerContents>
-      </S.Banner>
+      <FindTripylerBanner />
       <S.ContentsLoc>
         <S.LocIcon src="/icon/loc_white.svg" />
         <S.LocTxt>그리스, 산토리니</S.LocTxt>
