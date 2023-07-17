@@ -54,7 +54,6 @@ export const StyleContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 
   border: 2.5px solid #c8b6ff;
   border-radius: 15px;
@@ -70,6 +69,7 @@ export const StyleContent = styled.div`
 export const BioWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  margin: 0 50px;
 `;
 
 export const BioNoneWrapper = styled.div`
@@ -134,7 +134,17 @@ export const StyleBioInput = styled.input`
   border-top: none;
   border-left: none;
   border-right: none;
+
+  color: ${(props) => 
+    props.max ? "#FF7373" : "#666666"
+  };
 `
+
+export const StyleMaxErr = styled.span`
+  font-size: 13px;
+  margin-right: 30px;
+  margin-top: 13px;
+`;
 
 export const BioInputWrapper = styled.div`
   width: 100%;

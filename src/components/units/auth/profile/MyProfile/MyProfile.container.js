@@ -355,7 +355,9 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              함께 <S.StyleBioInput value={firstBio} onChange={(e) => setFirstBio(e.target.value)}/> 여행을 떠나려고 해요.
+              함께 <S.StyleBioInput max={firstBio?.length > 50} value={firstBio} onChange={(e) => setFirstBio(e.target.value)}/> 
+              <S.StyleMaxErr>{firstBio?.length} / 50 </S.StyleMaxErr>
+              여행을 떠나려고 해요.
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setFirstBio('')} src="/icon/delete.png"/>
           </S.BioWrapper>
@@ -368,7 +370,9 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              저는 <S.StyleBioInput value={secondBio} onChange={(e) => setSecondBio(e.target.value)}/> 여행자에요.
+              저는 <S.StyleBioInput max={secondBio?.length > 50} value={secondBio} onChange={(e) => setSecondBio(e.target.value)}/> 
+              <S.StyleMaxErr>{secondBio?.length} / 50 </S.StyleMaxErr>
+              여행자에요.
               
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setSecondBio('')} src="/icon/delete.png"/>
@@ -382,8 +386,8 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              <S.StyleBioInput value={thirdBio} onChange={(e) => setThirdBio(e.target.value)}/>
-              
+              <S.StyleBioInput max={thirdBio?.length > 50}value={thirdBio} onChange={(e) => setThirdBio(e.target.value)}/>
+              <S.StyleMaxErr>{thirdBio?.length} / 50 </S.StyleMaxErr>
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setThirdBio('')} src="/icon/delete.png"/>
             
