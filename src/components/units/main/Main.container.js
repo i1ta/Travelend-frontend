@@ -3,12 +3,13 @@ import * as S from "./Main.styles";
 import { useRecoilState } from "recoil";
 import { LoginState } from '@/States/LoginState';
 // import { CalendarComponent } from "../../commons/Calendar/CalendarComponent";
-import { DateRange } from 'react-date-range';
+// import { DateRange } from 'react-date-range';
 
 import FindCard from '../../commons/FindCard/FindCard';
 
 import "react-date-range/dist/styles.css"; // main style file 
 import 'react-date-range/dist/theme/default.css'
+import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -123,11 +124,10 @@ export default function Main() {
               </S.DateFilterWrapper>
               {isCalendar &&(
                 <div>
-                  <DateRange 
-                    ranges={[date]}
-                    onChange={onRangeChange} 
-                    moveRangeOnFirstSelection={false}
-                    editableDateInputs={true}
+                  <CalendarComponent 
+                    setIsCalendar={setIsCalendar}
+                    date={date}
+                    setDate={setDate}
                   />
                 </div>
               )}
@@ -138,15 +138,12 @@ export default function Main() {
                 <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>인원</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-              <S.Filter style={{ width: "140px" }}>
                 {/* <S.FilterInput>4명</S.FilterInput> */}
-                <select>
-                  {cntArr.map((cnt) => {
-                    <option>{cnt}명</option>
-                  })}
-                </select>
-                <S.FilterBtn></S.FilterBtn>
-              </S.Filter>
+                <S.FilterSelect>
+                  {cntArr.map((cnt) => (
+                    <option key={cnt}>{cnt}명</option>
+                  ))}
+                </S.FilterSelect>
             </S.FilterWrapper>
           </S.FilterFrontWrapper>
 
@@ -156,8 +153,10 @@ export default function Main() {
                   <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
                   <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                 </S.FilterTitleWrapper>
-                <S.Input style={{ width: "925px" }} />
-                  {/* <S.FilterInput>4명</S.FilterInput> */}
+                <S.Input 
+                  style={{ width: "925px" }} 
+                  placeholder="검색어를 입력하세요"
+                />
               </S.FilterWrapper>
             </S.FilterBackWrapper>
             </S.FilterMiddleWrapper>

@@ -98,6 +98,20 @@ export const Filter = styled.div`
   cursor: pointer;
 `;
 
+export const FilterSelect = styled.select`
+  width: 140px;
+  height: 50px;
+  padding: 15px 20px;
+  background: #f2efef;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  color: #666666;
+`;
+
 export const FilterTitleImg = styled.img`
   margin-right: 5px;
 `;
