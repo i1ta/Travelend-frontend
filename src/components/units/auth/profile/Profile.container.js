@@ -264,7 +264,6 @@ export default function Profile() {
           </S.ProfileImage>
           
           <S.Name>{myProfileData.username} 님</S.Name>
-          <S.Point>보유 포인트 0 p</S.Point>
 
           <S.CategoryWrapper>
             <S.Category
@@ -351,8 +350,8 @@ export default function Profile() {
                   />
                 </S.ProfileImage>
                 </S.ModalMbtiWrapper>
-
-                <div>실제 화면에 표시되는 부분입니다.</div>
+                <S.ModalLine></S.ModalLine>
+                <S.ModalProfileExplain>실제 화면에 표시되는 부분입니다.</S.ModalProfileExplain>
                 <S.ModalBtnWrapper>
                   <S.ModalCancelBtn onClick={handleCloseProfileModal}>
                     취소

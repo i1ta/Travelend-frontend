@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 export const SideBar = styled.section`
   width: 335px;
-  max-height: 960px;
+  min-height: 960px;
   background-color: white;
   box-shadow: 2px 0px 8px #999999;
   z-index: 50;
@@ -79,7 +79,7 @@ export const Point = styled.div`
 `;
 
 export const CategoryWrapper = styled.div`
-  border-top: 1px solid #c8b6ff;
+  border-top: 1px solid #999999;
   flex: 1;
   padding: 40px 0px;
 
@@ -240,6 +240,19 @@ export const ModalMbtiContent = styled.div`
   &:hover {
     background-color: #19d0f2;
   }
+`;
+
+export const ModalLine = styled.div`
+  width: 295px;
+  height: 1px;
+  background-color: #999999;
+  margin-top: 20px;
+`;
+
+export const ModalProfileExplain = styled.div`
+  font-size: 20px;
+  padding: 10px;
+  margin-top: 10px;
 `;
 
 export const ModalBtnWrapper = styled.div`

@@ -144,37 +144,6 @@ export default function MyProfile(props) {
   };
 
   // 프로필이미지 api
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    console.log(event.target.files);
-  };
-
-  const onClickUploadImg = async () => {
-    const formData = new FormData();
-    formData.append("images", selectedFile);
-    console.log(selectedFile);
-
-    await axios
-      .post(apiPath + "/profile/profile-picture", formData)
-      .then((response) => {
-        console.log(response);
-        props.fetchMyProfile();
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const onClickDelImg = async () => {
-    await axios
-      .delete(apiPath + "/profile/profile-picture")
-      .then((response) => {
-        console.log(response);
-        props.fetchMyProfile();
-      })
-      .catch((error) => console.error(error));
-  };
-
   const onModifyProfile = async () => {    
     let idx = 0;
     for(let i = 0; i < 16; i++){
@@ -277,8 +246,9 @@ export default function MyProfile(props) {
           "phone": phone
         })
         .then((response) => {
-          if(response.code === 200){
-            setAuthAnswer(response.data);
+          console.log(response);
+          if(response.data.code === 200){
+            setAuthAnswer(response.data.data);
           }
         })
         .catch((error) => {
@@ -289,7 +259,7 @@ export default function MyProfile(props) {
   }
 
   const onHandleAuthCheck = async (e) => {
-    if(authAnswer == authPhone){
+    if(authAnswer != authPhone){
       alert('인증 번호가 일치하지 않습니다.');
     } else{
       alert('인증이 완료되었습니다.');
@@ -385,7 +355,9 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              함께 <S.StyleBioInput value={firstBio} onChange={(e) => setFirstBio(e.target.value)}/> 여행을 떠나려고 해요.
+              함께 <S.StyleBioInput max={firstBio?.length > 50} value={firstBio} onChange={(e) => setFirstBio(e.target.value)}/> 
+              <S.StyleMaxErr>{firstBio?.length} / 50 </S.StyleMaxErr>
+              여행을 떠나려고 해요.
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setFirstBio('')} src="/icon/delete.png"/>
           </S.BioWrapper>
@@ -398,7 +370,9 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              저는 <S.StyleBioInput value={secondBio} onChange={(e) => setSecondBio(e.target.value)}/> 여행자에요.
+              저는 <S.StyleBioInput max={secondBio?.length > 50} value={secondBio} onChange={(e) => setSecondBio(e.target.value)}/> 
+              <S.StyleMaxErr>{secondBio?.length} / 50 </S.StyleMaxErr>
+              여행자에요.
               
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setSecondBio('')} src="/icon/delete.png"/>
@@ -412,8 +386,8 @@ export default function MyProfile(props) {
               (<S.StyleBioImg src="/icon/blackCheck.png"/>)
             }
             <S.StyleModifyBioWrapper>
-              <S.StyleBioInput value={thirdBio} onChange={(e) => setThirdBio(e.target.value)}/>
-              
+              <S.StyleBioInput max={thirdBio?.length > 50}value={thirdBio} onChange={(e) => setThirdBio(e.target.value)}/>
+              <S.StyleMaxErr>{thirdBio?.length} / 50 </S.StyleMaxErr>
             </S.StyleModifyBioWrapper>
             <S.StyleBioDelImg onClick={e => setThirdBio('')} src="/icon/delete.png"/>
             
@@ -545,7 +519,7 @@ export default function MyProfile(props) {
 
           {props.data.firstBio &&
           (<S.BioWrapper>
-            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBioImg src="/icon/check.png"/>
             <S.StyleBio>
               함께 <S.BioBold>{props.data.firstBio}</S.BioBold> 여행을 떠나려고 해요.
             </S.StyleBio>
@@ -553,7 +527,7 @@ export default function MyProfile(props) {
 
           {props.data.secondBio &&
           (<S.BioWrapper>
-            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBioImg src="/icon/check.png"/>
             <S.StyleBio>
               저는 <S.BioBold>{props.data.secondBio}</S.BioBold> 여행자에요.
             </S.StyleBio>
@@ -561,7 +535,7 @@ export default function MyProfile(props) {
 
           {props.data.thirdBio &&
           (<S.BioWrapper>
-            <S.StyleBioImg src="/icon/blackCheck.png"/>
+            <S.StyleBioImg src="/icon/check.png"/>
             <S.StyleBio>{props.data.thirdBio}</S.StyleBio>
           </S.BioWrapper>)}
         </S.StyleContent> 

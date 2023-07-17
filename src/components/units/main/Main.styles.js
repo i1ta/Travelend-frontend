@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
+// import FindCard from "../../commons/FindCard/FindCard;"
 
 export const Banner = styled.div`
   background-color: #ffffff;
   margin: auto;
-  margin-bottom: 200px;
+  margin-bottom: 350px;
   /* background-image: url("img/bannerImg.png"); */
 
   display: flex;
@@ -39,11 +40,12 @@ export const BannerTxt = styled.div`
   font-size: 25px;
   line-height: 1;
   color: #ffffff;
+  
 `;
 
 export const FindFilter = styled.div`
   width: 1400px;
-  height: 200px;
+  height: 286px;
 
   padding: 0px 95px;
   background: #ffffff;
@@ -56,7 +58,29 @@ export const FindFilter = styled.div`
   align-items: center;
 `;
 
-export const FilterWrapper = styled.div``;
+export const FilterWrapper = styled.div`
+  margin: 0 20px;
+`;
+
+export const FilterMainWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 1220px;
+`;
+
+export const FilterMiddleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const FilterFrontWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const FilterBackWrapper = styled.div`
+  margin-top: 35px;
+`;
 
 export const FilterTitleWrapper = styled.div`
   display: flex;
@@ -74,6 +98,20 @@ export const Filter = styled.div`
   cursor: pointer;
 `;
 
+export const FilterSelect = styled.select`
+  width: 140px;
+  height: 50px;
+  padding: 15px 20px;
+  background: #f2efef;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  color: #666666;
+`;
+
 export const FilterTitleImg = styled.img`
   margin-right: 5px;
 `;
@@ -86,11 +124,27 @@ export const FilterTitleTxt = styled.div`
   color: #333333;
 `;
 
+export const Input = styled.input`
+  height: 50px;
+  width: 925px;
+  padding: 15px 20px;
+  background: #f2efef;
+  border-radius: 20px;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+`;
+
 export const FilterInput = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   color: #666666;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const FilterBtn = styled.div`
@@ -116,6 +170,8 @@ export const FilterFindBtn = styled.button`
   height: 60px;
   background: #b388eb;
   border-radius: 50px;
+  margin: auto;
+
 
   display: flex;
   justify-content: center;
@@ -129,20 +185,76 @@ export const FilterFindBtnTxt = styled.div`
   color: #ffffff;
 `;
 
+// 여행지 선택
+export const CountrySelectWrapper = styled.div`
+  width: 300px;
+  height: 280px;
+  background-color: #ffffff;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+
+  display: flex;
+  flex-direction: row;
+`
+
+export const ContinentSelect = styled.div`
+  width: 100px;
+`
+
+export const ContinentContent = styled.div`
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #f2efef;
+  }
+`
+
+export const CountrySelect = styled.div`
+width: 100px;
+background-color: blue;
+`;
+
+export const CitySelect = styled.div`
+width: 100px;
+background-color: yellow;
+`;
+
+// 카드 컴포넌트 
+
 export const BtnArrow = styled.img``;
 
 export const Review = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
+  width: 1440px;
 `;
 
+export const ReviewContents = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 20px;
+`;
+
+
 export const ReviewTitle = styled.div`
+  width: 1400px;
+  height: 64px;
+
   font-style: normal;
   font-weight: 700;
-  font-size: 35px;
-  color: #000000;
+  font-size: 30px;
+  color: #ffffff;
+  margin: 0 auto;
+  margin-top: 60px;
   margin-bottom: 60px;
+  padding: 10px 0 10px 40px;
+  border-radius: 10px;
+  background-color: rgba(0, 180, 216, 0.6);
+
+  position: relative;
 `;
 
 export const ReviewFilter = styled.div`
@@ -171,8 +283,6 @@ export const ReviewFilterBtn = styled.button`
   color: ${(props) =>
     props.selectedFilter == props.id ? "#ffffff" : "#666666"};
 `;
-
-export const ReviewContents = styled.div``;
 
 export const ReviewCard = styled.div`
   width: 335px;
