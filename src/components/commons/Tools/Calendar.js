@@ -7,8 +7,11 @@ import { useState } from "react";
 export default function CalendarTool(props) {
   const [selectDate, onChangeCalendar] = useState(null);
 
-  const dateFormat = (date) =>
-    `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const dateFormat = (date) => {
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${date.getFullYear()}-${month}-${day}`;
+  };
 
   const handleDateChange = (date) => {
     onChangeCalendar(date);
@@ -134,7 +137,7 @@ const StyledCalendar = styled(Calendar)`
   }
 
   position: absolute;
-  top: 85px;
-  right: 50px;
+  top: 55px;
+  left: 120px;
   z-index: 102;
 `;

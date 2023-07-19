@@ -3,7 +3,7 @@ import * as S from "./Join.styles";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { constSelector } from "recoil";
+import StyleModal from "@/components/commons/Modal/StyleModal";
 
 export default function Join() {
   // 라이브러리 변수
@@ -41,6 +41,14 @@ export default function Join() {
   const [errorbirthDate, setErrorBirthDate] = useState("");
   const [errorCheckBox, setErrorCheckBox] = useState("");
   const [errorStyle, setErrorStyle] = useState("");
+
+  // 모달 창
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+
+  const onClickOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
@@ -282,76 +290,6 @@ export default function Join() {
     }
   };
 
-  // 모달 창
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [myHashtag, setMyHashtag] = useState([]);
-  const [shownMyHashtag, setShownMyHashtag] = useState([]);
-  const [hashtagList, setHashtagList] = useState([]);
-  const [errorHashtag, setErrorHashtag] = useState("");
-
-  const handleOpenModal = async () => {
-    await axios
-      .get(apiPath + "/hashtag/list")
-      .then((response) => {
-        setHashtagList([...response.data.data]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    setModalOpen(true);
-  };
-
-  const isDuplicate = (name) => myHashtag.some((tag) => tag.name === name);
-
-  const handleAddHashtag = (id, name) => {
-    if (myHashtag.length < 3 && !isDuplicate(name)) {
-      setMyHashtag((prev) => [...prev, { id, name }]);
-    }
-  };
-
-  const handleDelHashtag = (event) => {
-    setMyHashtag(myHashtag.filter((e) => e.id !== parseInt(event.target.id)));
-  };
-
-  const handleSearchHashtag = async (event) => {
-    event.preventDefault();
-    if (myHashtag.length < 3 && !isDuplicate(event.target.search.value)) {
-      await axios
-        .get(apiPath + "/hashtag", {
-          params: {
-            name: event.target.search.value,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          console.log(event.target.search.value);
-          const data = response.data.data;
-          if (data.length !== 0) {
-            handleAddHashtag(data[0].id, data[0].name);
-            setErrorHashtag("");
-          } else {
-            setErrorHashtag(
-              "해당 키워드는 존재하지 않습니다. 다시 입력해주세요."
-            );
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    event.target.reset();
-  };
-
-  const handleCloseModal = () => {
-    setMyHashtag([...shownMyHashtag]);
-    setModalOpen(false);
-  };
-
-  const handleSubmitModal = () => {
-    setShownMyHashtag([...myHashtag]);
-    setModalOpen(false);
-  };
-
   return (
     <>
       <form onSubmit={handleSubmit(onClickEnrollBtn)}>
@@ -536,7 +474,7 @@ export default function Join() {
                 ))
               )}
             </S.GenderWrapper>
-            <S.CheckBtn type="button" onClick={handleOpenModal}>
+            <S.CheckBtn type="button" onClick={onClickOpenModal}>
               입력하기
             </S.CheckBtn>
           </S.InputWrapper>
@@ -607,61 +545,12 @@ export default function Join() {
       {/* =================== 모달창  ==================== */}
 
       {isModalOpen && (
-        <S.ModalOverlay>
-          <S.Modal>
-            <S.ModalTitle>여행 스타일</S.ModalTitle>
-            <S.ModalInputWrapper onSubmit={handleSearchHashtag}>
-              <S.ModalInput
-                placeholder={"여행스타일 검색 (최대 3개)"}
-                name="search"
-                autocomplete="off"
-              ></S.ModalInput>
-              <S.ModalInputBtn>
-                <img src="/icon/search.png" />
-              </S.ModalInputBtn>
-            </S.ModalInputWrapper>
-            <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError>
-            <S.ModalMyStyleWrapper>
-              {myHashtag.map((e) => (
-                <S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
-                  #{e.name}
-                </S.ModalHashtag>
-              ))}
-            </S.ModalMyStyleWrapper>
-            <S.ModalRecogStyleWrapper>
-              <S.ModalRecogTitle>키워드(50개)</S.ModalRecogTitle>
-              <S.ModalRecogHashtagWrapper>
-                {hashtagList.map((e) =>
-                  myHashtag.filter((el) => el.id == e.id).length == 0 ? (
-                    <S.ModalRecogHahstag
-                      key={e.id}
-                      id={e.id}
-                      onClick={() => handleAddHashtag(e.id, e.name)}
-                    >
-                      #{e.name}
-                    </S.ModalRecogHahstag>
-                  ) : (
-                    <S.ModalHashtag
-                      key={e.id}
-                      id={e.id}
-                      onClick={handleDelHashtag}
-                    >
-                      #{e.name}
-                    </S.ModalHashtag>
-                  )
-                )}
-              </S.ModalRecogHashtagWrapper>
-            </S.ModalRecogStyleWrapper>
-            <S.ModalBtnWrapper>
-              <S.ModalCancelBtn onClick={handleCloseModal}>
-                취소
-              </S.ModalCancelBtn>
-              <S.ModalSubmitBtn onClick={handleSubmitModal}>
-                확인
-              </S.ModalSubmitBtn>
-            </S.ModalBtnWrapper>
-          </S.Modal>
-        </S.ModalOverlay>
+        <StyleModal
+          data={shownMyHashtag}
+          setData={setShownMyHashtag}
+          setIsOpenModal={setIsModalOpen}
+          limitLen="3"
+        />
       )}
     </>
   );
