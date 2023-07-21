@@ -1,5 +1,5 @@
-import FindTripylerDetail from "@/components/units/findTripyler/detail/detail.container";
+import FindTripylerWrite from '@/components/units/findTripyler/write/write.container';
 
 export default function FindTripylerEditPage() {
-  return <FindTripylerDetail></FindTripylerDetail>;
+  return <FindTripylerWrite isEdit={true} />;
 }

@@ -1,7 +1,19 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
+import { useRouter } from "next/router";
 
 export default function FindTripylerDetail() {
+  const router = useRouter();
+  const { detail } = router.query;
+
+  const onClickApplyBtn = () => {
+    router.push(`/findTripyler/${detail}/apply`);
+  };
+
+  const onClickEditBtn = () => {
+    router.push(`/findTripyler/${detail}/edit`);
+  };
+
   return (
     <>
       <FindTripylerBanner />
@@ -71,7 +83,7 @@ export default function FindTripylerDetail() {
             <S.BtmTxt>1200</S.BtmTxt>
           </S.BtmLeftWrapper>
           <S.ApplyBtn>
-            <S.ApplyBtnTxt>동행 신청</S.ApplyBtnTxt>
+            <S.ApplyBtnTxt onClick={onClickApplyBtn}>동행 신청</S.ApplyBtnTxt>
             <S.ApplyBtnIcon src="/icon/arrow.png" />
           </S.ApplyBtn>
         </S.ContentsBtmWrapper>

@@ -104,7 +104,7 @@ export default function StyleModal(props) {
         <ModalHashtagError>{errorHashtag}</ModalHashtagError>
         <ModalMyStyleWrapper>
           {myHashtag.map((e) => (
-            <ModalHashtag id={e.id} onClick={handleDelHashtag}>
+            <ModalHashtag key={e.id} id={e.id} onClick={handleDelHashtag}>
               #{e.name}
             </ModalHashtag>
           ))}
