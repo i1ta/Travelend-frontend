@@ -4,15 +4,14 @@ import * as S from "./write.style";
 import { useState } from "react";
 import axios from "axios";
 
-export default function FindTripylerWrite() {
+export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
   const [isOpenStyleModal, setIsOpenStyleModal] = useState(false);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [tripDate, setTripDate] = useState([]);
-  const [title, setTitle] = useState("dd");
-  const [content, setContent] = useState("dd");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [totalPeopleNum, setTotalPeopleNum] = useState(2);
-  const [errorHashtag, setErrorHashtag] = useState("");
   const [shownMyHashtag, setShownMyHashtag] = useState([]);
 
   const apiPath = "https://api.tripyle.xyz";
@@ -81,7 +80,7 @@ export default function FindTripylerWrite() {
           title,
           content,
           startDate: tripDate[0],
-          endDate: "2023-01-02",
+          endDate: tripDate[1],
           firstTripStyleId: shownMyHashtag[0]?.id || 0,
           secondTripStyleId: shownMyHashtag[1]?.id || 0,
           thirdTripStyleId: shownMyHashtag[2]?.id || 0,
@@ -98,6 +97,8 @@ export default function FindTripylerWrite() {
           // 리스트 페이지 이동
         })
         .catch((error) => console.error(error));
+    } else {
+      alert("필수입력 항목을 확인해주세요");
     }
   };
 
@@ -105,7 +106,9 @@ export default function FindTripylerWrite() {
     <>
       <S.TitleBanner>
         <S.TitleTxt>
-          <S.Title>Trip’yler 찾기 게시물 작성</S.Title>
+          <S.Title>
+            Trip’yler 찾기 게시물 {props.isEdit ? "수정" : "찾기"}
+          </S.Title>
           <S.SubTitle>본인에게 가장 적합한 여행자를 찾아보세요</S.SubTitle>
         </S.TitleTxt>
         <S.WriteForm>
@@ -230,7 +233,9 @@ export default function FindTripylerWrite() {
           </S.StepWrapper>
           <S.BtnWrapper>
             <S.CancelBtn onClick={onClickCancelBtn}>취소</S.CancelBtn>
-            <S.SubmitBtn onClick={onClickSubmitBtn}>작성 완료</S.SubmitBtn>
+            <S.SubmitBtn onClick={onClickSubmitBtn}>
+              {props.isEdit ? "수정" : "작성"} 완료
+            </S.SubmitBtn>
           </S.BtnWrapper>
         </S.WriteForm>
       </S.TitleBanner>
@@ -266,7 +271,7 @@ export default function FindTripylerWrite() {
           data={shownMyHashtag}
           setData={setShownMyHashtag}
           setIsOpenModal={setIsOpenStyleModal}
-          limitLen = "5"
+          limitLen="5"
         />
       )}
     </>
