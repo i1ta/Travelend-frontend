@@ -1,25 +1,114 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./Main.styles";
 import { useRecoilState } from "recoil";
 import { LoginState } from '@/States/LoginState';
-// import { CalendarComponent } from "../../commons/Calendar/CalendarComponent";
-// import { DateRange } from 'react-date-range';
+import { useRouter } from "next/router";
+import Link from "next/link";
+import axios from "axios";
 
+import ReviewComponent from '../../commons/ReviewCard/Review';
 import FindCard from '../../commons/FindCard/FindCard';
-
-import "react-date-range/dist/styles.css"; // main style file 
-import 'react-date-range/dist/theme/default.css'
 import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const apipath = 'https://api.tripyle.xyz';
 
-  const onClcickFilterFind = () => {
-    alert("리스트 페이지 이동");
+  const router = useRouter();
+  const [response, setResponse] = useState({});
+  const onClcickFilterFind = async () => {
+    const requestData = {
+      "continentId": parseInt(selectedDestination.continent.id),
+      "endDate": formatDate(date.endDate),
+      "keyWord": keyword,
+      "nationId": parseInt(selectedDestination.country.id),
+      "regionId": parseInt(selectedDestination.city.id),
+      "startDate": formatDate(date.startDate),
+      "totalPeopleNum": parseInt(selectedNum),
+    }
+    console.log(requestData);
+
+    await axios
+      .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
+      .then((res) => {
+        console.log(res.data.data);
+        setResponse(res.data.data);
+      })
+      .catch((error) => console.log(error));
+
+    console.log(requestData);
+    router.push("/findTripyler/list");
   };
   
   // 여행지 선택
   const [isCountry, setIsCountry] = useState(false);
+  const [destination, setDestination] = useState({
+    continent: [],
+    country: [],
+    city: []
+  })
+  const [selectedDestination, setSelectedDestination] = useState({
+    continent: {id: 0, name: ""},
+    country: {id: 0, name: ""},
+    city: {id: 0, name: ""}
+  });
+
+  const onOpenDestination = async () => {
+    if(isCountry === true){
+      setIsCountry(false);
+    } else {
+      setIsCountry(true);
+
+      axios
+        .get(apipath + '/destination/continent')
+        .then((res) => {
+          console.log(res);
+          setDestination(prevDestination => ({
+            continent: res.data.data,
+            country: [],
+            city: []
+          }))
+        console.log(destination);
+      });
+    }
+  }
+
+  const onOpenCountry = (e) => {
+    setSelectedDestination(prev => ({
+      ...prev,
+      continent: {id: e.target.id ,name: e.target.innerText}
+    }))
+
+    axios
+      .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
+      .then((res) => {
+        console.log(res);
+        setDestination(prevDestination => ({
+          ...prevDestination,
+          country: res.data.data,
+          city: []
+        }))
+      console.log(destination);
+    });
+  }
+
+  const onOpenCity = (e) => {
+    setSelectedDestination(prev => ({
+      ...prev,
+      country: {id: e.target.id ,name: e.target.innerText}
+    }))
+
+    axios
+      .get(`${apipath}/destination/region?nationId=${e.target.id}`)
+      .then((res) => {
+        console.log(res);
+        setDestination(prevDestination => ({
+          ...prevDestination,
+          city: res.data.data,
+        }))
+      console.log(destination);
+    });
+  }
 
   // 달력
   const [isCalendar, setIsCalendar] = useState(false);
@@ -41,23 +130,12 @@ export default function Main() {
 
     return [year, month, day].join('-');
   }
-
-  const onRangeChange = (ranges) => {
-    console.log(ranges);
-
-    setDate({
-      startDate: ranges['selection'].startDate,
-      endDate: ranges['selection'].endDate,
-      key: ranges['selection'].key,
-    })
-
-    if(ranges['selection'].endDate !== ranges['selection'].startDate){
-      setIsCalendar(false);
-    }
-  }
   
   // 인원수 선택
-  const cntArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [selectedNum, setSelectedNum] = useState(0);
+
+  // 검색어
+  const [keyword, setKeyword] = useState("");
 
   return (
     <>
@@ -76,34 +154,42 @@ export default function Main() {
           <S.FilterMainWrapper>
             <S.FilterMiddleWrapper>
             <S.FilterFrontWrapper>
-              <S.FilterWrapper onClick={(e) => setIsCountry(true)}>
+              <S.FilterWrapper>
                 <S.FilterTitleWrapper>
                   <S.FilterTitleImg src="icon/location.png"></S.FilterTitleImg>
                   <S.FilterTitleTxt>여행지</S.FilterTitleTxt>
-                </S.FilterTitleWrapper>
-                <S.Filter style={{ width: "280px" }}>
-                  <S.FilterInput>한국, 서울</S.FilterInput>
-                  <S.FilterBtn></S.FilterBtn>
-                </S.Filter>
-                {isCountry && (
+                  {isCountry && (
                   <S.CountrySelectWrapper>
                     <S.ContinentSelect>
-                      <S.ContinentContent>동아시아</S.ContinentContent>
-                      <S.ContinentContent>동남아시아</S.ContinentContent>
-                      <S.ContinentContent>서남아시아</S.ContinentContent>
-                      <S.ContinentContent>유럽</S.ContinentContent>
-                      <S.ContinentContent>아메리카</S.ContinentContent>
-                      <S.ContinentContent>오세아니아</S.ContinentContent>
-                      <S.ContinentContent>아프리카</S.ContinentContent>
+                      {destination.continent.map((des) => (
+                        <S.ContinentContent id={des.id} onClick={onOpenCountry}>{des.name}</S.ContinentContent>
+                      ))}
                     </S.ContinentSelect>
                     <S.CountrySelect>
-                      나라 선택
+                      {destination.country.map((des) => (
+                        <S.ContinentContent id={des.id} onClick={onOpenCity}>{des.name}</S.ContinentContent>
+                      ))}
                     </S.CountrySelect>
                     <S.CitySelect>
-                      도시 선택
+                      {destination.city.map((des) => (
+                        <S.ContinentContent id={des.id} onClick={(e) => {
+                          setIsCountry(false); 
+                          setSelectedDestination(prev => ({
+                            ...prev,
+                            city: {id: e.target.id ,name: e.target.innerText}
+                          }));
+                          console.log(selectedDestination);
+                        }}>{des.name}</S.ContinentContent>
+                      ))}
                     </S.CitySelect>
                   </S.CountrySelectWrapper>
                 )}
+                </S.FilterTitleWrapper>
+                <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${selectedDestination.country.name}, ${selectedDestination.city.name}`}</S.FilterInput>
+                  <S.FilterBtn></S.FilterBtn>
+                </S.Filter>
+                
               </S.FilterWrapper>
 
             <S.FilterWrapper>
@@ -123,13 +209,13 @@ export default function Main() {
                 </S.Filter>
               </S.DateFilterWrapper>
               {isCalendar &&(
-                <div>
+                <S.CalendarWrapper>
                   <CalendarComponent 
                     setIsCalendar={setIsCalendar}
                     date={date}
                     setDate={setDate}
                   />
-                </div>
+                </S.CalendarWrapper>
               )}
             </S.FilterWrapper>
 
@@ -138,24 +224,24 @@ export default function Main() {
                 <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>인원</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-                {/* <S.FilterInput>4명</S.FilterInput> */}
-                <S.FilterSelect>
-                  {cntArr.map((cnt) => (
-                    <option key={cnt}>{cnt}명</option>
-                  ))}
-                </S.FilterSelect>
+              <S.FilterSelect>
+                <S.FilterMinusImg src="/icon/minus.png" onClick={(e) => setSelectedNum((prev) => prev <= 0 ? 0 : prev - 1)}></S.FilterMinusImg>
+                <S.FilterNum>{selectedNum <= 0 ? "선택" : `${selectedNum}명`}</S.FilterNum>
+                <S.FilterPlusImg src="/icon/plus.png" onClick={(e) => setSelectedNum((prev) => prev + 1)}></S.FilterPlusImg>
+              </S.FilterSelect>
             </S.FilterWrapper>
           </S.FilterFrontWrapper>
 
             <S.FilterBackWrapper>
               <S.FilterWrapper>
                 <S.FilterTitleWrapper>
-                  <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
+                  <S.FilterTitleImg src="icon/searchBlack.png"></S.FilterTitleImg>
                   <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                 </S.FilterTitleWrapper>
                 <S.Input 
                   style={{ width: "925px" }} 
-                  placeholder="검색어를 입력하세요"
+                  placeholder="직접 입력"
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
               </S.FilterWrapper>
             </S.FilterBackWrapper>
@@ -168,19 +254,36 @@ export default function Main() {
         </S.FindFilter>
       </S.Banner>
 
-      <S.ReviewTitle>함께 동행할 Trip’yler 찾기</S.ReviewTitle>
-      <S.Review>
-        <S.ReviewContents>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-          <FindCard/>
-        </S.ReviewContents>
-      </S.Review>
+      <S.ContentWrapper>
+        <S.FindTripylerTitleWrapper onClick={onClcickFilterFind}>
+          <S.FindTripylerTitle>함께 동행할 Trip’yler 찾기</S.FindTripylerTitle>
+          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
+        </S.FindTripylerTitleWrapper>
+        <S.Review>
+          <S.FindTripylerContent>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+            <FindCard/>
+          </S.FindTripylerContent>
+        </S.Review>
+      </S.ContentWrapper>
+
+      <S.ContentWrapper>
+        <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
+        <S.Review>
+          <ReviewComponent/>
+          <ReviewComponent/>
+          <ReviewComponent/>
+          <ReviewComponent/>
+          <ReviewComponent/>
+          <ReviewComponent/>
+        </S.Review>
+      </S.ContentWrapper>
     </>
   );
 }

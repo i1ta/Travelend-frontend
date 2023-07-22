@@ -98,18 +98,36 @@ export const Filter = styled.div`
   cursor: pointer;
 `;
 
-export const FilterSelect = styled.select`
+export const FilterSelect = styled.div`
   width: 140px;
   height: 50px;
   padding: 15px 20px;
   background: #f2efef;
   border-radius: 20px;
+
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+
   align-items: center;
-  cursor: pointer;
   border: none;
   color: #666666;
+`;
+
+export const FilterMinusImg = styled.img`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+`;
+
+export const FilterNum = styled.div`
+
+`;
+
+export const FilterPlusImg = styled.img`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 `;
 
 export const FilterTitleImg = styled.img`
@@ -194,16 +212,26 @@ export const CountrySelectWrapper = styled.div`
 
   display: flex;
   flex-direction: row;
+  justify-content: center;
+
+  position: absolute;
+  z-index: 101;
+  top: 128px;
+  left: 100px;
 `
 
 export const ContinentSelect = styled.div`
   width: 100px;
+  border-right: 0.5px solid rgba(214,214,214,0.5);
+
 `
 
 export const ContinentContent = styled.div`
   width: 100%;
   height: 40px;
   cursor: pointer;
+  font-size: 15px;
+  padding: 8px; 0;
 
   &:hover{
     background-color: #f2efef;
@@ -211,18 +239,88 @@ export const ContinentContent = styled.div`
 `
 
 export const CountrySelect = styled.div`
-width: 100px;
-background-color: blue;
+  width: 100px;
+  border-right: 0.5px solid rgba(214,214,214,0.5);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 3px; /* 스크롤바 너비 설정 */
+  }
+
+  &:hover::-webkit-scrollbar {
+    opacity: 1;
+    transition: opacity 0.7s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #999999;
+    border-radius: 4px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
 `;
 
 export const CitySelect = styled.div`
-width: 100px;
-background-color: yellow;
+  width: 100px;
+
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 3px; /* 스크롤바 너비 설정 */
+  }
+
+  &:hover::-webkit-scrollbar {
+    opacity: 1;
+    transition: opacity 0.7s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #999999;
+    border-radius: 4px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+`;
+
+// 달력
+export const CalendarWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  position: absolute;
+  z-index: 101;
+  top: 128px;
+  left: 480px;
 `;
 
 // 카드 컴포넌트 
 
 export const BtnArrow = styled.img``;
+
+export const BtnBigArrow = styled(BtnArrow)`
+  margin-right: 20px;
+  height: 30px;
+  width: 20px;
+`;
 
 export const Review = styled.div`
   display: flex;
@@ -231,15 +329,18 @@ export const Review = styled.div`
   width: 1440px;
 `;
 
-export const ReviewContents = styled.div`
+export const FindTripylerContent = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin-left: 20px;
 `;
 
-
-export const ReviewTitle = styled.div`
+export const FindTripylerTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
   width: 1400px;
   height: 64px;
 
@@ -247,14 +348,31 @@ export const ReviewTitle = styled.div`
   font-weight: 700;
   font-size: 30px;
   color: #ffffff;
-  margin: 0 auto;
+  margin: auto;
   margin-top: 60px;
   margin-bottom: 60px;
   padding: 10px 0 10px 40px;
   border-radius: 10px;
   background-color: rgba(0, 180, 216, 0.6);
+  align-items: center;
 
-  position: relative;
+  cursor: pointer;
+`;
+
+export const ContentWrapper = styled.div`
+  align-items: center;
+  justify-content: center;
+
+  
+`;
+
+export const FindTripylerTitle = styled.div`
+  
+`;
+
+export const ReviewTitle = styled(FindTripylerTitleWrapper)`
+  background-color: rgba(200, 182, 255, 0.8);
+  margin-top: 200px;
 `;
 
 export const ReviewFilter = styled.div`
@@ -282,160 +400,4 @@ export const ReviewFilterBtn = styled.button`
   font-size: 20px;
   color: ${(props) =>
     props.selectedFilter == props.id ? "#ffffff" : "#666666"};
-`;
-
-export const ReviewCard = styled.div`
-  width: 335px;
-  height: 453px;
-  background: #ffffff;
-  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const ReviewImg = styled.img`
-  width: 335px;
-  height: 200px;
-  margin-bottom: 20px;
-`;
-
-export const ReviewCardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 295px;
-  margin-bottom: 14px;
-`;
-
-export const ReviewInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 102px;
-`;
-
-export const CountryWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const ReviewIcon = styled.img`
-  width: 10px;
-  height: 10px;
-  margin-right: 3px;
-`;
-
-export const ReviewInfoTxt = styled.div`
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 1;
-  color: #666666;
-`;
-
-export const ReviewCity = styled.div`
-  margin-top: 7px;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1;
-  color: #000000;
-`;
-
-export const ReviewInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const ReviewDateTxt = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const ReviewDateLine = styled.div`
-  width: 4px;
-  height: 0.7px;
-  background-color: #666666;
-  margin: 0px 4px;
-`;
-
-export const ReviewHashTagWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 295px;
-  margin-bottom: 8px;
-`;
-
-export const ReviewHashTag = styled.button`
-  height: 20px;
-  padding: 0px 8px;
-  margin-right: 8px;
-  background: #00b4d8;
-  border-radius: 30px;
-
-  font-weight: 500;
-  font-size: 10px;
-  color: #ffffff;
-`;
-
-export const ReviewLine = styled.div`
-  width: 295px;
-  height: 1px;
-  background-color: #d6d6d6;
-  margin-bottom: 8px;
-`;
-
-export const ReviewCardContents = styled.div`
-  width: 295px;
-  height: 60px;
-  margin-bottom: 45px;
-
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1;
-  color: #333333;
-`;
-
-export const ReviewCardFooter = styled.div`
-  width: 295px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const ReviewReactWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const ReviewReactIcon = styled.img`
-  width: 14px;
-  height: 14px;
-  margin-right: 4px;
-`;
-
-export const ReviewReactTxt = styled.div`
-  width: 25px;
-  margin-right: 15px;
-
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 1;
-  color: #666666;
-`;
-
-export const ReviewDetailBtn = styled.button`
-  width: 62px;
-  height: 24px;
-  background: #9ab3f5;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ReviewDetailBtnTxt = styled.div`
-  font-weight: 700;
-  font-size: 10px;
-  line-height: 1;
-  color: #ffffff;
 `;
