@@ -13,21 +13,21 @@ import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
 
 export default function FindTripylerList(){
 
-    const router = useRouter();
-    const queries = router.query;
-    const [query, setQuery] = useState({});
+    // const router = useRouter();
+    // const queries = router.query;
+    // const [query, setQuery] = useState({});
 
-    console.log(router);
-    useEffect(() => {
-      if(!router.isReady) return;
-      else{setQuery(queries)}
-    }, [router.isReady])
-    console.log(router);
-    useEffect(() => {
-      if (router.query) {
-        console.log(router.query);
-      }
-    }, [router.query.response]);
+    // console.log(router);
+    // useEffect(() => {
+    //   if(!router.isReady) return;
+    //   else{setQuery(queries)}
+    // }, [router.isReady])
+    // console.log(router);
+    // useEffect(() => {
+    //   if (router.query) {
+    //     console.log(router.query);
+    //   }
+    // }, [router.query.response]);
 
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     const apipath = 'https://api.tripyle.xyz';
@@ -226,6 +226,7 @@ export default function FindTripylerList(){
                   <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                 </S.FilterTitleWrapper>
                 <S.Input 
+                  onChange={(e) => setKeyword(e.target.value)}
                   style={{ width: "925px" }} 
                   placeholder="직접 입력"
                 />

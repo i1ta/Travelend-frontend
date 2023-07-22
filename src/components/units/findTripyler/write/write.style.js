@@ -1,186 +1,296 @@
 import { styled } from "styled-components";
 
-export const TItle = styled.div`
-  width: 1400px;
-  height: 65px;
-  margin: auto;
-  padding: 0px 40px;
+export const TitleBanner = styled.div`
+  width: 100%;
+  height: 500px;
+  background: rgba(0, 119, 182, 0.8);
   display: flex;
-  align-items: center;
-
-  color: #fff;
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 50px;
-  border-radius: 10px;
-  background: rgba(0, 180, 216, 0.6);
+  justify-content: center;
+  position: relative;
 `;
 
-export const PostForm = styled.div`
-  width: 1400px;
-  margin: auto;
+export const TitleTxt = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0px;
-  background: #fff;
-  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
 `;
 
-export const InputBar = styled.div`
-  width: 1300px;
-  height: 80px;
-  padding: 0px 50px;
+export const Title = styled.div`
+  color: #fff;
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: 140px;
+  margin-bottom: 28px;
+`;
+
+export const SubTitle = styled.div`
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+export const WriteForm = styled.div`
+  position: absolute;
+  top: 317px;
+  width: 1240px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  border-radius: 10px;
-  background: rgba(102, 210, 232, 0.56);
-  margin-bottom: 60px;
+  padding: 100px 80px;
+`;
+
+export const StepWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 100px;
+`;
+
+export const StepTxt = styled.div`
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+`;
+
+export const StepTitleTxt = styled.div`
+  color: #000;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 30px;
+`;
+
+export const Line = styled.div`
+  width: 1080px;
+  height: 1px;
+  background: rgba(153, 153, 153, 0.5);
+  margin-bottom: 50px;
+`;
+
+export const InputInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+`;
+
+export const LongInputInfoWrapper = styled(InputInfoWrapper)`
+  align-items: flex-start;
 `;
 
 export const InputTitle = styled.div`
-  color: #fff;
-  font-size: 30px;
-  font-weight: 700;
+  width: 250px;
+  color: #333;
+  font-size: 20px;
+  font-weight: 500;
+  margin-right: 40px;
 `;
 
-export const InputResult = styled.div`
-  height: 60px;
-  padding: 0px 50px;
-  background-color: #fff;
-  border-radius: 10px;
+export const LongInputTitle = styled(InputTitle)`
+  margin-top: 12px;
+`;
+
+export const MidInput = styled.div`
+  width: 580px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: rgba(217, 217, 217, 0.2);
+  margin-right: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #000;
-  font-size: 25px;
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+export const InputBtn = styled.button`
+  width: 170px;
+  height: 50px;
+  border-radius: 5px;
+  background: rgba(0, 180, 216, 0.6);
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
   font-weight: 700;
 `;
 
-export const MemNumWrapper = styled.div`
-  width: 1300px;
-  margin-bottom: 30px;
+export const InputWrapper = styled.div`
+  width: 580px;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 40px;
 `;
 
-export const MemNumBtn = styled.div`
-  border-radius: 10px;
-  background: #f2efef;
-  width: 110px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: rgba(0, 0, 0, 0.5);
+export const ShortInput = styled(MidInput)`
+  width: 250px;
+  margin-right: 0px;
+`;
+
+export const Hyphen = styled.div`
+  width: 20px;
+  height: 2px;
+  background: #666;
+`;
+
+export const WritableShortInput = styled(ShortInput)`
+  background-color: #ffffff;
+  justify-content: space-between;
+  padding: 0px 15px;
+`;
+
+export const UpDownBtn = styled.button`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   text-align: center;
-  font-size: 35px;
-  font-weight: 700;
+  color: #666;
+  font-size: 30px;
+
+  &:hover {
+    background-color: rgba(144, 224, 239, 0.4);
+  }
 `;
 
-export const MemNumInput = styled.div`
-  width: 1300px;
-  height: 80px;
-  border-radius: 10px;
-  background: #f2efef;
+export const InputTxt = styled.div`
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+export const InputTitleWrapper = styled.div`
+  width: 250px;
+  display: flex;
+  align-items: flex-end;
+  margin-right: 40px;
+`;
+
+export const InputTitleInfo = styled.div`
+  color: #666;
+  font-size: 12px;
+  font-weight: 400;
+`;
+
+export const Hashtag = styled.div`
+  width: 95px;
+  height: 34px;
+  border-radius: 18px;
+  background: #90e0ef;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgba(0, 0, 0, 0.37);
-  font-size: 35px;
-  font-weight: 700;
-  margin-bottom: 60px;
-`;
-
-export const StyleInputResult = styled(InputResult)`
-    width: calc(100px + 10px*2 + 100px*3);
-    justify-content: space-between;
-`
-
-export const StyleTag = styled.div`
-width: 100px;
-padding: 10px 0px;
-border-radius: 18px;
-background: #90E0EF;
-color: #FFF;
-text-align: center;
-font-size: 15px;
-font-weight: 600;
-`
-
-export const InputResultWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const InputResultTxt = styled.div`
-  margin: 0px 15px 0px 50px;
   color: #fff;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 `;
 
-export const TitleInput = styled.input`
-  width: 1300px;
-  height: 100px;
-  padding: 0px 30px;
-  margin-bottom: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 30px;
+export const Input = styled.input`
+  width: 160px;
+  color: #000;
+  font-size: 18px;
   font-weight: 500;
-`;
-
-export const ContentsInput = styled.textarea`
-  width: 1300px;
-  height: 500px;
-  padding: 30px 30px;
-  margin-bottom: 30px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 30px;
-  font-weight: 500;
+  text-align: right;
+  border: none;
   outline: none;
+`;
+
+export const LongInput = styled.input`
+  width: 790px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: rgba(255, 255, 255);
+  color: rgba(102, 102, 102, 0.8);
+  font-size: 18px;
+  font-weight: 500;
+  padding: 14px 25px;
+`;
+
+export const LongTxtArea = styled.textarea`
+  width: 790px;
+  height: 500px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: rgba(255, 255, 255);
+  color: rgba(102, 102, 102, 0.8);
+  font-size: 18px;
+  font-weight: 500;
+  padding: 21px 25px;
   resize: none;
 `;
 
-export const ImgBtn = styled.div`
-  width: 1300px;
-  height: 580px;
-  padding: 30px 0px;
-  border-radius: 10px;
-  background: rgba(102, 210, 232, 0.14);
+export const fileReaderBtn = styled.label`
+  width: 170px;
+  height: 50px;
+  border-radius: 5px;
+  background: rgba(0, 180, 216, 0.6);
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  margin-bottom: 80px;
-
-  color: rgba(0, 0, 0, 0.3);
-  font-size: 30px;
-  font-weight: 700;
-`;
-
-export const SubmitBtnWrapper = styled.div`
-  width: 1300px;
-  display: flex;
-  justify-content: end;
-`;
-
-export const SubmitBtn = styled.button`
-  width: 224px;
-  height: 76px;
-  background-color: rgba(102, 170, 232, 0.74);
-  border-radius: 10px;
+  align-items: center;
   color: #fff;
-  font-size: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+export const ImageViewer = styled.div`
+  width: 580px;
+  height: 330px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: rgba(217, 217, 217, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ImagePreveiew = styled.img`
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+`;
+
+export const ImageIcon = styled.img`
+  margin-bottom: 13px;
+`;
+
+export const ImageTxt = styled.div`
+  color: rgba(51, 51, 51, 0.8);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+`;
+
+export const BtnWrapper = styled.div`
+  display: flex;
+`;
+
+export const CancelBtn = styled.button`
+  width: 200px;
+  height: 60px;
+  border-radius: 5px;
+  background: #d9d9d9;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
   font-weight: 700;
 `;
 
-// 모달창
+export const SubmitBtn = styled(CancelBtn)`
+  background: #0077b6;
+  margin-left: 45px;
+`;
+
+// Modal
 
 export const ModalOverlay = styled.div`
   position: fixed;
@@ -222,7 +332,7 @@ export const ModalTitle = styled.div`
 export const ModalInputWrapper = styled.form`
   width: 460px;
   height: 40px;
-  border: 1px solid #C8B6FF;
+  border: 1px solid #c8b6ff;
   border-radius: 10px;
   margin-bottom: 15px;
   display: flex;
@@ -244,7 +354,7 @@ export const ModalInput = styled.input`
 export const ModalInputBtn = styled.button`
   width: 40px;
   height: 100%;
-  background: #C8B6FF;
+  background: #c8b6ff;
   border-radius: 8px;
 
   font-size: 30px;
@@ -256,6 +366,7 @@ export const ModalHashtagError = styled.div`
   width: 460px;
   height: 10px;
   font-size: 10px;
+  color: red;
   margin-bottom: 15px;
   justify-content: center;
   text-align: center;
@@ -264,7 +375,7 @@ export const ModalHashtagError = styled.div`
 export const ModalResult = styled.div`
   width: 460px;
   height: 40px;
-  border: 1px solid #C8B6FF;
+  border: 1px solid #c8b6ff;
   border-radius: 10px;
   margin-bottom: 4px;
   display: flex;
@@ -273,7 +384,7 @@ export const ModalResult = styled.div`
   font-weight: 500;
   font-size: 14px;
   color: #999999;
-`
+`;
 
 export const ModalBtnWrapper = styled.div`
   display: flex;
