@@ -1,8 +1,7 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-export default function FindCard () {
+export default function MyCollectionsFindCard () {
   const router = useRouter();
     return(
         <ReviewCard>
@@ -18,7 +17,7 @@ export default function FindCard () {
               <ReviewInfo>
                 <ReviewInfoWrapper>
                   <ReviewIcon src="/icon/user.png"></ReviewIcon>
-                  <ReviewInfoTxt>2인 모집 중/총 4인</ReviewInfoTxt>
+                  <ReviewNumTxt>4인</ReviewNumTxt>
                 </ReviewInfoWrapper>
                 <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
                   <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
@@ -31,66 +30,40 @@ export default function FindCard () {
               </ReviewInfo>
             </ReviewCardHeader>
             <ReviewUserWrapper>
-              <ReviewUser>
-                <ReviewUserImg src="/img/cheolsoo.jpg"></ReviewUserImg>
-                <ReviewUserInfoWrapper>
-                  <ReviewUsername>ilta0101</ReviewUsername>
-                  <ReviewAge>20대 여성</ReviewAge>
-                </ReviewUserInfoWrapper>
-              </ReviewUser>
               <ReviewHashTagWrapper>
                 <ReviewHashTag>#뚜벅이</ReviewHashTag>
                 <ReviewHashTag>#관광지</ReviewHashTag>
-                <ReviewHashTag>#사진찍기</ReviewHashTag>
-            </ReviewHashTagWrapper>
+              </ReviewHashTagWrapper>
+              <ReviewIconWrapper>
+                <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
+                <ReviewReactTxt>1.2k</ReviewReactTxt>
+                <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
+                <ReviewReactTxt>24</ReviewReactTxt>
+              </ReviewIconWrapper>
             </ReviewUserWrapper>
-            <ReviewLine></ReviewLine>
-            <ReviewCardContents>
-              <ReviewCardContentsTitle>
-                3박 4일 산토리니 여행 동행 구합니다
-              </ReviewCardContentsTitle>
-              <ReviewCardContentsContent>
-                여름 휴가는 보통 친구들이랑 날짜 맞춰서 가는데 이번에는 맞지 않아서 트리플리를 통해 동행 구해보고자 합니다. ...
-              </ReviewCardContentsContent>
-            </ReviewCardContents>
-            <ReviewCardFooter>
-              <ReviewReactWrapper>
-                <ReviewCardTime>7시간 전</ReviewCardTime>
-                <ReviewReactContent>
-                  <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
-                  <ReviewReactTxt>1.2k</ReviewReactTxt>
-                  <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
-                  <ReviewReactTxt>24</ReviewReactTxt>
-                  <ReviewReactIcon src="/icon/message.png"></ReviewReactIcon>
-                  <ReviewReactMsgTxt>Message</ReviewReactMsgTxt>
-                  <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
-                  <ReviewReactTxt>1,200</ReviewReactTxt>
-                </ReviewReactContent>
-              </ReviewReactWrapper>
-              <ReviewDetailBtn>
-                <ReviewDetailBtnTxt onClick={(e) => router.push("/findTripyler/detail")}>상세보기</ReviewDetailBtnTxt>
-                <BtnArrow></BtnArrow>
-              </ReviewDetailBtn>
-            </ReviewCardFooter>
-          </ReviewCard>
+            
+        </ReviewCard>
     )
 }
 
 const ReviewCard = styled.div`
-  width: 335px;
-  height: 453px;
+  width: 266px;
+  height: 278px;
+
   background: #ffffff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 35px;
   margin-bottom: 20px;
 `;
 
 const ReviewImg = styled.img`
-  width: 335px;
-  height: 200px;
+  width: 266px;
+  height: 190px;
   margin-bottom: 20px;
 `;
 
@@ -98,7 +71,7 @@ const ReviewCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 295px;
+  width: 240px;
   margin-bottom: 14px;
 `;
 
@@ -126,6 +99,15 @@ const ReviewInfoTxt = styled.div`
   color: #666666;
 `;
 
+const ReviewNumTxt = styled(ReviewInfoTxt)`
+width: 100px;
+font-weight: 300;
+font-size: 10px;
+line-height: 1;
+color: #666666;
+margin-left: 10px;
+`;
+
 const ReviewCity = styled.div`
   margin-top: 7px;
   font-weight: 500;
@@ -140,6 +122,7 @@ const ReviewInfoWrapper = styled.div`
   align-items: center;
   margin: 3px 0;
 `;
+
 
 const ReviewDateTxt = styled.div`
   display: flex;
@@ -159,7 +142,7 @@ const ReviewUserWrapper = styled.div`
   align-items: center;
   margin: 0 3px;
   margin-bottom: 3px;
-  width: 310px;
+  width: 240px;
 `;
 
 const ReviewUser = styled.div`
@@ -197,71 +180,24 @@ const ReviewHashTagWrapper = styled.div`
 `;
 
 const ReviewHashTag = styled.button`
-  height: 20px;
+  height: 14px;
+  width: 50px;
+
   padding: 0px 8px;
   margin-right: 8px;
   background: #00b4d8;
   border-radius: 30px;
 
   font-weight: 500;
-  font-size: 10px;
+  font-size: 5px;
   color: #ffffff;
 `;
 
-const ReviewLine = styled.div`
-  width: 295px;
-  height: 1px;
-  background-color: #d6d6d6;
-  margin-bottom: 8px;
-  
-`;
-
-const ReviewCardContents = styled.div`
-  width: 295px;
-  height: 90px;
-
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1;
-  color: #333333;
-`;
-
-const ReviewCardContentsTitle = styled.div`
-  color: #9AB3F5;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 8px 0;
-`
-
-const ReviewCardContentsContent = styled.div`
-  color: #333333;
-  font-size: 12;
-  line-height: 15px;
-`;
-
-const ReviewCardFooter = styled.div`
-  width: 295px;
-  height: 70px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 3px solid rgba(214, 214, 214, 0.3);
-`;
-
-const ReviewCardTime = styled.div`
-  color: #666666;
-  font-size: 10px;
-`;
-
-const ReviewReactContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 12px 0;
-`
-
-const ReviewReactWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const ReviewIconWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+    margin-left: 20px;
 `;
 
 const ReviewReactIcon = styled.img`
@@ -278,26 +214,3 @@ const ReviewReactTxt = styled.div`
   line-height: 1;
   color: #666666;
 `;
-
-const ReviewReactMsgTxt = styled(ReviewReactTxt)`
-  margin-right: 23px;
-`
-
-const ReviewDetailBtn = styled.button`
-  width: 62px;
-  height: 24px;
-  background: #9ab3f5;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ReviewDetailBtnTxt = styled.div`
-  font-weight: 700;
-  font-size: 10px;
-  line-height: 1;
-  color: #ffffff;
-`;
-
-const BtnArrow = styled.img``;
