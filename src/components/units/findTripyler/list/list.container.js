@@ -13,7 +13,8 @@ import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
 
 export default function FindTripylerList(){
 
-    // const router = useRouter();
+    const router = useRouter();
+    console.log(router);
     // const queries = router.query;
     // const [query, setQuery] = useState({});
 
