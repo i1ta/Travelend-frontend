@@ -1,25 +1,27 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 
 export default function FindCard () {
+  const router = useRouter();
     return(
         <ReviewCard>
-            <ReviewImg src="img/review1.png"></ReviewImg>
+            <ReviewImg src="/img/review1.png"></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
-                  <ReviewIcon src="icon/location.png"></ReviewIcon>
+                  <ReviewIcon src="/icon/location.png"></ReviewIcon>
                   <ReviewInfoTxt>그리스</ReviewInfoTxt>
                 </CountryWrapper>
                 <ReviewCity>산토리니</ReviewCity>
               </ReviewInfo>
               <ReviewInfo>
                 <ReviewInfoWrapper>
-                  <ReviewIcon src="icon/user.png"></ReviewIcon>
+                  <ReviewIcon src="/icon/user.png"></ReviewIcon>
                   <ReviewInfoTxt>2인 모집 중/총 4인</ReviewInfoTxt>
                 </ReviewInfoWrapper>
                 <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
-                  <ReviewIcon src="icon/calendar.png"></ReviewIcon>
+                  <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
                   <ReviewDateTxt>
                     <ReviewInfoTxt>23.01.12</ReviewInfoTxt>
                     <ReviewDateLine></ReviewDateLine>
@@ -30,13 +32,16 @@ export default function FindCard () {
             </ReviewCardHeader>
             <ReviewUserWrapper>
               <ReviewUser>
-                <ReviewUsername>ilta0101</ReviewUsername>
-                <ReviewAge>20대 여성</ReviewAge>
+                <ReviewUserImg src="/img/cheolsoo.jpg"></ReviewUserImg>
+                <ReviewUserInfoWrapper>
+                  <ReviewUsername>ilta0101</ReviewUsername>
+                  <ReviewAge>20대 여성</ReviewAge>
+                </ReviewUserInfoWrapper>
               </ReviewUser>
               <ReviewHashTagWrapper>
-                <ReviewHashTag>#해시태그</ReviewHashTag>
-                <ReviewHashTag>#해시태그</ReviewHashTag>
-                <ReviewHashTag>#해시태그</ReviewHashTag>
+                <ReviewHashTag>#뚜벅이</ReviewHashTag>
+                <ReviewHashTag>#관광지</ReviewHashTag>
+                <ReviewHashTag>#사진찍기</ReviewHashTag>
             </ReviewHashTagWrapper>
             </ReviewUserWrapper>
             <ReviewLine></ReviewLine>
@@ -52,18 +57,18 @@ export default function FindCard () {
               <ReviewReactWrapper>
                 <ReviewCardTime>7시간 전</ReviewCardTime>
                 <ReviewReactContent>
-                  <ReviewReactIcon src="icon/heart.png"></ReviewReactIcon>
+                  <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
                   <ReviewReactTxt>1.2k</ReviewReactTxt>
-                  <ReviewReactIcon src="icon/comment.png"></ReviewReactIcon>
+                  <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
                   <ReviewReactTxt>24</ReviewReactTxt>
-                  <ReviewReactIcon src="icon/message.png"></ReviewReactIcon>
+                  <ReviewReactIcon src="/icon/message.png"></ReviewReactIcon>
                   <ReviewReactMsgTxt>Message</ReviewReactMsgTxt>
-                  <ReviewReactIcon src="icon/views.png"></ReviewReactIcon>
+                  <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
                   <ReviewReactTxt>1,200</ReviewReactTxt>
                 </ReviewReactContent>
               </ReviewReactWrapper>
               <ReviewDetailBtn>
-                <ReviewDetailBtnTxt>상세보기</ReviewDetailBtnTxt>
+                <ReviewDetailBtnTxt onClick={(e) => router.push("/findTripyler/detail")}>상세보기</ReviewDetailBtnTxt>
                 <BtnArrow></BtnArrow>
               </ReviewDetailBtn>
             </ReviewCardFooter>
@@ -80,6 +85,7 @@ const ReviewCard = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: 20px;
+  margin-bottom: 20px;
 `;
 
 const ReviewImg = styled.img`
@@ -158,8 +164,20 @@ const ReviewUserWrapper = styled.div`
 
 const ReviewUser = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-left: 10px;
+`;
+
+const ReviewUserImg = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  margin-right: 8px;
+`;
+
+const ReviewUserInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ReviewUsername = styled.div`
@@ -212,7 +230,7 @@ const ReviewCardContentsTitle = styled.div`
   color: #9AB3F5;
   font-size: 15px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin: 8px 0;
 `
 
 const ReviewCardContentsContent = styled.div`
