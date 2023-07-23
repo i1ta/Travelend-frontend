@@ -33,11 +33,11 @@ export default function Layout(props) {
   };
 
   const onFindTripylerBtn = () => {
-    router.push("/findTripyler/list");
+    router.push("/findTripyler");
   };
 
   const onTriplogBtn = () => {
-    router.push("/main");
+    router.push("/triplog");
   };
 
   const onContactBtn = () => {
