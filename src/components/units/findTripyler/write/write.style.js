@@ -49,6 +49,18 @@ export const StepWrapper = styled.div`
   margin-bottom: 100px;
 `;
 
+export const FormTitleWrapper = styled.div`
+  width: 1080px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+export const FormTitleTxtWrapper = styled.div`
+  width: 500px;
+`;
+
 export const StepTxt = styled.div`
   color: #666;
   font-size: 16px;
@@ -60,14 +72,25 @@ export const StepTitleTxt = styled.div`
   color: #000;
   font-size: 24px;
   font-weight: 600;
-  margin-bottom: 30px;
+`;
+
+export const MoreBtnImg = styled.img`
+  transform: ${props => props.isOpenStep ? "rotate(180deg)" : "none"};
+`;
+
+export const MoreBtn = styled.button`
+  width: 40px;
+  height: 40px;
 `;
 
 export const Line = styled.div`
   width: 1080px;
   height: 1px;
   background: rgba(153, 153, 153, 0.5);
-  margin-bottom: 50px;
+`;
+
+export const StepInfoWrapper = styled.div`
+  margin-top: 50px;
 `;
 
 export const InputInfoWrapper = styled.div`

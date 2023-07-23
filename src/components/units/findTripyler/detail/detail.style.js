@@ -206,14 +206,15 @@ export const BtmLeftWrapper = styled.div`
 `;
 
 export const BtmIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+  cursor: pointer;
 `;
 
 export const BtmTxt = styled.div`
   color: #666;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   margin-right: 25px;
 `;
@@ -245,6 +246,83 @@ export const PostList = styled.div`
   margin-bottom: 100px;
 `;
 
+export const CmtListWrapper = styled.div`
+  padding: 30px;
+  border-top: 1px solid rgba(214, 214, 214, 0.6);
+  border-bottom: 1px solid rgba(214, 214, 214, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+`;
+
+export const CmtList = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const CmtContents = styled.div`
+  color: #868686;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+export const CmtMoreBtn = styled.button`
+  width: 1400px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: aliceblue;
+  }
+`;
+
+export const CommetnMoreBtnTxt = styled.div`
+  margin-right: 15px;
+  color: #868686;
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+export const CommetnMoreBtnIcon = styled.img``;
+
+export const CmtWriteWrapper = styled.form`
+  display: flex;
+  align-items: center;
+  padding: 0px 30px;
+  margin-top: 30px;
+`;
+
+export const CmtInput = styled.input`
+  width: 950px;
+  height: 60px;
+  padding: 15px 26px;
+  color: #868686;
+  font-size: 20px;
+  font-weight: 500;
+  margin-right: 30px;
+
+  border-radius: 10px;
+  background: rgba(225, 225, 225, 0.3);
+  border: none;
+`;
+
+export const CmtWriteBtn = styled.button`
+  width: 150px;
+  height: 60px;
+  background-color: #90e0ef;
+  border-radius: 10px;
+
+  color: #fff;
+  font-size: 22px;
+  font-weight: 500;
+`;
+
 export const PostListTitle = styled.div`
   color: #868686;
   font-size: 30px;
@@ -269,19 +347,14 @@ export const ListIcon = styled.div`
 `;
 
 export const ListTitle = styled.div`
+  width: 230px;
   color: #868686;
   font-size: 24px;
   font-weight: 700;
-  margin-right: 120px;
+  margin-right: 20px;
 `;
 
-export const PostTitle = styled.div`
-  color: #868686;
-  font-family: Inter;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+export const PostTitle = styled(CmtContents)`
   cursor: pointer;
 `;
 

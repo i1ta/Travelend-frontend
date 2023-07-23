@@ -1,14 +1,12 @@
 import { styled } from "styled-components";
 
-export default function FindTripylerBanner() {
+export default function FindTripylerBanner(props) {
   return (
     <>
       <Banner>
         <BannerContents>
-          <BannerTitle>Trip'yler 찾기</BannerTitle>
-          <BannerSubTitle>
-            함께 하고 싶은 여행자를 Trip'yler에서 바로 찾아보세요
-          </BannerSubTitle>
+          <BannerTitle>{props.title}</BannerTitle>
+          <BannerSubTitle>{props.subTitle} </BannerSubTitle>
           <BannerImg src="/img/airplane.png" />
         </BannerContents>
       </Banner>
