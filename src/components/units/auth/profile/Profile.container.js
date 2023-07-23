@@ -124,10 +124,10 @@ export default function Profile() {
   }, [selectedCategory]);
 
   // 쪽지 보내기 api
-  const handleSendMsg = async (message) => {
+  const handleSendMsg = async (content) => {
     await axios
       .post(apiPath + "/chat/send", {
-        content: message,
+        content,
         recipientId: msgData.recipientId,
       })
       .then(async (response) => {

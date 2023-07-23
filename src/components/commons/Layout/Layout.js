@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
-import Image from "next/image";
-import axios from 'axios';
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { LoginState, IsFirstLogin } from "../../../States/LoginState";
-
-import { css } from "@emotion/styled";
 
 export default function Layout(props) {
   const loginState = useRecoilValue(LoginState);
@@ -32,12 +28,36 @@ export default function Layout(props) {
     router.push("/main");
   };
 
+  const onIntroduceBtn = () => {
+    router.push("/main");
+  };
+
+  const onFindTripylerBtn = () => {
+    router.push("/findTripyler");
+  };
+
+  const onTriplogBtn = () => {
+    router.push("/triplog");
+  };
+
+  const onContactBtn = () => {
+    router.push("/main");
+  };
+
   const onLoginBtn = () => {
     router.push("/auth/signIn");
   };
 
   const onJoinBtn = () => {
     router.push("/auth/join");
+  };
+
+  const onMesseageBtn = () => {
+    router.push("/auth/profile");
+  };
+
+  const onLikeBtn = () => {
+    router.push("/auth/profile");
   };
 
   const onProfileBtn = () => {
@@ -61,43 +81,38 @@ export default function Layout(props) {
           <Container>
             <HomeLogo src="/assets/logo.png" alt="로고" onClick={onHomeLogo} />
           </Container>
-          <List>
-            <Item>
-              <Link href="/">Trip'yler 소개</Link>
-            </Item>
-            <Item>
-              <Link href="/">Trip'yler 찾기</Link>
-            </Item>
-            <Item>
-              <Link href="/">여행 후기</Link>
-            </Item>
-            <Item>
-              <Link href="/">여행 가이드</Link>
-            </Item>
-            <Item>
-              <Link href="/">Contact</Link>
-            </Item>
-          </List>
+          <PageList>
+            <Item onClick={onIntroduceBtn}>Trip'yler 소개</Item>
+            <Item onClick={onFindTripylerBtn}>Trip'yler 찾기</Item>
+            <Item onClick={onTriplogBtn}>여행 후기</Item>
+            <Item onClick={onContactBtn}>Contact</Item>
+          </PageList>
 
           {!loginState ? (
-            <List hideText={props.login}>
+            <AuthList hideText={props.login}>
               <BeforeLoginItem>
                 <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
               </BeforeLoginItem>
               <BeforeLoginItem>
                 <SignUpBtn onClick={onJoinBtn}>회원가입</SignUpBtn>
               </BeforeLoginItem>
-            </List>
+            </AuthList>
           ) : (
-            <List>
+            <AuthList>
               <AfterLoginItem id="3">
                 <NicknameWrapper src="/icon/bell.png" />
               </AfterLoginItem>
               <AfterLoginItem id="0" infoMsgNum={infoMsgNum}>
-                <NicknameWrapper src="/icon/messenger.png" />
+                <NicknameWrapper
+                  src="/icon/messenger.png"
+                  onClick={onMesseageBtn}
+                />
               </AfterLoginItem>
               <AfterLoginItem id="1" infoMsgNum={infoMsgNum}>
-                <NicknameWrapper src="/icon/heart_gray.png" />
+                <NicknameWrapper
+                  src="/icon/heart_gray.png"
+                  onClick={onLikeBtn}
+                />
               </AfterLoginItem>
               <AfterLoginItem id="2" infoMsgNum={infoMsgNum}>
                 <NicknameWrapper
@@ -113,7 +128,7 @@ export default function Layout(props) {
                   </InfoMsgBtn>
                 </InfoMsg>
               )}
-            </List>
+            </AuthList>
           )}
         </NavContainer>
       </Nav>
@@ -156,13 +171,14 @@ const NavContainer = styled.div`
   margin: 0 auto;
 `;
 
-const List = styled.ul`
-  list-style: none;
+const PageList = styled.ul`
   display: flex;
-  margin: 0;
   padding-left: 0;
-  position: relative;
+  gap: 30px;
+`;
 
+const AuthList = styled(PageList)`
+  gap: 0px;
   visibility: ${(props) => (props.hideText ? "hidden" : "visible")};
 `;
 
@@ -172,6 +188,8 @@ const Item = styled.li`
   white-space: nowrap;
   margin: 0 0.5vw;
   font-weight: 600;
+  color: 000;
+  cursor: pointer;
 `;
 
 const Link = styled.a`

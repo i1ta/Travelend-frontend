@@ -1,5 +1,5 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import * as S from "./apply.style";
+import * as S from "./applyForm.style";
 import { useState } from "react";
 
 export default function FindTripylerApply() {
