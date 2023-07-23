@@ -7,13 +7,34 @@ import axios from "axios";
 export default function FindTripylerApplyDetail() {
   const router = useRouter();
   const apiPath = "https://api.tripyle.xyz";
+  const { applyId } = router.query;
 
   const [isAccept, setIsAccept] = useState(false);
+  const [data, setData] = useState({});
+
+  const formatUserInfo = (age, gender) => {
+    const formatAge = age >= 10 ? `${age.toString().slice(0, 1)}0대` : "아동";
+    const formatGender = gender === "M" ? "남성" : "여성";
+    return formatAge + " " + formatGender;
+  };
 
   useEffect(() => {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
-  }, []);
+
+    console.log(applyId);
+    applyId && fetchData();
+  }, [applyId]);
+
+  const fetchData = async () => {
+    await axios
+      .get(`${apiPath}/tripyler/apply/${applyId}`)
+      .then((res) => {
+        console.log(res);
+        setData({ ...res.data.data });
+      })
+      .catch((err) => console.error(err));
+  };
 
   const onClickRejectBtn = () => {
     alert("거절");
@@ -29,14 +50,14 @@ export default function FindTripylerApplyDetail() {
     await axios
       .post(apiPath + "/chat/send", {
         content: event.target.message.value,
-        recipientId: 54,
+        recipientId: data.applicantId,
       })
       .then((res) => {
         console.log(res);
         alert("전송이 완료되었습니다.");
       })
       .catch((err) => console.error(err));
-    // event.target.reset();
+    event.target.reset();
   };
 
   return (
@@ -50,30 +71,27 @@ export default function FindTripylerApplyDetail() {
         <S.ContentsImgWrapper>
           <S.ContentsImg src="/img/Santorini.png" />
         </S.ContentsImgWrapper>
-        <S.ContentsTitle>3박 4일 산토리니 여행 동행 구합니다.</S.ContentsTitle>
+        <S.ContentsTitle>{data.title}</S.ContentsTitle>
         <S.UserWrapper>
           <S.UserImgWrapper>
-            <S.UserImg src="/icon/defaultProfile.png"></S.UserImg>
+            <S.UserImg
+              src={data.profileUrl || "/icon/defaultProfile.png"}
+            ></S.UserImg>
           </S.UserImgWrapper>
           <S.UserTxtWrapper>
-            <S.UserID>ilta0101</S.UserID>
-            <S.UserInfo>20대 초반 여성 </S.UserInfo>
+            <S.UserID>{data.nickname}</S.UserID>
+            <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
           </S.UserTxtWrapper>
           <S.UserStyleWrapper>
-            <S.UserStyle>#전시회</S.UserStyle>
-            <S.UserStyle>#관광지</S.UserStyle>
+            {data.hashtag?.map((el) => (
+              <S.UserStyle key={el}>#{el}</S.UserStyle>
+            ))}
           </S.UserStyleWrapper>
         </S.UserWrapper>
         <S.ContentsSubTitle>
           상대방에게 본인에 대해 간단히 소개해주세요.
         </S.ContentsSubTitle>
-        <S.IntroduceBox>
-          저는 20대 여성으로서 프랑스 파리 여행을 계획 중이며 같이 동행하고
-          싶습니다. 여행 기간은 5일로 계획 중이며, 예정된 일정에는 다양한 활동과
-          관광지 방문이 포함됩니다. 저는 주로 사진찍는 거를 좋아하고 유명지
-          위주로 관광하는 걸 좋아해요!! 같이 여행하면 잘 맞을 것 같아서
-          연락드려요! 신청 보시면 쪽지 부탁드립니다~
-        </S.IntroduceBox>
+        <S.IntroduceBox>{data.content}</S.IntroduceBox>
         {isAccept ? (
           <S.SendMsgForm onSubmit={onSubmitMsg}>
             <S.SendMsgInput

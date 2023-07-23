@@ -1,7 +1,30 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./applyList.style";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function FindTripylerApplyList() {
+  const router = useRouter();
+  const apiPath = "https://api.tripyle.xyz";
+  const [applyList, setApplyList] = useState([]);
+
+  const fetchList = async () => {
+    await axios
+      .get(apiPath + "/tripyler/apply")
+      .then((res) => {
+        console.log(res);
+        setApplyList([...res.data.data]);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+    fetchList();
+  }, []);
+
   return (
     <>
       <FindTripylerBanner
