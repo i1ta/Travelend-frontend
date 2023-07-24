@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import * as S from "../MyCollections/MyCollections.styles";
 import Modal from "../../../../commons/Modal/Modal";
 import axios from "axios";
-import FindCard from "@/components/commons/Triplog/FindCard";
-import ReviewCard from "@/components/commons/Triplog/ReviewCard"
+import FindCard from "@/components/commons/Card/Triplog/FindCard";
+import ReviewCard from "@/components/commons/Card/Triplog/ReviewCard"
 
 export default function Triplog() {
 

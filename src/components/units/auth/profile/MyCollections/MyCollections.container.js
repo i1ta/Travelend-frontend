@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import * as S from "./MyCollections.styles";
 import Modal from "../../../../commons/Modal/Modal";
 import axios from "axios";
-import FindCard from "@/components/commons/MyCollections/FindCard";
-import ReviewCard from "@/components/commons/MyCollections/ReviewCard";
+import FindCard from "@/components/commons/Card/MyCollections/FindCard";
+import ReviewCard from "@/components/commons/Card/MyCollections/ReviewCard";
 
 
 export default function MyCollections() {
