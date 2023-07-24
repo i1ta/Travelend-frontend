@@ -25,14 +25,19 @@ export default function Profile() {
 
   const [myProfileData, setMyProfileData] = useState({
     name: "",
+    namePrivate: false,
     username: "",
     age: 0,
     email: "",
     gender: "",
     mbti: "",
+    mbtiPrivate: false,
     phone: "",
+    phonePrivate: false,
     address: "",
     profileUrl: "",
+    instagram: "",
+    instagramPrivate: false,
     firstTripStyle: "",
     secondTripStyle: "",
     thirdTripStyle: "",
@@ -68,8 +73,8 @@ export default function Profile() {
 
   
   // My Profile 수정 api
-  const modifyProfile = async (getEmail, getPhone, getMbtiIdx, getHashtag, getBio) => {
-    console.log(getEmail, getPhone, getMbtiIdx, getHashtag);
+  const modifyProfile = async (getInsta, getPhone, getMbtiIdx, getHashtag, getBio) => {
+    console.log(getInsta, getPhone, getMbtiIdx, getHashtag);
     console.log(myProfileData.firstBio, myProfileData.secondBio, myProfileData.thirdBio);
     console.log(getHashtag[0]?.id, getHashtag[1]?.id, getHashtag[2]?.id);
     console.log(getBio[0], getBio[1], getBio[2]);
@@ -84,9 +89,9 @@ export default function Profile() {
 
     await axios
       .patch(apiPath + "/profile/my-profile/update", {
-        "email": getEmail,
         "firstBio": getBio[0] || '',
         "firstTripStyleId": getHashtag[0]?.id || 0,
+        "instagram": getInsta,
         "mbtiId": getMbtiIdx,
         "phone": getPhone,
         "secondBio": getBio[1] || '',
@@ -179,6 +184,7 @@ export default function Profile() {
   const onClickLogout = () => {
     const result = confirm("로그아웃 하시겠습니까?");
     if (result) {
+      window.localStorage.clear();
       router.push("/main");
       setIsLoggedIn(false);
       alert("로그아웃 완료");

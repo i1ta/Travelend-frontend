@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import * as S from "./MyProfile.styles";
 import Modal from "../../../../commons/Modal/Modal";
@@ -14,9 +14,9 @@ export default function MyProfile(props) {
   const [mbti, setMbti] = useState(props.data.mbti);
   const [mbtiIdx, setMbtiIdx] = useState(0);
 
-  const [email, setEmail] = useState(props.data.email); // 이메일
+  const [instagram, setInstagram] = useState(props.data.instagram); // 이메일
   const [phone, setPhone] = useState(props.data.phone); // 휴대폰 번호
-  const [selected, setSelectedEmail] = useState('naver.com'); // email 뒷 부분
+  // const [selected, setSelectedEmail] = useState('naver.com'); // email 뒷 부분
 
   const [myHashtag, setMyHashtag] = useState([]); // hashtag
   const [hashtagList, setHashtagList] = useState([]);
@@ -44,8 +44,8 @@ export default function MyProfile(props) {
       });
 
     }
-    if(email === '' && props.data.email != null){
-      setEmail(props.data.email);
+    if(instagram === '' && props.data.instagram != null){
+      setInstagram(props.data.instagram);
     }
     if(phone === ''){
       setPhone(props.data.phone);
@@ -152,12 +152,13 @@ export default function MyProfile(props) {
       }
     }
     
-    const styleList = [firstBio, secondBio, thirdBio];
-    await props.modifyProfile(`${email.split("@")[0]}@${selected}`, phone, idx, myHashtag, styleList);
+    const bioList = [firstBio, secondBio, thirdBio];
+    console.log(instagram);
+    await props.modifyProfile(instagram, phone, idx, myHashtag, bioList);
     await props.fetchMyProfile();
     props.setModify(true);
 
-    setEmail(`${email.split("@")[0]}@${selected}`);
+    // setEmail(`${email.split("@")[0]}@${selected}`);
     setIsAuthPhone(false);
     setIsModifyCheckModal(true);
     setIsModify(false);
@@ -264,6 +265,30 @@ export default function MyProfile(props) {
     } else{
       alert('인증이 완료되었습니다.');
     }
+  }
+
+  // 공개여부 설정
+  
+  const onOpenPrivate = async (e) => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    await axios
+      .post(apiPath + `/profile/${e.target.id}-private`)
+      .then((res) => {
+        console.log(res);
+      });
+  }
+
+  const onClosePrivate = async (e) => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    await axios
+      .post(apiPath + `/profile/${e.target.id}-private`)
+      .then((res) => {
+        console.log(res);
+      });
   }
   return (
     <>
@@ -404,25 +429,6 @@ export default function MyProfile(props) {
             <S.Tc>이름</S.Tc>
             <S.Td>{props.data.name}</S.Td>
             
-            <S.Tc>이메일</S.Tc>
-            <S.ModifyTd>
-              <S.EmailWrapper>
-              <S.EmailFirstInput
-                type="text"
-                value={email.split("@")[0]}
-                onChange={e => setEmail(e.target.value)}
-              />
-              <S.EmailAt>@</S.EmailAt>
-              <S.EmailSecondSelect onChange={(e) => setSelectedEmail(e.target.value)} value={selected}>
-                <S.EmailOption>naver.com</S.EmailOption>
-                <S.EmailOption>gmail.com</S.EmailOption>
-              </S.EmailSecondSelect>
-              </S.EmailWrapper>
-            </S.ModifyTd>
-          </tr>
-          <tr>
-            <S.Tc>나이</S.Tc>
-            <S.Td>{props.data.age}</S.Td>
             <S.Tc>MBTI</S.Tc>
             <S.ModifyTd>
               <S.mbti onClick={handleOpenModal}>{mbti}</S.mbti>
@@ -447,6 +453,22 @@ export default function MyProfile(props) {
             </S.ModalOverlay>
           )}
             </S.ModifyTd>
+            
+          </tr>
+          <tr>
+            <S.Tc>나이</S.Tc>
+            <S.Td>{props.data.age}</S.Td>
+            <S.Tc>Insta</S.Tc>
+            <S.ModifyTd>
+              <S.EmailWrapper>
+              <S.EmailFirstInput
+                type="text"
+                value={instagram}
+                onChange={e => setInstagram(e.target.value)}
+              />
+              </S.EmailWrapper>
+            </S.ModifyTd>
+            
           </tr>
           <tr>
             <S.Tc>성별</S.Tc>
@@ -546,27 +568,71 @@ export default function MyProfile(props) {
           <S.Table>
             <tr>
               <S.Tc>이름</S.Tc>
-              <S.Td>{props.data.name}</S.Td>
-              <S.Tc>이메일</S.Tc>
-              <S.Td>{email}</S.Td>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>{props.data.name}</S.TdTxt>
+                  {props.data.namePrivate ?
+                  (<S.LockIcon id="name" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
+                  (<S.LockIcon id="name" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
+                  }
+                </S.TdWrapper>
+              </S.Td>
+              <S.Tc>MBTI</S.Tc>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>{mbti}</S.TdTxt>
+                  {props.data.mbtiPrivate ?
+                  (<S.LockIcon id="mbti" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
+                  (<S.LockIcon id="mbti" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
+                  }
+                </S.TdWrapper>
+              </S.Td>
             </tr>
             <tr>
               <S.Tc>나이</S.Tc>
-              <S.Td>{props.data.age}</S.Td>
-              <S.Tc>MBTI</S.Tc>
-              <S.Td>{mbti}</S.Td>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>{props.data.age}</S.TdTxt>
+                </S.TdWrapper>
+              </S.Td>
+              <S.Tc>Insta</S.Tc>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt><a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>@{props.data.instagram}</a></S.TdTxt>
+                  {props.data.instagramPrivate ?
+                  (<S.LockIcon id="instagram" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
+                  (<S.LockIcon id="instagram" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
+                  }
+                </S.TdWrapper>
+              </S.Td>
             </tr>
             <tr>
               
               <S.Tc>성별</S.Tc>
               {props.data.gender === 'M'
               ?
-              <S.Td>남</S.Td>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>남</S.TdTxt>
+                </S.TdWrapper>
+              </S.Td>
               :
-              <S.Td>여</S.Td>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>여</S.TdTxt>
+                </S.TdWrapper>
+              </S.Td>
               }
               <S.Tc>연락처</S.Tc>
-              <S.Td>{formatPhone(phone)}</S.Td>
+              <S.Td>
+                <S.TdWrapper>
+                  <S.TdTxt>{formatPhone(phone)}</S.TdTxt>
+                  {props.data.phonePrivate ?
+                  (<S.LockIcon id="phone" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
+                  (<S.LockIcon id="phone" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
+                  }
+                </S.TdWrapper>
+              </S.Td>
             </tr>
   
           </S.Table>
