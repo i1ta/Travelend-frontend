@@ -2,55 +2,55 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-export default function FindCard () {
+export default function FindCard (props) {
   const router = useRouter();
     return(
         <ReviewCard>
-            <ReviewImg src="/img/review1.png"></ReviewImg>
+            <ReviewImg src={props.info.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
                   <ReviewIcon src="/icon/location.png"></ReviewIcon>
-                  <ReviewInfoTxt>그리스</ReviewInfoTxt>
+                  <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
                 </CountryWrapper>
-                <ReviewCity>산토리니</ReviewCity>
+                <ReviewCity>{props.info.regionName}</ReviewCity>
               </ReviewInfo>
               <ReviewInfo>
                 <ReviewInfoWrapper>
                   <ReviewIcon src="/icon/user.png"></ReviewIcon>
-                  <ReviewInfoTxt>2인 모집 중/총 4인</ReviewInfoTxt>
+                  <ReviewInfoTxt>{props.info.recruitPeopleNum}인 모집 중/총 {props.info.totalPeopleNum}인</ReviewInfoTxt>
                 </ReviewInfoWrapper>
                 <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
                   <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
                   <ReviewDateTxt>
-                    <ReviewInfoTxt>23.01.12</ReviewInfoTxt>
+                    <ReviewInfoTxt>{props.info.startDate}</ReviewInfoTxt>
                     <ReviewDateLine></ReviewDateLine>
-                    <ReviewInfoTxt>23.01.23</ReviewInfoTxt>
+                    <ReviewInfoTxt>{props.info.endDate}</ReviewInfoTxt>
                   </ReviewDateTxt>
                 </ReviewInfoWrapper>
               </ReviewInfo>
             </ReviewCardHeader>
             <ReviewUserWrapper>
               <ReviewUser>
-                <ReviewUserImg src="/img/cheolsoo.jpg"></ReviewUserImg>
+                <ReviewUserImg src={props.info.profileUrl}></ReviewUserImg>
                 <ReviewUserInfoWrapper>
-                  <ReviewUsername>ilta0101</ReviewUsername>
-                  <ReviewAge>20대 여성</ReviewAge>
+                  <ReviewUsername>{props.info.nickname}</ReviewUsername>
+                  <ReviewAge>{props.info.age} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
                 </ReviewUserInfoWrapper>
               </ReviewUser>
               <ReviewHashTagWrapper>
-                <ReviewHashTag>#뚜벅이</ReviewHashTag>
-                <ReviewHashTag>#관광지</ReviewHashTag>
-                <ReviewHashTag>#사진찍기</ReviewHashTag>
+                {props.info.hashtag.map((element) => (
+                  <ReviewHashTag>#{element}</ReviewHashTag>
+                ))}
             </ReviewHashTagWrapper>
             </ReviewUserWrapper>
             <ReviewLine></ReviewLine>
             <ReviewCardContents>
               <ReviewCardContentsTitle>
-                3박 4일 산토리니 여행 동행 구합니다
+                {props.info.title}
               </ReviewCardContentsTitle>
               <ReviewCardContentsContent>
-                여름 휴가는 보통 친구들이랑 날짜 맞춰서 가는데 이번에는 맞지 않아서 트리플리를 통해 동행 구해보고자 합니다. ...
+                {props.info.content} ...
               </ReviewCardContentsContent>
             </ReviewCardContents>
             <ReviewCardFooter>
@@ -58,13 +58,13 @@ export default function FindCard () {
                 <ReviewCardTime>7시간 전</ReviewCardTime>
                 <ReviewReactContent>
                   <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
-                  <ReviewReactTxt>1.2k</ReviewReactTxt>
+                  <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
                   <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
-                  <ReviewReactTxt>24</ReviewReactTxt>
+                  <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
                   <ReviewReactIcon src="/icon/message.png"></ReviewReactIcon>
                   <ReviewReactMsgTxt>Message</ReviewReactMsgTxt>
                   <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
-                  <ReviewReactTxt>1,200</ReviewReactTxt>
+                  <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
                 </ReviewReactContent>
               </ReviewReactWrapper>
               <ReviewDetailBtn>
@@ -92,6 +92,7 @@ const ReviewImg = styled.img`
   width: 335px;
   height: 200px;
   margin-bottom: 20px;
+  object-fit: cover;
 `;
 
 const ReviewCardHeader = styled.div`
@@ -173,6 +174,7 @@ const ReviewUserImg = styled.img`
   height: 30px;
   border-radius: 100px;
   margin-right: 8px;
+  object-fit: cover;
 `;
 
 const ReviewUserInfoWrapper = styled.div`

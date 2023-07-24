@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 export const Banner = styled.div`
   background-color: #ffffff;
   margin: auto;
-  margin-bottom: 350px;
+  margin-bottom: 30px;
   /* background-image: url("img/bannerImg.png"); */
 
   display: flex;
@@ -47,15 +47,33 @@ export const FindFilter = styled.div`
   width: 1400px;
   height: 286px;
 
-  padding: 0px 95px;
+  padding-left: 95px;
+  padding-right: 20px;
   background: #ffffff;
   box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
   position: absolute;
-  top: 520px;
+  top: 430px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const FindFilterClose = styled.div`
+    width: 1400px;
+    height: 160px;
+
+    padding-left: 95px;
+    padding-right: 20px;
+    padding-top: 20px;
+    background: #ffffff;
+    box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
+    position: absolute;
+    top: 430px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 export const FilterWrapper = styled.div`
@@ -79,7 +97,7 @@ export const FilterFrontWrapper = styled.div`
 `
 
 export const FilterBackWrapper = styled.div`
-  margin-top: 35px;
+  margin-bottom: 35px;
 `;
 
 export const FilterTitleWrapper = styled.div`
@@ -129,7 +147,6 @@ export const FilterPlusImg = styled.img`
   height: 16px;
   cursor: pointer;
 `;
-
 export const FilterTitleImg = styled.img`
   margin-right: 5px;
 `;
@@ -203,6 +220,20 @@ export const FilterFindBtnTxt = styled.div`
   color: #ffffff;
 `;
 
+export const FilterCloseIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-top: 200px;
+  cursor: pointer;
+  `;
+
+export const FilterOpenIcon = styled.img`
+    width: 30px;
+    height: 30px;
+    margin-top: 80px;
+    cursor: pointer;
+`;
+
 // 여행지 선택
 export const CountrySelectWrapper = styled.div`
   width: 300px;
@@ -215,6 +246,7 @@ export const CountrySelectWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
+  z-index: 101;
   top: 128px;
   left: 100px;
 `
@@ -310,19 +342,14 @@ export const CalendarWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
+  z-index: 101;
   top: 128px;
   left: 480px;
-`;
+  `;
 
 // 카드 컴포넌트 
 
 export const BtnArrow = styled.img``;
-
-export const BtnBigArrow = styled(BtnArrow)`
-  margin-right: 20px;
-  height: 30px;
-  width: 20px;
-`;
 
 export const Review = styled.div`
   display: flex;
@@ -338,68 +365,84 @@ export const FindTripylerContent = styled.div`
   margin-left: 20px;
 `;
 
-export const FindTripylerTitleWrapper = styled.div`
+export const ContentWrapper = styled.div`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const FindTripylerTitle = styled.div`
+  width: 1260px;
+  height: 64px;
+
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  
-  width: 1400px;
-  height: 64px;
 
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
   color: #ffffff;
-  margin: auto;
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin: 60px 0;
   padding: 10px 0 10px 40px;
   border-radius: 10px;
   background-color: rgba(0, 180, 216, 0.6);
   align-items: center;
-
-  cursor: pointer;
-`;
-
-export const ContentWrapper = styled.div`
-  align-items: center;
-  justify-content: center;
-
-  
-`;
-
-export const FindTripylerTitle = styled.div`
-  
-`;
-
-export const ReviewTitle = styled(FindTripylerTitleWrapper)`
-  background-color: rgba(200, 182, 255, 0.8);
-  margin-top: 200px;
-`;
-
-export const ReviewFilter = styled.div`
-  width: 1100px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
 `;
 
-export const ReviewFilterBtn = styled.button`
-  width: 150px;
-  height: 60px;
-  background: ${(props) =>
-    props.selectedFilter == props.id ? "#90E0EF" : "#ffffff"};
-  border: ${(props) =>
-    props.selectedFilter == props.id ? "none" : "2px solid #999999"};
+export const FindTripylerWriteBtn = styled.div`
+  background-color: #ffffff;
+  color: #66D2E8;
+  margin-right: 15px;
   border-radius: 50px;
-  margin-bottom: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
+  font-size: 18px;
+  padding: 8px 20px;
+  cursor: pointer;
+`;
 
-  font-weight: ${(props) => (props.selectedFilter == props.id ? "600" : "400")};
-  font-size: 20px;
-  color: ${(props) =>
-    props.selectedFilter == props.id ? "#ffffff" : "#666666"};
+export const FindTripylerTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+`
+
+export const FindTripylerFilterOne = styled.select`
+  border: 2px solid #00B4D8;
+  border-radius: 20px;
+  width: 111px;
+  height: 50px;
+  margin-left: 20px;
+  text-align: center;
+  font-size: 15px;
+  color: #00B4D8;
+  cursor: pointer;
+
+  &:focus{
+    border: 2px solid #00B4D8;;
+  }
+`;
+
+export const FindTripylerOptionOne = styled.option`
+  border: 2px solid #00B4D8;
+  border-radius: 20px;
+  width: 111px;
+  height: 50px;
+`;
+
+export const FindTripylerFilterTwo = styled.select`
+  border: 2px solid #00B4D8;
+  border-radius: 20px;
+  width: 111px;
+  height: 50px;
+  margin-left: 20px;
+  text-align: center;
+  font-size: 15px;
+  color: #00B4D8;
+  cursor: pointer;
+
+  &:focus{
+    border: 2px solid #00B4D8;;
+  }
 `;

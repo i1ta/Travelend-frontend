@@ -1,4 +1,4 @@
-import FindCard from "@/components/commons/MyCollections/FindCard";
+import FindCard from "@/components/commons/Card/MyCollections/FindCard";
 import styled from "@emotion/styled";
 
 export const MyCollectionsWrapper = styled.div`

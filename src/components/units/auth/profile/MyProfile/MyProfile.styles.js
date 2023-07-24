@@ -174,6 +174,7 @@ export const Table = styled.table`
   height: 420px;
   background-color: white;
   margin-bottom: 15px;
+  padding: 10px;
   border-collapse: collapse;
   border-radius: 15px;
   border-style: hidden;
@@ -187,6 +188,7 @@ export const Td = styled.td`
   border: none;
   font-size: 20px;
   color: #666666;
+  border-right: 2px solid #C8B6FF;
 `;
 
 export const ModifyTd = styled(Td)`
@@ -203,6 +205,29 @@ export const Tc = styled(Td)`
   font-weight: bold;
 `;
 
+export const TdWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const TdTxt = styled.div`
+
+`;
+
+export const LockIcon = styled.img`
+  width: 25px;
+  height: 30px;
+  margin-right: 30px;
+  cursor: pointer;
+`;
+
+export const TdLine = styled.div`
+  height: 120px;
+  width: 2px;
+  background-color: #C8B6FF;
+`;  
+
 // 수정 시 스타일
 
 export const EmailWrapper = styled.div`
@@ -217,7 +242,6 @@ export const EmailFirstInput = styled.input`
   border: 2px solid #c8b6ff;
   border-radius: 15px;
   font-size: 20px;
-  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const EmailAt = styled.span`
@@ -245,7 +269,6 @@ export const mbti = styled.span`
   border: 2px solid #c8b6ff;
   border-radius: 15px;
   padding: 10px 20px;
-  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const PhoneWrapper = styled.div`
@@ -261,7 +284,6 @@ export const PhoneInput = styled.input`
   border: 2px solid #c8b6ff;
   border-radius: 15px;
   font-size: 20px;
-  box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
 `;
 
 export const phoneBtn = styled.div`

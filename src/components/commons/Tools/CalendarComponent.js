@@ -4,6 +4,7 @@ import { getDate } from 'date-fns';
 import 'react-date-range/dist/styles.css'; // main style file 
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
+// props: setIsCalendar(캘린더 오픈), date(startDate, endDate, key), setDate
 function CalendarComponent (props) {
       const onRangeChange = (ranges) => {
         console.log(ranges);

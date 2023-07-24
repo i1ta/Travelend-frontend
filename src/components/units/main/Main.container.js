@@ -2,20 +2,52 @@ import { useState, useEffect } from "react";
 import * as S from "./Main.styles";
 import { useRecoilState } from "recoil";
 import { LoginState } from '@/States/LoginState';
+import { FindCardList } from "@/States/LoginState";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
-import ReviewComponent from '../../commons/ReviewCard/Review';
-import FindCard from '../../commons/FindCard/FindCard';
-import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
+import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
+import FindCard from '../../commons/Card/Main/FindCard/FindCard';
+import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [findCardList, setFindCardList] = useRecoilState(FindCardList);
   const apipath = 'https://api.tripyle.xyz';
 
+  const [response, setResponse] = useState([]);
+
+  // 초기값 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+      if (response.length === 0) {
+        const requestData = {
+          "continentId": 1,
+          "endDate": "2023-07-14",
+          "keyWord": "",
+          "nationId": 6,
+          "regionId": 1,
+          "startDate": "2023-07-10",
+          "totalPeopleNum": 4,
+        };
+  
+        try {
+          const res = await axios.post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData);
+          setResponse(res.data.data);
+          console.log(res.data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  // 필터링
   const router = useRouter();
-  const [response, setResponse] = useState({});
+  const [page, setPage] = useState(1);
   const onClcickFilterFind = async () => {
     const requestData = {
       "continentId": parseInt(selectedDestination.continent.id),
@@ -31,13 +63,29 @@ export default function Main() {
     await axios
       .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
       .then((res) => {
+        const arr = res.data.data;
         console.log(res.data.data);
-        setResponse(res.data.data);
+        setFindCardList(res.data.data);
+        // setFindCardList((prev) => [...prev, ...arr]);
+        
       })
       .catch((error) => console.log(error));
 
-    console.log(requestData);
-    router.push("/findTripyler/list");
+    router.push({
+      pathname: `findTripyler`,
+      query: 
+      {
+        continent: JSON.stringify(selectedDestination.continent.name),
+        continentId: selectedDestination.continent.id,
+        country: JSON.stringify(selectedDestination.country.name),
+        countryId: selectedDestination.country.id,
+        city: JSON.stringify(selectedDestination.city.name),
+        cityId: selectedDestination.city.id,
+        startDate: JSON.stringify(date.startDate),
+        endDate: JSON.stringify(date.endDate),
+        num: selectedNum,
+        keyword: JSON.stringify(keyword)}
+    });
   };
   
   // 여행지 선택
@@ -58,7 +106,10 @@ export default function Main() {
       setIsCountry(false);
     } else {
       setIsCountry(true);
-
+      if(selectedDestination.city.name !== ""){
+        console.log(destination);
+        return;
+      }
       axios
         .get(apipath + '/destination/continent')
         .then((res) => {
@@ -130,6 +181,7 @@ export default function Main() {
 
     return [year, month, day].join('-');
   }
+
   
   // 인원수 선택
   const [selectedNum, setSelectedNum] = useState(0);
@@ -162,24 +214,28 @@ export default function Main() {
                   <S.CountrySelectWrapper>
                     <S.ContinentSelect>
                       {destination.continent.map((des) => (
-                        <S.ContinentContent id={des.id} onClick={onOpenCountry}>{des.name}</S.ContinentContent>
+                        <S.ContinentContent id={des.id} onClick={onOpenCountry} selected={selectedDestination.continent.name === des.name}>{des.name}</S.ContinentContent>
                       ))}
                     </S.ContinentSelect>
                     <S.CountrySelect>
                       {destination.country.map((des) => (
-                        <S.ContinentContent id={des.id} onClick={onOpenCity}>{des.name}</S.ContinentContent>
+                        <S.ContinentContent id={des.id} onClick={onOpenCity} selected={selectedDestination.country.name === des.name}>{des.name}</S.ContinentContent>
                       ))}
                     </S.CountrySelect>
                     <S.CitySelect>
                       {destination.city.map((des) => (
-                        <S.ContinentContent id={des.id} onClick={(e) => {
+                        <S.ContinentContent 
+                        id={des.id} 
+                        onClick={(e) => {
                           setIsCountry(false); 
                           setSelectedDestination(prev => ({
                             ...prev,
                             city: {id: e.target.id ,name: e.target.innerText}
                           }));
                           console.log(selectedDestination);
-                        }}>{des.name}</S.ContinentContent>
+                        }}
+                        selected={selectedDestination.city.name === des.name}
+                        >{des.name}</S.ContinentContent>
                       ))}
                     </S.CitySelect>
                   </S.CountrySelectWrapper>
@@ -197,7 +253,7 @@ export default function Main() {
                 <S.FilterTitleImg src="icon/calendar.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>일정</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-              <S.DateFilterWrapper onClick={(e) => setIsCalendar(true)}>
+              <S.DateFilterWrapper onClick={(e) => {isCalendar ? setIsCalendar(false) : setIsCalendar(true)}}>
                 <S.Filter style={{ width: "200px" }}>
                   <S.FilterInput>{date.startDate ? formatDate(date.startDate) : `가는 날`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
@@ -261,20 +317,15 @@ export default function Main() {
         </S.FindTripylerTitleWrapper>
         <S.Review>
           <S.FindTripylerContent>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
+            {response.map((res) => (
+              <FindCard id={res.tripylerId} info={res} />
+            ))}
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
 
       <S.ContentWrapper>
-        <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
+        <S.ReviewTitle onClick={(e) => router.push("/review")}>인기 여행 후기 Top5</S.ReviewTitle>
         <S.Review>
           <ReviewComponent/>
           <ReviewComponent/>
