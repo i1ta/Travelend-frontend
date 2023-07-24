@@ -215,7 +215,6 @@ export const CountrySelectWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
-  z-index: 101;
   top: 128px;
   left: 100px;
 `
@@ -236,6 +235,10 @@ export const ContinentContent = styled.div`
   &:hover{
     background-color: #f2efef;
   }
+
+  background-color: ${(props) => 
+    props.selected ? "#D4D4D4" : "ffffff"
+  };
 `
 
 export const CountrySelect = styled.div`
@@ -307,7 +310,6 @@ export const CalendarWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
-  z-index: 101;
   top: 128px;
   left: 480px;
 `;

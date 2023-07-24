@@ -1,41 +1,111 @@
 import { useState, useEffect } from "react";
 import * as S from "./list.style";
 import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { LoginState } from '@/States/LoginState';
+import { FindCardList } from "@/States/LoginState";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import FindCard from '../../../commons/FindCard/FindCard';
-import CalendarComponent from "@/components/commons/Calendar/CalendarComponent";
+import FindCard from '../../../commons/Card/Main/FindCard/FindCard';
+import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 
 
 export default function FindTripylerList(){
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    const apipath = 'https://api.tripyle.xyz';
 
     const router = useRouter();
     console.log(router);
-    // const queries = router.query;
-    // const [query, setQuery] = useState({});
 
-    // console.log(router);
-    // useEffect(() => {
-    //   if(!router.isReady) return;
-    //   else{setQuery(queries)}
-    // }, [router.isReady])
-    // console.log(router);
-    // useEffect(() => {
-    //   if (router.query) {
-    //     console.log(router.query);
-    //   }
-    // }, [router.query.response]);
+    const [selectedDestination, setSelectedDestination] = useState({
+      continent: {id: parseInt(router.query.continentId) ,name: router.query.continent?.split("\"")[1]},
+      country: {id: parseInt(router.query.countryId), name: router.query.country?.split("\"")[1]},
+      city: {id: parseInt(router.query.cityId), name: router.query.city?.split("\"")[1]},
+    });
 
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-    const apipath = 'https://api.tripyle.xyz';
+    // 이미 필터링 된 채로 리스트 창 렌더링 시
+    useEffect(() => {
+      const fetchData = async () => {
+        if (selectedDestination.city.name !== "") {
+          try {
+            const res1 = await axios.get(apipath + '/destination/continent');
+            console.log(res1);
+            setDestination(prevDestination => ({
+              continent: res1.data.data,
+              country: [],
+              city: []
+            }));
+            console.log(destination);
+    
+            const res2 = await axios.get(`${apipath}/destination/nation?continentId=${selectedDestination.continent.id}`);
+            console.log(res2);
+            setDestination(prevDestination => ({
+              ...prevDestination,
+              country: res2.data.data,
+              city: []
+            }));
+            console.log(destination);
+    
+            const res3 = await axios.get(`${apipath}/destination/region?nationId=${selectedDestination.country.id}`);
+            console.log(res3);
+            setDestination(prevDestination => ({
+              ...prevDestination,
+              city: res3.data.data,
+            }));
+            console.log(destination);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
+    
+      fetchData();
+    }, []);
+
+    const cardList = useRecoilValue(FindCardList);
+    useEffect(() => {
+      if(cardList.length !== 0){
+        console.log(cardList);
+        setNewCardList(cardList);
+      }
+    }, [cardList]);
+
+
+    const [newCardList, setNewCardList] = useState(cardList);
+    const [isRecruiting, setIsRecruiting] = useState("1");
+    const [option, setOption] = useState("1");
+    const onClcickFilterFind = async () => {
+
+      const requestData = {
+        "continentId": parseInt(selectedDestination.continent.id),
+        "endDate": formatDate(date.endDate),
+        "keyWord": keyword,
+        "nationId": parseInt(selectedDestination.country.id),
+        "regionId": parseInt(selectedDestination.city.id),
+        "startDate": formatDate(date.startDate),
+        "totalPeopleNum": parseInt(selectedNum),
+      }
   
-    const onClcickFilterFind = () => {
-      router.push("/findTripyler/list");
+      await axios
+        .post(`${apipath}/tripyler/list?isRecruiting=${parseInt(isRecruiting)}&option=${parseInt(option)}`, requestData)
+        .then((res) => {
+          console.log(res.data.data);
+          setNewCardList(res.data.data);
+        })
+        .catch((error) => console.log(error));
+  
     };
+
+    useEffect(() => {
+      onClcickFilterFind();
+    }, [isRecruiting]);
+
+    useEffect(() => {
+      onClcickFilterFind();
+    }, [option]);
     
     // 여행지 선택
     const [isCountry, setIsCountry] = useState(false);
@@ -44,18 +114,19 @@ export default function FindTripylerList(){
       country: [],
       city: []
     })
-    const [selectedDestination, setSelectedDestination] = useState({
-      continent: "",
-      country: "",
-      city: ""
-    });
+    
   
     const onOpenDestination = async () => {
       if(isCountry === true){
         setIsCountry(false);
       } else {
         setIsCountry(true);
-  
+        console.log(selectedDestination);
+        if(selectedDestination.city.name !== ""){
+          console.log(selectedDestination);
+          return;
+        }
+
         axios
           .get(apipath + '/destination/continent')
           .then((res) => {
@@ -73,7 +144,7 @@ export default function FindTripylerList(){
     const onOpenCountry = (e) => {
       setSelectedDestination(prev => ({
         ...prev,
-        continent: e.target.innerText
+        continent: {id: e.target.id ,name: e.target.innerText}
       }))
   
       axios
@@ -92,7 +163,7 @@ export default function FindTripylerList(){
     const onOpenCity = (e) => {
       setSelectedDestination(prev => ({
         ...prev,
-        country: e.target.innerText
+        country: {id: e.target.id ,name: e.target.innerText}
       }))
   
       axios
@@ -110,8 +181,8 @@ export default function FindTripylerList(){
     // 달력
     const [isCalendar, setIsCalendar] = useState(false);
     const [date, setDate] = useState({
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: new Date(router.query.startDate?.split("\"")[1]),
+      endDate: new Date(router.query.endDate?.split("\"")[1]),
       key: 'selection'
     });
   
@@ -129,10 +200,10 @@ export default function FindTripylerList(){
     }
     
     // 인원수 선택
-    const [selectedNum, setSelectedNum] = useState(0);
+    const [selectedNum, setSelectedNum] = useState(parseInt(router.query.num));
 
     // 검색어
-    const [keyword, setKeyword] = useState("");
+    const [keyword, setKeyword] = useState(router.query.keyword?.split("\"")[1]);
   
     return(
         <>
@@ -150,12 +221,12 @@ export default function FindTripylerList(){
                   <S.CountrySelectWrapper>
                     <S.ContinentSelect>
                       {destination.continent.map((des) => (
-                        <S.ContinentContent id={des.id} onClick={onOpenCountry}>{des.name}</S.ContinentContent>
+                        <S.ContinentContent id={des.id} onClick={onOpenCountry} selected={selectedDestination.continent.name === des.name}>{des.name}</S.ContinentContent>
                       ))}
                     </S.ContinentSelect>
                     <S.CountrySelect>
                       {destination.country.map((des) => (
-                        <S.ContinentContent id={des.id} onClick={onOpenCity}>{des.name}</S.ContinentContent>
+                        <S.ContinentContent id={des.id} onClick={onOpenCity} selected={selectedDestination.country.name === des.name}>{des.name}</S.ContinentContent>
                       ))}
                     </S.CountrySelect>
                     <S.CitySelect>
@@ -164,17 +235,19 @@ export default function FindTripylerList(){
                           setIsCountry(false); 
                           setSelectedDestination(prev => ({
                             ...prev,
-                            city: e.target.innerText
+                            city: {id: e.target.id ,name: e.target.innerText}
                           }));
                           console.log(selectedDestination);
-                        }}>{des.name}</S.ContinentContent>
+                        }}
+                        selected={selectedDestination.city.name === des.name}
+                        >{des.name}</S.ContinentContent>
                       ))}
                     </S.CitySelect>
                   </S.CountrySelectWrapper>
                 )}
                 </S.FilterTitleWrapper>
                 <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
-                  <S.FilterInput>{selectedDestination.city === "" ? "선택" : `${selectedDestination.country}, ${selectedDestination.city}`}</S.FilterInput>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${selectedDestination.country.name}, ${selectedDestination.city.name}`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 
@@ -185,7 +258,7 @@ export default function FindTripylerList(){
                 <S.FilterTitleImg src="/icon/calendar.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>일정</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-              <S.DateFilterWrapper onClick={(e) => setIsCalendar(true)}>
+              <S.DateFilterWrapper  onClick={(e) => {isCalendar ? setIsCalendar(false) : setIsCalendar(true)}}>
                 <S.Filter style={{ width: "200px" }}>
                   <S.FilterInput>{date.startDate ? formatDate(date.startDate) : `가는 날`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
@@ -227,6 +300,7 @@ export default function FindTripylerList(){
                   <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                 </S.FilterTitleWrapper>
                 <S.Input 
+                  value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
                   style={{ width: "925px" }} 
                   placeholder="직접 입력"
@@ -249,31 +323,22 @@ export default function FindTripylerList(){
               <div>함께 동행할 Trip’yler 찾기</div>
               <S.FindTripylerWriteBtn onClick={(e) => router.push("/findTripyler/write")}>글쓰기 〉</S.FindTripylerWriteBtn>
             </S.FindTripylerTitle>
-            <S.FindTripylerFilterOne>
-                <S.FindTripylerOptionOne>모집 중</S.FindTripylerOptionOne>
-                <S.FindTripylerOptionOne>마감</S.FindTripylerOptionOne>
+            <S.FindTripylerFilterOne onChange={(e) => {setIsRecruiting(e.target.value)}}>
+                <S.FindTripylerOptionOne value="1">모집 중</S.FindTripylerOptionOne>
+                <S.FindTripylerOptionOne value="2">마감</S.FindTripylerOptionOne>
             </S.FindTripylerFilterOne>
-            <S.FindTripylerFilterTwo>
-                <option>최신 순</option>
-                <option>좋아요 순</option>
-                <option>댓글 순</option>
-                <option>조회수 순</option>
+            <S.FindTripylerFilterTwo onChange={(e) => {setOption(e.target.value); onClcickFilterFind();}}>
+                <option value="1">최신 순</option>
+                <option value="2">좋아요 순</option>
+                <option value="3">댓글 순</option>
+                <option value="4">조회수 순</option>
             </S.FindTripylerFilterTwo>
         </S.FindTripylerTitleWrapper>
         <S.Review>
           <S.FindTripylerContent>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
-            <FindCard/>
+            {newCardList.map((card) => (
+              <FindCard id={card.tripylerId} info={card}/>
+            ))}
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>

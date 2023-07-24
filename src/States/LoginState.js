@@ -20,3 +20,9 @@ export const IsFirstLogin = atom({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const FindCardList = atom({
+  key: "FindCardList",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+})
