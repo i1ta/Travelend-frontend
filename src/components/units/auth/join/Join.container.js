@@ -415,7 +415,7 @@ export default function Join() {
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"W"}
+                value={"F"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel>여자</S.SpanLabel>

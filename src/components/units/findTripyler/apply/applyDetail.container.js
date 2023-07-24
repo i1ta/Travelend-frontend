@@ -1,0 +1,113 @@
+import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
+import * as S from "./applyDetail.style";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+export default function FindTripylerApplyDetail() {
+  const router = useRouter();
+  const apiPath = "https://api.tripyle.xyz";
+  const { applyId } = router.query;
+
+  const [isAccept, setIsAccept] = useState(false);
+  const [data, setData] = useState({});
+
+  const formatUserInfo = (age, gender) => {
+    const formatAge = age >= 10 ? `${age.toString().slice(0, 1)}0대` : "아동";
+    const formatGender = gender === "M" ? "남성" : "여성";
+    return formatAge + " " + formatGender;
+  };
+
+  useEffect(() => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    console.log(applyId);
+    applyId && fetchData();
+  }, [applyId]);
+
+  const fetchData = async () => {
+    await axios
+      .get(`${apiPath}/tripyler/apply/${applyId}`)
+      .then((res) => {
+        console.log(res);
+        setData({ ...res.data.data });
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const onClickRejectBtn = () => {
+    alert("거절");
+  };
+
+  const onClickAcceptBtn = () => {
+    alert("수락");
+    setIsAccept(true);
+  };
+
+  const onSubmitMsg = async (event) => {
+    event.preventDefault();
+    await axios
+      .post(apiPath + "/chat/send", {
+        content: event.target.message.value,
+        recipientId: data.applicantId,
+      })
+      .then((res) => {
+        console.log(res);
+        alert("전송이 완료되었습니다.");
+      })
+      .catch((err) => console.error(err));
+    event.target.reset();
+  };
+
+  return (
+    <>
+      <FindTripylerBanner
+        title="Trip'yler 신청내역"
+        subTitle="Trip’yle에서 나에게 동행신청을 보낸 Trip’yler들을 만나보세요."
+      />
+      <S.Title>Trip’yler 신청 확인하기</S.Title>
+      <S.Contents>
+        <S.ContentsImgWrapper>
+          <S.ContentsImg src="/img/Santorini.png" />
+        </S.ContentsImgWrapper>
+        <S.ContentsTitle>{data.title}</S.ContentsTitle>
+        <S.UserWrapper>
+          <S.UserImgWrapper>
+            <S.UserImg
+              src={data.profileUrl || "/icon/defaultProfile.png"}
+            ></S.UserImg>
+          </S.UserImgWrapper>
+          <S.UserTxtWrapper>
+            <S.UserID>{data.nickname}</S.UserID>
+            <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
+          </S.UserTxtWrapper>
+          <S.UserStyleWrapper>
+            {data.hashtag?.map((el) => (
+              <S.UserStyle key={el}>#{el}</S.UserStyle>
+            ))}
+          </S.UserStyleWrapper>
+        </S.UserWrapper>
+        <S.ContentsSubTitle>
+          상대방에게 본인에 대해 간단히 소개해주세요.
+        </S.ContentsSubTitle>
+        <S.IntroduceBox>{data.content}</S.IntroduceBox>
+        {isAccept ? (
+          <S.SendMsgForm onSubmit={onSubmitMsg}>
+            <S.SendMsgInput
+              name="message"
+              autoComplete="off"
+              placeholder="Trip’yler 신청 메세지를 입력해주세요."
+            ></S.SendMsgInput>
+            <S.SendMsgBtn>Send</S.SendMsgBtn>
+          </S.SendMsgForm>
+        ) : (
+          <S.BtnWrapper>
+            <S.RejectBtn onClick={onClickRejectBtn}>거절하기</S.RejectBtn>
+            <S.AcceptBtn onClick={onClickAcceptBtn}>수락하기</S.AcceptBtn>
+          </S.BtnWrapper>
+        )}
+      </S.Contents>
+    </>
+  );
+}

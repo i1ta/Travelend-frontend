@@ -312,7 +312,6 @@ export default function FindTripylerList(){
               <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
               <S.BtnArrow src="/icon/arrow.png"></S.BtnArrow>
             </S.FilterFindBtn>
-            
           </S.FilterMainWrapper>
         </S.FindFilter>
       </S.Banner>
@@ -342,6 +341,6 @@ export default function FindTripylerList(){
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
-        </>
-    )
-};
+    </>
+  );
+}
