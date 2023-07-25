@@ -145,16 +145,16 @@ export default function FindTripylerDetail() {
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
-              <S.UserImg src={data.profileUrl || "icon/defaultProfile.png"} />
+              <S.UserImg src={data.profileUrl || "icon/defaultProfile.png"} style={{'cursor': 'pointer'}} onClick={(e) => router.push({pathname: "/auth/profile", query: {userId: data.userId, user: false}})}/>
             </S.UserImgWrapper>
             <S.UserTxtWrapper>
-              <S.UserID>{data.nickname}</S.UserID>
+              <S.UserID  style={{'cursor': 'pointer'}} onClick={(e) => router.push({pathname: "/auth/profile", query: {userId: data.userId, user: false}})}>{data.nickname}</S.UserID>
               <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
           <S.MidTopRightWrapper>
             <S.ContentsInfoWrapper style={{ marginBottom: "40px" }}>
-              <S.ContentsInfoIcon src="/icon/user.png" />
+              <S.ContentsInfoIcon src="/icon/user.png"/>
               <S.ContentsInfoTxt>
                 {data.totalPeopleNum - data.recruitPeopleNum - 1}인 모집 중 / 총{" "}
                 {data.totalPeopleNum}인

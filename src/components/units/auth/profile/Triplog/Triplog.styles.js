@@ -63,7 +63,24 @@ export const CollectionContentTitleLeftWrapper = styled.div`
 `;
 
 export const CollectionContentTitleRightWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
+`;
 
+export const CollectionContentYearIcon = styled.img`
+  width: 16px;
+  height: 17px;
+  
+  margin: 0 20px;
+  margin-top: 19px;
+  cursor:pointer;
+`;
+
+export const CollectionContentYear = styled.div`
+  font-size: 36px;
+  font-weight: bold;
+  color: #C8B6FF;
 `;
 
 export const CollectionContentIcon = styled.img`

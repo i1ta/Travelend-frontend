@@ -19,13 +19,29 @@ export default function FindTripylerList(){
     const apipath = 'https://api.tripyle.xyz';
 
     const router = useRouter();
-    console.log(router);
+    console.log(router.query);
 
     const [selectedDestination, setSelectedDestination] = useState({
-      continent: {id: parseInt(router.query.continentId) ,name: router.query.continent?.split("\"")[1]},
-      country: {id: parseInt(router.query.countryId), name: router.query.country?.split("\"")[1]},
-      city: {id: parseInt(router.query.cityId), name: router.query.city?.split("\"")[1]},
+      continent: {id: parseInt(router.query?.continentId) ,name: router.query?.continent?.split("\"")[1]},
+      country: {id: parseInt(router.query?.countryId), name: router.query?.country?.split("\"")[1]},
+      city: {id: parseInt(router.query?.cityId), name: router.query.city?.split("\"")[1]},
     });
+    // const [selectedDestination, setSelectedDestination] = useState({
+    //   continent: {id: 0, name: ""},
+    //   country: {id: 0, name: ""},
+    //   city: {id: 0, name: ""}
+    // })
+    console.log(selectedDestination);
+
+    useEffect(() => {
+      if(selectedDestination.continent.id === NaN){
+        setSelectedDestination(prevDestination => ({
+          continent: {id: parseInt(router.query.continentId) ,name: router.query.continent?.split("\"")[1]},
+          country: {id: parseInt(router.query.countryId), name: router.query.country?.split("\"")[1]},
+          city: {id: parseInt(router.query.cityId), name: router.query.city?.split("\"")[1]},
+        }))
+      }
+    }, [])
 
     // 이미 필터링 된 채로 리스트 창 렌더링 시
     useEffect(() => {
@@ -210,7 +226,7 @@ export default function FindTripylerList(){
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
     useEffect(() => {
-      if(newCardList.length > 12 && pageNum.length === 0){
+      if(pageNum.length === 0){
         console.log(parseInt(newCardList.length / 12));
         for(let i = 0; i <= parseInt(newCardList.length / 12); i++){
           setPageNum((prev) => [...prev, i]);
@@ -374,7 +390,7 @@ export default function FindTripylerList(){
       <S.AdWrapper>
         <S.AdImg src="/img/AdBanner.png"></S.AdImg>
       </S.AdWrapper>
-      
+
       <PreviewCard/>
     </>
   );

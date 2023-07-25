@@ -1,32 +1,30 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-export default function TriplogReviewCard () {
+export default function TriplogReviewCard (props) {
   const router = useRouter();
     return(
         <ReviewCard>
-            <ReviewCardTitle>뉴질랜드 5박 6일 기록</ReviewCardTitle>
+            <ReviewCardTitle>{props.info.tripylerTitle}</ReviewCardTitle>
             <ReviewCardImgWrapper>
-                <ReviewCardImg src="/img/Santorini.png"></ReviewCardImg>
-                <ReviewCardImg src="/img/Santorini.png"></ReviewCardImg>
-                <ReviewCardImg src="/img/Santorini.png"></ReviewCardImg>
+                {props.info.imageUrls.map((e) => (<ReviewCardImg src={e}></ReviewCardImg>))}
             </ReviewCardImgWrapper>
-            <ReviewCardContent>너무 좋아요 너무 좋구요 좋습니다 좋았구요 좋아요 또 가고 싶어요 다음번엔 더 좋은데로 가고싶지만 돈이 없어서 갈 수 없고 뉴질랜드 너무 경관도 좋고먹을 것도 많고 사람도 좋고 좋아요.. 어쩌고저쩌고 주저리주저리 랄랄랄랄랄랄랄랄랄랄랄랄랄랄랄 너무너무 좋았어요 또 놀러가고 싶어요 돈만있으면 갈겁니다.</ReviewCardContent>
+            <ReviewCardContent>{props.info.tripylerTitle}</ReviewCardContent>
             <ReviewCardLine></ReviewCardLine>
             <ReviewCardFooter>
                 <ReviewCardDesWrapper>
                     <ReviewCardDesIcon src="/icon/location.png"></ReviewCardDesIcon>
-                    <ReviewCardDes>New Zealand</ReviewCardDes>
+                    <ReviewCardDes>{props.info.nationName}</ReviewCardDes>
                     <ReviewCardDesIcon src="/icon/calendar.png"></ReviewCardDesIcon>
-                    <ReviewCardDes>23.05.01 ~ 23.05.07</ReviewCardDes>
+                    <ReviewCardDes>{props.info.startDate.substring(2).replace("-", ".")} ~ {props.info.endDate.substring(2).replace("-", ".")}</ReviewCardDes>
                 </ReviewCardDesWrapper>
                 <ReviewCardInfoWrapper>
                     <ReviewCardInfoIcon src="/icon/heart_gray.png"></ReviewCardInfoIcon>
-                    <ReviewCardInfoTxt>1.2k</ReviewCardInfoTxt>
+                    <ReviewCardInfoTxt>{props.info.likes}</ReviewCardInfoTxt>
                     <ReviewCardInfoIcon src="/icon/comment.png"></ReviewCardInfoIcon>
-                    <ReviewCardInfoTxt>24</ReviewCardInfoTxt>
+                    <ReviewCardInfoTxt>{props.info.comments}</ReviewCardInfoTxt>
                     <ReviewCardInfoIcon src="/icon/view_gray.png"></ReviewCardInfoIcon>
-                    <ReviewCardInfoTxt>1,200</ReviewCardInfoTxt>
+                    <ReviewCardInfoTxt>{props.info.hits}</ReviewCardInfoTxt>
                 </ReviewCardInfoWrapper>
             </ReviewCardFooter>
         </ReviewCard>

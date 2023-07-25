@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import * as S from "./Profile.styles";
 import Modal from "../../../commons/Modal/Modal";
+import NotMyProfile from "./MyProfile/NotMyProfile.container";
 import MyProfile from "./MyProfile/MyProfile.container";
 import MyCollections from "./MyCollections/MyCollections.container";
 import Triplog from "./Triplog/Triplog.container";
@@ -19,6 +20,10 @@ export default function Profile() {
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+
+  const [userId, setUserId] = useState(parseInt(router.query.userId));
+  const [notMyProfildData, setNotMyProfileData] = useState({});
+
   const onClickCategory = (event) => {
     setSelectedCategory(event.target.id);
   };
@@ -55,9 +60,14 @@ export default function Profile() {
     chatContents: [],
   });
 
+  // my collection data
   const [myCollectionReviewData, setMyCollectionReviewData] = useState([]); // 찜한 Triplog
   const [myCollectionLikeData, setMyCollectionLikeData] = useState([]);
   const [myCollectionApplyData, setMyCollectionApplyData] = useState([]);
+
+  // triplog data
+  const [myTripylersData, setMyTripylersData] = useState([]);
+  const [myReviewsData, setMyReviewsData] = useState([]);
 
   // My Profile api
   const fetchMyProfile = async () => {
@@ -75,6 +85,23 @@ export default function Profile() {
       .catch((error) => console.error(error));
   };
 
+  // 다른 유저 프로필 정보 가져오기
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if(router.query.user === 'false'){
+        setSelectedCategory("NotMyProfile");
+      }
+      axios.defaults.headers.common["x-auth-token"] =
+        window.localStorage.getItem("login-token");
+
+      await axios
+        .get(apiPath + `/profile/${userId}`)
+        .then((res) => {console.log(res); setNotMyProfileData(res.data.data)})
+        .catch((err) => console.log(err));
+    }
+
+    fetchProfile();
+  }, [userId])
   
   // My Profile 수정 api
   const modifyProfile = async (getInsta, getPhone, getMbtiIdx, getHashtag, getBio) => {
@@ -261,6 +288,9 @@ export default function Profile() {
 
   // My collection 리스트 가져오기
   const onOpenMyCollection = async () => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+      
     await axios
       .get(apiPath + "/my-collections/review-like-list")
       .then((res) => {
@@ -286,11 +316,64 @@ export default function Profile() {
     .catch((err) => console.log(err));
   };
 
+  // Triplog 리스트 가져오기
+  const onOpenTriplog = async (e) => {
+    console.log(e);
+
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    await axios
+      .get(apiPath + `/my-collections/my-reviews?year=${e}`)
+      .then((res) => {
+        console.log(res);
+        setMyReviewsData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+
+    await axios
+    .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
+    .then((res) => {
+      console.log(res);
+      setMyTripylersData(res.data.data);
+    })
+    .catch((err) => console.log(err));
+
+  };
+
   return (
     <>
-    {isModify
-    ?
-      (<S.Container>
+    {isModify ?
+    router.query.user === 'false' ? (
+      <S.Container>
+        <S.SideBar>
+          
+          <S.ProfileImage data={notMyProfildData.profileUrl}>
+            <S.DefaultProfile
+              src={notMyProfildData.profileUrl || "/icon/defaultProfile.png"}
+              data={notMyProfildData.profileUrl}
+            />
+          </S.ProfileImage>
+          
+          <S.Name>{notMyProfildData.username} 님</S.Name>
+
+          <S.CategoryWrapper>
+            <S.Category
+              id="NotMyProfile"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              Profile
+            </S.Category>
+            
+          </S.CategoryWrapper>
+
+        </S.SideBar>
+      {selectedCategory === "NotMyProfile" && <NotMyProfile
+        data={notMyProfildData}
+      />}
+      </S.Container>
+    ) : (<S.Container>
         <S.SideBar>
           
           <S.ProfileImage data={selectedFile}>
@@ -349,7 +432,11 @@ export default function Profile() {
           applyData={myCollectionApplyData}
           onOpenMyCollection={onOpenMyCollection}
         />}
-        {selectedCategory === "Triplog" && <Triplog />}
+        {selectedCategory === "Triplog" && <Triplog 
+          TripylersData={myTripylersData}
+          reviewData={myReviewsData}
+          onOpenTriplog={onOpenTriplog}
+        />}
         {selectedCategory === "Messenger" && (
           <Messenger
             msgListData={msgListData}
