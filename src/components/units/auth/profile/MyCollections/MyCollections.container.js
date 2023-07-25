@@ -4,13 +4,30 @@ import * as S from "./MyCollections.styles";
 import Modal from "../../../../commons/Modal/Modal";
 import axios from "axios";
 import FindCard from "@/components/commons/Card/MyCollections/FindCard";
+import FindListCard from "@/components/commons/Card/MyCollections/FindListCard";
 import ReviewCard from "@/components/commons/Card/MyCollections/ReviewCard";
+import ApplyCard from "@/components/commons/Card/MyCollections/ApplyCard";
 
-
-export default function MyCollections() {
+export default function MyCollections(props) {
 
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [sortCategory, setSortCategory] = useState(0);
+
+  useEffect( () => {
+    props.onOpenMyCollection();
+  }, [])
+
+  useEffect(() => {
+    if(props.likeData){
+      console.log(props.likeData);
+    }
+    if(props.reviewData){
+      console.log(props.reviewData);
+    }
+    if(props.applyData){
+      console.log(props.applyData);
+    }
+  }, [props])
   return (
   <>
     <S.MyCollectionsWrapper>
@@ -22,6 +39,8 @@ export default function MyCollections() {
         <S.CollectionContentTitleWrapper>
           <S.CollectionContentTitleLeftWrapper>
             <S.CollectionContentIcon src="/icon/purpleSearch.png"></S.CollectionContentIcon>
+            <S.CollectionContentTitle selected={selectedCategory === 2} onClick={(e) => setSelectedCategory(2)}>내가 신청한 Trip'yler</S.CollectionContentTitle>
+            <S.CollectionContentLine></S.CollectionContentLine>
             <S.CollectionContentTitle selected={selectedCategory === 0} onClick={(e) => setSelectedCategory(0)}>찜한 Trip'yler 게시물</S.CollectionContentTitle>
             <S.CollectionContentLine></S.CollectionContentLine>
             <S.CollectionContentTitle selected={selectedCategory === 1} onClick={(e) => setSelectedCategory(1)}>찜한 여행 후기</S.CollectionContentTitle>
@@ -37,31 +56,20 @@ export default function MyCollections() {
         {selectedCategory === 0 ? (
           sortCategory === 0 ? (
             <S.CollectionContent>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
-              <S.CollectionFindCard/>
+              {props.likeData.map((element, idx) => (<S.CollectionFindCard key={idx} data={element}/>))}
             </S.CollectionContent>
           ) : (
             <S.CollectionContent>
-              <ReviewCard/>
-              <ReviewCard/>
-              <ReviewCard/>
-              <ReviewCard/>
-              <ReviewCard/>
-              <ReviewCard/>
-              <ReviewCard/>
+              {props.likeData.map((element, idx) => (<FindListCard key={idx} data={element}/>))}
             </S.CollectionContent>
           )
+        ) : selectedCategory === 1 ? (
+          <S.CollectionContent>
+            {props.reviewData.map((element, idx) => (<ReviewCard key={idx} data={element}/>))}
+          </S.CollectionContent>
         ) : (
           <S.CollectionContent>
-            <S.CollectionFindCard/>
-            <S.CollectionFindCard/>
+            {props.applyData.map((element, idx) => (<ApplyCard key={idx} data={element}/>))}
           </S.CollectionContent>
         )}
       </S.CollectionWrapper>
