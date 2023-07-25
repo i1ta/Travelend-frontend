@@ -114,7 +114,7 @@ export const CollectionContent = styled.div`
   overflow-y: auto;
 
   justify-content: center;
-  padding: 10px;
+  padding: 20px;
 `;
 
 export const CollectionFindCard = styled(FindCard)`

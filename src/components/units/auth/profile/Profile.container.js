@@ -55,6 +55,10 @@ export default function Profile() {
     chatContents: [],
   });
 
+  const [myCollectionReviewData, setMyCollectionReviewData] = useState([]); // 찜한 Triplog
+  const [myCollectionLikeData, setMyCollectionLikeData] = useState([]);
+  const [myCollectionApplyData, setMyCollectionApplyData] = useState([]);
+
   // My Profile api
   const fetchMyProfile = async () => {
     axios.defaults.headers.common["x-auth-token"] =
@@ -255,6 +259,33 @@ export default function Profile() {
     console.log(selectedFile);
   }
 
+  // My collection 리스트 가져오기
+  const onOpenMyCollection = async () => {
+    await axios
+      .get(apiPath + "/my-collections/review-like-list")
+      .then((res) => {
+        console.log(res);
+        setMyCollectionReviewData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+
+    await axios
+    .get(apiPath + "/my-collections/tripyler-like-list")
+    .then((res) => {
+      console.log(res);
+      setMyCollectionLikeData(res.data.data);
+    })
+    .catch((err) => console.log(err));
+
+    await axios
+    .get(apiPath + "/my-collections/tripyler-apply-list")
+    .then((res) => {
+      console.log(res);
+      setMyCollectionApplyData(res.data.data);
+    })
+    .catch((err) => console.log(err));
+  };
+
   return (
     <>
     {isModify
@@ -312,7 +343,12 @@ export default function Profile() {
           fetchMyProfile={fetchMyProfile}
           setModify={handleModify}
         />}
-        {selectedCategory === "MyCollections" && <MyCollections />}
+        {selectedCategory === "MyCollections" && <MyCollections 
+          reviewData={myCollectionReviewData}
+          likeData={myCollectionLikeData}
+          applyData={myCollectionApplyData}
+          onOpenMyCollection={onOpenMyCollection}
+        />}
         {selectedCategory === "Triplog" && <Triplog />}
         {selectedCategory === "Messenger" && (
           <Messenger
