@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-export default function TriplogFindcard () {
+export default function TriplogFindcard (props) {
   const router = useRouter();
     return(
        <>
@@ -9,24 +9,24 @@ export default function TriplogFindcard () {
             <TriplogFindImgWrapper>
                 <TriplogFindDesWrapper>
                     <TriplogFindDesIcon src="/icon/location.png"></TriplogFindDesIcon>
-                    <TriplogFindDes>부다페스트</TriplogFindDes>
+                    <TriplogFindDes>{props.info.regionName}</TriplogFindDes>
                 </TriplogFindDesWrapper>
-                <TriplogFindImg src="/img/Santorini.png"></TriplogFindImg>
+                <TriplogFindImg src={props.info.imageUrl}></TriplogFindImg>
             </TriplogFindImgWrapper>
             <TriplogFindContentWrapper>
-                <TriplogFindContentTitle>10박 11일 부다페스트 여행 동행자를 찾습니다.</TriplogFindContentTitle>
+                <TriplogFindContentTitle>{props.info.title}</TriplogFindContentTitle>
                 <TriplogFindContentNumWrapper>
                     <TriplogFindNumIcon src="/icon/profile_white.png"></TriplogFindNumIcon>
-                    <TriplogFindContentTxt>3인 모집 완료 / 4인</TriplogFindContentTxt>
+                    <TriplogFindContentTxt>{props.info.recruitPeopleNum}인 모집 완료 / {props.info.totalPeopleNum}인</TriplogFindContentTxt>
                 </TriplogFindContentNumWrapper>
                 <TriplogFindLine></TriplogFindLine>
                 <TriplogFindInfoWrapper>
                     <TriplogFindInfoIcon src="/icon/heart_white.png"></TriplogFindInfoIcon>
-                    <TriplogFindInfoTxt>1.2k</TriplogFindInfoTxt>
+                    <TriplogFindInfoTxt>{props.info.likes}</TriplogFindInfoTxt>
                     <TriplogFindInfoIcon src="/icon/comment_white.png"></TriplogFindInfoIcon>
-                    <TriplogFindInfoTxt>24</TriplogFindInfoTxt>
+                    <TriplogFindInfoTxt>{props.info.comments}</TriplogFindInfoTxt>
                     <TriplogFindInfoIcon src="/icon/view_white.png"></TriplogFindInfoIcon>
-                    <TriplogFindInfoTxt>1,200</TriplogFindInfoTxt>
+                    <TriplogFindInfoTxt>{props.info.hits}</TriplogFindInfoTxt>
                 </TriplogFindInfoWrapper>
             </TriplogFindContentWrapper>
         </TriplogFindCardWrapper>
