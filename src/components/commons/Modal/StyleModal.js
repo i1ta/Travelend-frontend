@@ -93,7 +93,7 @@ export default function StyleModal(props) {
         <ModalTitle>여행 스타일</ModalTitle>
         <ModalInputWrapper onSubmit={handleSearchHashtag}>
           <ModalInput
-            placeholder={"여행스타일 검색 (최대 3개)"}
+            placeholder={`여행스타일 검색 (최대 ${props.limitLen}개)`}
             name="search"
             autocomplete="off"
           ></ModalInput>
