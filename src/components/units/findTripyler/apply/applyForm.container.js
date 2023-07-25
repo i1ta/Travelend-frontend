@@ -1,11 +1,18 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./applyForm.style";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function FindTripylerApply() {
+  const router = useRouter();
+  const apiPath = "https://api.tripyle.xyz";
+  const { tripylerId } = router.query;
+
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isCheckedAll, setIsCheckedAll] = useState(false);
+  const [content, setContent] = useState("");
 
   // 체크박스 설정
   const onChangeCheckbox1 = (event) => {
@@ -34,11 +41,24 @@ export default function FindTripylerApply() {
     }
   };
 
-  const onClickApplyBtn = () => {
-    if (isCheckedAll) {
-      alert("신청이 완료되었습니다.");
-    } else {
+  const onClickApplyBtn = async () => {
+    if (!isCheckedAll) {
       alert("필수항목에 동의해주세요");
+    } else {
+      axios.defaults.headers.common["x-auth-token"] =
+        window.localStorage.getItem("login-token");
+
+      await axios
+        .post(apiPath + "/tripyler/apply", {
+          content,
+          tripylerId,
+        })
+        .then((res) => {
+          console.log(res);
+          alert("신청이 완료되었습니다.");
+          router.push(`/findTripyler/${tripylerId}`);
+        })
+        .catch((err) => console.error(err));
     }
   };
   return (
@@ -99,7 +119,9 @@ export default function FindTripylerApply() {
           <S.FormTitle>Trip’yler 신청</S.FormTitle>
           <S.TitleLine></S.TitleLine>
           <S.SubTitle>상대방에게 본인에 대해 간단히 소개해주세요.</S.SubTitle>
-          <S.Input></S.Input>
+          <S.Input
+            onChange={(event) => setContent(event.target.value)}
+          ></S.Input>
         </S.ContentsItem>
         <S.ApplyBtn onClick={onClickApplyBtn}>신청 완료</S.ApplyBtn>
       </S.Form>

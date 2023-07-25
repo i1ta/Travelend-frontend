@@ -313,6 +313,10 @@ export const SubmitBtn = styled(CancelBtn)`
   margin-left: 45px;
 `;
 
+export const FormBtm = styled.div`
+height: 2350px;
+`
+
 // Modal
 
 export const ModalOverlay = styled.div`

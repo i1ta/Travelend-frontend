@@ -5,7 +5,7 @@ export const Page = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 150px;
   width: fit-content;
 `;
 

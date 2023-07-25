@@ -9,7 +9,7 @@ import Link from "next/link";
 import axios from "axios";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import FindCard from '../../commons/Card/Main/FindCard/FindCard';
+import FindCard from '@/components/commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
