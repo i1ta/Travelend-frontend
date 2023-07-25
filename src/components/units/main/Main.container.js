@@ -317,15 +317,20 @@ export default function Main() {
         </S.FindTripylerTitleWrapper>
         <S.Review>
           <S.FindTripylerContent>
-            {response.map((res) => (
-              <FindCard id={res.tripylerId} info={res} />
-            ))}
+            {response.map((res, idx) => {
+            if(idx >= 0 && idx < 8)
+            { return (
+              <FindCard id={res.tripylerId} info={res}/>
+            )}})}
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
 
       <S.ContentWrapper>
-        <S.ReviewTitle onClick={(e) => router.push("/review")}>인기 여행 후기 Top5</S.ReviewTitle>
+        <S.ReviewTitleWrapper onClick={(e) => router.push("/review")}>
+          <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
+          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
+        </S.ReviewTitleWrapper>
         <S.Review>
           <ReviewComponent/>
           <ReviewComponent/>

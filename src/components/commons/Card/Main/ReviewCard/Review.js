@@ -113,6 +113,7 @@ export const ReviewUserHashtag = styled.div`
     width: 70px;
     height: 28px;
 
+    padding: 6px 0;
     margin-right: 15px;
     text-align: center;
 `;

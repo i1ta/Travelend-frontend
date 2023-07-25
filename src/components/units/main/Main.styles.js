@@ -372,10 +372,11 @@ export const FindTripylerTitle = styled.div`
   
 `;
 
-export const ReviewTitle = styled(FindTripylerTitleWrapper)`
+export const ReviewTitleWrapper = styled(FindTripylerTitleWrapper)`
   background-color: rgba(200, 182, 255, 0.8);
-  margin-top: 200px;
 `;
+
+export const ReviewTitle = styled.div``;
 
 export const ReviewFilter = styled.div`
   width: 1100px;

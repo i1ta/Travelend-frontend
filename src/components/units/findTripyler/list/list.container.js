@@ -11,6 +11,7 @@ import axios from "axios";
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import FindCard from '../../../commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
+import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 
 export default function FindTripylerList(){
@@ -205,9 +206,21 @@ export default function FindTripylerList(){
     // 검색어
     const [keyword, setKeyword] = useState(router.query.keyword?.split("\"")[1]);
   
+    // 페이지네이션
+    const [page, setPage] = useState(1);
+    const [pageNum, setPageNum] = useState([]);
+    useEffect(() => {
+      if(newCardList.length > 12 && pageNum.length === 0){
+        console.log(parseInt(newCardList.length / 12));
+        for(let i = 0; i <= parseInt(newCardList.length / 12); i++){
+          setPageNum((prev) => [...prev, i]);
+        }
+        console.log(pageNum);
+      }
+    }, [newCardList]);
     return(
         <>
-        <FindTripylerBanner/>
+        <FindTripylerBanner title="Trip'yler 찾기" subTitle="함께 하고 싶은 여행자를 Trip'yle에서 바로 찾아보세요"/>
         <S.Banner>
         <S.FindFilter>
           <S.FilterMainWrapper>
@@ -334,13 +347,30 @@ export default function FindTripylerList(){
             </S.FindTripylerFilterTwo>
         </S.FindTripylerTitleWrapper>
         <S.Review>
+          {newCardList.length === 0 ? (
+            <S.FindTripylerNoContent>
+              <S.NoContent>조건에 맞는 게시 글이 존재하지 않습니다</S.NoContent>
+            </S.FindTripylerNoContent>
+          ) : (
           <S.FindTripylerContent>
-            {newCardList.map((card) => (
+            {newCardList.map((card, idx) => { 
+              if(parseInt(idx / 12) === page - 1){
+              return(
               <FindCard id={card.tripylerId} info={card}/>
-            ))}
+            )}})}
           </S.FindTripylerContent>
+          )}
+
+          {newCardList.length !== 0 && (
+          <S.PageNationWrapper>
+            <S.ArrowImg src="/icon/pageLeftArrow.png" onClick={(e) => setPage((prev) => prev - 1 < 1 ? 1 : prev - 1 )}></S.ArrowImg>
+              {pageNum.map((i) => (<S.PageTxt onClick={(e) => setPage(i + 1)} selected={i + 1 === page}>{i + 1}</S.PageTxt>))}
+            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(newCardList.length / 12) + 1 ? parseInt(newCardList.length / 12) + 1 : prev + 1 )}></S.ArrowImg>
+          </S.PageNationWrapper>
+          )}
         </S.Review>
       </S.ContentWrapper>
+      <PreviewCard/>
     </>
   );
 }

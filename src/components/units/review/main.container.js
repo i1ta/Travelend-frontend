@@ -11,6 +11,7 @@ import axios from "axios";
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import FindCard from '../../commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
+import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 
 export default function ReviewList(){
@@ -210,7 +211,7 @@ export default function ReviewList(){
 
     return(
         <>
-        <FindTripylerBanner/>
+        <FindTripylerBanner title="Trip'yler 여행 후기" subTitle="Trip'yler가 함께한 여행 후기를 구경해보세요!"/>
         {isOpen ? (
         <S.Banner>
         <S.FindFilter>
@@ -375,6 +376,7 @@ export default function ReviewList(){
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
+      <PreviewCard/>
         </>
     )
 };
