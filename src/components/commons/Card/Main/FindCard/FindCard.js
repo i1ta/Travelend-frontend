@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 export default function FindCard (props) {
   const router = useRouter();
     return(
-        <ReviewCard>
+        <ReviewCard onClick={(e) => router.push(`/findTripyler/${props.id}`)}>
             <ReviewImg src={props.info.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>
@@ -67,10 +67,10 @@ export default function FindCard (props) {
                   <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
                 </ReviewReactContent>
               </ReviewReactWrapper>
-              <ReviewDetailBtn>
+              {/* <ReviewDetailBtn>
                 <ReviewDetailBtnTxt onClick={(e) => router.push("/findTripyler/detail")}>상세보기</ReviewDetailBtnTxt>
                 <BtnArrow></BtnArrow>
-              </ReviewDetailBtn>
+              </ReviewDetailBtn> */}
             </ReviewCardFooter>
           </ReviewCard>
     )
@@ -86,6 +86,7 @@ const ReviewCard = styled.div`
   align-items: center;
   margin-right: 20px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 const ReviewImg = styled.img`

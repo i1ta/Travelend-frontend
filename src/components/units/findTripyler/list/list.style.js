@@ -333,9 +333,24 @@ export const FindTripylerContent = styled.div`
   margin-left: 20px;
 `;
 
+export const FindTripylerNoContent = styled(FindTripylerContent)`
+  height: 200px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 500px 0;
+`;
+
+export const NoContent = styled.div`
+  font-size: 40px;
+
+`;
+
 export const ContentWrapper = styled.div`
   align-items: center;
   justify-content: center;
+
+  margin-bottom: 100px;
 `;
 
 export const FindTripylerTitle = styled.div`
@@ -413,4 +428,42 @@ export const FindTripylerFilterTwo = styled.select`
   &:focus{
     border: 2px solid #00B4D8;;
   }
+`;
+
+export const PageNationWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+
+  margin: 70px 0;
+`;
+
+export const PageTxt = styled.div`
+  font-size: 25px;
+  margin: 0 10px;
+  cursor: pointer;
+
+  color: ${(props) => 
+    props.selected ? '#000000' : 'rgba(0, 0, 0, 0.3)'
+  }
+
+`;
+
+export const ArrowImg = styled.img`
+  height: 25px;
+  width: 15px;
+  margin: 0 20px;
+  margin-top: 7px;
+  cursor: pointer;
+`;
+
+export const AdWrapper = styled.div`
+  text-align: center;
+  margin: 150px auto;
+`;
+
+export const AdImg = styled.img`
+  height: 410px;
+  width: 1920px;
 `;

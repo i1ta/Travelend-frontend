@@ -446,3 +446,13 @@ export const FindTripylerFilterTwo = styled.select`
     border: 2px solid #00B4D8;;
   }
 `;
+
+export const AdWrapper = styled.div`
+  text-align: center;
+  margin: 150px auto;
+`;
+
+export const AdImg = styled.img`
+  height: 410px;
+  width: 1920px;
+`;

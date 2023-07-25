@@ -364,18 +364,27 @@ export const FindTripylerTitleWrapper = styled.div`
 export const ContentWrapper = styled.div`
   align-items: center;
   justify-content: center;
+`;
 
-  
+export const AdWrapper = styled.div`
+  text-align: center;
+  margin: 150px auto;
+`;
+
+export const AdImg = styled.img`
+  height: 410px;
+  width: 1920px;
 `;
 
 export const FindTripylerTitle = styled.div`
   
 `;
 
-export const ReviewTitle = styled(FindTripylerTitleWrapper)`
+export const ReviewTitleWrapper = styled(FindTripylerTitleWrapper)`
   background-color: rgba(200, 182, 255, 0.8);
-  margin-top: 200px;
 `;
+
+export const ReviewTitle = styled.div``;
 
 export const ReviewFilter = styled.div`
   width: 1100px;
