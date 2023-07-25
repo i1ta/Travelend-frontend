@@ -1,7 +1,7 @@
 import CalendarTool from "@/components/commons/Tools/Calendar";
 import StyleModal from "@/components/commons/Modal/StyleModal";
 import * as S from "./write.style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -17,9 +17,11 @@ export default function FindTripylerWrite(props) {
   const [isOpenStep1, setIsOpenStep1] = useState(true);
   const [isOpenStep2, setIsOpenStep2] = useState(true);
   const [isOpenStep3, setIsOpenStep3] = useState(true);
+  const [data, setData] = useState({});
 
   const apiPath = "https://api.tripyle.xyz";
   const router = useRouter();
+  const { tripylerId } = router.query;
 
   const onClickMoreBtn = (event) => {
     const stepNum = event.currentTarget.id;
@@ -51,10 +53,36 @@ export default function FindTripylerWrite(props) {
     } else setTotalPeopleNum((prev) => prev + 1);
   };
 
-  const onClickCancelBtn = () => {
-    alert("취소");
-    // console.log(typeof tripDate[0]);
+  const fetchData = async () => {
+    await axios
+      .get(`${apiPath}/tripyler/${tripylerId}`)
+      .then((res) => {
+        const data = res.data.data;
+        console.log(res);
+        setData({ ...data });
+        // setShownMyHashtag([
+        //   data.hashtag1,
+        //   data.hashtag2,
+        //   data.hashtag3,
+        //   data.hashtag4,
+        //   data.hashtag5,
+        // ]);
+        setTripDate([data.startDate, data.endDate]);
+        setTotalPeopleNum(data.totalPeopleNum);
+        setTitle(data.title);
+        setContent(data.content);
+        setImageUrl(data.image);
+      })
+      .catch((error) => console.error(error));
   };
+
+  useEffect(() => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    props.isEdit && tripylerId && fetchData();
+    console.log(data);
+  }, [tripylerId]);
 
   // 이미지 뷰어
   const [imageUrl, setImageUrl] = useState("");
@@ -78,11 +106,13 @@ export default function FindTripylerWrite(props) {
     }
   };
 
+  const onClickCancelBtn = () => {
+    alert("취소");
+    console.log(data);
+  };
+
   // 작성완료 버튼
   const onClickSubmitBtn = async () => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     if (
       tripDate.length !== 0 &&
       shownMyHashtag.length !== 0 &&
@@ -119,15 +149,54 @@ export default function FindTripylerWrite(props) {
             accept: "application/json",
           },
         })
-        .then((response) => {
-          console.log(response);
-          alert("게시글 작성이 완료되었습니다.");
-          router.push("/findTripyler/list");
+        .then((res) => {
+          console.log(res);
+          alert(res.data.data);
+          router.push("/findTripyler");
         })
         .catch((error) => console.error(error));
     } else {
       alert("필수입력 항목을 확인해주세요");
     }
+  };
+
+  // 수정완료 버튼
+  const onClickEditBtn = async () => {
+    const requestData = {
+      title,
+      content,
+      startDate: tripDate[0],
+      endDate: tripDate[1],
+      firstTripStyleId: shownMyHashtag[0]?.id || 0,
+      secondTripStyleId: shownMyHashtag[1]?.id || 0,
+      thirdTripStyleId: shownMyHashtag[2]?.id || 0,
+      fourthTripStyleId: shownMyHashtag[3]?.id || 0,
+      fifthTripStyleId: shownMyHashtag[4]?.id || 0,
+      continentId: 1,
+      nationId: 1,
+      regionId: 20,
+      totalPeopleNum,
+    };
+    const formData = new FormData();
+    formData.append(
+      "tripylerCreateDto",
+      new Blob([JSON.stringify(requestData)], { type: "application/json" })
+    );
+    formData.append("images", selectedImage);
+
+    await axios
+      .patch(apiPath + `/tripyler/${tripylerId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          accept: "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        alert(res.data.data);
+        router.push(`/findTripyler/${tripylerId}`);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -147,7 +216,10 @@ export default function FindTripylerWrite(props) {
                 <S.StepTitleTxt>여행 정보 입력</S.StepTitleTxt>
               </S.FormTitleTxtWrapper>
               <S.MoreBtn id="1" onClick={onClickMoreBtn}>
-                <S.MoreBtnImg src="/icon/moreBtn.svg" isOpenStep={isOpenStep1} />
+                <S.MoreBtnImg
+                  src="/icon/moreBtn.svg"
+                  isOpenStep={isOpenStep1}
+                />
               </S.MoreBtn>
             </S.FormTitleWrapper>
             <S.Line></S.Line>
@@ -224,7 +296,10 @@ export default function FindTripylerWrite(props) {
                 <S.StepTitleTxt>내용 작성</S.StepTitleTxt>
               </S.FormTitleTxtWrapper>
               <S.MoreBtn id="2" onClick={onClickMoreBtn}>
-                <S.MoreBtnImg src="/icon/moreBtn.svg"  isOpenStep={isOpenStep2}/>
+                <S.MoreBtnImg
+                  src="/icon/moreBtn.svg"
+                  isOpenStep={isOpenStep2}
+                />
               </S.MoreBtn>
             </S.FormTitleWrapper>
             <S.Line></S.Line>
@@ -235,6 +310,7 @@ export default function FindTripylerWrite(props) {
                   <S.LongInput
                     placeholder="제목을 입력해주세요"
                     onChange={(event) => setTitle(event.target.value)}
+                    defaultValue={title}
                   ></S.LongInput>
                 </S.InputInfoWrapper>
                 <S.LongInputInfoWrapper>
@@ -242,6 +318,7 @@ export default function FindTripylerWrite(props) {
                   <S.LongTxtArea
                     placeholder="내용을 입력해주세요"
                     onChange={(event) => setContent(event.target.value)}
+                    defaultValue={content}
                   ></S.LongTxtArea>
                 </S.LongInputInfoWrapper>
               </S.StepInfoWrapper>
@@ -255,7 +332,10 @@ export default function FindTripylerWrite(props) {
                 <S.StepTitleTxt>이미지 선택</S.StepTitleTxt>
               </S.FormTitleTxtWrapper>
               <S.MoreBtn id="3" onClick={onClickMoreBtn}>
-                <S.MoreBtnImg src="/icon/moreBtn.svg" isOpenStep={isOpenStep3}/>
+                <S.MoreBtnImg
+                  src="/icon/moreBtn.svg"
+                  isOpenStep={isOpenStep3}
+                />
               </S.MoreBtn>
             </S.FormTitleWrapper>
             <S.Line></S.Line>
@@ -296,12 +376,15 @@ export default function FindTripylerWrite(props) {
           </S.StepWrapper>
           <S.BtnWrapper>
             <S.CancelBtn onClick={onClickCancelBtn}>취소</S.CancelBtn>
-            <S.SubmitBtn onClick={onClickSubmitBtn}>
+            <S.SubmitBtn
+              onClick={props.isEdit ? onClickEditBtn : onClickSubmitBtn}
+            >
               {props.isEdit ? "수정" : "작성"} 완료
             </S.SubmitBtn>
           </S.BtnWrapper>
         </S.WriteForm>
       </S.TitleBanner>
+      <S.FormBtm />
 
       {isOpenPlaceModal && (
         <S.ModalOverlay>

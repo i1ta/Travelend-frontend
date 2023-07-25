@@ -1,18 +1,17 @@
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  line-height: center;
-  
-`
+  margin-top: 150px;
+`;
 
 export const Title = styled.h1`
   padding: 5px 7px;
   border-bottom: 3px solid black;
   letter-spacing: -1px;
-`
+`;
 
 export const Form = styled.form`
   display: flex;
@@ -31,7 +30,7 @@ export const InputWrapper = styled.div`
 
 export const Input = styled.input`
   border-radius: 10px;
-  border: 1px solid #D6D5D5;
+  border: 1px solid #d6d5d5;
 
   font-size: 15px;
 
@@ -40,7 +39,7 @@ export const Input = styled.input`
   width: 500px;
   height: 70px;
 
-  &:focus{
+  &:focus {
     outline: none;
   }
 `;
@@ -60,17 +59,17 @@ export const CheckboxInput = styled.input`
   width: 1.3rem;
   height: 1.3rem;
   border-radius: 50%;
-  border: 2.5px solid #D6D5D5;
+  border: 2.5px solid #d6d5d5;
   appearance: none;
   cursor: pointer;
   transition: background 0.2s;
 
-  &:checked{
-    background: #D6D5D5;
+  &:checked {
+    background: #d6d5d5;
     border: none;
-    content:'✔';
+    content: "✔";
   }
-`
+`;
 
 export const Label = styled.label`
   color: #666666;
@@ -84,7 +83,7 @@ export const Label = styled.label`
 export const Button = styled.button`
   border-radius: 100px;
   border: none;
-  background-color: #C8B6FF;
+  background-color: #c8b6ff;
   color: #ffffff;
   font-size: 24px;
   font-weight: 600;
@@ -94,6 +93,4 @@ export const Button = styled.button`
 
   width: 500px;
   height: 70px;
-
-  cursor: pointer;
-`
+`;
