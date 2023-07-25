@@ -1,9 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
 export default function FindCard (props) {
   const router = useRouter();
+
+  // 나이 형식 변경
+  const [age, setAge] = useState(parseInt(props.info.age));
+  const [ageCategory, setAgeCategory] = useState("");
+  useEffect(() => {
+    if(0 <= age % 10 && age % 10 <= 3){
+      setAgeCategory("초반");
+    } else if(4 <= age % 10 && age % 10 <= 6){
+      setAgeCategory("중반");
+    } else{
+      setAgeCategory("후반");
+    }
+  }, [age]);
+
+  // 시간 형식 변경
+  const formatTime = () => {
+    const today = new Date();
+    const timeValue = new Date(props.info.regDateTime);
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        if (betweenTime < 1) return"방금전";
+        if (betweenTime < 60) {
+          return`${betweenTime}분전`;
+        }
+
+        const betweenTimeHour = Math.floor(betweenTime / 60);
+        if (betweenTimeHour < 24) {
+          return`${betweenTimeHour}시간전`;
+        }
+
+        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        if (betweenTimeDay < 365) {
+          return`${betweenTimeDay}일전`;
+        }
+
+        return`${Math.floor(betweenTimeDay / 365)}년전`;
+  };
+  const [timeFormat, setTimeFormat] = useState(formatTime(props.info.regDateTime));
+  
+
     return(
         <ReviewCard onClick={(e) => router.push(`/findTripyler/${props.id}`)}>
             <ReviewImg src={props.info.imageUrl}></ReviewImg>
@@ -18,14 +57,14 @@ export default function FindCard (props) {
               <ReviewInfo>
                 <ReviewInfoWrapper>
                   <ReviewIcon src="/icon/user.png"></ReviewIcon>
-                  <ReviewInfoTxt>{props.info.recruitPeopleNum}인 모집 중/총 {props.info.totalPeopleNum}인</ReviewInfoTxt>
+                  <ReviewInfoTxt>{props.info.totalPeopleNum - props.info.recruitPeopleNum - 1}인 모집 중 / 총 {props.info.totalPeopleNum}인</ReviewInfoTxt>
                 </ReviewInfoWrapper>
                 <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
                   <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
                   <ReviewDateTxt>
-                    <ReviewInfoTxt>{props.info.startDate}</ReviewInfoTxt>
+                    <ReviewInfoTxt>{props.info.startDate.substring(2).replace("-", ".")}</ReviewInfoTxt>
                     <ReviewDateLine></ReviewDateLine>
-                    <ReviewInfoTxt>{props.info.endDate}</ReviewInfoTxt>
+                    <ReviewInfoTxt>{props.info.endDate.substring(2).replace("-", ".")}</ReviewInfoTxt>
                   </ReviewDateTxt>
                 </ReviewInfoWrapper>
               </ReviewInfo>
@@ -35,13 +74,15 @@ export default function FindCard (props) {
                 <ReviewUserImg src={props.info.profileUrl}></ReviewUserImg>
                 <ReviewUserInfoWrapper>
                   <ReviewUsername>{props.info.nickname}</ReviewUsername>
-                  <ReviewAge>{props.info.age} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
+                  <ReviewAge>{parseInt(age / 10) * 10}대 {ageCategory} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
                 </ReviewUserInfoWrapper>
               </ReviewUser>
               <ReviewHashTagWrapper>
-                {props.info.hashtag.map((element) => (
+                {props.info.hashtag.map((element, idx) => {
+                  if(0 <= idx && idx < 2){
+                  return(
                   <ReviewHashTag>#{element}</ReviewHashTag>
-                ))}
+                )}})}
             </ReviewHashTagWrapper>
             </ReviewUserWrapper>
             <ReviewLine></ReviewLine>
@@ -55,7 +96,7 @@ export default function FindCard (props) {
             </ReviewCardContents>
             <ReviewCardFooter>
               <ReviewReactWrapper>
-                <ReviewCardTime>7시간 전</ReviewCardTime>
+                <ReviewCardTime>{timeFormat}</ReviewCardTime>
                 <ReviewReactContent>
                   <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
                   <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
@@ -67,10 +108,6 @@ export default function FindCard (props) {
                   <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
                 </ReviewReactContent>
               </ReviewReactWrapper>
-              {/* <ReviewDetailBtn>
-                <ReviewDetailBtnTxt onClick={(e) => router.push("/findTripyler/detail")}>상세보기</ReviewDetailBtnTxt>
-                <BtnArrow></BtnArrow>
-              </ReviewDetailBtn> */}
             </ReviewCardFooter>
           </ReviewCard>
     )
