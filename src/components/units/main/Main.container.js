@@ -326,6 +326,10 @@ export default function Main() {
         </S.Review>
       </S.ContentWrapper>
 
+      <S.AdWrapper>
+        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
+      </S.AdWrapper>
+      
       <S.ContentWrapper>
         <S.ReviewTitleWrapper onClick={(e) => router.push("/review")}>
           <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>

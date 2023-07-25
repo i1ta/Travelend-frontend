@@ -364,8 +364,16 @@ export const FindTripylerTitleWrapper = styled.div`
 export const ContentWrapper = styled.div`
   align-items: center;
   justify-content: center;
+`;
 
-  
+export const AdWrapper = styled.div`
+  text-align: center;
+  margin: 150px auto;
+`;
+
+export const AdImg = styled.img`
+  height: 410px;
+  width: 1920px;
 `;
 
 export const FindTripylerTitle = styled.div`

@@ -370,6 +370,11 @@ export default function FindTripylerList(){
           )}
         </S.Review>
       </S.ContentWrapper>
+
+      <S.AdWrapper>
+        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
+      </S.AdWrapper>
+      
       <PreviewCard/>
     </>
   );
