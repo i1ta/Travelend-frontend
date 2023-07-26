@@ -412,6 +412,7 @@ export const FindTripylerOptionOne = styled.option`
   border-radius: 20px;
   width: 111px;
   height: 50px;
+  text-align: center;
 `;
 
 export const FindTripylerFilterTwo = styled.select`

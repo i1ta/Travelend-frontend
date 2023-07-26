@@ -60,7 +60,10 @@ export default function NavBar(props) {
   };
 
   const onProfileBtn = () => {
-    router.push("/auth/profile");
+    router.push({
+      pathname: "/auth/profile",
+      user: true,
+    });
   };
 
   const onClickInfoMsgBtn = () => {
