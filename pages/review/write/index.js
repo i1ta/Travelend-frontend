@@ -1,4 +1,4 @@
-import TriplogWrite from "@/components/units/triplog/write/write.container";
+import TriplogWrite from "@/components/units/review/write/write.container";
 
 export default function TriplogWritePage() {
   return <TriplogWrite isEdit={false} />;

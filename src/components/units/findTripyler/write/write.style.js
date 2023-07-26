@@ -75,7 +75,7 @@ export const StepTitleTxt = styled.div`
 `;
 
 export const MoreBtnImg = styled.img`
-  transform: ${props => props.isOpenStep ? "rotate(180deg)" : "none"};
+  transform: ${(props) => (props.isOpenStep ? "rotate(180deg)" : "none")};
 `;
 
 export const MoreBtn = styled.button`
@@ -213,6 +213,20 @@ export const Hashtag = styled.div`
   font-weight: 600;
 `;
 
+export const TripylerID = styled.div`
+  padding: 0px 20px;
+  height: 34px;
+  border: 1px solid #90e0ef;
+  border-radius: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #90e0ef;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
 export const Input = styled.input`
   width: 160px;
   color: #000;
@@ -314,7 +328,14 @@ export const SubmitBtn = styled(CancelBtn)`
 `;
 
 export const FormBtm = styled.div`
-height: 2350px;
+  height: 2400px;
+`;
+
+export const CalendarWrapper = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 130px;
+
 `
 
 // Modal
@@ -361,7 +382,7 @@ export const ModalInputWrapper = styled.form`
   height: 40px;
   border: 1px solid #c8b6ff;
   border-radius: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 `;
@@ -438,4 +459,15 @@ export const ModalSubmitBtn = styled(ModalCancelBtn)`
   background-color: #c8b6ff;
   color: #ffffff;
   border: none;
+`;
+
+export const ModalTripylerWrapper = styled.div`
+  height: 27px;
+  display: flex;
+  /* margin-bottom: 10px; */
+  gap: 10.5px;
+`;
+
+export const ModalTripylerID = styled(TripylerID)`
+  cursor: pointer;
 `;
