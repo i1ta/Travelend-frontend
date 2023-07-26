@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
 
 export const ContentsLoc = styled.div`
   width: 1400px;
@@ -50,12 +50,26 @@ export const ContentsTopWrapper = styled.div`
   width: 1200px;
   margin: auto;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   margin-bottom: 30px;
 `;
 
+export const ContentsTitleWrapper = styled.div`
+  width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 20px;
+`;
+
+export const OneLineReview = styled.div`
+  color: #a7a7a7;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
 export const ContentsTitle = styled.div`
-  color: #9ab3f5;
+  color: #000;
   font-size: 45px;
   font-weight: 600;
   margin-right: 30px;
@@ -134,8 +148,130 @@ export const UserStyle = styled.div`
 
 export const MidTopRightWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 100px;
+`;
+
+export const WithTripylerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  `;
+
+export const WithTripTitle = styled.div`
+  color: #000;
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+export const WithTripProfileList = styled.div`
+  position: relative;
+  height: 50px;
+`;
+
+export const WithTripProfileWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  background-color: #fff;
+`;
+
+export const WithTripProfile = styled(UserImg)`
+  cursor: pointer;
+`;
+
+export const WithTripMoreBox = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #999;
+
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+`;
+
+export const WithTripList = styled.div`
+  width: 170px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 100px;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+  padding-top: 10px;
+`;
+
+export const WithTripListTitle = styled.div`
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+export const WithTripListWrapper = styled.div`
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 설정 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(167, 167, 167, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+`;
+
+export const WithTripListItem = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+
+export const WithTripListProfile = styled(UserImgWrapper)`
+  width: 25px;
+  height: 25px;
+  margin-right: 0px;
+`;
+
+export const WithTripListID = styled.div`
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const TripylerInfoWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 13px;
 `;
 
 export const ContentsInfoWrapper = styled.div`
@@ -182,13 +318,62 @@ export const MidBtmBodyTxt = styled.div`
   width: 1200px;
   min-height: 300px;
   margin: auto;
-  padding: 50px 30px;
-  border-radius: 20px;
-  background: rgba(167, 167, 167, 0.15);
 
   color: rgba(0, 0, 0, 0.8);
   font-size: 20px;
   font-weight: 500;
+  line-height: 50px;
+`;
+
+export const ImgWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ImgTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
+export const ImgIcon = styled.img`
+  margin-right: 10px;
+`;
+
+export const ImgTitle = styled(MidBtmTitle)`
+  margin-bottom: 0px;
+`;
+
+export const ImgShowWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ImgShowLeftArrow = styled.img`
+  cursor: pointer;
+
+` 
+
+export const ImgShowRightArrow = styled(ImgShowLeftArrow)`
+transform: rotate(180deg);
+`;
+
+export const ShowingImgWrapper = styled.div`
+  width: 350px;
+  height: 250px;
+  /* background-color: rgba(214, 214, 214, 0.2); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ShowingImg = styled.img`
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 export const ContentsBtmWrapper = styled.div`
@@ -220,12 +405,16 @@ export const BtmTxt = styled.div`
 `;
 
 export const ApplyBtn = styled.button`
-  padding: 20px 30px;
+  padding: 15px 30px;
   border-radius: 12px;
   background: #00b4d8;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const ApplyBtnTxt = styled.div`
@@ -234,10 +423,6 @@ export const ApplyBtnTxt = styled.div`
   font-weight: 700;
   line-height: 1;
   margin-right: 15px;
-`;
-
-export const ApplyBtnIcon = styled.img`
-  height: 20px;
 `;
 
 export const PostList = styled.div`
@@ -323,12 +508,40 @@ export const CmtWriteBtn = styled.button`
   font-weight: 500;
 `;
 
+export const PostListTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+`;
+
 export const PostListTitle = styled.div`
   color: #868686;
   font-size: 30px;
   font-weight: 700;
-  margin-bottom: 30px;
 `;
+
+export const PostListCnt = styled.div`
+  color: #666;
+  font-size: 20px;
+  font-weight: 400;
+`;
+
+export const NoCmtWrapper = styled(CmtListWrapper)`
+padding: 50px 40px;
+align-items: center;
+gap: 25px;
+`
+
+export const NoCmtIcon = styled.img`
+width: 80px;
+height: 80px;
+`
+
+export const NoCmtTxt = styled.div`
+font-size: 18px;
+color: #666;
+`
 
 export const ListWrapper = styled.div`
   padding: 30px;
@@ -355,24 +568,6 @@ export const ListTitle = styled.div`
 `;
 
 export const PostTitle = styled(CmtContents)`
-  cursor: pointer;
+  cursor: ${(props) => (props.reviewId ? "pointer" : "default")};
 `;
 
-export const RcmPost = styled.div`
-  width: 1400px;
-  margin: auto;
-  margin-bottom: 100px;
-`;
-
-export const RcmPostTitle = styled(PostListTitle)``;
-
-export const RcmPostItems = styled.div`
-  display: flex;
-`;
-
-export const RcmPostItem = styled.div`
-  width: 335px;
-  height: 453px;
-  background: #fff;
-  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
-`;

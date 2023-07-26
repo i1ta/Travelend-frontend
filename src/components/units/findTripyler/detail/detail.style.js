@@ -87,7 +87,6 @@ export const UserImgWrapper = styled.div`
   height: 100px;
   margin-right: 30px;
   border-radius: 50%;
-  background-color: aliceblue;
   overflow: hidden;
 `;
 
@@ -134,8 +133,129 @@ export const UserStyle = styled.div`
 
 export const MidTopRightWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 100px;
+`;
+
+export const WithTripylerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+`;
+
+export const WithTripTitle = styled.div`
+  color: #000;
+  font-size: 20px;
+  font-weight: 500;
+`;
+
+export const WithTripProfileList = styled.div`
+  position: relative;
+  height: 50px;
+`;
+
+export const WithTripProfileWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+`;
+
+export const WithTripProfile = styled(UserImg)`
+  cursor: pointer;
+`;
+
+export const WithTripMoreBox = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #999;
+
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+`;
+
+export const WithTripList = styled.div`
+  width: 170px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 100px;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+  padding-top: 10px;
+`;
+
+export const WithTripListTitle = styled.div`
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+export const WithTripListWrapper = styled.div`
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 설정 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(167, 167, 167, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+`;
+
+export const WithTripListItem = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+
+export const WithTripListProfile = styled(UserImgWrapper)`
+  width: 25px;
+  height: 25px;
+  margin-right: 0px;
+`;
+
+export const WithTripListID = styled.div`
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const TripylerInfoWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 13px;
 `;
 
 export const ContentsInfoWrapper = styled.div`
@@ -220,34 +340,74 @@ export const BtmTxt = styled.div`
 `;
 
 export const ApplyBtn = styled.button`
-  padding: 20px 30px;
+  padding: 15px 30px;
   border-radius: 12px;
   background: #00b4d8;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
 
-export const ApplyBtnTxt = styled.div`
   color: #fff;
   font-size: 24px;
   font-weight: 700;
-  line-height: 1;
-  margin-right: 15px;
 `;
-
-export const ApplyBtnIcon = styled.img`
-  height: 20px;
-`;
+// 폼 아래 항목들
 
 export const PostList = styled.div`
   width: 1400px;
   margin: auto;
-  margin-bottom: 100px;
+  margin-bottom: 120px;
+`;
+
+export const ApplyList = styled.div`
+  padding: 30px 40px;
+  border-top: 1px solid rgba(214, 214, 214, 0.6);
+  border-bottom: 1px solid rgba(214, 214, 214, 0.6);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 97px;
+`;
+
+export const ApplyItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const ApplyProfileWrapper = styled(UserImgWrapper)`
+  width: 130px;
+  height: 130px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+`;
+
+export const ApplyID = styled.div`
+  color: #666;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 25px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    font-weight: 700;
+  }
+`;
+
+export const ViewApplyBtn = styled.button`
+  width: 135px;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #c8b6ff;
+
+  color: #c8b6ff;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 export const CmtListWrapper = styled.div`
-  padding: 30px;
+  padding: 30px 40px;
   border-top: 1px solid rgba(214, 214, 214, 0.6);
   border-bottom: 1px solid rgba(214, 214, 214, 0.6);
   display: flex;
@@ -255,6 +415,22 @@ export const CmtListWrapper = styled.div`
   align-items: flex-start;
   gap: 40px;
 `;
+
+export const NoCmtWrapper = styled(CmtListWrapper)`
+padding: 50px 40px;
+align-items: center;
+gap: 25px;
+`
+
+export const NoCmtIcon = styled.img`
+width: 80px;
+height: 80px;
+`
+
+export const NoCmtTxt = styled.div`
+font-size: 18px;
+color: #666;
+`
 
 export const CmtList = styled.div`
   display: flex;
@@ -270,7 +446,7 @@ export const CmtContents = styled.div`
   line-height: normal;
 `;
 
-export const CmtMoreBtn = styled.button`
+export const MoreBtn = styled.button`
   width: 1400px;
   height: 60px;
   display: flex;
@@ -282,19 +458,21 @@ export const CmtMoreBtn = styled.button`
   }
 `;
 
-export const CommetnMoreBtnTxt = styled.div`
+export const MoreBtnTxt = styled.div`
   margin-right: 15px;
   color: #868686;
   font-size: 20px;
   font-weight: 500;
 `;
 
-export const CommetnMoreBtnIcon = styled.img``;
+export const MoreBtnIcon = styled.img`
+  transform: ${(props) => (props.isOpen ? "rotate(180deg)" : "none")};
+`;
 
 export const CmtWriteWrapper = styled.form`
   display: flex;
   align-items: center;
-  padding: 0px 30px;
+  padding: 0px 40px;
   margin-top: 30px;
 `;
 
@@ -323,11 +501,23 @@ export const CmtWriteBtn = styled.button`
   font-weight: 500;
 `;
 
+export const PostListTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+`;
+
 export const PostListTitle = styled.div`
   color: #868686;
   font-size: 30px;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-right: 20px;
+`;
+
+export const PostListCnt = styled.div`
+  color: #666;
+  font-size: 20px;
+  font-weight: 400;
 `;
 
 export const ListWrapper = styled.div`

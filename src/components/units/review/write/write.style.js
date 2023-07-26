@@ -312,3 +312,7 @@ export const SubmitBtn = styled(CancelBtn)`
   background: #0077b6;
   margin-left: 45px;
 `;
+
+export const FormBtm = styled.div`
+  height: 2000px;
+`;

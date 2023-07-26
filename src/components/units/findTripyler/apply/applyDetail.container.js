@@ -36,13 +36,25 @@ export default function FindTripylerApplyDetail() {
       .catch((err) => console.error(err));
   };
 
-  const onClickRejectBtn = () => {
-    alert("거절");
+  const onClickRejectBtn = async () => {
+    await axios
+      .get(`${apiPath}/tripyler/apply/refuse/${applyId}`)
+      .then((res) => {
+        console.log(res);
+        alert("거절");
+      })
+      .catch((err) => console.error(err));
   };
 
-  const onClickAcceptBtn = () => {
-    alert("수락");
-    setIsAccept(true);
+  const onClickAcceptBtn = async () => {
+    await axios
+      .get(`${apiPath}/tripyler/apply/accept/${applyId}`)
+      .then((res) => {
+        console.log(res);
+        alert("수락");
+        setIsAccept(true);
+      })
+      .catch((err) => console.error(err));
   };
 
   const onSubmitMsg = async (event) => {
