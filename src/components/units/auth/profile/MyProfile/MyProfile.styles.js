@@ -38,7 +38,6 @@ export const StyleHashTag = styled.div`
   margin: 0 10px;
   margin-top: 6px;
   padding: 0 20px;
-  cursor: pointer;
 `;
 
 export const StyleEditImg = styled.img`
