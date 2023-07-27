@@ -156,20 +156,6 @@ const Preview = styled.div`
     flex-direction: column;
     box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
     margin: 0 24px;
-    
-    /*
-    transition: transform 0.5s ease-in-out;
-
-    transform: ${(props) => (props.active ? 'translateX(0)' : 'translateX(-100%)')};
-
-    display: ${(props) => 
-        props.hidden ? 'none' : 'block'
-    }
-    
-    transform: ${(props) => 
-        props.hidden ? 'translateX(-100%)' : 'translateX(0)'
-    }
-    */
 
     scroll-snap-align: start;
     transition: all 0.5s;
