@@ -304,7 +304,7 @@ export const WithTripListWrapper = styled.div`
   max-height: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-left: 15px;
   gap: 15px;
   overflow-y: auto;
 
@@ -356,14 +356,14 @@ export const LongInput = styled.input`
   color: rgba(102, 102, 102, 0.8);
   font-size: 18px;
   font-weight: 500;
-  padding: 14px 25px;
+  padding: 25px 25px;
   margin-bottom: 40px;
 `;
 
 export const TitleInput = styled(LongInput)`
   font-size: 24px;
   margin-bottom: 20px;
-  padding: 30px 25px;
+  padding: 35px 25px;
   color: #333;
 `;
 
@@ -385,8 +385,7 @@ export const LongTextarea = styled.textarea`
 // 이미지 뷰어
 export const ImgWrapper = styled.div`
   width: 1080px;
-  height: 460px;
-  padding: 20px 20px;
+  padding: 20px;
   padding-bottom: 0px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
@@ -403,7 +402,7 @@ export const ImageItem = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 export const ImageWrapper = styled.div`
@@ -438,14 +437,15 @@ export const ImgDelBtn = styled.img`
 
 export const ImgAddBtn = styled.label`
   width: 200px;
-  height: 150px;
-  border-radius: 5px;
+  height: 182px;
+  border-radius: 10px;
   background: rgba(217, 217, 217, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-bottom: 23px;
 `;
 
 export const ImgAddIcon = styled.img`
@@ -458,25 +458,63 @@ export const ImgAddTxt = styled.div`
   font-weight: 700;
 `;
 
-export const NoImgWrapper = styled.div`
+export const NoImgWrapper = styled.label`
   width: 1080px;
-  height: 480px;
+  height: 228px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: #fff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 40px;
+  position: relative;
+  cursor: pointer;
+
+  &:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
+
+  &:hover::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    color: white;
+  }
 `;
 
-export const NoImgIconWrapper = styled.div``;
+export const NoImgIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
 
-export const NoImgIcon = styled.img``;
+export const NoImgIcon = styled.img`
+  width: 80px;
+`;
 
-export const NoImgTxt = styled.div``;
+export const NoImgTxt = styled.div`
+  color: rgba(102, 102, 102);
+  font-size: 20px;
+  font-weight: 600;
+`;
 
-export const NoImgSubTxt = styled.div``;
+export const NoImgSubTxt = styled.div`
+  color: rgba(102, 102, 102, 0.8);
+  font-size: 18px;
+  font-weight: 500;
+`;
 
 export const BtnWrapper = styled.div`
   display: flex;

@@ -39,9 +39,6 @@ export default function TriplogDetail() {
 
   // 데이터 불러오기
   const fetchData = async () => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     await axios
       .get(`${apiPath}/review/${reviewId}`)
       .then((res) => {
@@ -114,6 +111,9 @@ export default function TriplogDetail() {
   };
 
   useEffect(() => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
     if (reviewId) {
       fetchData();
       fetchComment();
