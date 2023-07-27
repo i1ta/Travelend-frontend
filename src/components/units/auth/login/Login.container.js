@@ -51,11 +51,11 @@ export default function LoginForm() {
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);
-          alert("로그인 성공");
           router.push("/main");
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       if (error.response.status === 400) {
         alert("존재하지 않는 회원정보입니다.");
       }
@@ -93,9 +93,7 @@ export default function LoginForm() {
               Sign In
             </S.Button>
           </S.CheckboxContainer>
-          {/* <S.Button type='submit' disabled={isSubmitting}>
-          Sign In
-        </S.Button> */}
+
         </S.Form>
       </S.Container>
     </>

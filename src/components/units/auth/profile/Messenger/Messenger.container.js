@@ -1,10 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import * as S from "./Messengser.styles";
 
 export default function Messenger(props) {
   const [input, setInput] = useState('');
   const [isHovered, setIsHovered] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
+  const [nowChatRoomId, setNowChatRoomId] = useState(0);
+  const scrollRef = useRef(null);
+
+    useEffect(() => {
+      // scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
+      console.log(scrollRef.current?.scrollHeight);
+      console.log("스크롤 렌더링");
+      if(nowChatRoomId !== 0 && scrollRef.current?.scrollHeight){
+        // scrollRef.current?.scrollTo(0, scrollRef.current?.scrollHeight);
+        scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+      }
+    }, [nowChatRoomId]);
 
   return (
     <>
@@ -15,9 +27,10 @@ export default function Messenger(props) {
             <S.MsgList
               id={e.chatRoomId}
               type="button"
-              onClick={() =>
-                props.onClickMsgList(e.chatRoomId, e.name, e.profileUrl, e.recipientId)
-              }
+              onClick={() =>{
+                props.onClickMsgList(e.chatRoomId, e.name, e.profileUrl, e.recipientId);
+                setNowChatRoomId(e.chatRoomId);
+              }}
               selectedId={props.msgData.chatRoomId}
             >
               <S.Profile
@@ -36,7 +49,7 @@ export default function Messenger(props) {
               ></S.Profile>
               <S.ID>{props.msgData.name}</S.ID>
             </S.UserWrapper>
-            <S.ChatWrapper>
+            <S.ChatWrapper ref={scrollRef}>
               {props.msgData.chatContents.map((e, index) => {
                 // 이전 메시지의 날짜와 현재 메시지의 날짜 비교
                 const currentDate = e.sendTime.split("T")[0];
@@ -53,6 +66,7 @@ export default function Messenger(props) {
                   )}
                   <S.ChatBubbleWrapper 
                     isSend={e.sender}
+                    
                   >
                     {e.sender 
                     ?

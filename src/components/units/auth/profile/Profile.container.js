@@ -20,6 +20,14 @@ export default function Profile() {
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+  console.log(router.query);
+  useEffect(() => {
+    if(router.query.userId){
+      setSelectedCategory("NotMyProfile");
+    } else{
+      setSelectedCategory("MyProfile");
+    }
+  }, [router.query]);
 
   const [userId, setUserId] = useState(parseInt(router.query.userId));
   const [notMyProfildData, setNotMyProfileData] = useState({});
@@ -344,7 +352,7 @@ export default function Profile() {
   return (
     <>
     {isModify ?
-    router.query.user === 'false' ? (
+    router.query.userId ? (
       <S.Container>
         <S.SideBar>
           
