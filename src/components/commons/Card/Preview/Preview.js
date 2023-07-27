@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useRef } from "react";
 
 export default function PreviewCard (props) {
     const previewList = [
@@ -41,36 +42,51 @@ export default function PreviewCard (props) {
 
     ];
 
+    const previewCardRef = useRef(null);
+    const onRightSide = async (e) => {
+        console.log(previewCardRef.current);
+        if (previewCardRef.current) {
+            previewCardRef.current.scrollLeft += 480;
+        }
+    };
+
+    const onLeftSide = async (e) => {
+        if (previewCardRef.current) {
+            previewCardRef.current.scrollLeft -= 480;
+        }
+    }
+
     const [currentIdx, setCurrentIdx] = useState(0);
     return(
         <PreviewWrapper>
             <PreviewTitle>실제 이용 후기로 보는 Trip'yle</PreviewTitle>
             <PreviewContentWrapper>
-                <ArrowIcon src="/icon/previewLeftArrow.png" onClick={(e) => setCurrentIdx((prev) => prev - 1 < 0 ? 0 : prev - 1)}></ArrowIcon>
-                <PreviewCardWrapper>
-                    {previewList.map((element, idx) => {
-                        const isHidden = currentIdx > idx || currentIdx + 2 < idx;
-                        if(!isHidden){
-                        return (
-                        <Preview 
-                            key={idx}
-                            hidden={isHidden}
-                        >
-                        <PreviewUser>
-                            <PreviewUserImg src="/img/shinchan.jpg"></PreviewUserImg>
-                            <PreviewUserId>ilta0101님</PreviewUserId>
-                        </PreviewUser>
-                        <PreviewContent>
-                            <PreviewTitleTxt>{element.title}</PreviewTitleTxt>
-                            <PreviewTxt>{element.content}
-                            </PreviewTxt>
-                        </PreviewContent>
-                        </Preview>
-                    )}})}
+                <ArrowIcon src="/icon/previewLeftArrow.png" onClick={(e) => {
+                    setCurrentIdx((prev) => prev - 1 < 0 ? 0 : prev - 1);
+                    onLeftSide(e);
+                }}></ArrowIcon>
+                <PreviewCardWrapper ref={previewCardRef}>
+                    {previewList.map((element, idx) => 
+                            (
+                            <Preview 
+                                key={idx}
+                            >
+                            <PreviewUser>
+                                <PreviewUserImg src="/img/shinchan.jpg"></PreviewUserImg>
+                                <PreviewUserId>ilta0101님</PreviewUserId>
+                            </PreviewUser>
+                            <PreviewContent>
+                                <PreviewTitleTxt>{element.title}</PreviewTitleTxt>
+                                <PreviewTxt>{element.content}
+                                </PreviewTxt>
+                            </PreviewContent>
+                            </Preview>))
+                    }
                     
                 </PreviewCardWrapper>
                 <ArrowIcon src="/icon/previewRightArrow.png" onClick={(e) =>{ 
-                    setCurrentIdx((prev) => prev + 1 > 3 ? 3 : prev + 1)
+                    setCurrentIdx((prev) => prev + 1 > 3 ? 3 : prev + 1);
+                    onRightSide(e);
                 }}></ArrowIcon>
             </PreviewContentWrapper>
         </PreviewWrapper>
@@ -99,6 +115,7 @@ const PreviewContentWrapper = styled.div`
     
     justify-content: center;
     align-items: center;
+    text-align: center;
 `;
 
 const ArrowIcon = styled.img`
@@ -109,9 +126,26 @@ const ArrowIcon = styled.img`
 `;
 
 const PreviewCardWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
 
+    height: 600px;
+    width: 1470px;
+
+    align-items: center;
+
+    overflow-x: scroll;
+    
+    display: grid;
+    grid-auto-flow: column;
+    
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 1rem;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    
 `;
 
 const Preview = styled.div`
@@ -122,22 +156,12 @@ const Preview = styled.div`
     flex-direction: column;
     box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
     margin: 0 24px;
-    
-    /*
-    transition: transform 0.5s ease-in-out;
 
-    transform: ${(props) => (props.active ? 'translateX(0)' : 'translateX(-100%)')};
-
-    display: ${(props) => 
-        props.hidden ? 'none' : 'block'
-    }
-    
-    transform: ${(props) => 
-        props.hidden ? 'translateX(-100%)' : 'translateX(0)'
-    }
-    */
+    scroll-snap-align: start;
+    transition: all 0.5s;
     `;
 
+    
 const PreviewUser = styled.div`
     display: flex;
     flex-direction: row;

@@ -5,7 +5,7 @@ export default function TriplogFindcard (props) {
   const router = useRouter();
     return(
        <>
-        <TriplogFindCardWrapper>
+        <TriplogFindCardWrapper style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/findTripyler/${props.info.tripylerId}`)}>
             <TriplogFindImgWrapper>
                 <TriplogFindDesWrapper>
                     <TriplogFindDesIcon src="/icon/location.png"></TriplogFindDesIcon>

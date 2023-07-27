@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 export default function MyCollectionsFindCard (props) {
   const router = useRouter();
     return(
-        <ReviewCard>
+        <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.data.reviewId}`)}>
             <ReviewImg src={props.data.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>

@@ -1,37 +1,49 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 
-export default function Review () {
+export default function Review (props) {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+
+  const checkLogin = async () => {
+    if(!isLoggedIn){
+      alert('로그인이 필요한 서비스입니다');
+      router.push("/auth/signIn");
+    } else{
+      router.push(`/review/${props.info.reviewId}`)
+    }
+  };
     return (
         <ReviewContents>
-            <ReviewCard>
-              <ReviewNum>1</ReviewNum>
-              <ReviewUserImg src="img/hooni.jpeg"/>
+            <ReviewCard onClick={checkLogin}>
+              <ReviewNum>{props.idx}</ReviewNum>
+              <ReviewUserImg src={props.info.userProfileUrl}/>
               <ReviewUserWrapper>
-                <ReviewUserNick>ilta0101</ReviewUserNick>
-                <ReviewUserAge>20대 여성</ReviewUserAge>
+                <ReviewUserNick>{props.info.username}</ReviewUserNick>
+                <ReviewUserAge>{parseInt(parseInt(props.info.age) / 10) * 10}대 {props.info.gender === "M" ? "남성" : "여성"}</ReviewUserAge>
                 <ReviewUserHashWrapper>
-                  <ReviewUserHashtag>#뚜벅이</ReviewUserHashtag>
-                  <ReviewUserHashtag>#관광지</ReviewUserHashtag>
-                  <ReviewUserHashtag>#사진찍기</ReviewUserHashtag>
+                  {props.info.hashtags.map((hashtag, i) => { (i >= 0 && i < 3) && (<ReviewUserHashtag>#{hashtag}</ReviewUserHashtag>)})}
                 </ReviewUserHashWrapper>
               </ReviewUserWrapper>
-              <ReviewImg src="img/review1.png"/>
+              <ReviewImg src={props.info.image}/>
               <ReviewInfoWrapper>
                 <ReviewInfoCountry>
                 <ReviewIcon src="icon/location.png"></ReviewIcon>
-                  헝가리
+                  {props.info.nationName}
                 </ReviewInfoCountry>
                 <ReviewInfoCityCal>
-                  <ReviewInfoCity>부다페스트</ReviewInfoCity>
-                  <ReviewInfoCal><ReviewIcon src="icon/calendar.png"></ReviewIcon>23.01.12 - 23.01.23</ReviewInfoCal>
+                  <ReviewInfoCity>{props.info.regionName}</ReviewInfoCity>
+                  <ReviewInfoCal><ReviewIcon src="icon/calendar.png"></ReviewIcon>{props.info.regDateTime.split("T")[0]}</ReviewInfoCal>
                 </ReviewInfoCityCal>
                 <ReviewInfoLine></ReviewInfoLine>
-                <ReviewInfoTitle>꿈 같았던 10박 11일 부다페스트 여행 후기</ReviewInfoTitle>
+                <ReviewInfoTitle>{props.info.title}</ReviewInfoTitle>
                 <ReviewInfoLine></ReviewInfoLine>
                 <ReviewIconLike>
-                  <ReviewInfoIconWrapper><ReviewIcon src="icon/heart.png"></ReviewIcon>1.2k</ReviewInfoIconWrapper>
-                  <ReviewInfoIconWrapper><ReviewIcon src="icon/comment.png"></ReviewIcon>24</ReviewInfoIconWrapper>
+                  <ReviewInfoIconWrapper><ReviewIcon src="icon/heart.png"></ReviewIcon>{props.info.likes}</ReviewInfoIconWrapper>
+                  <ReviewInfoIconWrapper><ReviewIcon src="icon/comment.png"></ReviewIcon>{props.info.comments}</ReviewInfoIconWrapper>
                 </ReviewIconLike>
               </ReviewInfoWrapper>
             </ReviewCard>
@@ -54,6 +66,8 @@ export const ReviewCard = styled.div`
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
   display: flex;
   flex-direction: row;
+
+  cursor: pointer;
 `;
 
 export const ReviewNum = styled.div`
@@ -90,6 +104,7 @@ export const ReviewUserWrapper = styled.div`
 export const ReviewUserNick = styled.div`
     color: #C8B6FF;
     font-size: 36px;
+    margin-bottom: 10px;
 `;
 
 export const ReviewUserAge = styled.div`

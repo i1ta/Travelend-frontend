@@ -1,5 +1,5 @@
-import ReviewList from "@/components/units/review/main/main.container";
+import ReviewMain from "@/components/units/review/main/main.container";
 
-export default function ReviewListPage() {
-  return <ReviewList/>;
+export default function ReviewMainPage() {
+  return <ReviewMain/>;
 }

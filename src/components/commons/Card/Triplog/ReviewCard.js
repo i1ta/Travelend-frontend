@@ -4,10 +4,15 @@ import { useRouter } from "next/router";
 export default function TriplogReviewCard (props) {
   const router = useRouter();
     return(
-        <ReviewCard>
+        <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.info.reviewId}`)}>
             <ReviewCardTitle>{props.info.tripylerTitle}</ReviewCardTitle>
             <ReviewCardImgWrapper>
-                {props.info.imageUrls.map((e) => (<ReviewCardImg src={e}></ReviewCardImg>))}
+                {props.info.imageUrls.map((e, idx) => {
+                    if(0 <= idx && idx < 3){
+                    return (<ReviewCardImg key={idx} src={e}></ReviewCardImg>)}
+                })}
+
+                    {/* <ReviewCardImg src={props.info.imageUrls}></ReviewCardImg> */}
             </ReviewCardImgWrapper>
             <ReviewCardContent>{props.info.tripylerTitle}</ReviewCardContent>
             <ReviewCardLine></ReviewCardLine>
@@ -32,7 +37,7 @@ export default function TriplogReviewCard (props) {
 }
 
 const ReviewCard = styled.div`
-  width: 415px;
+  width: 400px;
   height: 295px;
 
   background: rgba(160, 187, 255, 0.5);
@@ -55,6 +60,7 @@ const ReviewCardTitle = styled.div`
     font-size: 15px;
     text-align: center;
     padding: 5px 0;
+   
 `;
 
 const ReviewCardImgWrapper = styled.div`
@@ -65,7 +71,7 @@ const ReviewCardImgWrapper = styled.div`
 const ReviewCardImg = styled.img`
     width: 119px;
     height: 79px;
-    margin: 10px 5px;
+    margin: 5px 5px;
     object-fit: cover;
 `;
 
@@ -75,6 +81,7 @@ const ReviewCardContent = styled.div`
     width: 380px;
     height: 90px;
     overflow: hidden;
+    margin: 10px 0;
 `;
 
 const ReviewCardLine = styled.div`

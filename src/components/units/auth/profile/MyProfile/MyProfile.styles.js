@@ -10,6 +10,7 @@ export const MyProfileWrapper = styled.div`
   background-color: #f7f7f7;
 `;
 
+
 export const StyleTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;

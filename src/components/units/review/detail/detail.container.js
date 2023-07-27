@@ -25,6 +25,15 @@ export default function TriplogDetail() {
     return formatAge + " " + formatGender;
   };
 
+  // 프로필 이동
+  const checkUser = async () => {
+    if(data.myReview){
+      router.push("/auth/profile");
+    } else{
+      router.push({pathname: "/auth/profile", query: {userId: data.userId}})
+    }
+  }
+
   // 데이터 불러오기
   const fetchData = async () => {
     axios.defaults.headers.common["x-auth-token"] =
@@ -145,10 +154,10 @@ export default function TriplogDetail() {
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
-              <S.UserImg src={data?.profileUrl || "icon/defaultProfile.png"} />
+              <S.UserImg src={data?.profileUrl || "icon/defaultProfile.png"}  onClick={checkUser} style={{'cursor': 'pointer'}}/>
             </S.UserImgWrapper>
             <S.UserTxtWrapper>
-              <S.UserID>{data?.nickname}</S.UserID>
+              <S.UserID onClick={checkUser} style={{'cursor': 'pointer'}}>{data?.nickname}</S.UserID>
               <S.UserInfo>{formatUserInfo(data?.age, data?.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
