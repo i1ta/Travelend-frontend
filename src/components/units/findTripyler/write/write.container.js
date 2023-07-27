@@ -1,4 +1,5 @@
 import CalendarTool from "@/components/commons/Tools/Calendar";
+import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import StyleModal from "@/components/commons/Modal/StyleModal";
 import * as S from "./write.style";
 import { useEffect, useState } from "react";
@@ -8,8 +9,7 @@ import { useRouter } from "next/router";
 export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
   const [isOpenStyleModal, setIsOpenStyleModal] = useState(false);
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [tripDate, setTripDate] = useState([]);
+  const [isOpneWithTripyler, setIsOpenWithTripyler] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [totalPeopleNum, setTotalPeopleNum] = useState(2);
@@ -36,11 +36,16 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickPlace = () => {
-    setIsOpenPlaceModal(true);
+    // setIsOpenPlaceModal(true);
+    console.log(tripDate);
   };
 
-  const onClickStyle = async () => {
+  const onClickStyle = () => {
     setIsOpenStyleModal(true);
+  };
+
+  const onClickWithTripyler = () => {
+    setIsOpenWithTripyler(true);
   };
 
   const handleClosePlaceModal = () => {
@@ -67,7 +72,7 @@ export default function FindTripylerWrite(props) {
         //   data.hashtag4,
         //   data.hashtag5,
         // ]);
-        setTripDate([data.startDate, data.endDate]);
+        setTripDate({ startDate: data.startDate, endDate: data.endDate });
         setTotalPeopleNum(data.totalPeopleNum);
         setTitle(data.title);
         setContent(data.content);
@@ -83,6 +88,20 @@ export default function FindTripylerWrite(props) {
     props.isEdit && tripylerId && fetchData();
     console.log(data);
   }, [tripylerId]);
+
+  // 달력
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const [tripDate, setTripDate] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: "selection",
+  });
+
+  const formatDate = (date) => {
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${date.getFullYear()}-${month}-${day}`;
+  };
 
   // 이미지 뷰어
   const [imageUrl, setImageUrl] = useState("");
@@ -111,10 +130,51 @@ export default function FindTripylerWrite(props) {
     console.log(data);
   };
 
+  // 아이디 검색
+  const [errTripyler, setErrTripyler] = useState("");
+  const [withTripylerList, setWithTripylerList] = useState([]);
+  const [shownWithTripylerList, setShownWithTripylerList] = useState([]);
+
+  const onSubmitFindID = async (event) => {
+    event.preventDefault();
+    const value = event.target.search.value;
+    await axios
+      .get(`${apiPath}/user/username/check/${value}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data.data) {
+          if (withTripylerList.includes(value)) {
+            setErrTripyler("이미 포함된 아이디입니다.");
+          } else {
+            setWithTripylerList((prev) => [...prev, value]);
+            setErrTripyler("");
+          }
+        } else {
+          setErrTripyler("해당 아이디는 존재하지 않습니다.");
+        }
+      })
+      .catch((err) => console.error(err));
+    event.target.reset();
+  };
+
+  const handleSubmitWithTripyler = () => {
+    setShownWithTripylerList([...withTripylerList]);
+    setIsOpenWithTripyler(false);
+  };
+
+  const handleCloseWithTripyler = () => {
+    setWithTripylerList([...shownWithTripylerList]);
+    setIsOpenWithTripyler(false);
+  };
+
+  const handleDelID = (event) => {
+    setWithTripylerList(withTripylerList.filter((e) => e !== event.target.id));
+  };
+
   // 작성완료 버튼
   const onClickSubmitBtn = async () => {
     if (
-      tripDate.length !== 0 &&
+      // tripDate.length !== 0 &&
       shownMyHashtag.length !== 0 &&
       title &&
       content &&
@@ -123,8 +183,8 @@ export default function FindTripylerWrite(props) {
       const requestData = {
         title,
         content,
-        startDate: tripDate[0],
-        endDate: tripDate[1],
+        startDate: formatDate(tripDate.startDate),
+        endDate: formatDate(tripDate.endDate),
         firstTripStyleId: shownMyHashtag[0]?.id || 0,
         secondTripStyleId: shownMyHashtag[1]?.id || 0,
         thirdTripStyleId: shownMyHashtag[2]?.id || 0,
@@ -165,8 +225,8 @@ export default function FindTripylerWrite(props) {
     const requestData = {
       title,
       content,
-      startDate: tripDate[0],
-      endDate: tripDate[1],
+      startDate: formatDate(tripDate.startDate),
+      endDate: formatDate(tripDate.endDate),
       firstTripStyleId: shownMyHashtag[0]?.id || 0,
       secondTripStyleId: shownMyHashtag[1]?.id || 0,
       thirdTripStyleId: shownMyHashtag[2]?.id || 0,
@@ -232,19 +292,24 @@ export default function FindTripylerWrite(props) {
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper>
                   <S.InputTitle>여행일정</S.InputTitle>
-                  <S.InputWrapper>
+                  <S.InputWrapper style={{ position: "relative" }}>
                     <S.ShortInput>
-                      {tripDate.length === 0 ? "출발" : tripDate[0]}
+                      {tripDate.startDate
+                        ? formatDate(tripDate.startDate)
+                        : "출발"}
                     </S.ShortInput>
                     <S.Hyphen></S.Hyphen>
                     <S.ShortInput>
-                      {tripDate.length === 0 ? "도착" : tripDate[1]}
+                      {tripDate.endDate ? formatDate(tripDate.endDate) : "도착"}
                     </S.ShortInput>
                     {isOpenCalendar && (
-                      <CalendarTool
-                        setIsOpenCalendar={setIsOpenCalendar}
-                        setTripDate={setTripDate}
-                      />
+                      <S.CalendarWrapper>
+                        <CalendarComponent
+                          setIsCalendar={setIsOpenCalendar}
+                          setDate={setTripDate}
+                          date={tripDate}
+                        />
+                      </S.CalendarWrapper>
                     )}
                   </S.InputWrapper>
                   <S.InputBtn onClick={onClickDate}>일정선택</S.InputBtn>
@@ -284,6 +349,17 @@ export default function FindTripylerWrite(props) {
                     <S.Input></S.Input>
                     <S.InputTxt>원</S.InputTxt>
                   </S.WritableShortInput>
+                </S.InputInfoWrapper>
+                <S.InputInfoWrapper>
+                  <S.InputTitle>함께하는 Trip’yler</S.InputTitle>
+                  <S.MidInput style={{ gap: "16px" }}>
+                    {shownWithTripylerList.map((e) => (
+                      <S.TripylerID key={e}>@{e}</S.TripylerID>
+                    ))}
+                  </S.MidInput>
+                  <S.InputBtn onClick={onClickWithTripyler}>
+                    아이디 검색
+                  </S.InputBtn>
                 </S.InputInfoWrapper>
               </S.StepInfoWrapper>
             )}
@@ -392,7 +468,7 @@ export default function FindTripylerWrite(props) {
             <S.ModalTitle>여행 지역</S.ModalTitle>
             <S.ModalInputWrapper>
               <S.ModalInput
-                placeholder="여행스타일 검색 (최대 3개)"
+                placeholder="여행지 검색"
                 name="search"
                 autocomplete="off"
               ></S.ModalInput>
@@ -419,6 +495,40 @@ export default function FindTripylerWrite(props) {
           setIsOpenModal={setIsOpenStyleModal}
           limitLen="5"
         />
+      )}
+
+      {isOpneWithTripyler && (
+        <S.ModalOverlay>
+          <S.Modal>
+            <S.ModalTitle>아이디 검색</S.ModalTitle>
+            <S.ModalInputWrapper onSubmit={onSubmitFindID}>
+              <S.ModalInput
+                placeholder="아이디 검색"
+                name="search"
+                autocomplete="off"
+              ></S.ModalInput>
+              <S.ModalInputBtn>
+                <img src="/icon/search.png" />
+              </S.ModalInputBtn>
+            </S.ModalInputWrapper>
+            <S.ModalHashtagError>{errTripyler}</S.ModalHashtagError>
+            <S.ModalTripylerWrapper>
+              {withTripylerList.map((el) => (
+                <S.ModalTripylerID onClick={handleDelID} key={el} id={el}>
+                  @{el}
+                </S.ModalTripylerID>
+              ))}
+            </S.ModalTripylerWrapper>
+            <S.ModalBtnWrapper>
+              <S.ModalCancelBtn onClick={handleCloseWithTripyler}>
+                취소
+              </S.ModalCancelBtn>
+              <S.ModalSubmitBtn onClick={handleSubmitWithTripyler}>
+                확인
+              </S.ModalSubmitBtn>
+            </S.ModalBtnWrapper>
+          </S.Modal>
+        </S.ModalOverlay>
       )}
     </>
   );

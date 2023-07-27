@@ -31,12 +31,19 @@ export default function FindTripylerDetail() {
     hashtag3: "",
     hashtag4: "",
     hashtag5: "",
-    // hits: 0,
     likes: 0,
+    nextTitle: "",
+    nextTripylerId: 0,
+    previousTitle: "",
+    previousTripylerId: 0,
+    myTripyler: false,
   });
   const [hashtag, setHashtag] = useState([]);
   const [commentData, setCommentData] = useState([]);
   const [cmtLen, setCmtLen] = useState(5);
+  const [applyList, setApplyList] = useState([]);
+  const [isOpenApplyList, setIsOpenApplyList] = useState(false);
+  const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
 
   const onClickApplyBtn = () => {
     router.push(`/findTripyler/${tripylerId}/apply`);
@@ -54,12 +61,28 @@ export default function FindTripylerDetail() {
 
   // 프로필 이동
   const checkUser = async () => {
-    if(data.tokenUserLiked){
+    if(data.myTripyler){
       router.push("/auth/profile");
     } else{
       router.push({pathname: "/auth/profile", query: {userId: data.userId}})
     }
   }
+  // 동행 신청자 리스트
+  const fetchList = async () => {
+    await axios
+      .get(apiPath + "/tripyler/apply")
+      .then((res) => {
+        console.log(res);
+        const { [tripylerId]: selectedValue } = res.data.data;
+        setApplyList([...selectedValue]);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const onClickMoreApply = () => {
+    console.log(applyList);
+    setIsOpenApplyList((prev) => !prev);
+  };
 
   // 데이터 불러오기
   const fetchData = async () => {
@@ -128,9 +151,26 @@ export default function FindTripylerDetail() {
   };
 
   useEffect(() => {
-    tripylerId && fetchData();
-    tripylerId && fetchComment();
+    if (tripylerId) {
+      fetchData();
+      fetchComment();
+      fetchList();
+    }
   }, [tripylerId]);
+
+  // 이전, 다음게시물 이동 기능
+  const onClickPrevPost = () => {
+    router.push(`/findTripyler/${data.previousTripylerId}`);
+  };
+
+  const onClickNextPost = () => {
+    router.push(`/findTripyler/${data.nextTripylerId}`);
+  };
+
+  // 동행자 프로필
+  const onClickWithTrip = () => {
+    setIsOpenWithTripList((prev) => !prev);
+  };
 
   return (
     <>
@@ -141,7 +181,7 @@ export default function FindTripylerDetail() {
       <S.ContentsLoc>
         <S.LocIcon src="/icon/loc_white.svg" />
         <S.LocTxt>
-          {data.nationName}, {data.regionName} 
+          {data.nationName}, {data.regionName}
         </S.LocTxt>
       </S.ContentsLoc>
       <S.Contents>
@@ -162,20 +202,90 @@ export default function FindTripylerDetail() {
               <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
+
           <S.MidTopRightWrapper>
-            <S.ContentsInfoWrapper style={{ marginBottom: "40px" }}>
-              <S.ContentsInfoIcon src="/icon/user.png"/>
-              <S.ContentsInfoTxt>
-                {data.totalPeopleNum - data.recruitPeopleNum - 1}인 모집 중 / 총{" "}
-                {data.totalPeopleNum}인
-              </S.ContentsInfoTxt>
-            </S.ContentsInfoWrapper>
-            <S.ContentsInfoWrapper>
-              <S.ContentsInfoIcon src="/icon/calendar.png" />
-              <S.ContentsInfoTxt>
-                {data.startDate} ~ {data.endDate}
-              </S.ContentsInfoTxt>
-            </S.ContentsInfoWrapper>
+            <S.WithTripylerWrapper>
+              <S.WithTripTitle>동행 Trip’yler (6명)</S.WithTripTitle>
+              <S.WithTripProfileList>
+                <S.WithTripProfileWrapper>
+                  <S.WithTripProfile src="/img/applyListImg.png" />
+                </S.WithTripProfileWrapper>
+                <S.WithTripProfileWrapper style={{ left: "35px" }}>
+                  <S.WithTripProfile src="/img/hooni.jpeg" />
+                </S.WithTripProfileWrapper>
+                <S.WithTripProfileWrapper style={{ left: "70px" }}>
+                  <S.WithTripProfile src="/img/shinchan.jpg" />
+                </S.WithTripProfileWrapper>
+                <S.WithTripProfileWrapper style={{ left: "105px" }}>
+                  <S.WithTripProfile src="/img/cheolsoo.jpg" />
+                </S.WithTripProfileWrapper>
+                <S.WithTripMoreBox onClick={onClickWithTrip}>
+                  +2
+                </S.WithTripMoreBox>
+              </S.WithTripProfileList>
+              {isOpenWithTripList && (
+                <S.WithTripList>
+                  <S.WithTripListTitle>Trip’yler 리스트</S.WithTripListTitle>
+                  <S.WithTripListWrapper>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                    <S.WithTripListItem>
+                      <S.WithTripListProfile>
+                        <S.UserImg src="/img/applyListImg.png" />
+                      </S.WithTripListProfile>
+                      <S.WithTripListID>ilta0101</S.WithTripListID>
+                    </S.WithTripListItem>
+                  </S.WithTripListWrapper>
+                </S.WithTripList>
+              )}
+            </S.WithTripylerWrapper>
+            <S.TripylerInfoWrapper>
+              <S.ContentsInfoWrapper>
+                <S.ContentsInfoIcon src="/icon/user.png" />
+                <S.ContentsInfoTxt>
+                  {data.totalPeopleNum - data.recruitPeopleNum - 1}인 모집 중 /
+                  총 {data.totalPeopleNum}인
+                </S.ContentsInfoTxt>
+              </S.ContentsInfoWrapper>
+              <S.ContentsInfoWrapper>
+                <S.ContentsInfoIcon src="/icon/calendar.png" />
+                <S.ContentsInfoTxt>
+                  {data.startDate} ~ {data.endDate}
+                </S.ContentsInfoTxt>
+              </S.ContentsInfoWrapper>
+              <S.ContentsInfoWrapper>
+                <S.ContentsInfoIcon src="/icon/money.svg" />
+                <S.ContentsInfoTxt>약 700,000원</S.ContentsInfoTxt>
+              </S.ContentsInfoWrapper>
+            </S.TripylerInfoWrapper>
           </S.MidTopRightWrapper>
         </S.ContentsMidTopWrapper>
         <S.ContentsMidBtmWrapper>
@@ -192,32 +302,107 @@ export default function FindTripylerDetail() {
         </S.ContentsMidBtmWrapper>
         <S.ContentsBtmWrapper>
           <S.BtmLeftWrapper>
-            <S.BtmIcon src="/icon/heart.png" onClick={onClickLike} />
+            <S.BtmIcon
+              src={data.tokenUserLiked ? "/icon/like.png" : "/icon/heart.png"}
+              onClick={onClickLike}
+            />
             <S.BtmTxt>좋아요 {data.likes}개</S.BtmTxt>
           </S.BtmLeftWrapper>
-          <S.ApplyBtn>
-            <S.ApplyBtnTxt onClick={onClickApplyBtn}>동행 신청</S.ApplyBtnTxt>
-            <S.ApplyBtnIcon src="/icon/arrow.png" />
+          <S.ApplyBtn
+            onClick={data.myTripyler ? onClickEditBtn : onClickApplyBtn}
+          >
+            {data.myTripyler ? "수정하기" : "동행 신청"}
           </S.ApplyBtn>
         </S.ContentsBtmWrapper>
       </S.Contents>
+
+      {data.myTripyler && (
+        <S.PostList>
+          <S.PostListTitleWrapper>
+            <S.PostListTitle>동행 신청자</S.PostListTitle>
+            <S.PostListCnt>{applyList.length}명</S.PostListCnt>
+          </S.PostListTitleWrapper>
+          <S.ApplyList>
+            {isOpenApplyList
+              ? applyList.map((el) => (
+                  <S.ApplyItem key={el.applicantId}>
+                    <S.ApplyProfileWrapper>
+                      <S.UserImg
+                        src={el.profileUrl || "/icon/defaultProfile.png"}
+                      />
+                    </S.ApplyProfileWrapper>
+                    <S.ApplyID>{el.nickname}</S.ApplyID>
+                    <S.ViewApplyBtn
+                      onClick={() =>
+                        router.push(
+                          `/findTripyler/${tripylerId}/${el.applicantId}`
+                        )
+                      }
+                    >
+                      신청폼 보기
+                    </S.ViewApplyBtn>
+                  </S.ApplyItem>
+                ))
+              : applyList
+                  .filter((el, index) => index < 6)
+                  .map((el) => (
+                    <S.ApplyItem key={el.applicantId}>
+                      <S.ApplyProfileWrapper>
+                        <S.UserImg
+                          src={el.profileUrl || "/icon/defaultProfile.png"}
+                        />
+                      </S.ApplyProfileWrapper>
+                      <S.ApplyID>{el.nickname}</S.ApplyID>
+                      <S.ViewApplyBtn
+                        onClick={() =>
+                          router.push(
+                            `/findTripyler/${tripylerId}/${el.applicantId}`
+                          )
+                        }
+                      >
+                        신청폼 보기
+                      </S.ViewApplyBtn>
+                    </S.ApplyItem>
+                  ))}
+          </S.ApplyList>
+          {applyList.length > 6 && (
+            <S.MoreBtn onClick={onClickMoreApply}>
+              <S.MoreBtnTxt>
+                {isOpenApplyList ? "닫기" : "전체보기"}
+              </S.MoreBtnTxt>
+              <S.MoreBtnIcon src="/icon/moreBtn.svg" isOpen={isOpenApplyList} />
+            </S.MoreBtn>
+          )}
+        </S.PostList>
+      )}
+
       <S.PostList>
-        <S.PostListTitle>댓글</S.PostListTitle>
-        <S.CmtListWrapper>
-          {commentData
-            .filter((el, index) => index < cmtLen)
-            .map((el) => (
-              <S.CmtList>
-                <S.ListTitle>{el.nickname}</S.ListTitle>
-                <S.CmtContents>{el.content}</S.CmtContents>
-              </S.CmtList>
-            ))}
-        </S.CmtListWrapper>
+        <S.PostListTitleWrapper>
+          <S.PostListTitle>댓글</S.PostListTitle>
+          <S.PostListCnt>{commentData.length}개</S.PostListCnt>
+        </S.PostListTitleWrapper>
+        {commentData.length > 0 ? (
+          <S.CmtListWrapper>
+            {commentData
+              .filter((el, index) => index < cmtLen)
+              .map((el) => (
+                <S.CmtList>
+                  <S.ListTitle>{el.nickname}</S.ListTitle>
+                  <S.CmtContents>{el.content}</S.CmtContents>
+                </S.CmtList>
+              ))}
+          </S.CmtListWrapper>
+        ) : (
+          <S.NoCmtWrapper>
+            <S.NoCmtIcon src="/icon/noCmt.png"/>
+            <S.NoCmtTxt>첫 댓글을 작성해보세요</S.NoCmtTxt>
+          </S.NoCmtWrapper>
+        )}
         {commentData.length > cmtLen && (
-          <S.CmtMoreBtn onClick={onClickMoreCmt}>
-            <S.CommetnMoreBtnTxt>댓글 더보기</S.CommetnMoreBtnTxt>
-            <S.CommetnMoreBtnIcon src="/icon/moreBtn.svg" />
-          </S.CmtMoreBtn>
+          <S.MoreBtn onClick={onClickMoreCmt}>
+            <S.MoreBtnTxt>댓글 더보기</S.MoreBtnTxt>
+            <S.MoreBtnIcon src="/icon/moreBtn.svg" />
+          </S.MoreBtn>
         )}
         <S.CmtWriteWrapper onSubmit={onSubmitCmt}>
           <S.ListTitle>댓글 작성하기</S.ListTitle>
@@ -229,27 +414,30 @@ export default function FindTripylerDetail() {
           <S.CmtWriteBtn>작성</S.CmtWriteBtn>
         </S.CmtWriteWrapper>
       </S.PostList>
+
       <S.PostList>
-        <S.PostListTitle>목록</S.PostListTitle>
+        <S.PostListTitle style={{ marginBottom: "30px" }}>목록</S.PostListTitle>
         <S.ListWrapper>
           <S.ListIcon />
           <S.ListTitle>이전 게시물</S.ListTitle>
-          <S.PostTitle>10박 11일 프랑스 파리 여행 동행 모집합니다.</S.PostTitle>
+          <S.PostTitle onClick={onClickPrevPost}>
+            {data.previousTitle}
+          </S.PostTitle>
         </S.ListWrapper>
         <S.ListWrapper
           style={{ borderBottom: "1px solid rgba(214, 214, 214, 0.60)" }}
         >
           <S.ListIcon style={{ transform: "rotate(180deg)" }} />
           <S.ListTitle>다음 게시물</S.ListTitle>
-          <S.PostTitle>5박 6일 방콕 여행 동행 모집합니다.</S.PostTitle>
+          <S.PostTitle onClick={onClickNextPost}>{data.nextTitle}</S.PostTitle>
         </S.ListWrapper>
       </S.PostList>
-      <S.RcmPost>
+      {/* <S.RcmPost>
         <S.RcmPostTitle>추천 게시물</S.RcmPostTitle>
         <S.RcmPostItems>
           <S.RcmPostItem></S.RcmPostItem>
         </S.RcmPostItems>
-      </S.RcmPost>
+      </S.RcmPost> */}
     </>
   );
 }
