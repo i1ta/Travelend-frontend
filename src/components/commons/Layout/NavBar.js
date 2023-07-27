@@ -90,13 +90,13 @@ export default function NavBar(props) {
             <HomeLogo 
                 src="/assets/logo.png"
                 alt="로고"
-                onClick={() => {router.push("/main"); setFindCardFilter({});}} />
+                onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
           <PageList>
-            <Item onClick={() => router.push("/main")}>Trip'yler 소개</Item>
+            <Item onClick={() => router.push("/")}>Trip'yler 소개</Item>
             <Item onClick={() => {router.push("/findTripyler"); setFindCardFilter({});}}>Trip'yler 찾기</Item>
             <Item onClick={() => router.push("/review")}>여행 후기</Item>
-            <Item onClick={() => router.push("/main")}>Contact</Item>
+            <Item onClick={() => router.push("/")}>Contact</Item>
           </PageList>
 
           {!loginState ? (
