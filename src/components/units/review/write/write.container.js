@@ -57,20 +57,26 @@ export default function TriplogWrite(props) {
   };
 
   // 이미지
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageName, setImageName] = useState("");
+  // const [imageUrl, setImageUrl] = useState("");
+  // const [imageName, setImageName] = useState("");
+  const [imageList, setImageList] = useState([{ url: "", name: "" }]);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
-    console.log(event.target.files)
+    console.log(event.target.files);
 
     if (file) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        setImageUrl(reader.result);
-        setImageName(file.name);
+        // setImageUrl(reader.result);
+        // setImageName(file.name);
+        imageList.length < 10 &&
+          setImageList((prev) => [
+            ...prev,
+            { url: reader.result, name: file.name },
+          ]);
       });
       reader.readAsDataURL(file);
     } else {
@@ -119,7 +125,7 @@ export default function TriplogWrite(props) {
                     style={{ position: "relative" }}
                   >
                     <S.CmbBoxTxt>선택</S.CmbBoxTxt>
-                    {!isOpenCmbBox && <S.CmbBoxArrow src="/icon/moreBtn.svg" />}
+                    <S.CmbBoxArrow src="/icon/moreBtn.svg" />
                     {isOpenCmbBox && (
                       <S.CmbBoxList>
                         <S.CmbBoxListItem onClick={onClickCmbBoxItem}>

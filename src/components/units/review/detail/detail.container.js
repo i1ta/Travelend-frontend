@@ -27,12 +27,15 @@ export default function TriplogDetail() {
 
   // 프로필 이동
   const checkUser = async () => {
-    if(data.myReview){
+    if (data.myReview) {
       router.push("/auth/profile");
-    } else{
-      router.push({pathname: "/auth/profile", query: {userId: data.userId}})
+    } else {
+      router.push({
+        pathname: "/auth/profile",
+        query: { userId: data.userId },
+      });
     }
-  }
+  };
 
   // 데이터 불러오기
   const fetchData = async () => {
@@ -102,7 +105,7 @@ export default function TriplogDetail() {
   // 이미지 기능
   const [showImgNum, setShowImgNum] = useState(0);
   const onClickNextImg = () => {
-    if (showImgNum < data.reviewImageList?.length - 3)
+    if (showImgNum < data?.reviewImageList?.length - 3)
       setShowImgNum((prev) => prev + 1);
   };
 
@@ -119,11 +122,11 @@ export default function TriplogDetail() {
 
   // 이전, 다음게시물 이동 기능
   const onClickPrevPost = () => {
-    router.push(`/review/${data.previousReviewId}`);
+    data.previousReviewId && router.push(`/review/${data.previousReviewId}`);
   };
 
   const onClickNextPost = () => {
-    router.push(`/review/${data.nextReviewId}`);
+    data.nextReviewId && router.push(`/review/${data.nextReviewId}`);
   };
 
   // 동행자 프로필
@@ -154,10 +157,16 @@ export default function TriplogDetail() {
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
-              <S.UserImg src={data?.profileUrl || "icon/defaultProfile.png"}  onClick={checkUser} style={{'cursor': 'pointer'}}/>
+              <S.UserImg
+                src={data?.profileUrl || "/icon/defaultProfile.png"}
+                onClick={checkUser}
+                style={{ cursor: "pointer" }}
+              />
             </S.UserImgWrapper>
             <S.UserTxtWrapper>
-              <S.UserID onClick={checkUser} style={{'cursor': 'pointer'}}>{data?.nickname}</S.UserID>
+              <S.UserID onClick={checkUser} style={{ cursor: "pointer" }}>
+                {data?.nickname}
+              </S.UserID>
               <S.UserInfo>{formatUserInfo(data?.age, data?.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
@@ -183,7 +192,7 @@ export default function TriplogDetail() {
                   ))}
                 {data.tripylerWithList?.length > 4 && (
                   <S.WithTripMoreBox onClick={onClickWithTrip}>
-                    +{tripylerWithList.length - 4}
+                    +{data.tripylerWithList?.length - 4}
                   </S.WithTripMoreBox>
                 )}
               </S.WithTripProfileList>
@@ -191,7 +200,7 @@ export default function TriplogDetail() {
                 <S.WithTripList>
                   <S.WithTripListTitle>Trip’yler 리스트</S.WithTripListTitle>
                   <S.WithTripListWrapper>
-                    {tripylerWithList.map((el) => (
+                    {data.tripylerWithList?.map((el) => (
                       <S.WithTripListItem>
                         <S.WithTripListProfile>
                           <S.UserImg
@@ -245,9 +254,11 @@ export default function TriplogDetail() {
                 <S.ImgShowLeftArrow
                   src="/icon/imgShowArrow.svg"
                   style={
-                    data?.reviewImageList?.length <= 3 && {
-                      visibility: "hidden",
-                    }
+                    data?.reviewImageList?.length <= 3
+                      ? {
+                          visibility: "hidden",
+                        }
+                      : {}
                   }
                   onClick={onClickPrevImg}
                 />
@@ -261,12 +272,15 @@ export default function TriplogDetail() {
                       <S.ShowingImg src={el} />
                     </S.ShowingImgWrapper>
                   ))}
+
                 <S.ImgShowRightArrow
                   src="/icon/imgShowArrow.svg"
                   style={
-                    data?.reviewImageList?.length <= 3 && {
-                      visibility: "hidden",
-                    }
+                    data.reviewImageList?.length <= 3
+                      ? {
+                          visibility: "hidden",
+                        }
+                      : {}
                   }
                   onClick={onClickNextImg}
                 />
@@ -338,7 +352,7 @@ export default function TriplogDetail() {
           <S.ListIcon />
           <S.ListTitle>이전 게시물</S.ListTitle>
           <S.PostTitle
-            reviewId={data.previousTripylerId}
+            reviewId={data.previousReviewId}
             onClick={onClickPrevPost}
           >
             {data?.previousTitle || "없음"}
@@ -349,7 +363,7 @@ export default function TriplogDetail() {
         >
           <S.ListIcon style={{ transform: "rotate(180deg)" }} />
           <S.ListTitle>다음 게시물</S.ListTitle>
-          <S.PostTitle reviewId={data.nextTripylerId} onClick={onClickNextPost}>
+          <S.PostTitle reviewId={data.nextReviewId} onClick={onClickNextPost}>
             {data.nextTitle || "없음"}
           </S.PostTitle>
         </S.ListWrapper>

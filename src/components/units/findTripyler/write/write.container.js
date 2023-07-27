@@ -36,8 +36,7 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickPlace = () => {
-    // setIsOpenPlaceModal(true);
-    console.log(tripDate);
+    setIsOpenPlaceModal(true);
   };
 
   const onClickStyle = () => {

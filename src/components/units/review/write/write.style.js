@@ -385,8 +385,8 @@ export const LongTextarea = styled.textarea`
 // 이미지 뷰어
 export const ImgWrapper = styled.div`
   width: 1080px;
-  height: 480px;
-  padding: 30px 20px;
+  height: 460px;
+  padding: 20px 20px;
   padding-bottom: 0px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
