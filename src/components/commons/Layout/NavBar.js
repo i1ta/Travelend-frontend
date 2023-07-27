@@ -52,11 +52,17 @@ export default function NavBar(props) {
   };
 
   const onMesseageBtn = () => {
-    router.push("/auth/profile");
+    router.push({
+      pathname: "/auth/profile",
+      query: {category: "message"}
+    });
   };
 
   const onLikeBtn = () => {
-    router.push("/auth/profile");
+    router.push({
+      pathname: "/auth/profile",
+      query: {category: "myCollections"}
+    });
   };
 
   const onProfileBtn = () => {
