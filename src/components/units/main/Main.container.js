@@ -18,6 +18,13 @@ export default function Main() {
 
   const [response, setResponse] = useState([]);
 
+  const checkLogin = async () => {
+    if(!isLoggedIn){
+      alert('로그인이 필요한 서비스입니다');
+      router.push("/auth/signIn");
+    }
+  };
+
   // 초기값 불러오기
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +52,8 @@ export default function Main() {
     fetchData();
   }, []);
 
-  // 필터링
+  // Trip'yler 찾기 필터링
   const router = useRouter();
-  const [page, setPage] = useState(1);
   const onClcickFilterFind = async () => {
     const requestData = {
       "continentId": parseInt(selectedDestination.continent.id),
@@ -87,6 +93,33 @@ export default function Main() {
         keyword: JSON.stringify(keyword)}
     });
   };
+
+  // 여행 후기 필터링
+  const [reviewList, setReviewList] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+    const requestData = {
+      "continentId": 1,
+      "endMonth": 12,
+      "keyWord": "리뷰",
+      "nationId": 6,
+      "regionId": 1,
+      "startMonth": 1,
+      "totalPeopleNum": 4,
+    }
+    console.log(requestData);
+
+    await axios
+      .post(`${apipath}/review/list?option=1`, requestData)
+      .then((res) => {
+        setReviewList(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((error) => console.log(error));
+
+    }
+    fetchData();
+  }, []);
   
   // 여행지 선택
   const [isCountry, setIsCountry] = useState(false);
@@ -331,17 +364,17 @@ export default function Main() {
       </S.AdWrapper>
       
       <S.ContentWrapper>
-        <S.ReviewTitleWrapper onClick={(e) => router.push("/review")}>
+        <S.ReviewTitleWrapper onClick={(e) => {router.push("/review")}}>
           <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
           <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
         </S.ReviewTitleWrapper>
         <S.Review>
-          <ReviewComponent/>
-          <ReviewComponent/>
-          <ReviewComponent/>
-          <ReviewComponent/>
-          <ReviewComponent/>
-          <ReviewComponent/>
+          {reviewList.map((e, i) => {
+            if(i >= 0 && i < 5)
+            { return (
+              <ReviewComponent idx={i + 1} info={e}/>
+          )}})}
+          
         </S.Review>
       </S.ContentWrapper>
     </>

@@ -246,8 +246,7 @@ export const CountrySelectWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
-  z-index: 101;
-  top: 128px;
+  top: 245px;
   left: 100px;
 `
 
@@ -347,6 +346,79 @@ export const CalendarWrapper = styled.div`
   left: 480px;
   `;
 
+export const MonthSelectWrapper = styled.div`
+  width: 120px;
+  height: 280px;
+  background-color: #ffffff;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  position: absolute;
+  top: 120px;
+  left: -8px;
+`;
+
+export const EndMonthSelectWrapper = styled(MonthSelectWrapper)`
+  left: 215px;
+`;
+
+export const MonthSelect = styled.div`
+width: 100%;
+text-align: center;
+
+overflow-y: auto;
+
+&::-webkit-scrollbar {
+  width: 3px; /* 스크롤바 너비 설정 */
+}
+
+&:hover::-webkit-scrollbar {
+  opacity: 1;
+  transition: opacity 0.7s ease-in-out;
+}
+
+&:hover::-webkit-scrollbar-thumb {
+  background-color: #999999;
+  border-radius: 4px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+&::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+&::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 4px;
+}
+`;
+
+export const MonthContent = styled.div`
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 8px; 0;
+
+  &:hover{
+    background-color: #f2efef;
+  }
+
+  /*background-color: ${(props) => (
+    props.disabledColor ? '#BFBFBF' : '#ffffff'
+  )}*/
+
+  pointer-events: ${(props) => (
+    props.disabled ? 'none' : 'auto'
+  )}
+
+
+`
+
 // 카드 컴포넌트 
 
 export const BtnArrow = styled.img``;
@@ -364,6 +436,20 @@ export const FindTripylerContent = styled.div`
   flex-wrap: wrap;
   margin-left: 20px;
 `;
+
+export const FindTripylerNoContent = styled(FindTripylerContent)`
+  height: 200px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 500px 0;
+`;
+
+export const NoContent = styled.div`
+  font-size: 40px;
+
+`;
+
 
 export const ContentWrapper = styled.div`
   align-items: center;
@@ -446,6 +532,36 @@ export const FindTripylerFilterTwo = styled.select`
     border: 2px solid #00B4D8;;
   }
 `;
+
+
+export const PageNationWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+
+  margin: 70px 0;
+`;
+
+export const PageTxt = styled.div`
+  font-size: 25px;
+  margin: 0 10px;
+  cursor: pointer;
+
+  color: ${(props) => 
+    props.selected ? '#000000' : 'rgba(0, 0, 0, 0.3)'
+  }
+
+`;
+
+export const ArrowImg = styled.img`
+  height: 25px;
+  width: 15px;
+  margin: 0 20px;
+  margin-top: 7px;
+  cursor: pointer;
+`;
+
 
 export const AdWrapper = styled.div`
   text-align: center;

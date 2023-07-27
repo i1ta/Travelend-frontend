@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 
 export default function FindCard (props) {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+
+  const checkLogin = async () => {
+    if(!isLoggedIn){
+      alert('로그인이 필요한 서비스입니다');
+      router.push("/auth/signIn");
+    } else{
+      router.push(`/findTripyler/${props.id}`)
+    }
+  };
 
   // 나이 형식 변경
   const [age, setAge] = useState(parseInt(props.info.age));
@@ -44,7 +56,7 @@ export default function FindCard (props) {
   
 
     return(
-        <ReviewCard onClick={(e) => router.push(`/findTripyler/${props.id}`)}>
+        <ReviewCard onClick={checkLogin}>
             <ReviewImg src={props.info.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>

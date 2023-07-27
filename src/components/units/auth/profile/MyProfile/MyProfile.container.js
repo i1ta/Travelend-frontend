@@ -2,6 +2,7 @@ import { use, useEffect, useState } from "react";
 
 import * as S from "./MyProfile.styles";
 import Modal from "../../../../commons/Modal/Modal";
+import StyleModal from "@/components/commons/Modal/StyleModal";
 import axios from "axios";
 
 export default function MyProfile(props) {
@@ -73,6 +74,7 @@ export default function MyProfile(props) {
     if(thirdBio === ''){
       setThirdBio(props.data.thirdBio);
     }
+
   };
 
   useEffect(() => {startSetting()}, [props]);
@@ -144,100 +146,40 @@ export default function MyProfile(props) {
   };
 
   // 프로필이미지 api
-  const onModifyProfile = async () => {    
-    let idx = 0;
-    for(let i = 0; i < 16; i++){
-      if(mbtiList[i]?.name == mbti){
-        idx = mbtiList[i].id;
+  const onModifyProfile = async () => {   
+    // if(isCompletedAuth){
+      let idx = 0;
+      for(let i = 0; i < 16; i++){
+        if(mbtiList[i]?.name == mbti){
+          idx = mbtiList[i].id;
+        }
       }
-    }
-    
-    const bioList = [firstBio, secondBio, thirdBio];
-    console.log(instagram);
-    await props.modifyProfile(instagram, phone, idx, myHashtag, bioList);
-    await props.fetchMyProfile();
-    props.setModify(true);
+      
+      const bioList = [firstBio, secondBio, thirdBio];
+      console.log(instagram);
+      await props.modifyProfile(instagram, phone, idx, myHashtag, bioList);
+      await props.fetchMyProfile();
+      props.setModify(true);
 
-    // setEmail(`${email.split("@")[0]}@${selected}`);
-    setIsAuthPhone(false);
-    setIsModifyCheckModal(true);
-    setIsModify(false);
-    setIsModifyCheckModal(true);
+      // setEmail(`${email.split("@")[0]}@${selected}`);
+      setIsAuthPhone(false);
+      setIsModifyCheckModal(true);
+      setIsModify(false);
+      setIsModifyCheckModal(true);
+    // } else{
+    //   alert("휴대폰 인증을 진행해주세요.");
+    // }
   }
 
   // style 모달
-  const [shownMyHashtag, setShownMyHashtag] = useState([]);
-  const [errorHashtag, setErrorHashtag] = useState("");
 
   const handleOpenStyleModal = async () => {
-    await axios
-      .get(apiPath + "/hashtag/list")
-      .then((response) => {
-        setHashtagList([...response.data.data]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
     setIsStyleModalOpen(true);
-
-  };
-
-  const isDuplicate = (name) => myHashtag.some((tag) => tag?.name === name);
-
-  const handleAddHashtag = (id, name) => {
-    console.log(myHashtag);
-    if (myHashtag.length < 3 && !isDuplicate(name)) {
-      console.log(id, name);
-      setMyHashtag((prev) => [...prev, { id, name }]);
-    }
-  };
-
-  const handleDelHashtag = (event) => {
-    setMyHashtag(myHashtag.filter((e) => e.id !== parseInt(event.target.id)));
-  };
-
-  const handleSearchHashtag = async (event) => {
-    event.preventDefault();
-    if (myHashtag.length < 3 && !isDuplicate(event.target.search.value)) {
-      await axios
-        .get(apiPath + "/hashtag", {
-          params: {
-            name: event.target.search.value,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          console.log(event.target.search.value);
-          const data = response.data.data;
-          if (data.length !== 0) {
-            handleAddHashtag(data[0].id, data[0].name);
-            setErrorHashtag("");
-          } else {
-            setErrorHashtag(
-              "해당 키워드는 존재하지 않습니다. 다시 입력해주세요."
-            );
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-    event.target.reset();
-  };
-
-  const handleCloseStyleModal = () => {
-    setMyHashtag([...shownMyHashtag]);
-    setIsStyleModalOpen(false);
-  };
-
-  const handleSubmitStyleModal = () => {
-    setShownMyHashtag([...myHashtag]);
-    setIsStyleModalOpen(false);
-    console.log(myHashtag);
   };
 
   // 휴대폰 인증
-  const [isAuthPhone, setIsAuthPhone] = useState(false);
+  const [isAuthPhone, setIsAuthPhone] = useState(false); // 인증 시작
+  const [isCompletedAuth, setIsCompletedAuth] = useState(false); // 인증 완료 여부
   const [authPhone, setAuthPhone] = useState('');
   const [authAnswer, setAuthAnswer] = useState('');
 
@@ -264,6 +206,7 @@ export default function MyProfile(props) {
       alert('인증 번호가 일치하지 않습니다.');
     } else{
       alert('인증이 완료되었습니다.');
+      setIsCompletedAuth(true);
     }
   }
 
@@ -277,6 +220,7 @@ export default function MyProfile(props) {
       .post(apiPath + `/profile/${e.target.id}-private`)
       .then((res) => {
         console.log(res);
+        location.reload(); // 새로고침
       });
   }
 
@@ -288,8 +232,10 @@ export default function MyProfile(props) {
       .post(apiPath + `/profile/${e.target.id}-private`)
       .then((res) => {
         console.log(res);
+        location.reload(); // 새로고침
       });
   }
+
   return (
     <>
     {isModify 
@@ -308,65 +254,7 @@ export default function MyProfile(props) {
           />
         </S.StyleHashTag>
 
-        {/* =================== 스타일 모달창  ==================== */}
-
-      {isStyleModalOpen && (
-        <S.ModalOverlay>
-          <S.Modal>
-          <S.ModalTitle>여행 스타일</S.ModalTitle>
-            <S.ModalInputWrapper onSubmit={handleSearchHashtag}>
-              <S.ModalInput
-                placeholder={"여행스타일 검색 (최대 3개)"}
-                name="search"
-                autocomplete="off"
-              ></S.ModalInput>
-              <S.ModalInputBtn>
-                <img src="/icon/search.png" />
-              </S.ModalInputBtn>
-            </S.ModalInputWrapper>
-            {/* <S.ModalHashtagError>{errorHashtag}</S.ModalHashtagError> */}
-            <S.ModalMyStyleWrapper>
-              {myHashtag.map((e) => (
-                (<S.ModalHashtag id={e.id} onClick={handleDelHashtag}>
-                  #{e.name}
-                </S.ModalHashtag>)
-              ))}
-            </S.ModalMyStyleWrapper>
-            <S.ModalRecogStyleWrapper>
-              <S.ModalRecogTitle>키워드(50개)</S.ModalRecogTitle>
-              <S.ModalRecogHashtagWrapper>
-                {hashtagList.map((e) =>
-                  myHashtag.filter((el) => el.id == e.id).length == 0 ? (
-                    <S.ModalRecogHahstag
-                      key={e.id}
-                      id={e.id}
-                      onClick={() => handleAddHashtag(e.id, e.name)}
-                    >
-                      #{e.name}
-                    </S.ModalRecogHahstag>
-                  ) : (
-                    <S.ModalHashtag
-                      key={e.id}
-                      id={e.id}
-                      onClick={handleDelHashtag}
-                    >
-                      #{e.name}
-                    </S.ModalHashtag>
-                  )
-                )}
-              </S.ModalRecogHashtagWrapper>
-            </S.ModalRecogStyleWrapper>
-            <S.ModalBtnWrapper>
-              <S.ModalCancelBtn onClick={handleCloseStyleModal}>
-                취소
-              </S.ModalCancelBtn>
-              <S.ModalSubmitBtn onClick={handleSubmitStyleModal}>
-                확인
-              </S.ModalSubmitBtn>
-            </S.ModalBtnWrapper>
-          </S.Modal>
-        </S.ModalOverlay>
-      )}
+      {isStyleModalOpen && (<StyleModal data={myHashtag} setData={setMyHashtag} setIsOpenModal={setIsStyleModalOpen} limitLen={3}/>)}
         
       </S.StyleTitleWrapper>
 
@@ -571,7 +459,7 @@ export default function MyProfile(props) {
               <S.Td>
                 <S.TdWrapper>
                   <S.TdTxt>{props.data.name}</S.TdTxt>
-                  {props.data.namePrivate ?
+                  {props.data.namePrivate === true ?
                   (<S.LockIcon id="name" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
                   (<S.LockIcon id="name" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
                   }
@@ -581,7 +469,7 @@ export default function MyProfile(props) {
               <S.Td>
                 <S.TdWrapper>
                   <S.TdTxt>{mbti}</S.TdTxt>
-                  {props.data.mbtiPrivate ?
+                  {props.data.mbtiPrivate === true ?
                   (<S.LockIcon id="mbti" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
                   (<S.LockIcon id="mbti" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
                   }
@@ -599,7 +487,7 @@ export default function MyProfile(props) {
               <S.Td>
                 <S.TdWrapper>
                   <S.TdTxt><a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>@{props.data.instagram}</a></S.TdTxt>
-                  {props.data.instagramPrivate ?
+                  {props.data.instagramPrivate === true ?
                   (<S.LockIcon id="instagram" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
                   (<S.LockIcon id="instagram" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
                   }
@@ -627,7 +515,7 @@ export default function MyProfile(props) {
               <S.Td>
                 <S.TdWrapper>
                   <S.TdTxt>{formatPhone(phone)}</S.TdTxt>
-                  {props.data.phonePrivate ?
+                  {props.data.phonePrivate === true ?
                   (<S.LockIcon id="phone" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
                   (<S.LockIcon id="phone" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)
                   }

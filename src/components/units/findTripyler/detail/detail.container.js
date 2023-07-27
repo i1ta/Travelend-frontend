@@ -11,6 +11,7 @@ export default function FindTripylerDetail() {
 
   const [data, setData] = useState({
     tripylerId: 0,
+    tokenUserLiked: false,
     title: "",
     content: "",
     regDateTime: "", // 게시물 작성일자
@@ -50,6 +51,15 @@ export default function FindTripylerDetail() {
     const formatGender = gender === "M" ? "남성" : "여성";
     return formatAge + " " + formatGender;
   };
+
+  // 프로필 이동
+  const checkUser = async () => {
+    if(data.tokenUserLiked){
+      router.push("/auth/profile");
+    } else{
+      router.push({pathname: "/auth/profile", query: {userId: data.userId}})
+    }
+  }
 
   // 데이터 불러오기
   const fetchData = async () => {
@@ -145,10 +155,10 @@ export default function FindTripylerDetail() {
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
-              <S.UserImg src={data.profileUrl || "icon/defaultProfile.png"} style={{'cursor': 'pointer'}} onClick={(e) => router.push({pathname: "/auth/profile", query: {userId: data.userId, user: false}})}/>
+              <S.UserImg src={data.profileUrl || "icon/defaultProfile.png"} style={{'cursor': 'pointer'}} onClick={checkUser}/>
             </S.UserImgWrapper>
             <S.UserTxtWrapper>
-              <S.UserID  style={{'cursor': 'pointer'}} onClick={(e) => router.push({pathname: "/auth/profile", query: {userId: data.userId, user: false}})}>{data.nickname}</S.UserID>
+              <S.UserID  style={{'cursor': 'pointer'}} onClick={checkUser}>{data.nickname}</S.UserID>
               <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
