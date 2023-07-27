@@ -6,8 +6,6 @@ import { useSetRecoilState } from 'recoil';
 
 import { LoginState, NicknameState } from '@/States/LoginState';
 
-import { KAKAO_REDIRECT_URL } from '@/OAuth/kakao.js';
-
 const OAuthKaKao = () => {
   // 로그인 상태 설정
   const setIsLoggedIn = useSetRecoilState(LoginState);

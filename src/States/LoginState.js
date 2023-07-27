@@ -26,3 +26,9 @@ export const FindCardList = atom({
   default: [],
   effects_UNSTABLE: [persistAtom],
 })
+
+export const FindCardFilter = atom({
+  key: "FindCardFilter", 
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+})

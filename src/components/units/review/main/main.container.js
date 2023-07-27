@@ -26,6 +26,16 @@ export default function ReviewMain() {
       city: {id: 0, name: ""},
     });
 
+    // 로그인 여부 확인
+    const checkLogin = async () => {
+      if(!isLoggedIn){
+        alert('로그인이 필요한 서비스입니다');
+        router.push("/auth/signIn");
+      } else{
+        router.push(`/findTripyler/write`)
+      }
+    };
+
     // 여행 후기 필터링
   const [reviewList, setReviewList] = useState([]);
   useEffect(() => {
@@ -197,7 +207,7 @@ export default function ReviewMain() {
                 <S.FilterBackWrapper>
                   <S.FilterWrapper>
                     <S.FilterTitleWrapper>
-                      <S.FilterTitleImg src="/icon/user.png"></S.FilterTitleImg>
+                      <S.FilterTitleImg src="/icon/searchBlack.png"></S.FilterTitleImg>
                       <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                     </S.FilterTitleWrapper>
                     <S.Input
@@ -415,7 +425,7 @@ export default function ReviewMain() {
           <S.FindTripylerTitle>
             <div>Trip’yler의 인기 여행 후기</div>
             <S.FindTripylerWriteBtn
-              onClick={(e) => router.push("/review/write")}
+              onClick={checkLogin}
             >
               후기 작성 〉
             </S.FindTripylerWriteBtn>
