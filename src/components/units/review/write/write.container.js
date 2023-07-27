@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./write.style";
+import axios from "axios";
 
 export default function TriplogWrite(props) {
   const [isOpenStep1, setIsOpenStep1] = useState(true);
@@ -14,19 +15,19 @@ export default function TriplogWrite(props) {
       profileUrl: "/img/hooni.jpeg",
     },
     {
-      nickname: "user01",
+      nickname: "user02",
       profileUrl: "/img/hooni.jpeg",
     },
     {
-      nickname: "user01",
+      nickname: "user03",
       profileUrl: "/img/hooni.jpeg",
     },
     {
-      nickname: "user01",
+      nickname: "user0",
       profileUrl: "/img/hooni.jpeg",
     },
     {
-      nickname: "user01",
+      nickname: "user05",
       profileUrl: "/img/hooni.jpeg",
     },
   ]);
@@ -43,12 +44,31 @@ export default function TriplogWrite(props) {
   };
 
   // 콤보박스
+  const [tripList, setTripList] = useState([]);
   const onClickCmbBox = () => {
     setIsOpenCmbBox((prev) => !prev);
   };
 
+  const fetchList = async () => {
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
+
+    await axios
+      .get(`${apiPath}/my-collections/my-all-tripylers`)
+      .then((res) => {
+        console.log(res);
+        setTripList([...res.data.data]);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, []);
+
   const onClickCmbBoxItem = () => {
     setIsOpenCmbBox(false);
+    console.log("ddddd");
   };
 
   // 동행 Tripyler
@@ -57,21 +77,18 @@ export default function TriplogWrite(props) {
   };
 
   // 이미지
-  // const [imageUrl, setImageUrl] = useState("");
-  // const [imageName, setImageName] = useState("");
-  const [imageList, setImageList] = useState([{ url: "", name: "" }]);
+  const [imageList, setImageList] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
     console.log(event.target.files);
+    console.log(imageList);
 
     if (file) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        // setImageUrl(reader.result);
-        // setImageName(file.name);
         imageList.length < 10 &&
           setImageList((prev) => [
             ...prev,
@@ -79,10 +96,13 @@ export default function TriplogWrite(props) {
           ]);
       });
       reader.readAsDataURL(file);
-    } else {
-      setImageUrl("");
-      setImageName("");
     }
+  };
+
+  const onClickDelImg = (event) => {
+    setImageList(
+      imageList.filter((el, idx) => idx !== parseInt(event.target.id))
+    );
   };
 
   // 작성완료, 취소 Btn
@@ -128,9 +148,14 @@ export default function TriplogWrite(props) {
                     <S.CmbBoxArrow src="/icon/moreBtn.svg" />
                     {isOpenCmbBox && (
                       <S.CmbBoxList>
-                        <S.CmbBoxListItem onClick={onClickCmbBoxItem}>
-                          ddddddddddddddddd
-                        </S.CmbBoxListItem>
+                        {tripList.map((el) => (
+                          <S.CmbBoxListItem
+                            key={el.tripylerId}
+                            // onClick={onClickCmbBoxItem}
+                          >
+                            {el.title}
+                          </S.CmbBoxListItem>
+                        ))}
                         <S.CmbBoxListItem>룰ㄹ루랄</S.CmbBoxListItem>
                         <S.CmbBoxListItem>
                           ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
@@ -218,93 +243,62 @@ export default function TriplogWrite(props) {
               <S.StepInfoWrapper>
                 <S.TitleInput placeholder="제목을 입력해주세요"></S.TitleInput>
                 <S.LongTextarea placeholder="내용을 입력해주세요"></S.LongTextarea>
-                <S.ImgWrapper>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
-                  <S.ImageItem>
-                    <S.ImageWrapper>
-                      <S.Img src="/img/review1.png" />
-                    </S.ImageWrapper>
-                    <S.ImgNameWrapper>
-                      <S.ImgName>산토리니 마을.jpg</S.ImgName>
-                      <S.ImgDelBtn src="/icon/delBtn.svg" />
-                    </S.ImgNameWrapper>
-                  </S.ImageItem>
+                {imageList.length === 0 ? (
+                  <>
+                    <S.NoImgWrapper htmlFor="first-upload-input">
+                      <S.NoImgIconWrapper>
+                        <S.NoImgIcon src="/icon/image.svg" />
+                        <S.NoImgTxt> 이미지 첨부</S.NoImgTxt>
+                      </S.NoImgIconWrapper>
+                      <S.NoImgSubTxt>
+                        여행 이미지는 최대 10장까지 첨부 가능합니다.
+                      </S.NoImgSubTxt>
+                    </S.NoImgWrapper>
+                    <input
+                      id="first-upload-input"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      style={{ display: "none" }}
+                      multiple
+                    />
+                  </>
+                ) : (
+                  <S.ImgWrapper>
+                    {imageList.map((el, idx) => (
+                      <S.ImageItem key={idx}>
+                        <S.ImageWrapper>
+                          <S.Img src={el.url} />
+                        </S.ImageWrapper>
+                        <S.ImgNameWrapper>
+                          <S.ImgName>{el.name}</S.ImgName>
+                          <S.ImgDelBtn
+                            id={idx}
+                            src="/icon/delBtn.svg"
+                            onClick={onClickDelImg}
+                          />
+                        </S.ImgNameWrapper>
+                      </S.ImageItem>
+                    ))}
 
-                  <S.ImgAddBtn htmlFor="upload-input">
-                    <S.ImgAddIcon src="/icon/plus.png" />
-                    <S.ImgAddTxt>이미지 추가</S.ImgAddTxt>
-                  </S.ImgAddBtn>
-                  <input
-                    id="upload-input"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }}
-                    multiple
-                  />
-                </S.ImgWrapper>
+                    {imageList.length < 10 && (
+                      <>
+                        <S.ImgAddBtn htmlFor="upload-input">
+                          <S.ImgAddIcon src="/icon/plus.png" />
+                          <S.ImgAddTxt>이미지 추가</S.ImgAddTxt>
+                        </S.ImgAddBtn>
+                        <input
+                          id="upload-input"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          style={{ display: "none" }}
+                          multiple
+                        />
+                      </>
+                    )}
+                  </S.ImgWrapper>
+                )}
               </S.StepInfoWrapper>
             )}
           </S.StepWrapper>
