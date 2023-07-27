@@ -110,11 +110,11 @@ export default function TriplogDetail() {
 
   // 이전, 다음게시물 이동 기능
   const onClickPrevPost = () => {
-    router.push(`/review/${data.previousTripylerId}`);
+    router.push(`/review/${data.previousReviewId}`);
   };
 
   const onClickNextPost = () => {
-    router.push(`/review/${data.nextTripylerId}`);
+    router.push(`/review/${data.nextReviewId}`);
   };
 
   // 동행자 프로필

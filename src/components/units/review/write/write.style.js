@@ -1,4 +1,5 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
+import { StyleEditImg } from "../../auth/profile/MyProfile/NotMyProfile.styles";
 
 export const TitleBanner = styled.div`
   width: 100%;
@@ -74,8 +75,15 @@ export const StepTitleTxt = styled.div`
   font-weight: 600;
 `;
 
+export const StepSubTitleTxt = styled.div`
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+`;
+
 export const MoreBtnImg = styled.img`
-  transform: ${props => props.isOpenStep ? "rotate(180deg)" : "none"};
+  transform: ${(props) => (props.isOpenStep ? "rotate(180deg)" : "none")};
 `;
 
 export const MoreBtn = styled.button`
@@ -100,10 +108,6 @@ export const InputInfoWrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-export const LongInputInfoWrapper = styled(InputInfoWrapper)`
-  align-items: flex-start;
-`;
-
 export const InputTitle = styled.div`
   width: 250px;
   color: #333;
@@ -112,119 +116,239 @@ export const InputTitle = styled.div`
   margin-right: 40px;
 `;
 
-export const LongInputTitle = styled(InputTitle)`
-  margin-top: 12px;
-`;
-
-export const MidInput = styled.div`
-  width: 580px;
+export const CmbBox = styled.div`
+  width: 790px;
   height: 50px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(217, 217, 217, 0.2);
-  margin-right: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: #000;
   font-size: 18px;
   font-weight: 500;
+  cursor: pointer;
+  padding: 0px 20px 0px 30px;
 `;
 
-export const InputBtn = styled.button`
-  width: 170px;
-  height: 50px;
-  border-radius: 5px;
-  background: rgba(0, 180, 216, 0.6);
-  color: #fff;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
+export const CmbBoxTxt = styled.div`
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  width: 680px;
 `;
 
-export const InputWrapper = styled.div`
-  width: 580px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 40px;
-`;
-
-export const ShortInput = styled(MidInput)`
-  width: 250px;
-  margin-right: 0px;
-`;
-
-export const Hyphen = styled.div`
+export const CmbBoxArrow = styled.img`
   width: 20px;
-  height: 2px;
-  background: #666;
 `;
 
-export const WritableShortInput = styled(ShortInput)`
-  background-color: #ffffff;
-  justify-content: space-between;
-  padding: 0px 15px;
-`;
+export const CmbBoxList = styled.div`
+  width: 790px;
+  height: 153px;
+  position: absolute;
+  top: 48px;
+  left: 0px;
+  z-index: 50;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-end-start-radius: 5px;
+  border-end-end-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
 
-export const UpDownBtn = styled.button`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  text-align: center;
-  color: #666;
-  font-size: 30px;
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 설정 */
+  }
 
-  &:hover {
-    background-color: rgba(144, 224, 239, 0.4);
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(167, 167, 167, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
   }
 `;
 
-export const InputTxt = styled.div`
-  color: #000;
-  font-size: 18px;
-  font-weight: 500;
-`;
-
-export const InputTitleWrapper = styled.div`
-  width: 250px;
+export const CmbBoxListItem = styled.div`
+  width: 790px;
+  /* background-color: aliceblue; */
+  height: 50px;
   display: flex;
-  align-items: flex-end;
-  margin-right: 40px;
-`;
+  align-items: center;
+  padding: 0px 30px;
+  border-bottom: 1px solid rgba(153, 153, 153, 0.5);
+  cursor: pointer;
 
-export const InputTitleInfo = styled.div`
   color: #666;
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgba(0, 180, 216, 0.1);
+    /* color: #FFF; */
+  }
 `;
 
-export const Hashtag = styled.div`
-  width: 95px;
-  height: 34px;
-  border-radius: 18px;
-  background: #90e0ef;
+export const InfoBox = styled.div`
+  width: 1080px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  padding-top: 43px;
+  border-radius: 10px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: rgba(217, 217, 217, 0.2);
+`;
+
+export const InfoBoxTitle = styled.div`
+  color: #333;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 15px;
+`;
+
+export const InfoBoxInput = styled.div`
+  width: 250px;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
+
+  color: #666;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `;
 
-export const Input = styled.input`
-  width: 160px;
+export const InfoBoxItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const WithTripProfileList = styled.div`
+  position: relative;
+  width: 180px;
+  height: 50px;
+`;
+
+export const WithTripProfileWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  background-color: #fff;
+`;
+
+export const Image = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
+
+export const WithTripProfile = styled(Image)`
+  cursor: pointer;
+`;
+
+export const WithTripMoreBox = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px;
+  left: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #999;
+
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+`;
+
+export const WithTripList = styled.div`
+  width: 170px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 100px;
+  left: 5px;
+  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+  padding-top: 10px;
+`;
+
+export const WithTripListTitle = styled.div`
   color: #000;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  text-align: right;
-  border: none;
-  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+export const WithTripListWrapper = styled.div`
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 설정 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(167, 167, 167, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+`;
+
+export const WithTripListItem = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+
+export const WithTripListProfile = styled.div`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  overflow: hidden;
+`;
+
+export const WithTripListID = styled.div`
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const LongInput = styled.input`
-  width: 790px;
+  width: 1080px;
   height: 50px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
@@ -233,11 +357,19 @@ export const LongInput = styled.input`
   font-size: 18px;
   font-weight: 500;
   padding: 14px 25px;
+  margin-bottom: 40px;
 `;
 
-export const LongTxtArea = styled.textarea`
-  width: 790px;
-  height: 500px;
+export const TitleInput = styled(LongInput)`
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding: 30px 25px;
+  color: #333;
+`;
+
+export const LongTextarea = styled.textarea`
+  width: 1080px;
+  height: 600px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(255, 255, 255);
@@ -246,52 +378,105 @@ export const LongTxtArea = styled.textarea`
   font-weight: 500;
   padding: 21px 25px;
   resize: none;
+  overflow-y: auto;
+  margin-bottom: 20px;
 `;
 
-export const fileReaderBtn = styled.label`
-  width: 170px;
-  height: 50px;
-  border-radius: 5px;
-  background: rgba(0, 180, 216, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-`;
-
-export const ImageViewer = styled.div`
-  width: 580px;
-  height: 330px;
+// 이미지 뷰어
+export const ImgWrapper = styled.div`
+  width: 1080px;
+  height: 480px;
+  padding: 30px 20px;
+  padding-bottom: 0px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
-  background: rgba(217, 217, 217, 0.2);
+  background: #fff;
+  margin-bottom: 40px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8.4px;
+`;
+
+export const ImageItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
 `;
 
-export const ImagePreveiew = styled.img`
+export const ImageWrapper = styled.div`
+  width: 200px;
+  height: 150px;
+  overflow: hidden;
+  /* background-color: beige; */
+`;
+
+export const Img = styled(Image)`
   object-fit: contain;
-  max-width: 100%;
-  max-height: 100%;
-  width: 100%;
-  height: 100%;
 `;
 
-export const ImageIcon = styled.img`
-  margin-bottom: 13px;
+export const ImgNameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 `;
 
-export const ImageTxt = styled.div`
-  color: rgba(51, 51, 51, 0.8);
-  font-size: 16px;
+export const ImgName = styled.div`
+  color: rgba(102, 102, 102, 0.8);
+  font-size: 18px;
   font-weight: 500;
-  text-align: center;
 `;
+
+export const ImgDelBtn = styled.img`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+`;
+
+export const ImgAddBtn = styled.label`
+  width: 200px;
+  height: 150px;
+  border-radius: 5px;
+  background: rgba(217, 217, 217, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const ImgAddIcon = styled.img`
+  margin-bottom: 10px;
+`;
+
+export const ImgAddTxt = styled.div`
+  color: #666;
+  font-size: 18px;
+  font-weight: 700;
+`;
+
+export const NoImgWrapper = styled.div`
+  width: 1080px;
+  height: 480px;
+  border-radius: 5px;
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+`;
+
+export const NoImgIconWrapper = styled.div``;
+
+export const NoImgIcon = styled.img``;
+
+export const NoImgTxt = styled.div``;
+
+export const NoImgSubTxt = styled.div``;
 
 export const BtnWrapper = styled.div`
   display: flex;
