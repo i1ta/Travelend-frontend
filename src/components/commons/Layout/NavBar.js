@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
+import {FindCardFilter} from "@/States/LoginState";
 import { LoginState, IsFirstLogin } from "../../../States/LoginState";
 
 export default function NavBar(props) {
   const loginState = useRecoilValue(LoginState);
+  const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const [infoMsg, setInfoMsg] = useState([]);
   const [infoMsgNum, setInfoMsgNum] = useState(-1);
@@ -88,11 +90,11 @@ export default function NavBar(props) {
             <HomeLogo 
                 src="/assets/logo.png"
                 alt="로고"
-                onClick={() => router.push("/")} />
+                onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
           <PageList>
             <Item onClick={() => router.push("/")}>Trip'yler 소개</Item>
-            <Item onClick={() => router.push("/findTripyler")}>Trip'yler 찾기</Item>
+            <Item onClick={() => {router.push("/findTripyler"); setFindCardFilter({});}}>Trip'yler 찾기</Item>
             <Item onClick={() => router.push("/review")}>여행 후기</Item>
             <Item onClick={() => router.push("/")}>Contact</Item>
           </PageList>

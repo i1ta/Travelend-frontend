@@ -28,15 +28,21 @@ export default function Review (props) {
                   {props.info.hashtags.map((hashtag, i) => { (i >= 0 && i < 3) && (<ReviewUserHashtag>#{hashtag}</ReviewUserHashtag>)})}
                 </ReviewUserHashWrapper>
               </ReviewUserWrapper>
-              <ReviewImg src={props.info.image}/>
+              <ReviewImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}/>
               <ReviewInfoWrapper>
-                <ReviewInfoCountry>
-                <ReviewIcon src="icon/location.png"></ReviewIcon>
-                  {props.info.nationName}
-                </ReviewInfoCountry>
                 <ReviewInfoCityCal>
-                  <ReviewInfoCity>{props.info.regionName}</ReviewInfoCity>
-                  <ReviewInfoCal><ReviewIcon src="icon/calendar.png"></ReviewIcon>{props.info.regDateTime.split("T")[0]}</ReviewInfoCal>
+                  <ReviewInfoCountry>
+                    <ReviewIcon src="icon/location.png"></ReviewIcon>
+                      {props.info.nationName} ·
+                    <ReviewInfoRegion>
+                      {props.info.regionName}
+                    </ReviewInfoRegion>
+                  </ReviewInfoCountry>
+                  
+                  <ReviewInfoCal>
+                    <ReviewIcon src="icon/calendar.png"></ReviewIcon>
+                    {props.info.regDateTime.split("T")[0]}
+                  </ReviewInfoCal>
                 </ReviewInfoCityCal>
                 <ReviewInfoLine></ReviewInfoLine>
                 <ReviewInfoTitle>{props.info.title}</ReviewInfoTitle>
@@ -154,7 +160,22 @@ export const ReviewInfoWrapper = styled.div`
 
 export const ReviewInfoCountry = styled.div`
     color: #666666;
-    font-size: 20px;
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+`;
+
+export const ReviewInfoRegion = styled.div`
+    font-size: 24px;
+    color: #000000;
+    margin-left: 10px;
+`;
+
+export const ReviewInfoDesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
 
 `;
 

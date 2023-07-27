@@ -74,14 +74,13 @@ export default function ReviewMain (props) {
                         <ReviewInfoAdditionTxt>{props.info.likes}</ReviewInfoAdditionTxt>
                         <ReviewInfoAdditionIcon src="/icon/comment.png"></ReviewInfoAdditionIcon>
                         <ReviewInfoAdditionTxt>{props.info.comments}</ReviewInfoAdditionTxt>
-                        <ReviewInfoAdditionIcon src="/icon/message.png"></ReviewInfoAdditionIcon>
-                        <ReviewInfoAdditionTxt>Message</ReviewInfoAdditionTxt>
+                        
                         <ReviewInfoAdditionIcon src="/icon/view_gray.png"></ReviewInfoAdditionIcon>
                         <ReviewInfoAdditionTxt>{props.info.hits}</ReviewInfoAdditionTxt>
                     </ReviewInfoAdditionWrapper>
                 </ReviewInfoWrapper>
               </ReviewCardContentWrapper>
-              <ReviewCardImg src={props.info.image}></ReviewCardImg>
+              <ReviewCardImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}></ReviewCardImg>
             </ReviewCard>
           </ReviewContents>
     );

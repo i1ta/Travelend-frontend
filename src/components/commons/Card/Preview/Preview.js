@@ -12,18 +12,18 @@ export default function PreviewCard (props) {
         새로운 인연을 만들어줘서 고마워요, Trip’yle!`
     },
     {
-        title: "“극 J인 분의 여행후기 보고 일정 짰어요 ”",
+        title: "극 J인 분의 여행후기 보고 일정 짰어요 ",
         content: `극 P인 성향이라 일본 여행 계획 짜는게 너무 귀찮았는데 여행 전날 J성향이신 것 같은 분의 상세한 일본 여행 후기를 보고 참고해서 잘 다녀왔습니다. 상세하게 여정을 기록해주신 분들 덕분에 여행 계획 짤 때 도움이 많이 됐던 것 같아요. 궁금한 부분은 여행 후기 댓글을 통해 해당 여행자와 소통할 수 있어서 아주 좋습니다!
         여행자들끼리 소통할 수 있는 공간을 마련해줘서 고마워요, Trip’yle!
         `
     },
     {
-        title: "“여행갈 때마다 믿고 사용하는 Trip’yle”",
+        title: "여행갈 때마다 믿고 사용하는 Trip’yle",
         content: `여행 동행자를 찾을 때 개인정보 유출에 대한 걱정 없이 안전하게 사용할 수 있어서 좋고, 함께 여행하며 쌓은 소중한 추억들을 후기로 공유하는 것도 다른 여행자들과 소통하는 재미를 느낄 수 있어요. Trip'yle는 신뢰성과 편의성을 모두 갖춘 플랫폼으로, 믿고 이용할 수 있는 공간이어서 제가 여행갈 때마다 자주 이용합니다!!
         적게 일하시고 돈 많이 버세요~!`
     },
     {
-        title: "“극 J인 분의 여행후기 보고 일정 짰어요 ”",
+        title: "극 J인 분의 여행후기 보고 일정 짰어요 ",
         content: `극 P인 성향이라 일본 여행 계획 짜는게 너무 귀찮았는데 여행 전날 J성향이신 것 같은 분의 상세한 일본 여행 후기를 보고 참고해서 잘 다녀왔습니다. 상세하게 여정을 기록해주신 분들 덕분에 여행 계획 짤 때 도움이 많이 됐던 것 같아요. 궁금한 부분은 여행 후기 댓글을 통해 해당 여행자와 소통할 수 있어서 아주 좋습니다!
         여행자들끼리 소통할 수 있는 공간을 마련해줘서 고마워요, Trip’yle!
         `
@@ -35,7 +35,7 @@ export default function PreviewCard (props) {
         새로운 인연을 만들어줘서 고마워요, Trip’yle!`
     },
     {
-        title: "“여행갈 때마다 믿고 사용하는 Trip’yle”",
+        title: "여행갈 때마다 믿고 사용하는 Trip’yle",
         content: `여행 동행자를 찾을 때 개인정보 유출에 대한 걱정 없이 안전하게 사용할 수 있어서 좋고, 함께 여행하며 쌓은 소중한 추억들을 후기로 공유하는 것도 다른 여행자들과 소통하는 재미를 느낄 수 있어요. Trip'yle는 신뢰성과 편의성을 모두 갖춘 플랫폼으로, 믿고 이용할 수 있는 공간이어서 제가 여행갈 때마다 자주 이용합니다!!
         적게 일하시고 돈 많이 버세요~!`
     },
@@ -102,7 +102,7 @@ const PreviewWrapper = styled.div`
 `;
 
 const PreviewTitle = styled.div`
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bold;
     color: #C8B6FF;
     text-align: center;
@@ -154,7 +154,7 @@ const Preview = styled.div`
 
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
+    box-shadow: 0px 5px 15px 5px rgba(102, 102, 102, 0.12);
     margin: 0 24px;
 
     scroll-snap-align: start;

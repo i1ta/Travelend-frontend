@@ -3,6 +3,7 @@ import * as S from "./Main.styles";
 import { useRecoilState } from "recoil";
 import { LoginState } from '@/States/LoginState';
 import { FindCardList } from "@/States/LoginState";
+import {FindCardFilter} from "@/States/LoginState";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
@@ -14,6 +15,7 @@ import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [findCardList, setFindCardList] = useRecoilState(FindCardList);
+  const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const apipath = 'https://api.tripyle.xyz';
 
   const [response, setResponse] = useState([]);
@@ -77,10 +79,7 @@ export default function Main() {
       })
       .catch((error) => console.log(error));
 
-    router.push({
-      pathname: `findTripyler`,
-      query: 
-      {
+      const query = {
         continent: JSON.stringify(selectedDestination.continent.name),
         continentId: selectedDestination.continent.id,
         country: JSON.stringify(selectedDestination.country.name),
@@ -90,8 +89,27 @@ export default function Main() {
         startDate: JSON.stringify(date.startDate),
         endDate: JSON.stringify(date.endDate),
         num: selectedNum,
-        keyword: JSON.stringify(keyword)}
-    });
+        keyword: JSON.stringify(keyword)
+      }
+
+    // router.push({
+    //   pathname: `findTripyler`,
+    //   query: 
+    //   {
+    //     continent: JSON.stringify(selectedDestination.continent.name),
+    //     continentId: selectedDestination.continent.id,
+    //     country: JSON.stringify(selectedDestination.country.name),
+    //     countryId: selectedDestination.country.id,
+    //     city: JSON.stringify(selectedDestination.city.name),
+    //     cityId: selectedDestination.city.id,
+    //     startDate: JSON.stringify(date.startDate),
+    //     endDate: JSON.stringify(date.endDate),
+    //     num: selectedNum,
+    //     keyword: JSON.stringify(keyword)
+    //   }
+    // });
+    router.push("/findTripyler");
+    setFindCardFilter(query);
   };
 
   // 여행 후기 필터링
