@@ -1,6 +1,6 @@
-import Main from '../../src/components/units/main/Main.container';
+import Main from '../src/components/units/main/Main.container';
 import { useRecoilValue } from 'recoil';
-import { LoginState } from '../../src/States/LoginState';
+import { LoginState } from '../src/States/LoginState';
 
 export default function MainPage() {
     const loginState = useRecoilValue(LoginState);

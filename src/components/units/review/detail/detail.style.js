@@ -226,7 +226,7 @@ export const WithTripListWrapper = styled.div`
   max-height: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-left: 1px;
   gap: 15px;
   overflow-y: auto;
 
@@ -352,7 +352,6 @@ export const ImgShowWrapper = styled.div`
 
 export const ImgShowLeftArrow = styled.img`
   cursor: pointer;
-
 ` 
 
 export const ImgShowRightArrow = styled(ImgShowLeftArrow)`
