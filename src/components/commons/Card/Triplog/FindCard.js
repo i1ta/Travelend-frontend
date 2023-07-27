@@ -11,7 +11,7 @@ export default function TriplogFindcard (props) {
                     <TriplogFindDesIcon src="/icon/location.png"></TriplogFindDesIcon>
                     <TriplogFindDes>{props.info.regionName}</TriplogFindDes>
                 </TriplogFindDesWrapper>
-                <TriplogFindImg src={props.info.imageUrl}></TriplogFindImg>
+                <TriplogFindImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></TriplogFindImg>
             </TriplogFindImgWrapper>
             <TriplogFindContentWrapper>
                 <TriplogFindContentTitle>{props.info.title}</TriplogFindContentTitle>

@@ -5,7 +5,7 @@ export default function MyCollectionsFindCard (props) {
   const router = useRouter();
     return(
         <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.data.reviewId}`)}>
-            <ReviewImg src={props.data.imageUrl}></ReviewImg>
+            <ReviewImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>

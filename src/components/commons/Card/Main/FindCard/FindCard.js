@@ -57,7 +57,7 @@ export default function FindCard (props) {
 
     return(
         <ReviewCard onClick={checkLogin}>
-            <ReviewImg src={props.info.imageUrl}></ReviewImg>
+            <ReviewImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></ReviewImg>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
@@ -114,8 +114,7 @@ export default function FindCard (props) {
                   <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
                   <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
                   <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
-                  <ReviewReactIcon src="/icon/message.png"></ReviewReactIcon>
-                  <ReviewReactMsgTxt>Message</ReviewReactMsgTxt>
+                  
                   <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
                   <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
                 </ReviewReactContent>

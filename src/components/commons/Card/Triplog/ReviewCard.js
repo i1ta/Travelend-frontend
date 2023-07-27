@@ -9,7 +9,7 @@ export default function TriplogReviewCard (props) {
             <ReviewCardImgWrapper>
                 {props.info.imageUrls.map((e, idx) => {
                     if(0 <= idx && idx < 3){
-                    return (<ReviewCardImg key={idx} src={e}></ReviewCardImg>)}
+                    return (<ReviewCardImg key={idx} src={e === null ? "/img/devaultImg.png" : e}></ReviewCardImg>)}
                 })}
 
                     {/* <ReviewCardImg src={props.info.imageUrls}></ReviewCardImg> */}
