@@ -11,6 +11,8 @@ import axios from "axios";
 import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
 import FindCard from '../../commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
+import Calendar from "@/components/commons/Tools/Calendar";
+import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -151,6 +153,12 @@ export default function Main() {
     country: {id: 0, name: ""},
     city: {id: 0, name: ""}
   });
+  const [showDestination, setShowDestination] = useState({
+    country: "",
+    city: "",
+  })
+
+  useEffect(() => {}, [showDestination]);
 
   const onOpenDestination = async () => {
     if(isCountry === true){
@@ -214,11 +222,12 @@ export default function Main() {
 
   // 달력
   const [isCalendar, setIsCalendar] = useState(false);
-  const [date, setDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection'
-  });
+  // const [date, setDate] = useState({
+  //   startDate: new Date(),
+  //   endDate: new Date(),
+  //   key: 'selection'
+  // });
+  const [date, setDate] = useState([null, null])
 
   const formatDate = (fdate) => {
     let month = '' + (fdate.getMonth() + 1);
@@ -283,7 +292,10 @@ export default function Main() {
                             ...prev,
                             city: {id: e.target.id ,name: e.target.innerText}
                           }));
-                          console.log(selectedDestination);
+                          setShowDestination(prev => ({
+                            country: selectedDestination.country,
+                            city: e.target.innerText
+                          }))
                         }}
                         selected={selectedDestination.city.name === des.name}
                         >{des.name}</S.ContinentContent>
@@ -293,7 +305,7 @@ export default function Main() {
                 )}
                 </S.FilterTitleWrapper>
                 <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
-                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${selectedDestination.country.name}, ${selectedDestination.city.name}`}</S.FilterInput>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${showDestination.country.name}, ${showDestination.city}`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 
@@ -317,10 +329,9 @@ export default function Main() {
               </S.DateFilterWrapper>
               {isCalendar &&(
                 <S.CalendarWrapper>
-                  <CalendarComponent 
-                    setIsCalendar={setIsCalendar}
-                    date={date}
-                    setDate={setDate}
+                  <Calendar
+                    setIsOpenCalendar={setIsCalendar}
+                    setTripDate={setDate}
                   />
                 </S.CalendarWrapper>
               )}
@@ -376,10 +387,6 @@ export default function Main() {
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
-
-      <S.AdWrapper>
-        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
-      </S.AdWrapper>
       
       <S.ContentWrapper>
         <S.ReviewTitleWrapper onClick={(e) => {router.push("/review")}}>
@@ -395,6 +402,12 @@ export default function Main() {
           
         </S.Review>
       </S.ContentWrapper>
+
+      <S.AdWrapper style={{'cursor': 'pointer'}} onClick={(e) => router.push("/review/write")}>
+        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
+      </S.AdWrapper>
+
+      <PreviewCard/>
     </>
   );
 }

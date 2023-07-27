@@ -49,6 +49,7 @@ const ReviewCard = styled.div`
 
   padding: 10px;
   margin: 20px 30px 20px 30px;
+
 `;
 
 const ReviewCardTitle = styled.div`

@@ -372,8 +372,9 @@ export const AdWrapper = styled.div`
 `;
 
 export const AdImg = styled.img`
-  height: 410px;
+  height: 370px;
   width: 1920px;
+  opacity: 0.8;
 `;
 
 export const FindTripylerTitle = styled.div`

@@ -99,6 +99,11 @@ export default function ReviewMain() {
       country: [],
       city: []
     })
+
+    const [showDestination, setShowDestination] = useState({
+      country: "",
+      city: "",
+    })
     
   
     const onOpenDestination = async () => {
@@ -265,7 +270,10 @@ export default function ReviewMain() {
                                       name: e.target.innerText,
                                     },
                                   }));
-                                  console.log(selectedDestination);
+                                  setShowDestination(prev => ({
+                                    country: selectedDestination.country,
+                                    city: e.target.innerText
+                                  }))
                                 }}
                                 selected={
                                   selectedDestination.city.name === des.name
@@ -285,7 +293,7 @@ export default function ReviewMain() {
                       <S.FilterInput>
                         {selectedDestination.city.name === ""
                           ? "선택"
-                          : `${selectedDestination.country.name}, ${selectedDestination.city.name}`}
+                          : `${showDestination.country.name}, ${showDestination.city}`}
                       </S.FilterInput>
                       <S.FilterBtn></S.FilterBtn>
                     </S.Filter>
@@ -466,10 +474,10 @@ export default function ReviewMain() {
 
         </S.Review>
       </S.ContentWrapper>
-      <S.AdWrapper>
+      {/* <S.AdWrapper>
         <S.AdImg src="/img/AdBanner.png"></S.AdImg>
       </S.AdWrapper>
-      <PreviewCard />
+      <PreviewCard /> */}
     </>
   );
 }

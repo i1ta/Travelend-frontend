@@ -115,6 +115,33 @@ export const CollectionContent = styled.div`
 
   justify-content: center;
   padding: 20px;
+
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 3px; /* 스크롤바 너비 설정 */
+  }
+
+  &:hover::-webkit-scrollbar {
+    opacity: 1;
+    transition: opacity 0.7s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #999999;
+    border-radius: 4px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 4px;
+  }
 `;
 
 export const CollectionFindCard = styled(FindCard)`

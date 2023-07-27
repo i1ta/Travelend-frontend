@@ -22,17 +22,20 @@ export default function FindTripylerList(){
 
     const router = useRouter();
 
-    const [selectedDestination, setSelectedDestination] = useState({
-      continent: {id: 0 ,name: ""},
-      country: {id: 0, name: ""},
-      city: {id: 0, name: ""},
-    });
-
     const [isCountry, setIsCountry] = useState(false);
     const [destination, setDestination] = useState({
       continent: [],
       country: [],
       city: []
+    })
+    const [selectedDestination, setSelectedDestination] = useState({
+      continent: {id: 0 ,name: ""},
+      country: {id: 0, name: ""},
+      city: {id: 0, name: ""},
+    });
+    const [showDestination, setShowDestination] = useState({
+      country: "",
+      city: "",
     })
 
     const [isCalendar, setIsCalendar] = useState(false);
@@ -349,7 +352,10 @@ export default function FindTripylerList(){
                             ...prev,
                             city: {id: e.target.id ,name: e.target.innerText}
                           }));
-                          console.log(selectedDestination);
+                          setShowDestination(prev => ({
+                            country: selectedDestination.country,
+                            city: e.target.innerText
+                          }))
                         }}
                         selected={selectedDestination.city.name === des.name}
                         >{des.name}</S.ContinentContent>
@@ -359,7 +365,7 @@ export default function FindTripylerList(){
                 )}
                 </S.FilterTitleWrapper>
                 <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
-                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${selectedDestination.country.name}, ${selectedDestination.city.name}`}</S.FilterInput>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${showDestination.country.name}, ${showDestination.city}`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 
@@ -470,11 +476,11 @@ export default function FindTripylerList(){
         </S.Review>
       </S.ContentWrapper>
 
-      <S.AdWrapper>
+      {/* <S.AdWrapper>
         <S.AdImg src="/img/AdBanner.png"></S.AdImg>
       </S.AdWrapper>
 
-      <PreviewCard/>
+      <PreviewCard/> */}
     </>
   );
 }
