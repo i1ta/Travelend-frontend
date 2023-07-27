@@ -24,6 +24,10 @@ export default function Profile() {
   useEffect(() => {
     if(router.query.userId){
       setSelectedCategory("NotMyProfile");
+    } else if(router.query.category == "message"){
+      setSelectedCategory("Messenger");
+    } else if(router.query.category == "myCollections"){
+      setSelectedCategory("MyCollections");
     } else{
       setSelectedCategory("MyProfile");
     }

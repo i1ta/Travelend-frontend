@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 export default function TriplogReviewCard (props) {
   const router = useRouter();
     return(
-        <ReviewCard>
+        <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.info.reviewId}`)}>
             <ReviewCardTitle>{props.info.tripylerTitle}</ReviewCardTitle>
             <ReviewCardImgWrapper>
                 {props.info.imageUrls.map((e, idx) => {
