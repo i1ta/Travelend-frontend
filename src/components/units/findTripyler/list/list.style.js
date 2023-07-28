@@ -230,7 +230,7 @@ export const ContinentContent = styled.div`
   height: 40px;
   cursor: pointer;
   font-size: 15px;
-  padding: 8px; 0;
+  padding: 8px 0px;
 
   &:hover{
     background-color: #f2efef;
@@ -312,8 +312,8 @@ export const CalendarWrapper = styled.div`
   
   position: relative;
   z-index: 101;
-  bottom: 53px;
-  right: 80px;
+  bottom: 0px;
+  right: 0px;
   
   `;
 

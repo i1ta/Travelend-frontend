@@ -294,7 +294,7 @@ export default function Main() {
                 
               </S.FilterWrapper>
 
-            <S.FilterWrapper>
+            <S.FilterWrapper style={{position: "relative"}}>
               <S.FilterTitleWrapper>
                 <S.FilterTitleImg src="icon/calendar.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>일정</S.FilterTitleTxt>
