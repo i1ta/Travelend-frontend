@@ -40,7 +40,6 @@ export const BannerTxt = styled.div`
   font-size: 25px;
   line-height: 1;
   color: #ffffff;
-  
 `;
 
 export const FindFilter = styled.div`
@@ -76,7 +75,7 @@ export const FilterMiddleWrapper = styled.div`
 export const FilterFrontWrapper = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
 
 export const FilterBackWrapper = styled.div`
   margin-top: 35px;
@@ -120,9 +119,7 @@ export const FilterMinusImg = styled.img`
   cursor: pointer;
 `;
 
-export const FilterNum = styled.div`
-
-`;
+export const FilterNum = styled.div``;
 
 export const FilterPlusImg = styled.img`
   width: 16px;
@@ -190,7 +187,6 @@ export const FilterFindBtn = styled.button`
   border-radius: 50px;
   margin: auto;
 
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,33 +213,30 @@ export const CountrySelectWrapper = styled.div`
   position: absolute;
   top: 128px;
   left: 100px;
-`
+`;
 
 export const ContinentSelect = styled.div`
   width: 100px;
-  border-right: 0.5px solid rgba(214,214,214,0.5);
-
-`
+  border-right: 0.5px solid rgba(214, 214, 214, 0.5);
+`;
 
 export const ContinentContent = styled.div`
   width: 100%;
   height: 40px;
   cursor: pointer;
   font-size: 15px;
-  padding: 8px; 0;
+  padding: 8px 0px;
 
-  &:hover{
+  &:hover {
     background-color: #f2efef;
   }
 
-  background-color: ${(props) => 
-    props.selected ? "#D4D4D4" : "ffffff"
-  };
-`
+  background-color: ${(props) => (props.selected ? "#D4D4D4" : "ffffff")};
+`;
 
 export const CountrySelect = styled.div`
   width: 100px;
-  border-right: 0.5px solid rgba(214,214,214,0.5);
+  border-right: 0.5px solid rgba(214, 214, 214, 0.5);
   overflow-y: auto;
 
   &::-webkit-scrollbar {
@@ -305,13 +298,17 @@ export const CitySelect = styled.div`
 
 // 달력
 export const CalendarWrapper = styled.div`
-  position: relative;
-
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  left: 40px;
+  top: 85px;
+  width: 350px;
+  height: 300px;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center; */
 `;
 
-// 카드 컴포넌트 
+// 카드 컴포넌트
 
 export const BtnArrow = styled.img``;
 
@@ -339,7 +336,7 @@ export const FindTripylerTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
+
   width: 1400px;
   height: 64px;
 
@@ -374,9 +371,7 @@ export const AdImg = styled.img`
   opacity: 0.8;
 `;
 
-export const FindTripylerTitle = styled.div`
-  
-`;
+export const FindTripylerTitle = styled.div``;
 
 export const ReviewTitleWrapper = styled(FindTripylerTitleWrapper)`
   background-color: rgba(200, 182, 255, 0.8);
@@ -403,7 +398,6 @@ export const ReviewFilterBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  
 
   font-weight: ${(props) => (props.selectedFilter == props.id ? "600" : "400")};
   font-size: 20px;

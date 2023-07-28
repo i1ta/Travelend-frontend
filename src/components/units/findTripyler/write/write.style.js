@@ -133,7 +133,6 @@ export const InputBar = styled.div`
   margin-bottom: 60px;
 `;
 
-
 export const InputResult = styled.div`
   height: 50px;
   width: 250px;
@@ -380,10 +379,13 @@ export const FormBtm = styled.div`
 `;
 
 export const CalendarWrapper = styled.div`
-  top: 60px;
-  left: 130px;
-
-`
+  width: 350px;
+  height: 300px;
+  top: 50px;
+  left: 400px;
+  position: absolute;
+  background-color: aliceblue;
+`;
 
 // Modal
 

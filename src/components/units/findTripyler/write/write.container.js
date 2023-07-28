@@ -32,7 +32,7 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickDate = () => {
-    setIsOpenCalendar(true);
+    setIsOpenCalendar(prev => !prev);
   };
 
   const onClickPlace = () => {
@@ -360,32 +360,32 @@ export default function FindTripylerWrite(props) {
                   </S.MidInput>
                   <S.InputBtn onClick={onClickPlace}>지역 선택</S.InputBtn>
                 </S.InputInfoWrapper>
-                <S.InputInfoWrapper>
+                <S.InputInfoWrapper style={{ position: "relative" }}>
                   <S.InputTitle>여행일정</S.InputTitle>
                   <S.InputResultWrapper>
-                      <S.InputResult
-                        style={{ cursor: "pointer", width: "230px" }}
-                        onClick={onClickDate}
-                      >
-                        {tripDate.length === 0 ? "출발": tripDate[0]}
-                      </S.InputResult>
-                      <S.InputLine></S.InputLine>
-                      <S.InputResult
-                        style={{ cursor: "pointer", width: "230px" }}
-                        onClick={onClickDate}
-                      >
-                        {tripDate.length === 0 ? "도착" : tripDate[1]}
-                      </S.InputResult>
-                    </S.InputResultWrapper>
-                    {isOpenCalendar && (
-                      <S.CalendarWrapper>
+                    <S.InputResult
+                      style={{ cursor: "pointer", width: "230px" }}
+                      onClick={onClickDate}
+                    >
+                      {tripDate.length === 0 ? "출발" : tripDate[0]}
+                    </S.InputResult>
+                    <S.InputLine></S.InputLine>
+                    <S.InputResult
+                      style={{ cursor: "pointer", width: "230px" }}
+                      onClick={onClickDate}
+                    >
+                      {tripDate.length === 0 ? "도착" : tripDate[1]}
+                    </S.InputResult>
+                  </S.InputResultWrapper>
+                  {isOpenCalendar && (
+                    <S.CalendarWrapper>
                       <CalendarTool
                         setIsOpenCalendar={setIsOpenCalendar}
                         setTripDate={setTripDate}
                         restrict={true}
                       />
-                      </S.CalendarWrapper>
-                    )}
+                    </S.CalendarWrapper>
+                  )}
                   <S.InputBtn onClick={onClickDate}>일정선택</S.InputBtn>
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper>
