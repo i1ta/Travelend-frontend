@@ -13,6 +13,7 @@ import FindCard from '../../commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
+import { setDate } from "date-fns";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -61,11 +62,11 @@ export default function Main() {
   const onClcickFilterFind = async () => {
     const requestData = {
       "continentId": parseInt(selectedDestination.continent.id),
-      "endDate": formatDate(date.endDate),
+      "endDate": tripDate[1],
       "keyWord": keyword,
       "nationId": parseInt(selectedDestination.country.id),
       "regionId": parseInt(selectedDestination.city.id),
-      "startDate": formatDate(date.startDate),
+      "startDate": tripDate[0],
       "totalPeopleNum": parseInt(selectedNum),
     }
     console.log(requestData);
@@ -88,8 +89,8 @@ export default function Main() {
         countryId: selectedDestination.country.id,
         city: JSON.stringify(selectedDestination.city.name),
         cityId: selectedDestination.city.id,
-        startDate: JSON.stringify(date.startDate),
-        endDate: JSON.stringify(date.endDate),
+        startDate: JSON.stringify(tripDate[0] || ""),
+        endDate: JSON.stringify(tripDate[1] || ""),
         num: selectedNum,
         keyword: JSON.stringify(keyword)
       }
@@ -221,26 +222,8 @@ export default function Main() {
   }
 
   // 달력
-  const [isCalendar, setIsCalendar] = useState(false);
-  // const [date, setDate] = useState({
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: 'selection'
-  // });
-  const [date, setDate] = useState([null, null])
-
-  const formatDate = (fdate) => {
-    let month = '' + (fdate.getMonth() + 1);
-    let day = '' + fdate.getDate();
-    let year = fdate.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const [tripDate, setTripDate] = useState([])
 
   
   // 인원수 선택
@@ -316,23 +299,25 @@ export default function Main() {
                 <S.FilterTitleImg src="icon/calendar.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>일정</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-              <S.DateFilterWrapper onClick={(e) => {isCalendar ? setIsCalendar(false) : setIsCalendar(true)}}>
+              <S.DateFilterWrapper onClick={(e) => {isOpenCalendar ? setIsOpenCalendar(false) : setIsOpenCalendar(true)}}>
                 <S.Filter style={{ width: "200px" }}>
-                  <S.FilterInput>{date.startDate ? formatDate(date.startDate) : `가는 날`}</S.FilterInput>
+                  <S.FilterInput>{tripDate.length === 0 ? `가는 날`: tripDate[0]}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 <S.DateLine></S.DateLine>
                 <S.Filter style={{ width: "200px" }}>
-                  <S.FilterInput>{date.endDate ? formatDate(date.endDate) : `오는 날`}</S.FilterInput>
+                  <S.FilterInput>{tripDate.length === 0 ? `오는 날`: tripDate[1]}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
               </S.DateFilterWrapper>
-              {isCalendar &&(
+              {isOpenCalendar &&(
                 <S.CalendarWrapper>
                   <Calendar
-                    setIsOpenCalendar={setIsCalendar}
-                    setTripDate={setDate}
+                    setIsOpenCalendar={setIsOpenCalendar}
+                    setTripDate={setTripDate}
+                    restrict={false}
                   />
+                  
                 </S.CalendarWrapper>
               )}
             </S.FilterWrapper>

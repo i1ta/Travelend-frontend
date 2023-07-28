@@ -309,10 +309,12 @@ export const CalendarWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
 
+  /*
   position: absolute;
   z-index: 101;
   top: 128px;
   left: 480px;
+  */
   `;
 
 // 카드 컴포넌트 

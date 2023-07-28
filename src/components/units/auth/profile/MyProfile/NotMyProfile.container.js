@@ -6,6 +6,7 @@ import axios from "axios";
 
 export default function NotMyProfile(props) {
     console.log(props);
+    const lock = "비공개";
   const formatPhone = (phoneNum) => {
     const regex = /^(\d{3})(\d{4})(\d{4})$/;
     return phoneNum?.replace(regex, "$1-$2-$3");
@@ -19,7 +20,7 @@ export default function NotMyProfile(props) {
     
       <S.MyProfileWrapper>
         <S.StyleTitleWrapper>
-          <S.StyleTitle>My Style</S.StyleTitle>
+          <S.StyleTitle>Style</S.StyleTitle>
           {myHashtag.map((e) => (
           e && 
           (<S.StyleHashTag>#{e}</S.StyleHashTag>))
@@ -62,20 +63,20 @@ export default function NotMyProfile(props) {
         </S.StyleContent> 
         </S.StyleWrapper>
   
-        <S.Title>My Profile</S.Title>
+        <S.Title>Profile</S.Title>
         <S.TableWrapper>
           <S.Table>
             <tr>
               <S.Tc>이름</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.namePrivate ? "비공개" : props.data.name}</S.TdTxt>
+                  <S.TdTxt>{props.data.namePrivate ? lock : props.data.name}</S.TdTxt>
                 </S.TdWrapper>
               </S.Td>
               <S.Tc>MBTI</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.mbtiPrivate ? "비공개" : props.data.mbti}</S.TdTxt>
+                  <S.TdTxt>{props.data.mbtiPrivate ? lock : props.data.mbti}</S.TdTxt>
                   
                 </S.TdWrapper>
               </S.Td>
@@ -92,7 +93,7 @@ export default function NotMyProfile(props) {
                 <S.TdWrapper>
                   <S.TdTxt>
                     <a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>
-                        @{props.data.instagramPrivate ? "비공개" : props.data.instagram}
+                        {props.data.instagramPrivate ? lock : `${props.data.instagram}`}
                     </a>
                   </S.TdTxt>
                   
@@ -119,17 +120,13 @@ export default function NotMyProfile(props) {
               <S.Tc>연락처</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.phonePrivate ? "비공개" : formatPhone(props.data.phone)}</S.TdTxt>
+                  <S.TdTxt>{props.data.phonePrivate ? lock : formatPhone(props.data.phone)}</S.TdTxt>
                 </S.TdWrapper>
               </S.Td>
             </tr>
   
           </S.Table>
         </S.TableWrapper>
-  
-        <S.BtnWrapper>
-          <S.Btn>메시지 보내기</S.Btn>
-        </S.BtnWrapper>
       </S.MyProfileWrapper>
       
     </>

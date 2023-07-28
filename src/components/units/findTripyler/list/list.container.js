@@ -12,6 +12,7 @@ import axios from "axios";
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import FindCard from '../../../commons/Card/Main/FindCard/FindCard';
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
+import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 
@@ -39,11 +40,12 @@ export default function FindTripylerList(){
     })
 
     const [isCalendar, setIsCalendar] = useState(false);
-    const [date, setDate] = useState({
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    });
+    // const [date, setDate] = useState({
+    //   startDate: new Date(),
+    //   endDate: new Date(),
+    //   key: 'selection'
+    // });
+    const [tripDate, setTripDate] = useState([]);
 
     const [selectedNum, setSelectedNum] = useState(1);
     const [keyword, setKeyword] = useState("");
@@ -76,10 +78,10 @@ export default function FindTripylerList(){
           country: {id: parseInt(findCardFilter.countryId), name: findCardFilter.country.split("\"")[1]},
           city: {id: parseInt(findCardFilter.cityId), name: findCardFilter.city.split("\"")[1]},
         }))
-        setDate({
-          startDate: new Date(findCardFilter.startDate.split("\"")[1]),
-          endDate: new Date(findCardFilter.endDate.split("\"")[1]),
-          key: 'selection'
+        setTripDate([findCardFilter.startDate.split("\"")[1] || null, findCardFilter.endDate.split("\"")[1] || null])
+        setShowDestination({
+          country: findCardFilter.country.split("\"")[1],
+          city: findCardFilter.city.split("\"")[1]
         })
         setSelectedNum(parseInt(findCardFilter.num));
         setKeyword(findCardFilter.keyword.split("\"")[1]);
@@ -87,6 +89,7 @@ export default function FindTripylerList(){
         console.log("필터링 값 반영 완료");
       }
     }, [])
+
 
     // 이미 필터링 된 채로 리스트 창 렌더링 시
     useEffect(() => {
@@ -127,11 +130,11 @@ export default function FindTripylerList(){
 
           const requestData = {
             "continentId": parseInt(selectedDestination.continent.id),
-            "endDate": formatDate(date.endDate),
+            "endDate": tripDate[1],
             "keyWord": keyword,
             "nationId": parseInt(selectedDestination.country.id),
             "regionId": parseInt(selectedDestination.city.id),
-            "startDate": formatDate(date.startDate),
+            "startDate": tripDate[0],
             "totalPeopleNum": parseInt(selectedNum),
           }
           console.log(requestData);
@@ -155,11 +158,11 @@ export default function FindTripylerList(){
         if(cardList.length === 0){
         const requestData = {
           "continentId": parseInt(selectedDestination.continent.id),
-          "endDate": formatDate(date.endDate),
+          "endDate": tripDate[1],
           "keyWord": keyword,
           "nationId": parseInt(selectedDestination.country.id),
           "regionId": parseInt(selectedDestination.city.id),
-          "startDate": formatDate(date.startDate),
+          "startDate": tripDate[0],
           "totalPeopleNum": parseInt(selectedNum),
         }
         console.log(requestData);
@@ -190,11 +193,11 @@ export default function FindTripylerList(){
 
       const requestData = {
         "continentId": parseInt(selectedDestination.continent.id),
-        "endDate": formatDate(date.endDate),
+        "endDate": tripDate[1],
         "keyWord": keyword || "",
         "nationId": parseInt(selectedDestination.country.id),
         "regionId": parseInt(selectedDestination.city.id),
-        "startDate": formatDate(date.startDate),
+        "startDate": tripDate[0],
         "totalPeopleNum": parseInt(selectedNum),
       }
       console.log(requestData);
@@ -245,6 +248,7 @@ export default function FindTripylerList(){
     }
   
     const onOpenCountry = (e) => {
+    
       setSelectedDestination(prev => ({
         ...prev,
         continent: {id: e.target.id ,name: e.target.innerText}
@@ -288,25 +292,21 @@ export default function FindTripylerList(){
     //   endDate: new Date(),
     //   key: 'selection'
     // });
-  
-    const formatDate = (fdate) => {
-      let month = '' + (fdate.getMonth() + 1);
-      let day = '' + fdate.getDate();
-      let year = fdate.getFullYear();
-  
-      if (month.length < 2) 
-          month = '0' + month;
-      if (day.length < 2) 
-          day = '0' + day;
-  
-      return [year, month, day].join('-');
-    }
-    
-    // // 인원수 선택
-    // const [selectedNum, setSelectedNum] = useState();
 
-    // // 검색어
-    // const [keyword, setKeyword] = useState();
+    const [isFirstCalendar, setIsFirstCalendar] = useState(false);
+  
+    // const formatDate = (fdate) => {
+    //   let month = '' + (fdate.getMonth() + 1);
+    //   let day = '' + fdate.getDate();
+    //   let year = fdate.getFullYear();
+  
+    //   if (month.length < 2) 
+    //       month = '0' + month;
+    //   if (day.length < 2) 
+    //       day = '0' + day;
+  
+    //   return [year, month, day].join('-');
+    // }
   
     // 페이지네이션
     const [page, setPage] = useState(1);
@@ -352,10 +352,12 @@ export default function FindTripylerList(){
                             ...prev,
                             city: {id: e.target.id ,name: e.target.innerText}
                           }));
+                          console.log(selectedDestination);
                           setShowDestination(prev => ({
-                            country: selectedDestination.country,
+                            country: selectedDestination.country.name,
                             city: e.target.innerText
                           }))
+                          console.log(showDestination)
                         }}
                         selected={selectedDestination.city.name === des.name}
                         >{des.name}</S.ContinentContent>
@@ -365,7 +367,7 @@ export default function FindTripylerList(){
                 )}
                 </S.FilterTitleWrapper>
                 <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
-                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${showDestination.country.name}, ${showDestination.city}`}</S.FilterInput>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${showDestination.country}, ${showDestination.city}`}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 
@@ -376,23 +378,23 @@ export default function FindTripylerList(){
                 <S.FilterTitleImg src="/icon/calendar.png"></S.FilterTitleImg>
                 <S.FilterTitleTxt>일정</S.FilterTitleTxt>
               </S.FilterTitleWrapper>
-              <S.DateFilterWrapper  onClick={(e) => {isCalendar ? setIsCalendar(false) : setIsCalendar(true)}}>
+              <S.DateFilterWrapper  onClick={(e) => {isCalendar ? setIsCalendar(false) : setIsCalendar(true); !isFirstCalendar && setIsFirstCalendar(true) }}>
                 <S.Filter style={{ width: "200px" }}>
-                  <S.FilterInput>{date.startDate ? formatDate(date.startDate) : `가는 날`}</S.FilterInput>
+                  <S.FilterInput>{tripDate.length === 0 ? `가는 날` : tripDate[0]}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
                 <S.DateLine></S.DateLine>
                 <S.Filter style={{ width: "200px" }}>
-                  <S.FilterInput>{date.endDate ? formatDate(date.endDate) : `오는 날`}</S.FilterInput>
+                  <S.FilterInput>{tripDate.length === 0 ? `오는 날` : tripDate[1]}</S.FilterInput>
                   <S.FilterBtn></S.FilterBtn>
                 </S.Filter>
               </S.DateFilterWrapper>
-              {isCalendar &&(
+              {isCalendar && (
                 <S.CalendarWrapper>
-                  <CalendarComponent 
-                    setIsCalendar={setIsCalendar}
-                    date={date}
-                    setDate={setDate}
+                  <Calendar 
+                    setIsOpenCalendar={setIsCalendar}
+                    setTripDate={setTripDate}
+                    restrict={false}
                   />
                 </S.CalendarWrapper>
               )}

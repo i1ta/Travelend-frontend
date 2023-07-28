@@ -228,7 +228,7 @@ export default function Profile() {
     const result = confirm("로그아웃 하시겠습니까?");
     if (result) {
       window.localStorage.clear();
-      router.push("/main");
+      router.push("/");
       setIsLoggedIn(false);
       alert("로그아웃 완료");
     }
@@ -358,7 +358,7 @@ export default function Profile() {
     {isModify ?
     router.query.userId ? (
       <S.Container>
-        <S.SideBar>
+        <S.SideNotBar>
           
           <S.ProfileImage data={notMyProfildData.profileUrl}>
             <S.DefaultProfile
@@ -367,9 +367,10 @@ export default function Profile() {
             />
           </S.ProfileImage>
           
-          <S.Name>{notMyProfildData.username} 님</S.Name>
+          <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
+          <S.ProfileLine></S.ProfileLine>
 
-          <S.CategoryWrapper>
+          {/* <S.CategoryWrapper>
             <S.Category
               id="NotMyProfile"
               onClick={onClickCategory}
@@ -378,9 +379,9 @@ export default function Profile() {
               Profile
             </S.Category>
             
-          </S.CategoryWrapper>
+          </S.CategoryWrapper> */}
 
-        </S.SideBar>
+        </S.SideNotBar>
       {selectedCategory === "NotMyProfile" && <NotMyProfile
         data={notMyProfildData}
       />}
