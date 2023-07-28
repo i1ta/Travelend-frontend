@@ -21,6 +21,17 @@ export const SideBar = styled.section`
   align-items: center;
 `;
 
+export const SideNotBar = styled(SideBar)`
+  padding: 250px 0;
+`;
+
+export const ProfileLine = styled.div`
+  width: 250px;
+  height: 1px;
+  background-color: #999999;
+`;  
+
+
 export const ProfileImage = styled.div`
   width: 280px;
   height: 280px;

@@ -67,6 +67,12 @@ export default function FindTripylerDetail() {
       router.push({pathname: "/auth/profile", query: {userId: data.userId}})
     }
   }
+
+  const checkApplyUser = async (e) => {
+    console.log(e.target.id);
+    router.push({pathname: "/auth/profile", query: {userId: parseInt(e.target.id)}})
+  }
+
   // 동행 신청자 리스트
   const fetchList = async () => {
     await axios
@@ -331,7 +337,9 @@ export default function FindTripylerDetail() {
                         src={el.profileUrl || "/icon/defaultProfile.png"}
                       />
                     </S.ApplyProfileWrapper>
-                    <S.ApplyID>{el.nickname}</S.ApplyID>
+                    <S.ApplyID
+                      id={el.applicantId}
+                      onClick={checkApplyUser}>{el.nickname}</S.ApplyID>
                     <S.ViewApplyBtn
                       onClick={() =>
                         router.push(
