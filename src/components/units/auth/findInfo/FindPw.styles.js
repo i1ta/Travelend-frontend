@@ -4,11 +4,12 @@ export const Title = styled.h2`
   padding: 5px 7px;
   border-bottom: 3px solid black;
   letter-spacing: -1px;
-`
+`;
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 150px;
 `;
 
 export const Form = styled.form`
@@ -26,10 +27,10 @@ export const Wrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const Label = styled.label`
-margin: 10px 0;
+  margin: 10px 0;
 `;
 
 export const Input = styled.input`
@@ -39,7 +40,7 @@ export const Input = styled.input`
   border-radius: 4px;
   font-size: 16px;
 
-  &:focus{
+  &:focus {
     outline: none;
   }
 `;
@@ -48,35 +49,33 @@ export const Button = styled.button`
   background-color: white;
 
   border-radius: 5px;
-  border: 1px solid #03045E;
-  color: #03045E;
+  border: 1px solid #03045e;
+  color: #03045e;
 
   padding: 14px;
   cursor: pointer;
   margin-left: 0.7rem;
-  
 `;
 
 export const PhoneBtn = styled.button`
   background-color: white;
 
   border-radius: 5px;
-  border: 1px solid #03045E;
-  color: #03045E;
+  border: 1px solid #03045e;
+  color: #03045e;
 
   padding: 14px;
   cursor: pointer;
   margin-left: 0.7rem;
   margin-bottom: -2.6rem;
 
-  ${({ disabled }) => 
-  disabled && 
-  `
+  ${({ disabled }) =>
+    disabled &&
+    `
     border: 1px solid #999999;
     color: #999999;
     cursor: not-allowed;
-  `
-  }
+  `}
 `;
 
 export const ButtonWrapper = styled.div`
@@ -95,5 +94,4 @@ export const OKButton = styled.button`
   border-radius: 50px;
   font-size: 20px;
   cursor: pointer;
-  
 `;

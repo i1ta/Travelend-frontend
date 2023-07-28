@@ -61,19 +61,19 @@ export default function FindTripylerWrite(props) {
         console.log(res);
         setData({ ...data });
         setShownMyHashtag([...data.hashtagList]);
-        setTripDate({
-          startDate: new Date(data.startDate),
-          endDate: new Date(data.endDate),
-        });
+        // setTripDate({
+        //   startDate: new Date(data.startDate),
+        //   endDate: new Date(data.endDate),
+        // });
         setTotalPeopleNum(data.totalPeopleNum);
         setTitle(data.title);
         setContent(data.content);
         setImageUrl(data.image);
         setCommaPrice(data.estimatedPrice);
         setEstimatedPrice(data.estimatedPrice);
-        setShownWithTripylerList([
-          ...data.tripylerWithList?.map((el) => el.nickname),
-        ]);
+        // setShownWithTripylerList([
+        //   ...data.tripylerWithList?.map((el) => el.nickname),
+        // ]);
         setShownPlace({
           continentId: data.continentId,
           nationId: data.nationId,
@@ -81,6 +81,7 @@ export default function FindTripylerWrite(props) {
           regionId: data.regionId,
           regionName: data.regionName,
         });
+        setTripDate([data.startDate, data.endDate]);
       })
       .catch((error) => console.error(error));
   };
@@ -179,8 +180,11 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickCancelBtn = () => {
-    // alert("취소");
-    console.log(shownWithTripylerList, withTripylerList);
+    alert("취소");
+    console.log(title, content, totalPeopleNum, estimatedPrice);
+    console.log(tripDate)
+    console.log(shownMyHashtag)
+    console.log(shownPlace)
   };
 
   // 아이디 검색
@@ -236,7 +240,7 @@ export default function FindTripylerWrite(props) {
   const onClickSubmitBtn = async () => {
     if (
       shownPlace.nationId &&
-      // tripDate.length !== 0 &&
+      tripDate.length !== 0 &&
       totalPeopleNum &&
       shownMyHashtag.length === 5 &&
       title &&
@@ -288,7 +292,8 @@ export default function FindTripylerWrite(props) {
   // 수정완료 버튼
   const onClickEditBtn = async () => {
     if (
-      // tripDate.length !== 0 &&
+      shownPlace.nationId &&
+      tripDate.length !== 0 &&
       shownMyHashtag.length === 5 &&
       title &&
       content &&
@@ -297,16 +302,16 @@ export default function FindTripylerWrite(props) {
       const requestData = {
         title,
         content,
-        startDate: formatDate(tripDate.startDate),
-        endDate: formatDate(tripDate.endDate),
+        startDate: tripDate[0],
+        endDate: tripDate[1],
         firstTripStyleId: shownMyHashtag[0]?.id || 0,
         secondTripStyleId: shownMyHashtag[1]?.id || 0,
         thirdTripStyleId: shownMyHashtag[2]?.id || 0,
         fourthTripStyleId: shownMyHashtag[3]?.id || 0,
         fifthTripStyleId: shownMyHashtag[4]?.id || 0,
-        continentId: 1,
-        nationId: 1,
-        regionId: 20,
+        continentId: shownPlace.continentId,
+        nationId: shownPlace.nationId,
+        regionId: shownPlace.regionId,
         totalPeopleNum,
         estimatedPrice,
         tripylerWithList: [...shownWithTripylerList.map((el) => el.nickname)],
