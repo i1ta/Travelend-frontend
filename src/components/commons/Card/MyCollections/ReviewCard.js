@@ -5,7 +5,9 @@ export default function MyCollectionsFindCard (props) {
   const router = useRouter();
     return(
         <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.data.reviewId}`)}>
+          <ReviewImgWrapper>
             <ReviewImg src={props.data.imageUrl === null ? "/img/defaultImg.png" : props.data.imageUrl}></ReviewImg>
+            </ReviewImgWrapper>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
@@ -61,10 +63,17 @@ const ReviewCard = styled.div`
   margin-bottom: 20px;
 `;
 
+const ReviewImgWrapper = styled.div`
+width: 266px;
+  height: 180px;
+`;
+
 const ReviewImg = styled.img`
   width: 266px;
-  height: 190px;
+  height: 180px;
   margin-bottom: 20px;
+
+  object-fit: cover;
 `;
 
 const ReviewCardHeader = styled.div`
@@ -73,6 +82,7 @@ const ReviewCardHeader = styled.div`
   align-items: center;
   width: 240px;
   margin-bottom: 14px;
+  margin-top: 15px;
 `;
 
 const ReviewInfo = styled.div`

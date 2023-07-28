@@ -297,15 +297,19 @@ export const CitySelect = styled.div`
 `;
 
 // 달력
+
+
 export const CalendarWrapper = styled.div`
-  position: absolute;
-  left: 40px;
-  top: 85px;
-  width: 350px;
-  height: 300px;
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center; */
+display: flex;
+flex-direction: row;
+justify-content: center;
+
+
+position: relative;
+z-index: 101;
+bottom: 0px;
+right: 0px;
+
 `;
 
 // 카드 컴포넌트

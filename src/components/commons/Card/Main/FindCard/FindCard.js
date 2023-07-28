@@ -57,7 +57,9 @@ export default function FindCard (props) {
 
     return(
         <ReviewCard onClick={checkLogin}>
-            <ReviewImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></ReviewImg>
+            <ReviewImgWrapper>
+              <ReviewImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></ReviewImg>
+            </ReviewImgWrapper>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
@@ -86,7 +88,7 @@ export default function FindCard (props) {
                 <ReviewUserImg src={props.info.profileUrl}></ReviewUserImg>
                 <ReviewUserInfoWrapper>
                   <ReviewUsername>{props.info.nickname}</ReviewUsername>
-                  <ReviewAge>{parseInt(age / 10) * 10}대 {ageCategory} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
+                  <ReviewAge>{parseInt(age / 10) * 10 < 10 ? "아동" : `${parseInt(age / 10) * 10}대`} {parseInt(age / 10) * 10 >= 10 && ageCategory} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
                 </ReviewUserInfoWrapper>
               </ReviewUser>
               <ReviewHashTagWrapper>
@@ -137,6 +139,11 @@ const ReviewCard = styled.div`
   cursor: pointer;
 `;
 
+const ReviewImgWrapper = styled.div`
+width: 335px;
+height: 200px;
+`;
+
 const ReviewImg = styled.img`
   width: 335px;
   height: 200px;
@@ -150,6 +157,7 @@ const ReviewCardHeader = styled.div`
   align-items: center;
   width: 295px;
   margin-bottom: 14px;
+  margin-top: 15px;
 `;
 
 const ReviewInfo = styled.div`
@@ -208,7 +216,7 @@ const ReviewUserWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0 3px;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   width: 310px;
 `;
 

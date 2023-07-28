@@ -28,7 +28,9 @@ export default function Review (props) {
                   {props.info.hashtags.map((hashtag, i) => { (i >= 0 && i < 3) && (<ReviewUserHashtag>#{hashtag}</ReviewUserHashtag>)})}
                 </ReviewUserHashWrapper>
               </ReviewUserWrapper>
-              <ReviewImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}/>
+              <ReviewImgWrapper>
+                <ReviewImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}/>
+              </ReviewImgWrapper>
               <ReviewInfoWrapper>
                 <ReviewInfoCityCal>
                   <ReviewInfoCountry>
@@ -139,6 +141,10 @@ export const ReviewUserHashtag = styled.div`
     text-align: center;
 `;
 
+export const ReviewImgWrapper = styled.div`
+
+`;
+
 export const ReviewImg = styled.img`
   width: 300px;
   height: 160px;
@@ -148,6 +154,8 @@ export const ReviewImg = styled.img`
   border-radius: 10px;
   margin: 24.5px 0;
   margin-left: 40px;
+
+  object-fit: cover;
 `;
 
 export const ReviewInfoWrapper = styled.div`

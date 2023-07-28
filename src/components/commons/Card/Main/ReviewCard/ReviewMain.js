@@ -80,7 +80,9 @@ export default function ReviewMain (props) {
                     </ReviewInfoAdditionWrapper>
                 </ReviewInfoWrapper>
               </ReviewCardContentWrapper>
-              <ReviewCardImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}></ReviewCardImg>
+              <ReviewImgWrapper>
+                <ReviewCardImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}></ReviewCardImg>
+              </ReviewImgWrapper>
             </ReviewCard>
           </ReviewContents>
     );
@@ -229,6 +231,11 @@ const ReviewInfoAdditionTxt = styled.div`
     font-size: 16px;
     color: #666666;
     margin-right: 15px;
+`;
+
+const ReviewImgWrapper = styled.div`
+width: 530px;
+    height: 282px;
 `;
 
 const ReviewCardImg = styled.img`
