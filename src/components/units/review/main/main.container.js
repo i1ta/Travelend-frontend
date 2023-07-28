@@ -11,125 +11,119 @@ import axios from "axios";
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import FindCard from "@/components/commons/Card/Main/FindCard/FindCard";
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
-import ReviewCard from '@/components/commons/Card/Main/ReviewCard/ReviewMain';
+import ReviewCard from "@/components/commons/Card/Main/ReviewCard/ReviewMain";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 export default function ReviewMain() {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-    const apipath = 'https://api.tripyle.xyz';
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const apipath = "https://api.tripyle.xyz";
 
-    const router = useRouter();
+  const router = useRouter();
 
-    const [selectedDestination, setSelectedDestination] = useState({
-      continent: {id: 0 ,name: ""},
-      country: {id: 0, name: ""},
-      city: {id: 0, name: ""},
-    });
+  const [selectedDestination, setSelectedDestination] = useState({
+    continent: { id: 0, name: "" },
+    country: { id: 0, name: "" },
+    city: { id: 0, name: "" },
+  });
 
-    // 로그인 여부 확인
-    const checkLogin = async () => {
-      if(!isLoggedIn){
-        alert('로그인이 필요한 서비스입니다');
-        router.push("/auth/signIn");
-      } else{
-        router.push(`/review/write`)
-      }
-    };
+  // 로그인 여부 확인
+  const checkLogin = async () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다");
+      router.push("/auth/signIn");
+    } else {
+      router.push(`/review/write`);
+    }
+  };
 
-    // 여행 후기 필터링
+  // 여행 후기 필터링
   const [reviewList, setReviewList] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      if(reviewList.length === 0){
-    const requestData = {
-      "continentId": 1,
-      "endMonth": 12,
-      "keyWord": "리뷰",
-      "nationId": 6,
-      "regionId": 1,
-      "startMonth": 1,
-      "totalPeopleNum": 4,
-    }
-    console.log(requestData);
+      if (reviewList.length === 0) {
+        const requestData = {
+          continentId: 1,
+          endMonth: 12,
+          keyWord: "리뷰",
+          nationId: 6,
+          regionId: 1,
+          startMonth: 1,
+          totalPeopleNum: 4,
+        };
+        console.log(requestData);
 
-    await axios
-      .post(`${apipath}/review/list?option=1`, requestData)
-      .then((res) => {
-        setReviewList(res.data.data);
-        console.log(res.data.data);
-      })
-      .catch((error) => console.log(error));
-
-    }
-  }
+        await axios
+          .post(`${apipath}/review/list?option=1`, requestData)
+          .then((res) => {
+            setReviewList(res.data.data);
+            console.log(res.data.data);
+          })
+          .catch((error) => console.log(error));
+      }
+    };
     fetchData();
   }, []);
 
-    const [option, setOption] = useState("1");
-    const onClcickFilterFind = async () => {
-
-      const requestData = {
-        "continentId": parseInt(selectedDestination.continent.id),
-        "endMonth": parseInt(date.endMonth),
-        "keyWord": keyword,
-        "nationId": parseInt(selectedDestination.country.id),
-        "regionId": parseInt(selectedDestination.city.id),
-        "startMonth": parseInt(date.startMonth),
-        "totalPeopleNum": parseInt(selectedNum),
-      }
-  
-      await axios
-        .post(`${apipath}/review/list?option=${parseInt(option)}`, requestData)
-        .then((res) => {
-          console.log(res.data.data);
-          setReviewList(res.data.data);
-        })
-        .catch((error) => console.log(error));
-  
+  const [option, setOption] = useState("1");
+  const onClcickFilterFind = async () => {
+    const requestData = {
+      continentId: parseInt(selectedDestination.continent.id),
+      endMonth: parseInt(date.endMonth),
+      keyWord: keyword,
+      nationId: parseInt(selectedDestination.country.id),
+      regionId: parseInt(selectedDestination.city.id),
+      startMonth: parseInt(date.startMonth),
+      totalPeopleNum: parseInt(selectedNum),
     };
 
-    // useEffect(() => {
-    //   onClcickFilterFind();
-    // }, [option]);
-    
-    // 여행지 선택
-    const [isCountry, setIsCountry] = useState(false);
-    const [destination, setDestination] = useState({
-      continent: [],
-      country: [],
-      city: []
-    })
-
-    const [showDestination, setShowDestination] = useState({
-      country: "",
-      city: "",
-    })
-    
-  
-    const onOpenDestination = async () => {
-      if(isCountry === true){
-        setIsCountry(false);
-      } else {
-        setIsCountry(true);
-        console.log(selectedDestination);
-        if(selectedDestination.city.name !== ""){
-          console.log(selectedDestination);
-          return;
-        }
-      }
-
     await axios
-      .get(apipath + "/destination/continent")
+      .post(`${apipath}/review/list?option=${parseInt(option)}`, requestData)
       .then((res) => {
-        console.log(res);
-        setDestination((prevDestination) => ({
-          continent: res.data.data,
-          country: [],
-          city: [],
-        }));
-        console.log(destination);
-      });
+        console.log(res.data.data);
+        setReviewList(res.data.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // useEffect(() => {
+  //   onClcickFilterFind();
+  // }, [option]);
+
+  // 여행지 선택
+  const [isCountry, setIsCountry] = useState(false);
+  const [destination, setDestination] = useState({
+    continent: [],
+    country: [],
+    city: [],
+  });
+
+  const [showDestination, setShowDestination] = useState({
+    country: "",
+    city: "",
+  });
+
+  const onOpenDestination = async () => {
+    if (isCountry === true) {
+      setIsCountry(false);
+    } else {
+      setIsCountry(true);
+      console.log(selectedDestination);
+      if (selectedDestination.city.name !== "") {
+        console.log(selectedDestination);
+        return;
+      }
     }
+
+    await axios.get(apipath + "/destination/continent").then((res) => {
+      console.log(res);
+      setDestination((prevDestination) => ({
+        continent: res.data.data,
+        country: [],
+        city: [],
+      }));
+      console.log(destination);
+    });
+  };
 
   const onOpenCountry = (e) => {
     setSelectedDestination((prev) => ({
@@ -148,8 +142,7 @@ export default function ReviewMain() {
         }));
         console.log(destination);
       });
-    }
-  
+  };
 
   const onOpenCity = (e) => {
     setSelectedDestination((prev) => ({
@@ -168,43 +161,45 @@ export default function ReviewMain() {
         console.log(destination);
       });
   };
-  
-    // 일정
-    const [isStartMonth, setIsStartMonth] = useState(false);
-    const [isEndMonth, setIsEndMonth] = useState(false);
-    const [date, setDate] = useState({
-      startMonth: 1,
-      endMonth: 12,
-    })
-    const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-    
-    // 인원수 선택
-    const [selectedNum, setSelectedNum] = useState(1);
+  // 일정
+  const [isStartMonth, setIsStartMonth] = useState(false);
+  const [isEndMonth, setIsEndMonth] = useState(false);
+  const [date, setDate] = useState({
+    startMonth: 1,
+    endMonth: 12,
+  });
+  const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-    // 검색어
-    const [keyword, setKeyword] = useState("");
-  
-    // 필터링 open & close
-    const [isOpen, setIsOpen] = useState(false);
+  // 인원수 선택
+  const [selectedNum, setSelectedNum] = useState(1);
 
-    // 페이지네이션
-    const [page, setPage] = useState(1);
-    const [pageNum, setPageNum] = useState([]);
-    useEffect(() => {
-      if(pageNum.length === 0){
-        console.log(parseInt(reviewList.length / 5));
-        for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
-          setPageNum((prev) => [...prev, i]);
-        }
-        console.log(pageNum);
+  // 검색어
+  const [keyword, setKeyword] = useState("");
+
+  // 필터링 open & close
+  const [isOpen, setIsOpen] = useState(false);
+
+  // 페이지네이션
+  const [page, setPage] = useState(1);
+  const [pageNum, setPageNum] = useState([]);
+  useEffect(() => {
+    if (pageNum.length === 0) {
+      console.log(parseInt(reviewList.length / 5));
+      for (let i = 0; i <= parseInt(reviewList.length / 5); i++) {
+        setPageNum((prev) => [...prev, i]);
       }
-    }, [reviewList]);
+      console.log(pageNum);
+    }
+  }, [reviewList]);
 
-    return(
-        <>
-        <FindTripylerBanner title="Trip'yler 여행 후기" subTitle="Trip'yler가 함께한 여행 후기를 구경해보세요!"/>
-        {isOpen ? (
+  return (
+    <>
+      <FindTripylerBanner
+        title="Trip'yler 여행 후기"
+        subTitle="Trip'yler가 함께한 여행 후기를 구경해보세요!"
+      />
+      {isOpen ? (
         <S.Banner>
           <S.FindFilter>
             <S.FilterMainWrapper>
@@ -270,10 +265,10 @@ export default function ReviewMain() {
                                       name: e.target.innerText,
                                     },
                                   }));
-                                  setShowDestination(prev => ({
+                                  setShowDestination((prev) => ({
                                     country: selectedDestination.country,
-                                    city: e.target.innerText
-                                  }))
+                                    city: e.target.innerText,
+                                  }));
                                 }}
                                 selected={
                                   selectedDestination.city.name === des.name
@@ -299,67 +294,86 @@ export default function ReviewMain() {
                     </S.Filter>
                   </S.FilterWrapper>
 
-            <S.FilterWrapper>
-              <S.FilterTitleWrapper>
-                <S.FilterTitleImg src="/icon/calendar.png"></S.FilterTitleImg>
-                <S.FilterTitleTxt>일정</S.FilterTitleTxt>
-              </S.FilterTitleWrapper>
-              <S.DateFilterWrapper >
-                <S.Filter style={{ width: "200px" }} onClick={(e) => {
-                  if(isStartMonth){setIsStartMonth(false);}
-                  else{setIsStartMonth(true); setIsEndMonth(false)}}}>
-                  <S.FilterInput>{date.startMonth ? `${date.startMonth}월` : `가는 날`}</S.FilterInput>
-                  <S.FilterBtn></S.FilterBtn>
-                </S.Filter>
-                <S.DateLine></S.DateLine>
-                <S.Filter style={{ width: "200px" }}>
-                  <S.FilterInput>{date.endMonth ? `${date.endMonth}월` : `오는 날`}</S.FilterInput>
-                  <S.FilterBtn></S.FilterBtn>
-                </S.Filter>
-              </S.DateFilterWrapper>
-              {isStartMonth &&(
-                <S.CalendarWrapper>
-                  <S.MonthSelectWrapper>
-                    <S.MonthSelect>
-                      {month.map((e, idx) => (<S.MonthContent id={idx + 1} onClick={(e) => {
-                          setIsStartMonth(false); 
-                          setIsEndMonth(true);
-                          setDate(prev => ({
-                            ...prev,
-                            startMonth: e.target.id
-                          }));
-                          console.log(date.startMonth);
-                        }}
-                        >{e}월</S.MonthContent>))}
-                    </S.MonthSelect>
-                    
-                  </S.MonthSelectWrapper>
-                </S.CalendarWrapper>
-              )}
-              {isEndMonth &&(
-                <S.CalendarWrapper>
-                  <S.EndMonthSelectWrapper>
-                    <S.MonthSelect>
-                        {month.map((e, idx) => (<S.MonthContent 
-                        id={idx + 1} 
-                        disabled={parseInt(date.startMonth) > e}
-                        disabledColor={parseInt(date.startMonth) > e}
+                  <S.FilterWrapper>
+                    <S.FilterTitleWrapper>
+                      <S.FilterTitleImg src="/icon/calendar.png"></S.FilterTitleImg>
+                      <S.FilterTitleTxt>일정</S.FilterTitleTxt>
+                    </S.FilterTitleWrapper>
+                    <S.DateFilterWrapper>
+                      <S.Filter
+                        style={{ width: "200px" }}
                         onClick={(e) => {
-                          setIsEndMonth(false); 
-                          setDate(prev => ({
-                            ...prev,
-                            endMonth: e.target.id
-                          }));
-                          console.log(date.endMonth);
-                          
+                          if (isStartMonth) {
+                            setIsStartMonth(false);
+                          } else {
+                            setIsStartMonth(true);
+                            setIsEndMonth(false);
+                          }
                         }}
-                        >{e}월</S.MonthContent>))}
-                    </S.MonthSelect>
-                    
-                  </S.EndMonthSelectWrapper>
-                </S.CalendarWrapper>
-              )}
-            </S.FilterWrapper>
+                      >
+                        <S.FilterInput>
+                          {date.startMonth ? `${date.startMonth}월` : `가는 날`}
+                        </S.FilterInput>
+                        <S.FilterBtn></S.FilterBtn>
+                      </S.Filter>
+                      <S.DateLine></S.DateLine>
+                      <S.Filter style={{ width: "200px" }}>
+                        <S.FilterInput>
+                          {date.endMonth ? `${date.endMonth}월` : `오는 날`}
+                        </S.FilterInput>
+                        <S.FilterBtn></S.FilterBtn>
+                      </S.Filter>
+                    </S.DateFilterWrapper>
+                    {isStartMonth && (
+                      <S.CalendarWrapper>
+                        <S.MonthSelectWrapper>
+                          <S.MonthSelect>
+                            {month.map((e, idx) => (
+                              <S.MonthContent
+                                id={idx + 1}
+                                onClick={(e) => {
+                                  setIsStartMonth(false);
+                                  setIsEndMonth(true);
+                                  setDate((prev) => ({
+                                    ...prev,
+                                    startMonth: e.target.id,
+                                  }));
+                                  console.log(date.startMonth);
+                                }}
+                              >
+                                {e}월
+                              </S.MonthContent>
+                            ))}
+                          </S.MonthSelect>
+                        </S.MonthSelectWrapper>
+                      </S.CalendarWrapper>
+                    )}
+                    {isEndMonth && (
+                      <S.CalendarWrapper>
+                        <S.EndMonthSelectWrapper>
+                          <S.MonthSelect>
+                            {month.map((e, idx) => (
+                              <S.MonthContent
+                                id={idx + 1}
+                                disabled={parseInt(date.startMonth) > e}
+                                disabledColor={parseInt(date.startMonth) > e}
+                                onClick={(e) => {
+                                  setIsEndMonth(false);
+                                  setDate((prev) => ({
+                                    ...prev,
+                                    endMonth: e.target.id,
+                                  }));
+                                  console.log(date.endMonth);
+                                }}
+                              >
+                                {e}월
+                              </S.MonthContent>
+                            ))}
+                          </S.MonthSelect>
+                        </S.EndMonthSelectWrapper>
+                      </S.CalendarWrapper>
+                    )}
+                  </S.FilterWrapper>
 
                   <S.FilterWrapper>
                     <S.FilterTitleWrapper>
@@ -391,7 +405,7 @@ export default function ReviewMain() {
             </S.FilterMainWrapper>
             <S.FilterCloseIcon
               src="/icon/close.png"
-              onClick={(e) => setIsOpen(false)}
+              onClick={() => setIsOpen(false)}
             ></S.FilterCloseIcon>
           </S.FindFilter>
         </S.Banner>
@@ -432,9 +446,7 @@ export default function ReviewMain() {
         <S.FindTripylerTitleWrapper>
           <S.FindTripylerTitle>
             <div>Trip’yler의 인기 여행 후기</div>
-            <S.FindTripylerWriteBtn
-              onClick={checkLogin}
-            >
+            <S.FindTripylerWriteBtn onClick={checkLogin}>
               후기 작성 〉
             </S.FindTripylerWriteBtn>
           </S.FindTripylerTitle>
@@ -457,21 +469,41 @@ export default function ReviewMain() {
               <S.NoContent>조건에 맞는 게시 글이 존재하지 않습니다</S.NoContent>
             </S.FindTripylerNoContent>
           ) : (
-          <S.FindTripylerContent>
-            {reviewList.map((card) => (
-              <ReviewCard id={card.tripylerId} info={card}/>
-            ))}
-          </S.FindTripylerContent>
+            <S.FindTripylerContent>
+              {reviewList.map((card) => (
+                <ReviewCard id={card.tripylerId} info={card} />
+              ))}
+            </S.FindTripylerContent>
           )}
 
           {reviewList.length !== 0 && (
-          <S.PageNationWrapper>
-            <S.ArrowImg src="/icon/pageLeftArrow.png" onClick={(e) => setPage((prev) => prev - 1 < 1 ? 1 : prev - 1 )}></S.ArrowImg>
-              {pageNum.map((i) => (<S.PageTxt onClick={(e) => setPage(i + 1)} selected={i + 1 === page}>{i + 1}</S.PageTxt>))}
-            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(newCardList.length / 5) + 1 ? parseInt(newCardList.length / 5) + 1 : prev + 1 )}></S.ArrowImg>
-          </S.PageNationWrapper>
+            <S.PageNationWrapper>
+              <S.ArrowImg
+                src="/icon/pageLeftArrow.png"
+                onClick={(e) =>
+                  setPage((prev) => (prev - 1 < 1 ? 1 : prev - 1))
+                }
+              ></S.ArrowImg>
+              {pageNum.map((i) => (
+                <S.PageTxt
+                  onClick={(e) => setPage(i + 1)}
+                  selected={i + 1 === page}
+                >
+                  {i + 1}
+                </S.PageTxt>
+              ))}
+              <S.ArrowImg
+                src="/icon/pageRightArrow.png"
+                onClick={(e) =>
+                  setPage((prev) =>
+                    prev + 1 > parseInt(newCardList.length / 5) + 1
+                      ? parseInt(newCardList.length / 5) + 1
+                      : prev + 1
+                  )
+                }
+              ></S.ArrowImg>
+            </S.PageNationWrapper>
           )}
-
         </S.Review>
       </S.ContentWrapper>
       {/* <S.AdWrapper>
