@@ -380,9 +380,11 @@ export const FormBtm = styled.div`
 `;
 
 export const CalendarWrapper = styled.div`
-  top: 60px;
-  left: 130px;
+display: flex;
+flex-direction: row;
+justify-content: center;
 
+  
 `
 
 // Modal

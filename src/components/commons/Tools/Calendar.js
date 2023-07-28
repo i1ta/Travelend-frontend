@@ -43,10 +43,11 @@ export default function CalendarTool(props) {
 }
 
 const CalendarOverlay = styled.div`
+/*
   position: absolute;
   z-index: 101;
   top: 0;
-  left: 0;
+  left: 0;*/
   width: 100%;
   height: 100%;
 `;
