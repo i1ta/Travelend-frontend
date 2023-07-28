@@ -137,7 +137,7 @@ const StyledCalendar = styled(Calendar)`
   }
 
   position: absolute;
-  top: 55px;
-  left: 120px;
+  /* top: 55px;
+  left: 120px; */
   z-index: 102;
 `;
