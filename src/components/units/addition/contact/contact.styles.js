@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 export const MainWrapper = styled.div`
     margin: 0 auto;
     text-align: center;
+    
 `;
 
 export const ContactImg = styled.img`
