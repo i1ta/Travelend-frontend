@@ -256,8 +256,8 @@ export default function FindTripylerWrite(props) {
         nationId: shownPlace.nationId,
         regionId: shownPlace.regionId,
         totalPeopleNum,
-        // estimatedPrice,
-        // tripylerWithList: [...shownWithTripylerList.map((el) => el.id)],
+        estimatedPrice,
+        tripylerWithList: [...shownWithTripylerList.map((el) => el.nickname)],
       };
       console.log(requestData);
       const formData = new FormData();
@@ -309,6 +309,7 @@ export default function FindTripylerWrite(props) {
         regionId: 20,
         totalPeopleNum,
         estimatedPrice,
+        tripylerWithList: [...shownWithTripylerList.map((el) => el.nickname)],
       };
       const formData = new FormData();
       formData.append(

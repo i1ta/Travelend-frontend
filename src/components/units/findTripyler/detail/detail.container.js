@@ -328,7 +328,7 @@ export default function FindTripylerDetail() {
                       <S.ViewApplyBtn
                         onClick={() =>
                           router.push(
-                            `/findTripyler/${tripylerId}/${el.applicantId}`
+                            `/findTripyler/${tripylerId}/${el.tripylerApplyId}`
                           )
                         }
                       >
@@ -349,7 +349,7 @@ export default function FindTripylerDetail() {
                         <S.ViewApplyBtn
                           onClick={() =>
                             router.push(
-                              `/findTripyler/${tripylerId}/${el.applicantId}`
+                              `/findTripyler/${tripylerId}/${el.tripylerApplyId}`
                             )
                           }
                         >

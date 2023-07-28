@@ -42,6 +42,7 @@ export default function FindTripylerApplyDetail() {
       .then((res) => {
         console.log(res);
         alert("거절");
+        router.push(`/findTripyler/${tripylerId}`);
       })
       .catch((err) => console.error(err));
   };
