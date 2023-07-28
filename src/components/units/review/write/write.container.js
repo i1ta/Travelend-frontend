@@ -115,6 +115,9 @@ export default function TriplogWrite(props) {
     setImageList(
       imageList.filter((el, idx) => idx !== parseInt(event.target.id))
     );
+    setSelectedImageList(
+      selectedImageList.filter((el, idx) => idx !== parseInt(event.target.id))
+    );
   };
 
   // 작성완료, 취소 Btn
@@ -131,33 +134,38 @@ export default function TriplogWrite(props) {
         content,
         oneLine,
       };
-      let successReq = false;
 
       await axios
         .post(apiPath + "/review", requestData)
         .then((res) => {
           console.log(res);
-          selectedImageList.forEach(async (el, idx) => {
-            const formData = new FormData();
-            formData.append("images", el);
 
-            await axios
-              .post(
-                `${apiPath}/review/${res.data.data}/profile-picture`,
-                formData
-              )
-              .then((res) => {
-                console.log(res);
-                if (idx === selectedImageList.length - 1) {
-                  alert("후기가 등록되었습니다.");
-                  router.push(`/review`);
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-                return;
-              });
-          });
+          if (selectedImageList.length > 0) {
+            selectedImageList.forEach(async (el, idx) => {
+              const formData = new FormData();
+              formData.append("images", el);
+
+              await axios
+                .post(
+                  `${apiPath}/review/${res.data.data}/profile-picture`,
+                  formData
+                )
+                .then((res) => {
+                  console.log(res);
+                  if (idx === selectedImageList.length - 1) {
+                    alert("후기가 등록되었습니다.");
+                    router.push("/review");
+                  }
+                })
+                .catch((err) => {
+                  console.error(err);
+                  return;
+                });
+            });
+          } else {
+            alert("후기가 등록되었습니다.");
+            router.push("/review");
+          }
         })
         .catch((error) => console.error(error));
     } else {
