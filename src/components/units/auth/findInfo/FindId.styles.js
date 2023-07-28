@@ -9,6 +9,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 150px;
 `;
 
 export const Form = styled.form`
@@ -40,7 +41,7 @@ export const Input = styled.input`
   border-radius: 4px;
   font-size: 16px;
 
-  &: focus{
+  &:focus{
     outline: none;
   }
 `;
