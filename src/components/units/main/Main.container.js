@@ -35,13 +35,13 @@ export default function Main() {
     const fetchData = async () => {
       if (response.length === 0) {
         const requestData = {
-          "continentId": 1,
-          "endDate": "2023-07-14",
+          "continentId": 0,
+          "endDate": null,
           "keyWord": "",
-          "nationId": 6,
-          "regionId": 1,
-          "startDate": "2023-07-10",
-          "totalPeopleNum": 4,
+          "nationId": 0,
+          "regionId": 0,
+          "startDate": null,
+          "totalPeopleNum": 0,
         };
   
         try {

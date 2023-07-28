@@ -64,26 +64,29 @@ export default function ReviewMain() {
     fetchData();
   }, []);
 
-  const [option, setOption] = useState("1");
-  const onClcickFilterFind = async () => {
-    const requestData = {
-      continentId: parseInt(selectedDestination.continent.id),
-      endMonth: parseInt(date.endMonth),
-      keyWord: keyword,
-      nationId: parseInt(selectedDestination.country.id),
-      regionId: parseInt(selectedDestination.city.id),
-      startMonth: parseInt(date.startMonth),
-      totalPeopleNum: parseInt(selectedNum),
-    };
+    const [option, setOption] = useState("1");
+    const onClcickFilterFind = async () => {
 
-    await axios
-      .post(`${apipath}/review/list?option=${parseInt(option)}`, requestData)
-      .then((res) => {
-        console.log(res.data.data);
-        setReviewList(res.data.data);
-      })
-      .catch((error) => console.log(error));
-  };
+      const requestData = {
+        "continentId": parseInt(selectedDestination.continent.id),
+        "endMonth": parseInt(date.endMonth),
+        "keyWord": keyword,
+        "nationId": parseInt(selectedDestination.country.id),
+        "regionId": parseInt(selectedDestination.city.id),
+        "startMonth": parseInt(date.startMonth),
+        "totalPeopleNum": parseInt(selectedNum),
+      }
+  
+      await axios
+        .post(`${apipath}/review/list?option=${parseInt(option)}`, requestData)
+        .then((res) => {
+          console.log(res.data.data);
+          setReviewList(res.data.data);
+          setPage(1);
+        })
+        .catch((error) => console.log(error));
+  
+    };
 
   // useEffect(() => {
   //   onClcickFilterFind();
@@ -180,18 +183,18 @@ export default function ReviewMain() {
   // 필터링 open & close
   const [isOpen, setIsOpen] = useState(false);
 
-  // 페이지네이션
-  const [page, setPage] = useState(1);
-  const [pageNum, setPageNum] = useState([]);
-  useEffect(() => {
-    if (pageNum.length === 0) {
-      console.log(parseInt(reviewList.length / 5));
-      for (let i = 0; i <= parseInt(reviewList.length / 5); i++) {
-        setPageNum((prev) => [...prev, i]);
+    // 페이지네이션
+    const [page, setPage] = useState(1);
+    const [pageNum, setPageNum] = useState([]);
+    useEffect(() => {
+      if(pageNum.length === 0 && newCardList.length !== 0){
+        console.log(parseInt(reviewList.length / 5));
+        for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
+          setPageNum((prev) => [...prev, i]);
+        }
+        console.log(pageNum);
       }
-      console.log(pageNum);
-    }
-  }, [reviewList]);
+    }, [reviewList]);
 
   return (
     <>
