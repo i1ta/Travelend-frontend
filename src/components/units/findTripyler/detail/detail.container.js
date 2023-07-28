@@ -310,52 +310,7 @@ export default function FindTripylerDetail() {
             <S.PostListTitle>동행 신청자</S.PostListTitle>
             <S.PostListCnt>{applyList.length}명</S.PostListCnt>
           </S.PostListTitleWrapper>
-          <S.ApplyList>
-            {isOpenApplyList
-              ? applyList.map((el) => (
-                  <S.ApplyItem key={el.applicantId}>
-                    <S.ApplyProfileWrapper>
-                      <S.UserImg
-                        src={el.profileUrl || "/icon/defaultProfile.png"}
-                      />
-                    </S.ApplyProfileWrapper>
-                    <S.ApplyID
-                      id={el.applicantId}
-                      onClick={checkApplyUser}>{el.nickname}</S.ApplyID>
-                    <S.ViewApplyBtn
-                      onClick={() =>
-                        router.push(
-                          `/findTripyler/${tripylerId}/${el.applicantId}`
-                        )
-                      }
-                    >
-                      신청폼 보기
-                    </S.ViewApplyBtn>
-                  </S.ApplyItem>
-                ))
-              : applyList
-                  .filter((el, index) => index < 6)
-                  .map((el) => (
-                    <S.ApplyItem key={el.applicantId}>
-                      <S.ApplyProfileWrapper>
-                        <S.UserImg
-                          src={el.profileUrl || "/icon/defaultProfile.png"}
-                        />
-                      </S.ApplyProfileWrapper>
-                      <S.ApplyID>{el.nickname}</S.ApplyID>
-                      <S.ViewApplyBtn
-                        onClick={() =>
-                          router.push(
-                            `/findTripyler/${tripylerId}/${el.applicantId}`
-                          )
-                        }
-                      >
-                        신청폼 보기
-                      </S.ViewApplyBtn>
-                    </S.ApplyItem>
-                  ))}
-          </S.ApplyList>
-
+        
           {applyList.length > 0 ? (
             <S.ApplyList>
               {isOpenApplyList
