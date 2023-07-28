@@ -20,14 +20,14 @@ export default function Join() {
 
   // 기타 state
   const apiPath = "https://api.tripyle.xyz";
-  const [isSendCheckNum, setIsSendCheckNum] = useState(true);
+  const [isSendCheckNum, setIsSendCheckNum] = useState(false);
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
   const [inputCheckNum, setInputCheckNum] = useState("");
   const [authCheckNum, setAuthCheckNum] = useState("");
   const [isUsernameAuth, setIsUsernameAuth] = useState(false);
-  const [isPhoneAuth, setIsPhoneAuth] = useState(true);
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false);
 
   // 에러 메세지 state
   const [errorID, setErrorID] = useState(" ");

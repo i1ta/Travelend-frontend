@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as S from "./write.style";
 import axios from "axios";
 
@@ -9,32 +9,17 @@ export default function TriplogWrite(props) {
   const [isOpenStep3, setIsOpenStep3] = useState(true);
   const [isOpenCmbBox, setIsOpenCmbBox] = useState(false);
   const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
-  const [tripylerWithList, settripylerWithList] = useState([
-    {
-      nickname: "user01",
-      profileUrl: "/img/hooni.jpeg",
-    },
-    {
-      nickname: "user02",
-      profileUrl: "/img/hooni.jpeg",
-    },
-    {
-      nickname: "user03",
-      profileUrl: "/img/hooni.jpeg",
-    },
-    {
-      nickname: "user0",
-      profileUrl: "/img/hooni.jpeg",
-    },
-    {
-      nickname: "user05",
-      profileUrl: "/img/hooni.jpeg",
-    },
-  ]);
+
+  // params변수
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [oneLine, setOneLine] = useState("");
 
   const apiPath = "https://api.tripyle.xyz";
   const router = useRouter();
+  const { reviewId } = router.query;
 
+  // 더보기 버튼
   const onClickMoreBtn = (event) => {
     const stepNum = event.currentTarget.id;
     console.log(event);
@@ -43,16 +28,39 @@ export default function TriplogWrite(props) {
     if (stepNum === "3") setIsOpenStep3((prev) => !prev);
   };
 
+  // 데이터 불러오기
+  const fetchData = async () => {
+    await axios
+      .get(`${apiPath}/review/${reviewId}`)
+      .then((res) => {
+        console.log(res);
+        const data = res.data.data;
+        setTitle(data.reviewTitle);
+        setContent(data.reviewContent);
+        setOneLine(data.reviewOneLine);
+        setSelectedInfo({
+          title: data.tripylerTitle,
+          startDate: data.startDate,
+          endDate: data.endDate,
+          nationName: data.nationName,
+          regionName: data.regionName,
+          tripylerId: data.tripylerId,
+          tripylerWithList: [...data.tripylerWithList],
+        });
+        setImageList([...data.reviewImageList]);
+      })
+      .catch((err) => console.error(err));
+  };
+
   // 콤보박스
   const [tripList, setTripList] = useState([]);
+  const [selectedInfo, setSelectedInfo] = useState([]);
+
   const onClickCmbBox = () => {
     setIsOpenCmbBox((prev) => !prev);
   };
 
   const fetchList = async () => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     await axios
       .get(`${apiPath}/my-collections/my-all-tripylers`)
       .then((res) => {
@@ -63,12 +71,18 @@ export default function TriplogWrite(props) {
   };
 
   useEffect(() => {
-    fetchList();
-  }, []);
+    axios.defaults.headers.common["x-auth-token"] =
+      window.localStorage.getItem("login-token");
 
-  const onClickCmbBoxItem = () => {
+    !props.isEdit && fetchList();
+    reviewId && props.isEdit && fetchData();
+  }, [reviewId]);
+
+  const onClickCmbBoxItem = (event) => {
+    const value = parseInt(event.target.id);
+    setSelectedInfo({ ...tripList[value] });
     setIsOpenCmbBox(false);
-    console.log("ddddd");
+    setIsOpenWithTripList(false);
   };
 
   // 동행 Tripyler
@@ -78,13 +92,11 @@ export default function TriplogWrite(props) {
 
   // 이미지
   const [imageList, setImageList] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageList, setSelectedImageList] = useState([]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setSelectedImage(file);
-    console.log(event.target.files);
-    console.log(imageList);
+    setSelectedImageList((prev) => [...prev, file]);
 
     if (file) {
       const reader = new FileReader();
@@ -108,10 +120,78 @@ export default function TriplogWrite(props) {
   // 작성완료, 취소 Btn
   const onClickCancelBtn = () => {
     alert("취소");
+    console.log(selectedInfo, title, content, oneLine);
   };
 
-  const onClickSubmitBtn = () => {
-    alert("작성완료");
+  const onClickSubmitBtn = async () => {
+    if (selectedInfo.tripylerId && title && content && oneLine) {
+      const requestData = {
+        tripylerId: selectedInfo.tripylerId,
+        title,
+        content,
+        oneLine,
+      };
+      const formData = new FormData();
+      formData.append(
+        "review",
+        new Blob([JSON.stringify(requestData)], { type: "application/json" })
+      );
+      formData.append("images", selectedImageList);
+      console.log(requestData);
+      console.log(selectedImageList);
+
+      await axios
+        .post(apiPath + "/review", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            accept: "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          // alert(res.data.data);
+          alert("작성이 완료되었습니다.");
+          // router.push("/review");
+        })
+        .catch((error) => console.error(error));
+    } else {
+      alert("필수입력 항목을 확인해주세요");
+    }
+  };
+
+  // 수정완료 Btn
+  const onClickEditBtn = async () => {
+    if (selectedInfo.tripylerId && title && content && oneLine) {
+      const requestData = {
+        tripylerId: selectedInfo.tripylerId,
+        title,
+        content,
+        oneLine,
+      };
+      const formData = new FormData();
+      formData.append(
+        "review",
+        new Blob([JSON.stringify(requestData)], { type: "application/json" })
+      );
+      formData.append("images", imageList);
+
+      await axios
+        .patch(`${apiPath}/review/${reviewId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            accept: "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          // alert(res.data.data);
+          alert("작성이 완료되었습니다.");
+          // router.push("/review");
+        })
+        .catch((error) => console.error(error));
+    } else {
+      alert("필수입력 항목을 확인해주세요");
+    }
   };
 
   return (
@@ -138,40 +218,45 @@ export default function TriplogWrite(props) {
             <S.Line></S.Line>
             {isOpenStep1 && (
               <S.StepInfoWrapper>
-                <S.InputInfoWrapper>
+                <S.InputInfoWrapper style={{ position: "relative" }}>
                   <S.InputTitle>여행기록 선택</S.InputTitle>
                   <S.CmbBox
-                    onClick={onClickCmbBox}
-                    style={{ position: "relative" }}
+                    isEdit={props.isEdit}
+                    onClick={!props?.isEdit ? onClickCmbBox : undefined}
                   >
-                    <S.CmbBoxTxt>선택</S.CmbBoxTxt>
-                    <S.CmbBoxArrow src="/icon/moreBtn.svg" />
-                    {isOpenCmbBox && (
-                      <S.CmbBoxList>
-                        {tripList.map((el) => (
-                          <S.CmbBoxListItem
-                            key={el.tripylerId}
-                            // onClick={onClickCmbBoxItem}
-                          >
-                            {el.title}
-                          </S.CmbBoxListItem>
-                        ))}
-                        <S.CmbBoxListItem>룰ㄹ루랄</S.CmbBoxListItem>
-                        <S.CmbBoxListItem>
-                          ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-                        </S.CmbBoxListItem>
-                      </S.CmbBoxList>
-                    )}
+                    <S.CmbBoxTxt>{selectedInfo.title || "선택"}</S.CmbBoxTxt>
+                    {!props.isEdit && <S.CmbBoxArrow src="/icon/moreBtn.svg" />}
                   </S.CmbBox>
+                  {isOpenCmbBox && (
+                    <S.CmbBoxList>
+                      {tripList.map((el, idx) => (
+                        <S.CmbBoxListItem
+                          key={el.tripylerId}
+                          onClick={onClickCmbBoxItem}
+                          id={idx}
+                        >
+                          {el.title}
+                        </S.CmbBoxListItem>
+                      ))}
+                    </S.CmbBoxList>
+                  )}
                 </S.InputInfoWrapper>
                 <S.InfoBox>
                   <S.InfoBoxItem>
-                    <S.InfoBoxTitle>여행지</S.InfoBoxTitle>
-                    <S.InfoBoxInput>그리스, 산토리니</S.InfoBoxInput>
+                    <S.InfoBoxTitle>여행지역</S.InfoBoxTitle>
+                    <S.InfoBoxInput>
+                      {selectedInfo.nationName
+                        ? `${selectedInfo.nationName}, ${selectedInfo.regionName}`
+                        : "선택"}
+                    </S.InfoBoxInput>
                   </S.InfoBoxItem>
                   <S.InfoBoxItem>
                     <S.InfoBoxTitle>여행기간</S.InfoBoxTitle>
-                    <S.InfoBoxInput>23.01.12 - 23.01.23</S.InfoBoxInput>
+                    <S.InfoBoxInput>
+                      {selectedInfo.startDate
+                        ? `${selectedInfo.startDate} ~ ${selectedInfo.endDate}`
+                        : "선택"}
+                    </S.InfoBoxInput>
                   </S.InfoBoxItem>
                   <S.InfoBoxItem
                     style={{ marginLeft: "35x", position: "relative" }}
@@ -179,23 +264,31 @@ export default function TriplogWrite(props) {
                     <S.InfoBoxTitle>동행 Tripyler</S.InfoBoxTitle>
 
                     <S.WithTripProfileList>
-                      {tripylerWithList
-                        ?.filter((el, idx) => idx < 4)
-                        .map((el, idx) => (
-                          <S.WithTripProfileWrapper
-                            key={el.nickname}
-                            style={{ left: `${idx * 35}px` }}
-                            onClick={onClickWithTrip}
-                          >
-                            <S.WithTripProfile
-                              src={el.profileUrl || "/icon/defaultProfile.png"}
-                            />
-                          </S.WithTripProfileWrapper>
-                        ))}
-                      {tripylerWithList.length > 4 && (
-                        <S.WithTripMoreBox onClick={onClickWithTrip}>
-                          +{tripylerWithList.length - 4}
-                        </S.WithTripMoreBox>
+                      {selectedInfo.tripylerWithList ? (
+                        <>
+                          {selectedInfo.tripylerWithList
+                            ?.filter((el, idx) => idx < 4)
+                            .map((el, idx) => (
+                              <S.WithTripProfileWrapper
+                                key={el.nickname}
+                                style={{ left: `${idx * 35}px` }}
+                                onClick={onClickWithTrip}
+                              >
+                                <S.WithTripProfile
+                                  src={
+                                    el.profileUrl || "/icon/defaultProfile.png"
+                                  }
+                                />
+                              </S.WithTripProfileWrapper>
+                            ))}
+                          {selectedInfo.tripylerWithList.length > 4 && (
+                            <S.WithTripMoreBox onClick={onClickWithTrip}>
+                              +{selectedInfo.tripylerWithList.length - 4}
+                            </S.WithTripMoreBox>
+                          )}
+                        </>
+                      ) : (
+                        "선택"
                       )}
                     </S.WithTripProfileList>
                     {isOpenWithTripList && (
@@ -204,7 +297,7 @@ export default function TriplogWrite(props) {
                           Trip’yler 리스트
                         </S.WithTripListTitle>
                         <S.WithTripListWrapper>
-                          {tripylerWithList.map((el) => (
+                          {selectedInfo.tripylerWithList.map((el) => (
                             <S.WithTripListItem>
                               <S.WithTripListProfile>
                                 <S.Image
@@ -241,8 +334,16 @@ export default function TriplogWrite(props) {
             <S.Line></S.Line>
             {isOpenStep2 && (
               <S.StepInfoWrapper>
-                <S.TitleInput placeholder="제목을 입력해주세요"></S.TitleInput>
-                <S.LongTextarea placeholder="내용을 입력해주세요"></S.LongTextarea>
+                <S.TitleInput
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="제목을 입력해주세요"
+                  defaultValue={title}
+                ></S.TitleInput>
+                <S.LongTextarea
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="내용을 입력해주세요"
+                  defaultValue={content}
+                ></S.LongTextarea>
                 {imageList.length === 0 ? (
                   <>
                     <S.NoImgWrapper htmlFor="first-upload-input">
@@ -323,14 +424,20 @@ export default function TriplogWrite(props) {
             {isOpenStep3 && (
               <S.StepInfoWrapper>
                 <S.InputInfoWrapper>
-                  <S.LongInput placeholder="우리의 여행을 한 줄로 표현해보세요!"></S.LongInput>
+                  <S.LongInput
+                    onChange={(e) => setOneLine(e.target.value)}
+                    placeholder="우리의 여행을 한 줄로 표현해보세요!"
+                    defaultValue={oneLine}
+                  ></S.LongInput>
                 </S.InputInfoWrapper>
               </S.StepInfoWrapper>
             )}
           </S.StepWrapper>
           <S.BtnWrapper>
             <S.CancelBtn onClick={onClickCancelBtn}>취소</S.CancelBtn>
-            <S.SubmitBtn onClick={onClickSubmitBtn}>
+            <S.SubmitBtn
+              onClick={props.isEdit ? onClickEditBtn : onClickSubmitBtn}
+            >
               {props.isEdit ? "수정" : "작성"} 완료
             </S.SubmitBtn>
           </S.BtnWrapper>

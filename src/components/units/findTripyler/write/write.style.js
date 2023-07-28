@@ -441,11 +441,11 @@ export const ModalInput = styled.input`
   height: 100%;
   border: none;
   border-radius: 10px;
+  padding: 0px 15px;
 
   font-weight: 500;
   font-size: 14px;
-  text-align: center;
-  color: #999999;
+  color: #666;
 `;
 
 export const ModalInputBtn = styled.button`
@@ -475,12 +475,13 @@ export const ModalResult = styled.div`
   border: 1px solid #c8b6ff;
   border-radius: 10px;
   margin-bottom: 4px;
+  padding: 0px 15px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   font-weight: 500;
   font-size: 14px;
-  color: #999999;
+  color: #666;
 `;
 
 export const ModalBtnWrapper = styled.div`

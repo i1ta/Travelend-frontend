@@ -210,7 +210,7 @@ export const WithTripListWrapper = styled.div`
   max-height: 150px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding-left: 15px;
   gap: 15px;
   overflow-y: auto;
 
