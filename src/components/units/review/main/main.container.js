@@ -32,7 +32,7 @@ export default function ReviewMain() {
         alert('로그인이 필요한 서비스입니다');
         router.push("/auth/signIn");
       } else{
-        router.push(`/findTripyler/write`)
+        router.push(`/review/write`)
       }
     };
 

@@ -105,19 +105,27 @@ export default function FindTripylerApplyDetail() {
           상대방에게 본인에 대해 간단히 소개해주세요.
         </S.ContentsSubTitle>
         <S.IntroduceBox>{data.content}</S.IntroduceBox>
-        {isAccept ? (
-          <S.SendMsgForm onSubmit={onSubmitMsg}>
-            <S.SendMsgInput
-              name="message"
-              autoComplete="off"
-              placeholder="Trip’yler 신청 메세지를 입력해주세요."
-            ></S.SendMsgInput>
-            <S.SendMsgBtn>Send</S.SendMsgBtn>
-          </S.SendMsgForm>
+        {data.accepted === 0 ? (
+          isAccept ? (
+            <S.SendMsgForm onSubmit={onSubmitMsg}>
+              <S.SendMsgInput
+                name="message"
+                autoComplete="off"
+                placeholder="Trip’yler 신청 메세지를 입력해주세요."
+              ></S.SendMsgInput>
+              <S.SendMsgBtn>Send</S.SendMsgBtn>
+            </S.SendMsgForm>
+          ) : (
+            <S.BtnWrapper>
+              <S.RejectBtn onClick={onClickRejectBtn}>거절하기</S.RejectBtn>
+              <S.AcceptBtn onClick={onClickAcceptBtn}>수락하기</S.AcceptBtn>
+            </S.BtnWrapper>
+          )
         ) : (
           <S.BtnWrapper>
-            <S.RejectBtn onClick={onClickRejectBtn}>거절하기</S.RejectBtn>
-            <S.AcceptBtn onClick={onClickAcceptBtn}>수락하기</S.AcceptBtn>
+            <S.AfterBtn>
+              {data.accepted === 1 ? "수락완료" : "거절완료"}
+            </S.AfterBtn>
           </S.BtnWrapper>
         )}
       </S.Contents>

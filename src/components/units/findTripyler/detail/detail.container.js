@@ -73,8 +73,11 @@ export default function FindTripylerDetail() {
 
   const checkApplyUser = async (e) => {
     console.log(e.target.id);
-    router.push({pathname: "/auth/profile", query: {userId: parseInt(e.target.id)}})
-  }
+    router.push({
+      pathname: "/auth/profile",
+      query: { userId: parseInt(e.target.id) },
+    });
+  };
 
   // 동행 신청자 리스트
   const fetchList = async () => {
@@ -310,7 +313,7 @@ export default function FindTripylerDetail() {
             <S.PostListTitle>동행 신청자</S.PostListTitle>
             <S.PostListCnt>{applyList.length}명</S.PostListCnt>
           </S.PostListTitleWrapper>
-        
+
           {applyList.length > 0 ? (
             <S.ApplyList>
               {isOpenApplyList

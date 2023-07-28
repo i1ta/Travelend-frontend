@@ -8,6 +8,9 @@ import axios from "axios";
 export default function MyProfile(props) {
   const formatPhone = (phoneNum) => {
     const regex = /^(\d{3})(\d{4})(\d{4})$/;
+    if(phoneNum === null){
+      return "";
+    }
     return phoneNum.replace(regex, "$1-$2-$3");
   };
 
