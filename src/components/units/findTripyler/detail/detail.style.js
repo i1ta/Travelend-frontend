@@ -39,6 +39,9 @@ export const ContentsImgWrapper = styled.div`
   height: 380px;
   overflow: hidden;
   margin-bottom: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ContentsImg = styled.img`
@@ -417,20 +420,20 @@ export const CmtListWrapper = styled.div`
 `;
 
 export const NoCmtWrapper = styled(CmtListWrapper)`
-padding: 50px 40px;
-align-items: center;
-gap: 25px;
-`
+  padding: 50px 40px;
+  align-items: center;
+  gap: 25px;
+`;
 
 export const NoCmtIcon = styled.img`
-width: 80px;
-height: 80px;
-`
+  width: 80px;
+  height: 80px;
+`;
 
 export const NoCmtTxt = styled.div`
-font-size: 18px;
-color: #666;
-`
+  font-size: 18px;
+  color: #666;
+`;
 
 export const CmtList = styled.div`
   display: flex;

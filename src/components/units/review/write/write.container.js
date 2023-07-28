@@ -131,27 +131,33 @@ export default function TriplogWrite(props) {
         content,
         oneLine,
       };
-      const formData = new FormData();
-      formData.append(
-        "review",
-        new Blob([JSON.stringify(requestData)], { type: "application/json" })
-      );
-      formData.append("images", selectedImageList);
-      console.log(requestData);
-      console.log(selectedImageList);
+      let successReq = false;
 
       await axios
-        .post(apiPath + "/review", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            accept: "application/json",
-          },
-        })
+        .post(apiPath + "/review", requestData)
         .then((res) => {
           console.log(res);
-          // alert(res.data.data);
-          alert("작성이 완료되었습니다.");
-          // router.push("/review");
+          selectedImageList.forEach(async (el, idx) => {
+            const formData = new FormData();
+            formData.append("images", el);
+
+            await axios
+              .post(
+                `${apiPath}/review/${res.data.data}/profile-picture`,
+                formData
+              )
+              .then((res) => {
+                console.log(res);
+                if (idx === selectedImageList.length - 1) {
+                  alert("후기가 등록되었습니다.");
+                  router.push(`/review`);
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                return;
+              });
+          });
         })
         .catch((error) => console.error(error));
     } else {

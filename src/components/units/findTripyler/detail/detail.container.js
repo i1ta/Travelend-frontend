@@ -192,7 +192,7 @@ export default function FindTripylerDetail() {
       </S.ContentsLoc>
       <S.Contents>
         <S.ContentsImgWrapper>
-          <S.ContentsImg src={data.image} />
+          <S.ContentsImg src={data.image || "/img/defaultImg.png"} />
         </S.ContentsImgWrapper>
         <S.ContentsTopWrapper>
           <S.ContentsTitle>{data.title}</S.ContentsTitle>
@@ -328,7 +328,7 @@ export default function FindTripylerDetail() {
                       <S.ViewApplyBtn
                         onClick={() =>
                           router.push(
-                            `/findTripyler/${tripylerId}/${el.applicantId}`
+                            `/findTripyler/${tripylerId}/${el.tripylerApplyId}`
                           )
                         }
                       >
@@ -349,7 +349,7 @@ export default function FindTripylerDetail() {
                         <S.ViewApplyBtn
                           onClick={() =>
                             router.push(
-                              `/findTripyler/${tripylerId}/${el.applicantId}`
+                              `/findTripyler/${tripylerId}/${el.tripylerApplyId}`
                             )
                           }
                         >
