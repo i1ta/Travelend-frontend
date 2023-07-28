@@ -389,16 +389,6 @@ export default function Profile() {
               <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
               <S.ProfileLine></S.ProfileLine>
 
-              {/* <S.CategoryWrapper>
-            <S.Category
-              id="NotMyProfile"
-              onClick={onClickCategory}
-              selectedCategory={selectedCategory}
-            >
-              Profile
-            </S.Category>
-            
-          </S.CategoryWrapper> */}
             </S.SideNotBar>
             {selectedCategory === "NotMyProfile" && (
               <NotMyProfile data={notMyProfildData} />
@@ -414,7 +404,7 @@ export default function Profile() {
                 />
               </S.ProfileImage>
 
-              <S.Name>{myProfileData.username} 님</S.Name>
+              <S.Name>{myProfileData.username || "user"} 님</S.Name>
 
               <S.CategoryWrapper>
                 <S.Category
@@ -494,7 +484,7 @@ export default function Profile() {
               />
             </S.ProfileImage>
 
-            <S.Name>{myProfileData.username} 님</S.Name>
+            <S.Name>{myProfileData.username || "user"} 님</S.Name>
 
             <S.profileFileBtn htmlFor="upload-input">
               프로필 업로드
