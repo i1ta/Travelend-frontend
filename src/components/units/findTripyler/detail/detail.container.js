@@ -319,12 +319,12 @@ export default function FindTripylerDetail() {
               {isOpenApplyList
                 ? applyList.map((el) => (
                     <S.ApplyItem key={el.applicantId}>
-                      <S.ApplyProfileWrapper>
+                      <S.ApplyProfileWrapper id={el.applicantId} onClick={checkApplyUser}>
                         <S.UserImg
                           src={el.profileUrl || "/icon/defaultProfile.png"}
                         />
                       </S.ApplyProfileWrapper>
-                      <S.ApplyID>{el.nickname}</S.ApplyID>
+                      <S.ApplyID id={el.applicantId} onClick={checkApplyUser}>{el.nickname}</S.ApplyID>
                       <S.ViewApplyBtn
                         onClick={() =>
                           router.push(

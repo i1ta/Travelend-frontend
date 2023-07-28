@@ -73,8 +73,10 @@ export default function FindTripylerList(){
           city: {id: parseInt(findCardFilter.cityId), name: findCardFilter.city.split("\"")[1]},
         }))
         if(findCardFilter.startDate.split("\"")[1] === "" && findCardFilter.endDate.split("\"")[1] === ""){
+          console.log("1번");
           setTripDate([]);
         }else{
+          console.log("2번");
           setTripDate([findCardFilter.startDate.split("\"")[1] || null, findCardFilter.endDate.split("\"")[1] || null])
         }
         setShowDestination({
@@ -91,9 +93,10 @@ export default function FindTripylerList(){
     // 이미 필터링 된 채로 리스트 창 렌더링 시
     useEffect(() => {
       const fetchData = async () => {
+        if(ready){
         console.log(findCardFilter);
         console.log(selectedDestination.city.name);
-        if (JSON.stringify(findCardFilter) !== '{}' && selectedDestination.city.name !== "") {
+        if (JSON.stringify(findCardFilter) !== '{}' && findCardFilter.city !== "") {
           console.log("대륙, 나라, 도시 렌더링 후 필터링 값으로 api");
           try {
             const res1 = await axios.get(apipath + '/destination/continent');
@@ -140,52 +143,27 @@ export default function FindTripylerList(){
             .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
             .then((res) => {
               console.log(res.data.data);    
-              setCardList(res.data.data);     
+              setCardList(res.data.data);   
+              setPage(1);
+            setPageNum([]);  
             })
             .catch((error) => console.log(error));
           
         }
+      }
       };
     
       fetchData();
     }, [ready]);
 
     useEffect(() => {
-      const fetchData2 = async () => {
-        if(cardList.length === 0){
-        const requestData = {
-          "continentId": parseInt(selectedDestination.continent.id),
-          "endDate": tripDate[1],
-          "keyWord": keyword,
-          "nationId": parseInt(selectedDestination.country.id),
-          "regionId": parseInt(selectedDestination.city.id),
-          "startDate": tripDate[0],
-          "totalPeopleNum": parseInt(selectedNum),
-        }
-        console.log(requestData);
-    
-        await axios
-          .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
-          .then((res) => {
-            console.log(res.data.data);   
-            setCardList(res.data.data);         
-          })
-          .catch((error) => console.log(error));
-        }
-      }
-        fetchData2();
-    }, []);
-
-    useEffect(() => {
-      if(cardList.length !== 0){
-        console.log(cardList);
+      if(newCardList.length === 0){
         setNewCardList(cardList);
       }
-    }, [cardList]);
+    }, [cardList])
 
-
-    const [isRecruiting, setIsRecruiting] = useState("1");
-    const [option, setOption] = useState("1");
+    const [isRecruiting, setIsRecruiting] = useState("");
+    const [option, setOption] = useState("");
     const onClcickFilterFind = async () => {
 
       const requestData = {
@@ -200,11 +178,12 @@ export default function FindTripylerList(){
       console.log(requestData);
   
       await axios
-        .post(`${apipath}/tripyler/list?isRecruiting=${parseInt(isRecruiting)}&option=${parseInt(option)}`, requestData)
+        .post(`${apipath}/tripyler/list?isRecruiting=${parseInt(isRecruiting || 1)}&option=${parseInt(option || 1)}`, requestData)
         .then((res) => {
           console.log(res.data.data);
           setNewCardList(res.data.data);
           setPage(1);
+          setPageNum([]);
           // setFindCardFilter({});
         })
         .catch((error) => console.log(error));
@@ -212,11 +191,17 @@ export default function FindTripylerList(){
     };
 
     useEffect(() => {
-      onClcickFilterFind();
+      console.log(isRecruiting);
+      if(isRecruiting !== ""){
+        onClcickFilterFind();
+      }
     }, [isRecruiting]);
 
     useEffect(() => {
-      onClcickFilterFind();
+      console.log(option);
+      if(option !== ""){
+        onClcickFilterFind();
+      }
     }, [option]);
     
     // 여행지 선택

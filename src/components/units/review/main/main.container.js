@@ -66,7 +66,7 @@ export default function ReviewMain() {
     fetchData();
   }, []);
 
-    const [option, setOption] = useState("1");
+    const [option, setOption] = useState("");
     const onClcickFilterFind = async () => {
       setPageNum([]);
       const requestData = {
@@ -80,7 +80,7 @@ export default function ReviewMain() {
       }
   
       await axios
-        .post(`${apipath}/review/list?option=${parseInt(option)}`, requestData)
+        .post(`${apipath}/review/list?option=${parseInt(option || 1)}`, requestData)
         .then((res) => {
           console.log(res.data.data);
           setReviewList(res.data.data);
@@ -97,9 +97,12 @@ export default function ReviewMain() {
       }
     }, [reviewList]);
 
-    // useEffect(() => {
-    //   onClcickFilterFind();
-    // }, [option]);
+    useEffect(() => {
+      console.log(option);
+      if(option !== ""){
+        onClcickFilterFind();
+      }
+    }, [option]);
     
     // 여행지 선택
     const [isCountry, setIsCountry] = useState(false);
