@@ -64,18 +64,20 @@ export default function FindTripylerWrite(props) {
         const data = res.data.data;
         console.log(res);
         setData({ ...data });
-        // setShownMyHashtag([
-        //   data.hashtag1,
-        //   data.hashtag2,
-        //   data.hashtag3,
-        //   data.hashtag4,
-        //   data.hashtag5,
-        // ]);
-        setTripDate({ startDate: data.startDate, endDate: data.endDate });
+        setShownMyHashtag([...data.hashtagList]);
+        setTripDate({
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
+        });
         setTotalPeopleNum(data.totalPeopleNum);
         setTitle(data.title);
         setContent(data.content);
         setImageUrl(data.image);
+        setCommaPrice(data.estimatedPrice);
+        setEstimatedPrice(data.estimatedPrice);
+        setShownWithTripylerList([
+          ...data.tripylerWithList?.map((el) => el.nickname),
+        ]);
       })
       .catch((error) => console.error(error));
   };
@@ -97,9 +99,24 @@ export default function FindTripylerWrite(props) {
   });
 
   const formatDate = (date) => {
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${date.getFullYear()}-${month}-${day}`;
+    const month = String(date?.getMonth() + 1).padStart(2, "0");
+    const day = String(date?.getDate()).padStart(2, "0");
+    return `${date?.getFullYear()}-${month}-${day}`;
+  };
+
+  // 예상 여행 경비
+  const [estimatedPrice, setEstimatedPrice] = useState(0);
+  const [commaPrice, setCommaPrice] = useState("");
+
+  const onChangeMoney = (e) => {
+    const value = e.target.value.replace(/,/g, "");
+    if (isNaN(value)) {
+      setCommaPrice("");
+      return;
+    }
+    setCommaPrice(parseInt(value).toLocaleString());
+
+    setEstimatedPrice(parseInt(value));
   };
 
   // 이미지 뷰어
@@ -125,8 +142,8 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickCancelBtn = () => {
-    alert("취소");
-    console.log(data);
+    // alert("취소");
+    console.log(shownWithTripylerList, withTripylerList);
   };
 
   // 아이디 검색
@@ -174,7 +191,7 @@ export default function FindTripylerWrite(props) {
   const onClickSubmitBtn = async () => {
     if (
       // tripDate.length !== 0 &&
-      shownMyHashtag.length !== 0 &&
+      shownMyHashtag.length === 5 &&
       title &&
       content &&
       totalPeopleNum
@@ -193,6 +210,7 @@ export default function FindTripylerWrite(props) {
         nationId: 1,
         regionId: 20,
         totalPeopleNum,
+        estimatedPrice,
       };
       const formData = new FormData();
       formData.append(
@@ -221,41 +239,52 @@ export default function FindTripylerWrite(props) {
 
   // 수정완료 버튼
   const onClickEditBtn = async () => {
-    const requestData = {
-      title,
-      content,
-      startDate: formatDate(tripDate.startDate),
-      endDate: formatDate(tripDate.endDate),
-      firstTripStyleId: shownMyHashtag[0]?.id || 0,
-      secondTripStyleId: shownMyHashtag[1]?.id || 0,
-      thirdTripStyleId: shownMyHashtag[2]?.id || 0,
-      fourthTripStyleId: shownMyHashtag[3]?.id || 0,
-      fifthTripStyleId: shownMyHashtag[4]?.id || 0,
-      continentId: 1,
-      nationId: 1,
-      regionId: 20,
-      totalPeopleNum,
-    };
-    const formData = new FormData();
-    formData.append(
-      "tripylerCreateDto",
-      new Blob([JSON.stringify(requestData)], { type: "application/json" })
-    );
-    formData.append("images", selectedImage);
+    if (
+      // tripDate.length !== 0 &&
+      shownMyHashtag.length === 5 &&
+      title &&
+      content &&
+      totalPeopleNum
+    ) {
+      const requestData = {
+        title,
+        content,
+        startDate: formatDate(tripDate.startDate),
+        endDate: formatDate(tripDate.endDate),
+        firstTripStyleId: shownMyHashtag[0]?.id || 0,
+        secondTripStyleId: shownMyHashtag[1]?.id || 0,
+        thirdTripStyleId: shownMyHashtag[2]?.id || 0,
+        fourthTripStyleId: shownMyHashtag[3]?.id || 0,
+        fifthTripStyleId: shownMyHashtag[4]?.id || 0,
+        continentId: 1,
+        nationId: 1,
+        regionId: 20,
+        totalPeopleNum,
+        estimatedPrice,
+      };
+      const formData = new FormData();
+      formData.append(
+        "tripylerCreateDto",
+        new Blob([JSON.stringify(requestData)], { type: "application/json" })
+      );
+      formData.append("images", selectedImage);
 
-    await axios
-      .patch(apiPath + `/tripyler/${tripylerId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          accept: "application/json",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        alert(res.data.data);
-        router.push(`/findTripyler/${tripylerId}`);
-      })
-      .catch((err) => console.error(err));
+      await axios
+        .patch(apiPath + `/tripyler/${tripylerId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            accept: "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          alert(res.data.data);
+          router.push(`/findTripyler/${tripylerId}`);
+        })
+        .catch((err) => console.error(err));
+    } else {
+      alert("필수입력 항목을 확인해주세요");
+    }
   };
 
   return (
@@ -332,7 +361,7 @@ export default function FindTripylerWrite(props) {
                     >
                       찾는 여행 성향
                     </S.InputTitle>
-                    <S.InputTitleInfo>(최대 5개)</S.InputTitleInfo>
+                    <S.InputTitleInfo>(5개 필수선택)</S.InputTitleInfo>
                   </S.InputTitleWrapper>
                   <S.MidInput style={{ gap: "16px" }}>
                     {shownMyHashtag.map((e) => (
@@ -345,7 +374,10 @@ export default function FindTripylerWrite(props) {
                   <S.InputTitle>예상 여행 경비</S.InputTitle>
                   <S.WritableShortInput>
                     <S.InputTxt>약</S.InputTxt>
-                    <S.Input></S.Input>
+                    <S.Input
+                      value={commaPrice.toLocaleString()}
+                      onChange={onChangeMoney}
+                    ></S.Input>
                     <S.InputTxt>원</S.InputTxt>
                   </S.WritableShortInput>
                 </S.InputInfoWrapper>
@@ -493,6 +525,7 @@ export default function FindTripylerWrite(props) {
           setData={setShownMyHashtag}
           setIsOpenModal={setIsOpenStyleModal}
           limitLen="5"
+          placeholder="5개 필수"
         />
       )}
 

@@ -51,7 +51,7 @@ export default function LoginForm() {
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);
-          router.push("/main");
+          router.push("/");
         }
       }
     } catch (error) {
@@ -93,7 +93,6 @@ export default function LoginForm() {
               Sign In
             </S.Button>
           </S.CheckboxContainer>
-
         </S.Form>
       </S.Container>
     </>

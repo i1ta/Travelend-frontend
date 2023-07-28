@@ -271,7 +271,7 @@ export const TripylerInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 13px;
+  gap: 15px;
 `;
 
 export const ContentsInfoWrapper = styled.div`

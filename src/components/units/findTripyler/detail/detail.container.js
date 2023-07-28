@@ -61,12 +61,15 @@ export default function FindTripylerDetail() {
 
   // 프로필 이동
   const checkUser = async () => {
-    if(data.myTripyler){
+    if (data.myTripyler) {
       router.push("/auth/profile");
-    } else{
-      router.push({pathname: "/auth/profile", query: {userId: data.userId}})
+    } else {
+      router.push({
+        pathname: "/auth/profile",
+        query: { userId: data.userId },
+      });
     }
-  }
+  };
   // 동행 신청자 리스트
   const fetchList = async () => {
     await axios
@@ -95,13 +98,7 @@ export default function FindTripylerDetail() {
         const data = res.data.data;
         console.log(res);
         setData({ ...data });
-        setHashtag([
-          data.hashtag1,
-          data.hashtag2,
-          data.hashtag3,
-          data.hashtag4,
-          data.hashtag5,
-        ]);
+        setHashtag([...data.hashtagList]);
       })
       .catch((error) => console.error(error));
   };
@@ -195,74 +192,59 @@ export default function FindTripylerDetail() {
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
-              <S.UserImg src={data.profileUrl || "icon/defaultProfile.png"} style={{'cursor': 'pointer'}} onClick={checkUser}/>
+              <S.UserImg
+                src={data.profileUrl || "/icon/defaultProfile.png"}
+                style={{ cursor: "pointer" }}
+                onClick={checkUser}
+              />
             </S.UserImgWrapper>
             <S.UserTxtWrapper>
-              <S.UserID  style={{'cursor': 'pointer'}} onClick={checkUser}>{data.nickname}</S.UserID>
+              <S.UserID style={{ cursor: "pointer" }} onClick={checkUser}>
+                {data.nickname}
+              </S.UserID>
               <S.UserInfo>{formatUserInfo(data.age, data.gender)}</S.UserInfo>
             </S.UserTxtWrapper>
           </S.MidTopLeftWrapper>
 
           <S.MidTopRightWrapper>
             <S.WithTripylerWrapper>
-              <S.WithTripTitle>동행 Trip’yler (6명)</S.WithTripTitle>
+              <S.WithTripTitle>
+                동행 Trip’yler ({data.tripylerWithList?.length}명)
+              </S.WithTripTitle>
               <S.WithTripProfileList>
-                <S.WithTripProfileWrapper>
-                  <S.WithTripProfile src="/img/applyListImg.png" />
-                </S.WithTripProfileWrapper>
-                <S.WithTripProfileWrapper style={{ left: "35px" }}>
-                  <S.WithTripProfile src="/img/hooni.jpeg" />
-                </S.WithTripProfileWrapper>
-                <S.WithTripProfileWrapper style={{ left: "70px" }}>
-                  <S.WithTripProfile src="/img/shinchan.jpg" />
-                </S.WithTripProfileWrapper>
-                <S.WithTripProfileWrapper style={{ left: "105px" }}>
-                  <S.WithTripProfile src="/img/cheolsoo.jpg" />
-                </S.WithTripProfileWrapper>
-                <S.WithTripMoreBox onClick={onClickWithTrip}>
-                  +2
-                </S.WithTripMoreBox>
+                {data.tripylerWithList
+                  ?.filter((el, idx) => idx < 4)
+                  .map((el, idx) => (
+                    <S.WithTripProfileWrapper
+                      key={el.nickname}
+                      style={{ left: `${idx * 35}px` }}
+                      onClick={onClickWithTrip}
+                    >
+                      <S.WithTripProfile
+                        src={el.profileUrl || "/icon/defaultProfile.png"}
+                      />
+                    </S.WithTripProfileWrapper>
+                  ))}
+                {data.tripylerWithList?.length > 4 && (
+                  <S.WithTripMoreBox onClick={onClickWithTrip}>
+                    +{data.tripylerWithList?.length - 4}
+                  </S.WithTripMoreBox>
+                )}
               </S.WithTripProfileList>
               {isOpenWithTripList && (
                 <S.WithTripList>
                   <S.WithTripListTitle>Trip’yler 리스트</S.WithTripListTitle>
                   <S.WithTripListWrapper>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
-                    <S.WithTripListItem>
-                      <S.WithTripListProfile>
-                        <S.UserImg src="/img/applyListImg.png" />
-                      </S.WithTripListProfile>
-                      <S.WithTripListID>ilta0101</S.WithTripListID>
-                    </S.WithTripListItem>
+                    {data.tripylerWithList?.map((el) => (
+                      <S.WithTripListItem>
+                        <S.WithTripListProfile>
+                          <S.UserImg
+                            src={el.profileUrl || "/icon/defaultProfile.png"}
+                          />
+                        </S.WithTripListProfile>
+                        <S.WithTripListID>{el.nickname}</S.WithTripListID>
+                      </S.WithTripListItem>
+                    ))}
                   </S.WithTripListWrapper>
                 </S.WithTripList>
               )}
@@ -283,7 +265,9 @@ export default function FindTripylerDetail() {
               </S.ContentsInfoWrapper>
               <S.ContentsInfoWrapper>
                 <S.ContentsInfoIcon src="/icon/money.svg" />
-                <S.ContentsInfoTxt>약 700,000원</S.ContentsInfoTxt>
+                <S.ContentsInfoTxt>
+                  약 {data.estimatedPrice?.toLocaleString()}원
+                </S.ContentsInfoTxt>
               </S.ContentsInfoWrapper>
             </S.TripylerInfoWrapper>
           </S.MidTopRightWrapper>
@@ -291,11 +275,9 @@ export default function FindTripylerDetail() {
         <S.ContentsMidBtmWrapper>
           <S.MidBtmTitle>이런 여행 스타일인 분을 선호해요</S.MidBtmTitle>
           <S.MidBtmStyleWrapper>
-            {hashtag
-              .filter((el) => el)
-              .map((el) => (
-                <S.MidBtmStyle key={el}>#{el}</S.MidBtmStyle>
-              ))}
+            {hashtag.map((el) => (
+              <S.MidBtmStyle key={el.id}>#{el.name}</S.MidBtmStyle>
+            ))}
           </S.MidBtmStyleWrapper>
           <S.MidBtmTitle>이런 여행을 하고 싶어요</S.MidBtmTitle>
           <S.MidBtmBodyTxt>{data.content}</S.MidBtmBodyTxt>
@@ -322,30 +304,11 @@ export default function FindTripylerDetail() {
             <S.PostListTitle>동행 신청자</S.PostListTitle>
             <S.PostListCnt>{applyList.length}명</S.PostListCnt>
           </S.PostListTitleWrapper>
-          <S.ApplyList>
-            {isOpenApplyList
-              ? applyList.map((el) => (
-                  <S.ApplyItem key={el.applicantId}>
-                    <S.ApplyProfileWrapper>
-                      <S.UserImg
-                        src={el.profileUrl || "/icon/defaultProfile.png"}
-                      />
-                    </S.ApplyProfileWrapper>
-                    <S.ApplyID>{el.nickname}</S.ApplyID>
-                    <S.ViewApplyBtn
-                      onClick={() =>
-                        router.push(
-                          `/findTripyler/${tripylerId}/${el.applicantId}`
-                        )
-                      }
-                    >
-                      신청폼 보기
-                    </S.ViewApplyBtn>
-                  </S.ApplyItem>
-                ))
-              : applyList
-                  .filter((el, index) => index < 6)
-                  .map((el) => (
+
+          {applyList.length > 0 ? (
+            <S.ApplyList>
+              {isOpenApplyList
+                ? applyList.map((el) => (
                     <S.ApplyItem key={el.applicantId}>
                       <S.ApplyProfileWrapper>
                         <S.UserImg
@@ -363,8 +326,35 @@ export default function FindTripylerDetail() {
                         신청폼 보기
                       </S.ViewApplyBtn>
                     </S.ApplyItem>
-                  ))}
-          </S.ApplyList>
+                  ))
+                : applyList
+                    .filter((el, index) => index < 6)
+                    .map((el) => (
+                      <S.ApplyItem key={el.applicantId}>
+                        <S.ApplyProfileWrapper>
+                          <S.UserImg
+                            src={el.profileUrl || "/icon/defaultProfile.png"}
+                          />
+                        </S.ApplyProfileWrapper>
+                        <S.ApplyID>{el.nickname}</S.ApplyID>
+                        <S.ViewApplyBtn
+                          onClick={() =>
+                            router.push(
+                              `/findTripyler/${tripylerId}/${el.applicantId}`
+                            )
+                          }
+                        >
+                          신청폼 보기
+                        </S.ViewApplyBtn>
+                      </S.ApplyItem>
+                    ))}
+            </S.ApplyList>
+          ) : (
+            <S.NoCmtWrapper>
+              <S.NoCmtIcon src="/icon/noUser.png" />
+              <S.NoCmtTxt>신청자가 없어요</S.NoCmtTxt>
+            </S.NoCmtWrapper>
+          )}
           {applyList.length > 6 && (
             <S.MoreBtn onClick={onClickMoreApply}>
               <S.MoreBtnTxt>
@@ -394,10 +384,11 @@ export default function FindTripylerDetail() {
           </S.CmtListWrapper>
         ) : (
           <S.NoCmtWrapper>
-            <S.NoCmtIcon src="/icon/noCmt.png"/>
+            <S.NoCmtIcon src="/icon/noCmt.png" />
             <S.NoCmtTxt>첫 댓글을 작성해보세요</S.NoCmtTxt>
           </S.NoCmtWrapper>
         )}
+
         {commentData.length > cmtLen && (
           <S.MoreBtn onClick={onClickMoreCmt}>
             <S.MoreBtnTxt>댓글 더보기</S.MoreBtnTxt>

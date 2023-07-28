@@ -7,7 +7,7 @@ import axios from "axios";
 export default function FindTripylerApplyDetail() {
   const router = useRouter();
   const apiPath = "https://api.tripyle.xyz";
-  const { applyId } = router.query;
+  const { tripylerId, applyId } = router.query;
 
   const [isAccept, setIsAccept] = useState(false);
   const [data, setData] = useState({});
@@ -67,6 +67,7 @@ export default function FindTripylerApplyDetail() {
       .then((res) => {
         console.log(res);
         alert("전송이 완료되었습니다.");
+        router.push(`/findTripyler/${tripylerId}`);
       })
       .catch((err) => console.error(err));
     event.target.reset();

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
 
-// 필요한 매개변수: data, setData, setIsOpenModal, limitLen
+// 필수 props: data, setData, setIsOpenModal, limitLen(최대 제한 개수)
+// 선택 props: placeholder
 export default function StyleModal(props) {
   const apiPath = "https://api.tripyle.xyz";
   const [errorHashtag, setErrorHashtag] = useState("");
@@ -93,7 +94,9 @@ export default function StyleModal(props) {
         <ModalTitle>여행 스타일</ModalTitle>
         <ModalInputWrapper onSubmit={handleSearchHashtag}>
           <ModalInput
-            placeholder={`여행스타일 검색 (최대 ${props.limitLen}개)`}
+            placeholder={
+              `여행스타일 검색 (${props.placeholder || `최대 ${props.limitLen}개`})`
+            }
             name="search"
             autocomplete="off"
           ></ModalInput>
