@@ -72,13 +72,16 @@ export default function FindTripylerList(){
       console.log(findCardFilter);
       console.log(selectedNum, keyword);
       if(JSON.stringify(findCardFilter) !== '{}'){
-        console.log("실행되면 안 되는 애");
         setSelectedDestination(prevDestination => ({
           continent: {id: parseInt(findCardFilter.continentId), name: findCardFilter.continent.split("\"")[1]},
           country: {id: parseInt(findCardFilter.countryId), name: findCardFilter.country.split("\"")[1]},
           city: {id: parseInt(findCardFilter.cityId), name: findCardFilter.city.split("\"")[1]},
         }))
-        setTripDate([findCardFilter.startDate.split("\"")[1] || null, findCardFilter.endDate.split("\"")[1] || null])
+        if(findCardFilter.startDate.split("\"")[1] === "" && findCardFilter.endDate.split("\"")[1] === ""){
+          setTripDate([]);
+        }else{
+          setTripDate([findCardFilter.startDate.split("\"")[1] || null, findCardFilter.endDate.split("\"")[1] || null])
+        }
         setShowDestination({
           country: findCardFilter.country.split("\"")[1],
           city: findCardFilter.city.split("\"")[1]
@@ -86,7 +89,6 @@ export default function FindTripylerList(){
         setSelectedNum(parseInt(findCardFilter.num));
         setKeyword(findCardFilter.keyword.split("\"")[1]);
         setReady(true);
-        console.log("필터링 값 반영 완료");
       }
     }, [])
 

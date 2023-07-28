@@ -9,10 +9,9 @@ export default function TriplogReviewCard (props) {
             <ReviewCardImgWrapper>
                 {props.info.imageUrls.map((e, idx) => {
                     if(0 <= idx && idx < 3){
-                    return (<ReviewCardImg key={idx} src={e === null ? "/img/devaultImg.png" : e}></ReviewCardImg>)}
+                    return (<ReviewCardImg key={idx} src={e === null ? "/img/defaultImg.png" : e}></ReviewCardImg>)}
                 })}
 
-                    {/* <ReviewCardImg src={props.info.imageUrls}></ReviewCardImg> */}
             </ReviewCardImgWrapper>
             <ReviewCardContent>{props.info.tripylerTitle}</ReviewCardContent>
             <ReviewCardLine></ReviewCardLine>
@@ -67,6 +66,7 @@ const ReviewCardTitle = styled.div`
 const ReviewCardImgWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    height: 79px;
 `;
 
 const ReviewCardImg = styled.img`

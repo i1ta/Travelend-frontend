@@ -10,8 +10,11 @@ export default function TriplogFindcard (props) {
                 <TriplogFindDesWrapper>
                     <TriplogFindDesIcon src="/icon/location.png"></TriplogFindDesIcon>
                     <TriplogFindDes>{props.info.regionName}</TriplogFindDes>
+
                 </TriplogFindDesWrapper>
+                <ReviewImgWrapper>
                 <TriplogFindImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></TriplogFindImg>
+                </ReviewImgWrapper>
             </TriplogFindImgWrapper>
             <TriplogFindContentWrapper>
                 <TriplogFindContentTitle>{props.info.title}</TriplogFindContentTitle>
@@ -75,6 +78,11 @@ const TriplogFindDes = styled.div`
     color: #ffffff;
     font-size: 15px;
     font-weight: bold;
+`;
+
+const ReviewImgWrapper = styled.div`
+width: 170px;
+    height: 75px;
 `;
 
 const TriplogFindImg = styled.img`

@@ -8,7 +8,9 @@ export default function MyCollectionsFindCard (props) {
 
     return(
         <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/findTripyler/${props.data.tripylerId}`)}>
+          <ReviewImgWrapper>
             <ReviewImg src={props.data.imageUrl === null ? "/img/defaultImg.png" : props.data.imageUrl}></ReviewImg>
+            </ReviewImgWrapper>
             <ReviewCardHeader>
               <ReviewInfo>
                 <CountryWrapper>
@@ -64,11 +66,17 @@ const ReviewCard = styled.div`
   margin-bottom: 20px;
 `;
 
+const ReviewImgWrapper = styled.div`
+width: 266px;
+  height: 190px;
+`;
+
+
 const ReviewImg = styled.img`
   width: 266px;
   height: 190px;
   margin-bottom: 12px;
-  /* object-fit: cover; */
+  object-fit: cover;
 `;
 
 const ReviewCardHeader = styled.div`
