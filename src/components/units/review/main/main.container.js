@@ -44,13 +44,13 @@ export default function ReviewMain() {
       setPageNum([]);
       if(reviewList.length === 0){
     const requestData = {
-      "continentId": 1,
+      "continentId": 0,
       "endMonth": 12,
-      "keyWord": "리뷰",
-      "nationId": 6,
-      "regionId": 1,
+      "keyWord": "",
+      "nationId": 0,
+      "regionId": 0,
       "startMonth": 1,
-      "totalPeopleNum": 4,
+      "totalPeopleNum": 0,
     }
     console.log(requestData);
 
@@ -202,8 +202,14 @@ export default function ReviewMain() {
         console.log("실행ㅜㅜ");
         console.log(parseInt(reviewList.length / 5));
         
-        for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
-          setPageNum((prev) => [...prev, i]);
+        if(reviewList.length % 5 === 0){
+          for(let i = 0; i <= parseInt(reviewList.length / 5 - 1); i++){
+            setPageNum((prev) => [...prev, i]);
+          }
+        } else{
+          for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
+            setPageNum((prev) => [...prev, i]);
+          }
         }
         console.log(pageNum);
       }
