@@ -32,7 +32,7 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickDate = () => {
-    setIsOpenCalendar(prev => !prev);
+    setIsOpenCalendar((prev) => !prev);
   };
 
   const onClickPlace = () => {
@@ -192,14 +192,20 @@ export default function FindTripylerWrite(props) {
     event.preventDefault();
     const value = event.target.search.value;
     await axios
-      .get(`${apiPath}/user/username/check/${value}`)
+      .get(`${apiPath}/review/find-user?username=${value}`)
       .then((res) => {
         console.log(res);
-        if (res.data.data) {
-          if (withTripylerList.includes(value)) {
+        if (res.data.data > 0) {
+          if (withTripylerList.map((el) => el.nickname).includes(value)) {
             setErrTripyler("이미 포함된 아이디입니다.");
           } else {
-            setWithTripylerList((prev) => [...prev, value]);
+            setWithTripylerList((prev) => [
+              ...prev,
+              {
+                id: res.data.data,
+                nickname: value,
+              },
+            ]);
             setErrTripyler("");
           }
         } else {
@@ -221,7 +227,9 @@ export default function FindTripylerWrite(props) {
   };
 
   const handleDelID = (event) => {
-    setWithTripylerList(withTripylerList.filter((e) => e !== event.target.id));
+    setWithTripylerList(
+      withTripylerList.filter((e) => e.id !== parseInt(event.target.id))
+    );
   };
 
   // 작성완료 버튼
@@ -249,6 +257,7 @@ export default function FindTripylerWrite(props) {
         regionId: shownPlace.regionId,
         totalPeopleNum,
         // estimatedPrice,
+        // tripylerWithList: [...shownWithTripylerList.map((el) => el.id)],
       };
       console.log(requestData);
       const formData = new FormData();
@@ -432,7 +441,7 @@ export default function FindTripylerWrite(props) {
                   <S.InputTitle>함께하는 Trip’yler</S.InputTitle>
                   <S.MidInput style={{ gap: "16px" }}>
                     {shownWithTripylerList.map((e) => (
-                      <S.TripylerID key={e}>@{e}</S.TripylerID>
+                      <S.TripylerID key={e.id}>@{e.nickname}</S.TripylerID>
                     ))}
                   </S.MidInput>
                   <S.InputBtn onClick={onClickWithTripyler}>
@@ -599,8 +608,8 @@ export default function FindTripylerWrite(props) {
             <S.ModalHashtagError>{errTripyler}</S.ModalHashtagError>
             <S.ModalTripylerWrapper>
               {withTripylerList.map((el) => (
-                <S.ModalTripylerID onClick={handleDelID} key={el} id={el}>
-                  @{el}
+                <S.ModalTripylerID onClick={handleDelID} key={el.id} id={el.id}>
+                  @{el.nickname}
                 </S.ModalTripylerID>
               ))}
             </S.ModalTripylerWrapper>

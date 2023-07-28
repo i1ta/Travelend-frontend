@@ -149,10 +149,10 @@ export const SendMsgInput = styled.input`
 `;
 
 export const SendMsgBtn = styled.button`
-color: #000;
-text-align: center;
-font-size: 24px;
-font-weight: 700;
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const BtnWrapper = styled.div`
@@ -179,4 +179,13 @@ export const RejectBtn = styled.button`
 export const AcceptBtn = styled(RejectBtn)`
   background: #00b4d8;
   color: #fff;
+`;
+
+export const AfterBtn = styled(RejectBtn)`
+  padding: 20px 40px;
+  border: none;
+  background: #999;
+  opacity: 0.8;
+  color: #fff;
+  cursor: default;
 `;
