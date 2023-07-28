@@ -216,8 +216,10 @@ export default function TriplogDetail() {
             </S.WithTripylerWrapper>
             <S.TripylerInfoWrapper>
               <S.ContentsInfoWrapper>
-                <S.ContentsInfoIcon src="/icon/user.png" />
-                <S.ContentsInfoTxt>{data?.totalPeopleNum}인</S.ContentsInfoTxt>
+                <S.ContentsInfoIcon src="/icon/location.png" />
+                <S.ContentsInfoTxt>
+                  {data.nationName}, {data.regionName}
+                </S.ContentsInfoTxt>
               </S.ContentsInfoWrapper>
               <S.ContentsInfoWrapper>
                 <S.ContentsInfoIcon src="/icon/calendar.png" />
@@ -226,10 +228,8 @@ export default function TriplogDetail() {
                 </S.ContentsInfoTxt>
               </S.ContentsInfoWrapper>
               <S.ContentsInfoWrapper>
-                <S.ContentsInfoIcon src="/icon/money.svg" />
-                <S.ContentsInfoTxt>
-                  {data.nationName}, {data.regionName}
-                </S.ContentsInfoTxt>
+                <S.ContentsInfoIcon src="/icon/user.png" />
+                <S.ContentsInfoTxt>{data?.totalPeopleNum}인</S.ContentsInfoTxt>
               </S.ContentsInfoWrapper>
             </S.TripylerInfoWrapper>
           </S.MidTopRightWrapper>
@@ -296,12 +296,12 @@ export default function TriplogDetail() {
             />
             <S.BtmTxt>좋아요 {data?.likes}개</S.BtmTxt>
           </S.BtmLeftWrapper>
-          <S.ApplyBtn
+          {data.myReview && <S.ApplyBtn
             onClick={onClickEditBtn}
             style={data?.myReview ? {} : { visibility: "hidden" }}
           >
             수정하기
-          </S.ApplyBtn>
+          </S.ApplyBtn>}
         </S.ContentsBtmWrapper>
       </S.Contents>
 

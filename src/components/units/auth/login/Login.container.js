@@ -93,7 +93,6 @@ export default function LoginForm() {
               Sign In
             </S.Button>
           </S.CheckboxContainer>
-
         </S.Form>
       </S.Container>
     </>

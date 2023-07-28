@@ -22,13 +22,13 @@ export default function Profile() {
   const router = useRouter();
   console.log(router.query);
   useEffect(() => {
-    if(router.query.userId){
+    if (router.query.userId) {
       setSelectedCategory("NotMyProfile");
-    } else if(router.query.category == "message"){
+    } else if (router.query.category == "message") {
       setSelectedCategory("Messenger");
-    } else if(router.query.category == "myCollections"){
+    } else if (router.query.category == "myCollections") {
       setSelectedCategory("MyCollections");
-    } else{
+    } else {
       setSelectedCategory("MyProfile");
     }
   }, [router.query]);
@@ -85,7 +85,7 @@ export default function Profile() {
   const fetchMyProfile = async () => {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
-      
+
     await axios
       .get(apiPath + "/profile/my-profile")
       .then((response) => {
@@ -100,7 +100,7 @@ export default function Profile() {
   // 다른 유저 프로필 정보 가져오기
   useEffect(() => {
     const fetchProfile = async () => {
-      if(router.query.user === 'false'){
+      if (router.query.user === "false") {
         setSelectedCategory("NotMyProfile");
       }
       axios.defaults.headers.common["x-auth-token"] =
@@ -108,47 +108,64 @@ export default function Profile() {
 
       await axios
         .get(apiPath + `/profile/${userId}`)
-        .then((res) => {console.log(res); setNotMyProfileData(res.data.data)})
+        .then((res) => {
+          console.log(res);
+          setNotMyProfileData(res.data.data);
+        })
         .catch((err) => console.log(err));
-    }
+    };
 
     fetchProfile();
-  }, [userId])
-  
+  }, [userId]);
+
   // My Profile 수정 api
-  const modifyProfile = async (getInsta, getPhone, getMbtiIdx, getHashtag, getBio) => {
+  const modifyProfile = async (
+    getInsta,
+    getPhone,
+    getMbtiIdx,
+    getHashtag,
+    getBio
+  ) => {
     console.log(getInsta, getPhone, getMbtiIdx, getHashtag);
-    console.log(myProfileData.firstBio, myProfileData.secondBio, myProfileData.thirdBio);
+    console.log(
+      myProfileData.firstBio,
+      myProfileData.secondBio,
+      myProfileData.thirdBio
+    );
     console.log(getHashtag[0]?.id, getHashtag[1]?.id, getHashtag[2]?.id);
     console.log(getBio[0], getBio[1], getBio[2]);
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
-    if(selectedFile === "/icon/defaultProfile.png"){
+    if (selectedFile === "/icon/defaultProfile.png") {
       await onClickDelImg();
     } else {
       await onClickUploadImg();
     }
 
     await axios
-      .patch(apiPath + "/profile/my-profile/update", {
-        "firstBio": getBio[0] || '',
-        "firstTripStyleId": getHashtag[0]?.id || 0,
-        "instagram": getInsta,
-        "mbtiId": getMbtiIdx,
-        "phone": getPhone,
-        "secondBio": getBio[1] || '',
-        "secondTripStyleId": getHashtag[1]?.id || 0,
-        "thirdBio": getBio[2] || '',
-        "thirdTripStyleId": getHashtag[2]?.id || 0
-      }, { "Content-Type": "application/json" })
+      .patch(
+        apiPath + "/profile/my-profile/update",
+        {
+          firstBio: getBio[0] || "",
+          firstTripStyleId: getHashtag[0]?.id || 0,
+          instagram: getInsta,
+          mbtiId: getMbtiIdx,
+          phone: getPhone,
+          secondBio: getBio[1] || "",
+          secondTripStyleId: getHashtag[1]?.id || 0,
+          thirdBio: getBio[2] || "",
+          thirdTripStyleId: getHashtag[2]?.id || 0,
+        },
+        { "Content-Type": "application/json" }
+      )
       .then((response) => {
         console.log(response);
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
       })
       .catch((error) => console.error(error));
-  }
+  };
 
   useEffect(() => {
     axios.defaults.headers.common["x-auth-token"] =
@@ -193,7 +210,7 @@ export default function Profile() {
     console.log(event.target);
     event.preventDefault();
     handleSendMsg(event.target.message.value);
-    event.target.reset(); // 적용 안 됨
+    event.target.reset();
   };
 
   // 채팅방 내용 읽어오는 api
@@ -239,16 +256,18 @@ export default function Profile() {
 
   const handleModify = (value) => {
     setIsModify(value);
-  }
+  };
   // 프로필이미지 api
   const [isProfileModal, setIsProfileModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(myProfileData.profileUrl);
-  const [selectedUrl, setSelectedUrl] = useState(selectedFile); 
+  const [selectedUrl, setSelectedUrl] = useState(selectedFile);
   const [chnFile, setChnFile] = useState(selectedFile); // 모달창에서 보이는 이미지 url
 
   useEffect(() => {
-    if(selectedFile === ''){setSelectedFile(myProfileData.profileUrl)};
-  }, [myProfileData])
+    if (selectedFile === "") {
+      setSelectedFile(myProfileData.profileUrl);
+    }
+  }, [myProfileData]);
 
   const handleFileChange = (event) => {
     setChnFile(event.target.files[0]);
@@ -257,11 +276,11 @@ export default function Profile() {
     reader.readAsDataURL(event.target.files[0]);
     reader.onloadend = () => {
       setSelectedUrl(reader.result);
-    }
+    };
     setIsProfileModal(true);
   };
 
-  useEffect(() => {},[selectedFile]);
+  useEffect(() => {}, [selectedFile]);
   const onClickUploadImg = async () => {
     const formData = new FormData();
     formData.append("images", chnFile);
@@ -288,7 +307,7 @@ export default function Profile() {
 
   const handleCloseProfileModal = () => {
     setIsProfileModal(false);
-  }
+  };
 
   const [isModifyCheckModal, setIsModifyCheckModal] = useState(false);
   const handleSubmitProfileModal = async (e) => {
@@ -296,13 +315,13 @@ export default function Profile() {
     setSelectedFile(selectedUrl);
     setIsProfileModal(false);
     console.log(selectedFile);
-  }
+  };
 
   // My collection 리스트 가져오기
   const onOpenMyCollection = async () => {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
-      
+
     await axios
       .get(apiPath + "/my-collections/review-like-list")
       .then((res) => {
@@ -312,20 +331,20 @@ export default function Profile() {
       .catch((err) => console.log(err));
 
     await axios
-    .get(apiPath + "/my-collections/tripyler-like-list")
-    .then((res) => {
-      console.log(res);
-      setMyCollectionLikeData(res.data.data);
-    })
-    .catch((err) => console.log(err));
+      .get(apiPath + "/my-collections/tripyler-like-list")
+      .then((res) => {
+        console.log(res);
+        setMyCollectionLikeData(res.data.data);
+      })
+      .catch((err) => console.log(err));
 
     await axios
-    .get(apiPath + "/my-collections/tripyler-apply-list")
-    .then((res) => {
-      console.log(res);
-      setMyCollectionApplyData(res.data.data);
-    })
-    .catch((err) => console.log(err));
+      .get(apiPath + "/my-collections/tripyler-apply-list")
+      .then((res) => {
+        console.log(res);
+        setMyCollectionApplyData(res.data.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   // Triplog 리스트 가져오기
@@ -344,33 +363,33 @@ export default function Profile() {
       .catch((err) => console.log(err));
 
     await axios
-    .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
-    .then((res) => {
-      console.log(res);
-      setMyTripylersData(res.data.data);
-    })
-    .catch((err) => console.log(err));
-
+      .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
+      .then((res) => {
+        console.log(res);
+        setMyTripylersData(res.data.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <>
-    {isModify ?
-    router.query.userId ? (
-      <S.Container>
-        <S.SideNotBar>
-          
-          <S.ProfileImage data={notMyProfildData.profileUrl}>
-            <S.DefaultProfile
-              src={notMyProfildData.profileUrl || "/icon/defaultProfile.png"}
-              data={notMyProfildData.profileUrl}
-            />
-          </S.ProfileImage>
-          
-          <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
-          <S.ProfileLine></S.ProfileLine>
+      {isModify ? (
+        router.query.userId ? (
+          <S.Container>
+            <S.SideNotBar>
+              <S.ProfileImage data={notMyProfildData.profileUrl}>
+                <S.DefaultProfile
+                  src={
+                    notMyProfildData.profileUrl || "/icon/defaultProfile.png"
+                  }
+                  data={notMyProfildData.profileUrl}
+                />
+              </S.ProfileImage>
 
-          {/* <S.CategoryWrapper>
+              <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
+              <S.ProfileLine></S.ProfileLine>
+
+              {/* <S.CategoryWrapper>
             <S.Category
               id="NotMyProfile"
               onClick={onClickCategory}
@@ -380,158 +399,176 @@ export default function Profile() {
             </S.Category>
             
           </S.CategoryWrapper> */}
+            </S.SideNotBar>
+            {selectedCategory === "NotMyProfile" && (
+              <NotMyProfile data={notMyProfildData} />
+            )}
+          </S.Container>
+        ) : (
+          <S.Container>
+            <S.SideBar>
+              <S.ProfileImage data={selectedFile}>
+                <S.DefaultProfile
+                  src={selectedFile || "/icon/defaultProfile.png"}
+                  data={selectedFile}
+                />
+              </S.ProfileImage>
 
-        </S.SideNotBar>
-      {selectedCategory === "NotMyProfile" && <NotMyProfile
-        data={notMyProfildData}
-      />}
-      </S.Container>
-    ) : (<S.Container>
-        <S.SideBar>
-          
-          <S.ProfileImage data={selectedFile}>
-            <S.DefaultProfile
-              src={selectedFile || "/icon/defaultProfile.png"}
-              data={selectedFile}
-            />
-          </S.ProfileImage>
-          
-          <S.Name>{myProfileData.username} 님</S.Name>
+              <S.Name>{myProfileData.username} 님</S.Name>
 
-          <S.CategoryWrapper>
-            <S.Category
-              id="MyProfile"
-              onClick={onClickCategory}
-              selectedCategory={selectedCategory}
-            >
-              My Profile
-            </S.Category>
-            <S.Category
-              id="MyCollections"
-              onClick={onClickCategory}
-              selectedCategory={selectedCategory}
-            >
-              My Collections
-            </S.Category>
-            <S.Category
-              id="Triplog"
-              onClick={onClickCategory}
-              selectedCategory={selectedCategory}
-            >
-              Triplog
-            </S.Category>
-            <S.Category
-              id="Messenger"
-              onClick={onClickCategory}
-              selectedCategory={selectedCategory}
-            >
-              Messenger
-            </S.Category>
-          </S.CategoryWrapper>
-          <S.LogoutWrapper onClick={onClickLogout}>
-            <S.LogoutImg src="/icon/logout.png" />
-            <S.LogoutTxt>Logout</S.LogoutTxt>
-          </S.LogoutWrapper>
-        </S.SideBar>
-        {selectedCategory === "MyProfile" && <MyProfile 
-          data={myProfileData} 
-          modifyProfile={modifyProfile} 
-          fetchMyProfile={fetchMyProfile}
-          setModify={handleModify}
-        />}
-        {selectedCategory === "MyCollections" && <MyCollections 
-          reviewData={myCollectionReviewData}
-          likeData={myCollectionLikeData}
-          applyData={myCollectionApplyData}
-          onOpenMyCollection={onOpenMyCollection}
-        />}
-        {selectedCategory === "Triplog" && <Triplog 
-          TripylersData={myTripylersData}
-          reviewData={myReviewsData}
-          onOpenTriplog={onOpenTriplog}
-        />}
-        {selectedCategory === "Messenger" && (
-          <Messenger
-            msgListData={msgListData}
-            msgData={msgData}
-            onSubmitSendMsg={onSubmitSendMsg}
-            onClickMsgList={onClickMsgList}
-          />
-        )}
-      </S.Container>
-      )
-      :
-      (
+              <S.CategoryWrapper>
+                <S.Category
+                  id="MyProfile"
+                  onClick={onClickCategory}
+                  selectedCategory={selectedCategory}
+                >
+                  My Profile
+                </S.Category>
+                <S.Category
+                  id="MyCollections"
+                  onClick={onClickCategory}
+                  selectedCategory={selectedCategory}
+                >
+                  My Collections
+                </S.Category>
+                <S.Category
+                  id="Triplog"
+                  onClick={onClickCategory}
+                  selectedCategory={selectedCategory}
+                >
+                  Triplog
+                </S.Category>
+                <S.Category
+                  id="Messenger"
+                  onClick={onClickCategory}
+                  selectedCategory={selectedCategory}
+                >
+                  Messenger
+                </S.Category>
+              </S.CategoryWrapper>
+              <S.LogoutWrapper onClick={onClickLogout}>
+                <S.LogoutImg src="/icon/logout.png" />
+                <S.LogoutTxt>Logout</S.LogoutTxt>
+              </S.LogoutWrapper>
+            </S.SideBar>
+            {selectedCategory === "MyProfile" && (
+              <MyProfile
+                data={myProfileData}
+                modifyProfile={modifyProfile}
+                fetchMyProfile={fetchMyProfile}
+                setModify={handleModify}
+              />
+            )}
+            {selectedCategory === "MyCollections" && (
+              <MyCollections
+                reviewData={myCollectionReviewData}
+                likeData={myCollectionLikeData}
+                applyData={myCollectionApplyData}
+                onOpenMyCollection={onOpenMyCollection}
+              />
+            )}
+            {selectedCategory === "Triplog" && (
+              <Triplog
+                TripylersData={myTripylersData}
+                reviewData={myReviewsData}
+                onOpenTriplog={onOpenTriplog}
+              />
+            )}
+            {selectedCategory === "Messenger" && (
+              <Messenger
+                msgListData={msgListData}
+                msgData={msgData}
+                onSubmitSendMsg={onSubmitSendMsg}
+                onClickMsgList={onClickMsgList}
+              />
+            )}
+          </S.Container>
+        )
+      ) : (
         <S.Container>
-        <S.SideBar>
-          <S.ProfileImage data={selectedFile}>
-            <S.DefaultProfile
-              src={selectedFile || "/icon/defaultProfile.png"}
-              data={selectedFile}
+          <S.SideBar>
+            <S.ProfileImage data={selectedFile}>
+              <S.DefaultProfile
+                src={selectedFile || "/icon/defaultProfile.png"}
+                data={selectedFile}
+              />
+            </S.ProfileImage>
+
+            <S.Name>{myProfileData.username} 님</S.Name>
+
+            <S.profileFileBtn htmlFor="upload-input">
+              프로필 업로드
+            </S.profileFileBtn>
+            <input
+              id="upload-input"
+              type="file"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
             />
-          </S.ProfileImage>
+            {isProfileModal && (
+              <S.ModalOverlay>
+                <S.Modal>
+                  <S.ModalTitle>프로필</S.ModalTitle>
+                  <S.ModalMbtiWrapper>
+                    <S.ProfileImage data={selectedUrl}>
+                      <S.DefaultProfile
+                        src={selectedUrl || "/icon/defaultProfile.png"}
+                        data={selectedUrl}
+                      />
+                    </S.ProfileImage>
+                  </S.ModalMbtiWrapper>
+                  <S.ModalLine></S.ModalLine>
+                  <S.ModalProfileExplain>
+                    실제 화면에 표시되는 부분입니다.
+                  </S.ModalProfileExplain>
+                  <S.ModalBtnWrapper>
+                    <S.ModalCancelBtn onClick={handleCloseProfileModal}>
+                      취소
+                    </S.ModalCancelBtn>
+                    <S.ModalSubmitBtn
+                      onClick={(e) => handleSubmitProfileModal()}
+                    >
+                      등록
+                    </S.ModalSubmitBtn>
+                  </S.ModalBtnWrapper>
+                </S.Modal>
+              </S.ModalOverlay>
+            )}
 
-          <S.Name>{myProfileData.username} 님</S.Name>
-          
-          <S.profileFileBtn htmlFor="upload-input">프로필 업로드</S.profileFileBtn>
-          <input
-            id="upload-input"
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-          {isProfileModal && (
-            <S.ModalOverlay>
-              <S.Modal>
-                <S.ModalTitle>프로필</S.ModalTitle>
-                <S.ModalMbtiWrapper>
-                <S.ProfileImage data={selectedUrl}>
-                  <S.DefaultProfile
-                    src={selectedUrl || "/icon/defaultProfile.png"}
-                    data={selectedUrl}
-                  />
-                </S.ProfileImage>
-                </S.ModalMbtiWrapper>
-                <S.ModalLine></S.ModalLine>
-                <S.ModalProfileExplain>실제 화면에 표시되는 부분입니다.</S.ModalProfileExplain>
-                <S.ModalBtnWrapper>
-                  <S.ModalCancelBtn onClick={handleCloseProfileModal}>
-                    취소
-                  </S.ModalCancelBtn>
-                  <S.ModalSubmitBtn onClick={(e) => handleSubmitProfileModal()}>
-                    등록
-                  </S.ModalSubmitBtn>
-                </S.ModalBtnWrapper>
-              </S.Modal>
-            </S.ModalOverlay>
+            {isModifyCheckModal && (
+              <Modal
+                setIsModifyCheckModal={setIsModifyCheckModal}
+                onModifyProfile={handleSubmitProfileModal}
+              />
+            )}
+            <S.profileBtn
+              onClick={(e) => setSelectedFile("/icon/defaultProfile.png")}
+            >
+              기본 프로필로 변경
+            </S.profileBtn>
+          </S.SideBar>
+          {selectedCategory === "MyProfile" && (
+            <MyProfile
+              data={myProfileData}
+              isProfileModal={isModalOn}
+              selectedFile={selectedFile}
+              modifyProfile={modifyProfile}
+              fetchMyProfile={fetchMyProfile}
+              setModify={handleModify}
+            />
           )}
-
-          {isModifyCheckModal && (<Modal setIsModifyCheckModal={setIsModifyCheckModal} onModifyProfile={handleSubmitProfileModal}/>)}
-          <S.profileBtn onClick={(e) => setSelectedFile("/icon/defaultProfile.png")}>
-            기본 프로필로 변경
-          </S.profileBtn>
-        </S.SideBar>
-        {selectedCategory === "MyProfile" && <MyProfile 
-          data={myProfileData} 
-          isProfileModal={isModalOn}
-          selectedFile={selectedFile}
-          modifyProfile={modifyProfile} 
-          fetchMyProfile={fetchMyProfile} 
-          setModify={handleModify}
-        />}
-        {selectedCategory === "MyCollections" && <MyCollections />}
-        {selectedCategory === "Triplog" && <Triplog />}
-        {selectedCategory === "Messenger" && (
-          <Messenger
-            msgListData={msgListData}
-            msgData={msgData}
-            onSubmitSendMsg={onSubmitSendMsg}
-            onClickMsgList={onClickMsgList}
-          />
-        )}
-      </S.Container>
-      )
-    }
+          {selectedCategory === "MyCollections" && <MyCollections />}
+          {selectedCategory === "Triplog" && <Triplog />}
+          {selectedCategory === "Messenger" && (
+            <Messenger
+              msgListData={msgListData}
+              msgData={msgData}
+              onSubmitSendMsg={onSubmitSendMsg}
+              onClickMsgList={onClickMsgList}
+            />
+          )}
+        </S.Container>
+      )}
     </>
   );
 }
