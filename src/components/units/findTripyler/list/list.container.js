@@ -173,7 +173,7 @@ export default function FindTripylerList(){
           .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
           .then((res) => {
             console.log(res.data.data);   
-            setNewCardList(res.data.data);         
+            setCardList(res.data.data);         
           })
           .catch((error) => console.log(error));
         }
@@ -209,6 +209,7 @@ export default function FindTripylerList(){
         .then((res) => {
           console.log(res.data.data);
           setNewCardList(res.data.data);
+          setPage(1);
           // setFindCardFilter({});
         })
         .catch((error) => console.log(error));
@@ -287,35 +288,15 @@ export default function FindTripylerList(){
       });
     }
   
-    // // 달력
-    // const [isCalendar, setIsCalendar] = useState(false);
-    // const [date, setDate] = useState({
-    //   startDate: new Date(),
-    //   endDate: new Date(),
-    //   key: 'selection'
-    // });
-
+    // 달력
     const [isFirstCalendar, setIsFirstCalendar] = useState(false);
-  
-    // const formatDate = (fdate) => {
-    //   let month = '' + (fdate.getMonth() + 1);
-    //   let day = '' + fdate.getDate();
-    //   let year = fdate.getFullYear();
-  
-    //   if (month.length < 2) 
-    //       month = '0' + month;
-    //   if (day.length < 2) 
-    //       day = '0' + day;
-  
-    //   return [year, month, day].join('-');
-    // }
   
     // 페이지네이션
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
+
     useEffect(() => {
-      if(pageNum.length === 0){
-        console.log(parseInt(newCardList.length / 12));
+      if(pageNum.length === 0 && newCardList.length !== 0){
         for(let i = 0; i <= parseInt(newCardList.length / 12); i++){
           setPageNum((prev) => [...prev, i]);
         }
@@ -479,12 +460,6 @@ export default function FindTripylerList(){
           )}
         </S.Review>
       </S.ContentWrapper>
-
-      {/* <S.AdWrapper>
-        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
-      </S.AdWrapper>
-
-      <PreviewCard/> */}
     </>
   );
 }

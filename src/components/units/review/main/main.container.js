@@ -83,6 +83,7 @@ export default function ReviewMain() {
         .then((res) => {
           console.log(res.data.data);
           setReviewList(res.data.data);
+          setPage(1);
         })
         .catch((error) => console.log(error));
   
@@ -192,7 +193,7 @@ export default function ReviewMain() {
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
     useEffect(() => {
-      if(pageNum.length === 0){
+      if(pageNum.length === 0 && newCardList.length !== 0){
         console.log(parseInt(reviewList.length / 5));
         for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
           setPageNum((prev) => [...prev, i]);
