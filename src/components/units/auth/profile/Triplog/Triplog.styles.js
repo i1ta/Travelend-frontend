@@ -58,7 +58,6 @@ export const CollectionContentTitleLeftWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 
-
   height: 80px;
 `;
 
@@ -100,7 +99,7 @@ export const CollectionContentCategoryIcon = styled(CollectionContentIcon)`
 
 export const CollectionContentTitle = styled.div`
   height: 100%;
-  width: 235px;
+  width: 200px;
   color: #C8B6FF;
   justify-content: center;
   margin-top: 18px;

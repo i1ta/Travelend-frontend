@@ -38,8 +38,10 @@ export default function ReviewMain() {
 
     // 여행 후기 필터링
   const [reviewList, setReviewList] = useState([]);
+  const [newReviewList, setNewReviewList] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
+      setPageNum([]);
       if(reviewList.length === 0){
     const requestData = {
       "continentId": 1,
@@ -67,7 +69,7 @@ export default function ReviewMain() {
 
     const [option, setOption] = useState("1");
     const onClcickFilterFind = async () => {
-
+      setPageNum([]);
       const requestData = {
         "continentId": parseInt(selectedDestination.continent.id),
         "endMonth": parseInt(date.endMonth),
@@ -88,6 +90,13 @@ export default function ReviewMain() {
         .catch((error) => console.log(error));
   
     };
+
+    useEffect(() => {
+      if(reviewList.length !== 0){
+        console.log(reviewList);
+        setNewReviewList(reviewList);
+      }
+    }, [reviewList]);
 
     // useEffect(() => {
     //   onClcickFilterFind();
@@ -193,8 +202,11 @@ export default function ReviewMain() {
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
     useEffect(() => {
-      if(pageNum.length === 0 && newCardList.length !== 0){
+      console.log(pageNum, reviewList);
+      if(pageNum.length === 0 && reviewList.length !== 0){
+        console.log("실행ㅜㅜ");
         console.log(parseInt(reviewList.length / 5));
+        
         for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
           setPageNum((prev) => [...prev, i]);
         }
@@ -459,9 +471,11 @@ export default function ReviewMain() {
             </S.FindTripylerNoContent>
           ) : (
           <S.FindTripylerContent>
-            {reviewList.map((card) => (
+            {reviewList.map((card, idx) => {
+              if(parseInt(idx/5) === page - 1)
+              return(
               <ReviewCard id={card.tripylerId} info={card}/>
-            ))}
+            )})}
           </S.FindTripylerContent>
           )}
 
@@ -469,7 +483,7 @@ export default function ReviewMain() {
           <S.PageNationWrapper>
             <S.ArrowImg src="/icon/pageLeftArrow.png" onClick={(e) => setPage((prev) => prev - 1 < 1 ? 1 : prev - 1 )}></S.ArrowImg>
               {pageNum.map((i) => (<S.PageTxt onClick={(e) => setPage(i + 1)} selected={i + 1 === page}>{i + 1}</S.PageTxt>))}
-            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(newCardList.length / 5) + 1 ? parseInt(newCardList.length / 5) + 1 : prev + 1 )}></S.ArrowImg>
+            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(reviewList.length / 5) + 1 ? parseInt(reviewList.length / 5) + 1 : prev + 1 )}></S.ArrowImg>
           </S.PageNationWrapper>
           )}
 

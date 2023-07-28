@@ -68,14 +68,14 @@ const ReviewCard = styled.div`
 
 const ReviewImgWrapper = styled.div`
 width: 266px;
-  height: 190px;
+  height: 180px;
+  margin-bottom: 20px;
 `;
 
 
 const ReviewImg = styled.img`
   width: 266px;
-  height: 190px;
-  margin-bottom: 12px;
+  height: 180px;
   object-fit: cover;
 `;
 

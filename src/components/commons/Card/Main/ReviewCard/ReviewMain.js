@@ -64,7 +64,7 @@ export default function ReviewMain (props) {
                     <ReviewDetailTitle>
                         {props.info.title}
                     </ReviewDetailTitle>
-                    <ReviewDetailContent>{props.info.content}</ReviewDetailContent>
+                    <ReviewDetailContent>{props.info.content.length < 171 ? props.info.content : props.info.content.substring(0, 171) + "..."}</ReviewDetailContent>
                 </ReviewDetailWrapper>
                 <ReviewLongLine></ReviewLongLine>
                 <ReviewInfoWrapper>
