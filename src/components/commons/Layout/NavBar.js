@@ -269,8 +269,8 @@ const InfoMsg = styled.div`
   border-radius: 15px;
   background-color: #ffffff;
   position: absolute;
-  top: 120%;
-  left: -25%;
+  top: 110%;
+  left: 72%;
 
   display: flex;
   flex-direction: column;

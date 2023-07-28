@@ -237,8 +237,8 @@ export default function FindTripylerWrite(props) {
       const requestData = {
         title,
         content,
-        startDate: formatDate(tripDate.startDate),
-        endDate: formatDate(tripDate.endDate),
+        startDate: tripDate[0],
+        endDate: tripDate[1],
         firstTripStyleId: shownMyHashtag[0]?.id || 0,
         secondTripStyleId: shownMyHashtag[1]?.id || 0,
         thirdTripStyleId: shownMyHashtag[2]?.id || 0,
@@ -248,8 +248,9 @@ export default function FindTripylerWrite(props) {
         nationId: shownPlace.nationId,
         regionId: shownPlace.regionId,
         totalPeopleNum,
-        estimatedPrice,
+        // estimatedPrice,
       };
+      console.log(requestData);
       const formData = new FormData();
       formData.append(
         "tripylerCreateDto",
@@ -330,7 +331,7 @@ export default function FindTripylerWrite(props) {
       <S.TitleBanner>
         <S.TitleTxt>
           <S.Title>
-            Trip’yler 찾기 게시물 {props.isEdit ? "수정" : "찾기"}
+            Trip’yler 찾기 게시물 {props.isEdit ? "수정" : "작성"}
           </S.Title>
           <S.SubTitle>본인에게 가장 적합한 여행자를 찾아보세요</S.SubTitle>
         </S.TitleTxt>
