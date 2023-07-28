@@ -192,7 +192,7 @@ export default function FindTripylerDetail() {
       </S.ContentsLoc>
       <S.Contents>
         <S.ContentsImgWrapper>
-          <S.ContentsImg src={data.image} />
+          <S.ContentsImg src={data.image || "/img/defaultImg.png"} />
         </S.ContentsImgWrapper>
         <S.ContentsTopWrapper>
           <S.ContentsTitle>{data.title}</S.ContentsTitle>
