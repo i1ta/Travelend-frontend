@@ -429,7 +429,7 @@ export const EnrollBtn = styled.button`
   height: 73px;
   background: #c8b6ff;
   border-radius: 5px;
-  margin-left: 10px;
+  margin: 40px 0px 200px 10px;
 
   font-style: normal;
   font-weight: 700;

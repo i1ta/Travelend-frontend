@@ -128,7 +128,7 @@ export const CmbBox = styled.div`
   color: #000;
   font-size: 18px;
   font-weight: 500;
-  cursor: pointer;
+  cursor: ${(props) => (props.isEdit ? "default" : "pointer")};
   padding: 0px 20px 0px 30px;
 `;
 
@@ -145,10 +145,10 @@ export const CmbBoxArrow = styled.img`
 
 export const CmbBoxList = styled.div`
   width: 790px;
-  height: 153px;
+  height: 202px;
   position: absolute;
   top: 48px;
-  left: 0px;
+  left: 290px;
   z-index: 50;
   background-color: #fff;
   overflow-y: auto;
@@ -222,11 +222,8 @@ export const InfoBoxInput = styled.div`
   align-items: center;
 
   color: #666;
-  font-family: Inter;
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
 `;
 
 export const InfoBoxItem = styled.div`
@@ -237,6 +234,9 @@ export const InfoBoxItem = styled.div`
 
 export const WithTripProfileList = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 180px;
   height: 50px;
 `;
@@ -353,7 +353,7 @@ export const LongInput = styled.input`
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(255, 255, 255);
-  color: rgba(102, 102, 102, 0.8);
+  color: #333;
   font-size: 18px;
   font-weight: 500;
   padding: 25px 25px;
@@ -373,7 +373,7 @@ export const LongTextarea = styled.textarea`
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(255, 255, 255);
-  color: rgba(102, 102, 102, 0.8);
+  color: #333;
   font-size: 18px;
   font-weight: 500;
   padding: 21px 25px;
@@ -473,7 +473,7 @@ export const NoImgWrapper = styled.label`
   cursor: pointer;
 
   &:hover::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -484,7 +484,7 @@ export const NoImgWrapper = styled.label`
   }
 
   &:hover::after {
-    content: '+';
+    content: "+";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -537,5 +537,5 @@ export const SubmitBtn = styled(CancelBtn)`
 `;
 
 export const FormBtm = styled.div`
-  height: 2000px;
+  height: 2300px;
 `;

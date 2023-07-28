@@ -47,10 +47,6 @@ export default function FindTripylerWrite(props) {
     setIsOpenWithTripyler(true);
   };
 
-  const handleClosePlaceModal = () => {
-    setIsOpenPlaceModal(false);
-  };
-
   const onClickUpDownBtn = (event) => {
     if (event.target.id === "down") {
       if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
@@ -78,6 +74,13 @@ export default function FindTripylerWrite(props) {
         setShownWithTripylerList([
           ...data.tripylerWithList?.map((el) => el.nickname),
         ]);
+        setShownPlace({
+          continentId: data.continentId,
+          nationId: data.nationId,
+          nationName: data.nationName,
+          regionId: data.regionId,
+          regionName: data.regionName,
+        });
       })
       .catch((error) => console.error(error));
   };
@@ -89,6 +92,39 @@ export default function FindTripylerWrite(props) {
     props.isEdit && tripylerId && fetchData();
     console.log(data);
   }, [tripylerId]);
+
+  // 여행지역 검색
+  const [place, setPlace] = useState({});
+  const [shownPlace, setShownPlace] = useState({});
+  const [errPlace, setErrPlace] = useState("");
+  const onSubmitSearch = async (event) => {
+    event.preventDefault();
+    const value = event.target.search.value;
+    console.log(value);
+
+    await axios
+      .get(`${apiPath}/tripyler/search?regionName=${value}`)
+      .then((res) => {
+        console.log(res);
+        setPlace({ ...res.data.data });
+        setErrPlace("");
+      })
+      .catch((err) => {
+        console.error(err);
+        setErrPlace("서비스하지 않는 지역입니다.");
+      });
+    event.target.reset();
+  };
+
+  const handleClosePlaceModal = () => {
+    setPlace({ ...shownPlace });
+    setIsOpenPlaceModal(false);
+  };
+
+  const handleSubmitPlaceModat = () => {
+    setShownPlace({ ...place });
+    setIsOpenPlaceModal(false);
+  };
 
   // 달력
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
@@ -190,11 +226,12 @@ export default function FindTripylerWrite(props) {
   // 작성완료 버튼
   const onClickSubmitBtn = async () => {
     if (
+      shownPlace.nationId &&
       // tripDate.length !== 0 &&
+      totalPeopleNum &&
       shownMyHashtag.length === 5 &&
       title &&
-      content &&
-      totalPeopleNum
+      content
     ) {
       const requestData = {
         title,
@@ -206,9 +243,9 @@ export default function FindTripylerWrite(props) {
         thirdTripStyleId: shownMyHashtag[2]?.id || 0,
         fourthTripStyleId: shownMyHashtag[3]?.id || 0,
         fifthTripStyleId: shownMyHashtag[4]?.id || 0,
-        continentId: 1,
-        nationId: 1,
-        regionId: 20,
+        continentId: shownPlace.continentId,
+        nationId: shownPlace.nationId,
+        regionId: shownPlace.regionId,
         totalPeopleNum,
         estimatedPrice,
       };
@@ -228,7 +265,7 @@ export default function FindTripylerWrite(props) {
         })
         .then((res) => {
           console.log(res);
-          alert(res.data.data);
+          alert("게시물이 등록되었습니다");
           router.push("/findTripyler");
         })
         .catch((error) => console.error(error));
@@ -315,7 +352,11 @@ export default function FindTripylerWrite(props) {
               <S.StepInfoWrapper>
                 <S.InputInfoWrapper>
                   <S.InputTitle>여행지역</S.InputTitle>
-                  <S.MidInput></S.MidInput>
+                  <S.MidInput>
+                    {shownPlace.nationName
+                      ? `${shownPlace.nationName}, ${shownPlace.regionName}`
+                      : ""}
+                  </S.MidInput>
                   <S.InputBtn onClick={onClickPlace}>지역 선택</S.InputBtn>
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper>
@@ -497,9 +538,9 @@ export default function FindTripylerWrite(props) {
         <S.ModalOverlay>
           <S.Modal>
             <S.ModalTitle>여행 지역</S.ModalTitle>
-            <S.ModalInputWrapper>
+            <S.ModalInputWrapper onSubmit={onSubmitSearch}>
               <S.ModalInput
-                placeholder="여행지 검색"
+                placeholder="도시를 검색해주세요"
                 name="search"
                 autocomplete="off"
               ></S.ModalInput>
@@ -507,13 +548,19 @@ export default function FindTripylerWrite(props) {
                 <img src="/icon/search.png" />
               </S.ModalInputBtn>
             </S.ModalInputWrapper>
-            <S.ModalResult>프랑스, 파리</S.ModalResult>
-            {/* <S.ModalHashtagError></S.ModalHashtagError> */}
+            <S.ModalHashtagError>{errPlace}</S.ModalHashtagError>
+            <S.ModalResult>
+              {place.nationName
+                ? `${place.nationName}, ${place.regionName}`
+                : "나라, 도시"}
+            </S.ModalResult>
             <S.ModalBtnWrapper>
               <S.ModalCancelBtn onClick={handleClosePlaceModal}>
                 취소
               </S.ModalCancelBtn>
-              <S.ModalSubmitBtn>확인</S.ModalSubmitBtn>
+              <S.ModalSubmitBtn onClick={handleSubmitPlaceModat}>
+                확인
+              </S.ModalSubmitBtn>
             </S.ModalBtnWrapper>
           </S.Modal>
         </S.ModalOverlay>
