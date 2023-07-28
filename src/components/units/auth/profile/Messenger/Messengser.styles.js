@@ -141,8 +141,8 @@ export const ChatBubble = styled.div`
 `;
 
 export const ChatDate = styled.div`
-  
-  color: #000000;
+  margin: 10px 0;
+  color: #666666;
   text-align: center;
 `;
 export const ChatTime = styled.div`
@@ -150,7 +150,7 @@ export const ChatTime = styled.div`
   padding: 16px 25px;
   display: none;
   background-color: #ffffff;
-  color: #000000;
+  color: #666666;
   display: ${(props) => (props.show ? "block" : "none")};
 `;
 

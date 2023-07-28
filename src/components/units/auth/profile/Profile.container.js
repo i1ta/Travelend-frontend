@@ -373,46 +373,48 @@ export default function Profile() {
 
   return (
     <>
-      {isModify ? (
-        router.query.userId ? (
-          <S.Container>
-            <S.SideBar>
-              <S.ProfileImage data={notMyProfildData.profileUrl}>
-                <S.DefaultProfile
-                  src={
-                    notMyProfildData.profileUrl || "/icon/defaultProfile.png"
-                  }
-                  data={notMyProfildData.profileUrl}
-                />
-              </S.ProfileImage>
+    {isModify ?
+    router.query.userId ? (
+      <S.Container>
+        <S.SideNotBar>
+          
+          <S.ProfileImage data={notMyProfildData.profileUrl}>
+            <S.DefaultProfile
+              src={notMyProfildData.profileUrl || "/icon/defaultProfile.png"}
+              data={notMyProfildData.profileUrl}
+            />
+          </S.ProfileImage>
+          
+          <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
+          <S.ProfileLine></S.ProfileLine>
 
-              <S.Name>{notMyProfildData.username} 님</S.Name>
+          {/* <S.CategoryWrapper>
+            <S.Category
+              id="NotMyProfile"
+              onClick={onClickCategory}
+              selectedCategory={selectedCategory}
+            >
+              Profile
+            </S.Category>
+            
+          </S.CategoryWrapper> */}
 
-              <S.CategoryWrapper>
-                <S.Category
-                  id="NotMyProfile"
-                  onClick={onClickCategory}
-                  selectedCategory={selectedCategory}
-                >
-                  Profile
-                </S.Category>
-              </S.CategoryWrapper>
-            </S.SideBar>
-            {selectedCategory === "NotMyProfile" && (
-              <NotMyProfile data={notMyProfildData} />
-            )}
-          </S.Container>
-        ) : (
-          <S.Container>
-            <S.SideBar>
-              <S.ProfileImage data={selectedFile}>
-                <S.DefaultProfile
-                  src={selectedFile || "/icon/defaultProfile.png"}
-                  data={selectedFile}
-                />
-              </S.ProfileImage>
-
-              <S.Name>{myProfileData.username} 님</S.Name>
+        </S.SideNotBar>
+      {selectedCategory === "NotMyProfile" && <NotMyProfile
+        data={notMyProfildData}
+      />}
+      </S.Container>
+    ) : (<S.Container>
+        <S.SideBar>
+          
+          <S.ProfileImage data={selectedFile}>
+            <S.DefaultProfile
+              src={selectedFile || "/icon/defaultProfile.png"}
+              data={selectedFile}
+            />
+          </S.ProfileImage>
+          
+          <S.Name>{myProfileData.username} 님</S.Name>
 
               <S.CategoryWrapper>
                 <S.Category

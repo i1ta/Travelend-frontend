@@ -15,6 +15,7 @@ export default function Messenger(props) {
       if(nowChatRoomId !== 0 && scrollRef.current?.scrollHeight){
         // scrollRef.current?.scrollTo(0, scrollRef.current?.scrollHeight);
         scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+        // scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
       }
     }, [nowChatRoomId]);
 

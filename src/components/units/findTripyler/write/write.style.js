@@ -116,6 +116,54 @@ export const LongInputTitle = styled(InputTitle)`
   margin-top: 12px;
 `;
 
+export const InputResultWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const InputBar = styled.div`
+  width: 1300px;
+  height: 80px;
+  padding: 0px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  background: rgba(102, 210, 232, 0.56);
+  margin-bottom: 60px;
+`;
+
+
+export const InputResult = styled.div`
+  height: 50px;
+  width: 250px;
+  padding: 0px 50px;
+  background-color: rgba(217, 217, 217, 0.2);
+  border: 1px solid rgba(153, 153, 153, 0.5);
+  border-radius: 5px;
+  margin-right: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 18px;
+  font-weight: 700;
+`;
+
+export const InputLine = styled.div`
+  height: 2px;
+  width: 24px;
+  background-color: #666666;
+  margin-right: 45px;
+`;
+
+export const InputResultTxt = styled.div`
+  margin: 0px 15px 0px 50px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+`;
+
 export const MidInput = styled.div`
   width: 580px;
   height: 50px;
@@ -332,7 +380,6 @@ export const FormBtm = styled.div`
 `;
 
 export const CalendarWrapper = styled.div`
-  position: absolute;
   top: 60px;
   left: 130px;
 

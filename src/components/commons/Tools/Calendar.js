@@ -29,7 +29,7 @@ export default function CalendarTool(props) {
         onChange={handleDateChange}
         value={selectDate}
         selectRange={true}
-        minDate={new Date()}
+        minDate={props.restrict && new Date()}
         showNeighboringMonth={false}
         calendarType="US"
         formatDay={(locale, date) =>
@@ -43,7 +43,7 @@ export default function CalendarTool(props) {
 }
 
 const CalendarOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 101;
   top: 0;
   left: 0;
