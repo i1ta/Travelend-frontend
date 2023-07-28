@@ -38,19 +38,21 @@ export default function ReviewMain() {
 
   // 여행 후기 필터링
   const [reviewList, setReviewList] = useState([]);
+  const [newReviewList, setNewReviewList] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      if (reviewList.length === 0) {
-        const requestData = {
-          continentId: 1,
-          endMonth: 12,
-          keyWord: "리뷰",
-          nationId: 6,
-          regionId: 1,
-          startMonth: 1,
-          totalPeopleNum: 4,
-        };
-        console.log(requestData);
+      setPageNum([]);
+      if(reviewList.length === 0){
+    const requestData = {
+      "continentId": 0,
+      "endMonth": 12,
+      "keyWord": "",
+      "nationId": 0,
+      "regionId": 0,
+      "startMonth": 1,
+      "totalPeopleNum": 0,
+    }
+    console.log(requestData);
 
         await axios
           .post(`${apipath}/review/list?option=1`, requestData)
@@ -66,7 +68,7 @@ export default function ReviewMain() {
 
     const [option, setOption] = useState("1");
     const onClcickFilterFind = async () => {
-
+      setPageNum([]);
       const requestData = {
         "continentId": parseInt(selectedDestination.continent.id),
         "endMonth": parseInt(date.endMonth),
@@ -88,17 +90,25 @@ export default function ReviewMain() {
   
     };
 
-  // useEffect(() => {
-  //   onClcickFilterFind();
-  // }, [option]);
+    useEffect(() => {
+      if(reviewList.length !== 0){
+        console.log(reviewList);
+        setNewReviewList(reviewList);
+      }
+    }, [reviewList]);
 
-  // 여행지 선택
-  const [isCountry, setIsCountry] = useState(false);
-  const [destination, setDestination] = useState({
-    continent: [],
-    country: [],
-    city: [],
-  });
+    // useEffect(() => {
+    //   onClcickFilterFind();
+    // }, [option]);
+    
+    // 여행지 선택
+    const [isCountry, setIsCountry] = useState(false);
+    const [destination, setDestination] = useState({
+      continent: [],
+      country: [],
+      city: []
+    })
+
 
   const [showDestination, setShowDestination] = useState({
     country: "",
@@ -187,10 +197,19 @@ export default function ReviewMain() {
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
     useEffect(() => {
-      if(pageNum.length === 0 && newCardList.length !== 0){
+      console.log(pageNum, reviewList);
+      if(pageNum.length === 0 && reviewList.length !== 0){
+        console.log("실행ㅜㅜ");
         console.log(parseInt(reviewList.length / 5));
-        for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
-          setPageNum((prev) => [...prev, i]);
+        
+        if(reviewList.length % 5 === 0){
+          for(let i = 0; i <= parseInt(reviewList.length / 5 - 1); i++){
+            setPageNum((prev) => [...prev, i]);
+          }
+        } else{
+          for(let i = 0; i <= parseInt(reviewList.length / 5); i++){
+            setPageNum((prev) => [...prev, i]);
+          }
         }
         console.log(pageNum);
       }
@@ -472,40 +491,21 @@ export default function ReviewMain() {
               <S.NoContent>조건에 맞는 게시 글이 존재하지 않습니다</S.NoContent>
             </S.FindTripylerNoContent>
           ) : (
-            <S.FindTripylerContent>
-              {reviewList.map((card) => (
-                <ReviewCard id={card.tripylerId} info={card} />
-              ))}
-            </S.FindTripylerContent>
+          <S.FindTripylerContent>
+            {reviewList.map((card, idx) => {
+              if(parseInt(idx/5) === page - 1)
+              return(
+              <ReviewCard id={card.tripylerId} info={card}/>
+            )})}
+          </S.FindTripylerContent>
           )}
 
           {reviewList.length !== 0 && (
-            <S.PageNationWrapper>
-              <S.ArrowImg
-                src="/icon/pageLeftArrow.png"
-                onClick={(e) =>
-                  setPage((prev) => (prev - 1 < 1 ? 1 : prev - 1))
-                }
-              ></S.ArrowImg>
-              {pageNum.map((i) => (
-                <S.PageTxt
-                  onClick={(e) => setPage(i + 1)}
-                  selected={i + 1 === page}
-                >
-                  {i + 1}
-                </S.PageTxt>
-              ))}
-              <S.ArrowImg
-                src="/icon/pageRightArrow.png"
-                onClick={(e) =>
-                  setPage((prev) =>
-                    prev + 1 > parseInt(newCardList.length / 5) + 1
-                      ? parseInt(newCardList.length / 5) + 1
-                      : prev + 1
-                  )
-                }
-              ></S.ArrowImg>
-            </S.PageNationWrapper>
+          <S.PageNationWrapper>
+            <S.ArrowImg src="/icon/pageLeftArrow.png" onClick={(e) => setPage((prev) => prev - 1 < 1 ? 1 : prev - 1 )}></S.ArrowImg>
+              {pageNum.map((i) => (<S.PageTxt onClick={(e) => setPage(i + 1)} selected={i + 1 === page}>{i + 1}</S.PageTxt>))}
+            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(reviewList.length / 5) + 1 ? parseInt(reviewList.length / 5) + 1 : prev + 1 )}></S.ArrowImg>
+          </S.PageNationWrapper>
           )}
         </S.Review>
       </S.ContentWrapper>

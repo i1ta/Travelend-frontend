@@ -489,7 +489,7 @@ export default function MyProfile(props) {
               <S.Tc>Insta</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt><a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>@{props.data.instagram}</a></S.TdTxt>
+                  <S.TdTxt><a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>{props.data.instagram !== null && `@${props.data.instagram}`}</a></S.TdTxt>
                   {props.data.instagramPrivate === true ?
                   (<S.LockIcon id="instagram" src="/icon/lock.png" onClick={onOpenPrivate}></S.LockIcon>) :
                   (<S.LockIcon id="instagram" src="/icon/unlock.png" onClick={onClosePrivate}></S.LockIcon>)

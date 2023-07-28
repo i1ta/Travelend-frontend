@@ -120,13 +120,13 @@ export default function Main() {
   useEffect(() => {
     const fetchData = async () => {
     const requestData = {
-      "continentId": 1,
+      "continentId": 0,
       "endMonth": 12,
-      "keyWord": "리뷰",
-      "nationId": 6,
-      "regionId": 1,
+      "keyWord": "",
+      "nationId": 0,
+      "regionId": 0,
       "startMonth": 1,
-      "totalPeopleNum": 4,
+      "totalPeopleNum": 0,
     }
     console.log(requestData);
 

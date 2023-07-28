@@ -22,80 +22,71 @@ export default function ReviewMain(props) {
   const formatTime = () => {
     const today = new Date();
     const timeValue = new Date(props.info.regDateTime);
-    const betweenTime = Math.floor(
-      (today.getTime() - timeValue.getTime()) / 1000 / 60
-    );
-    if (betweenTime < 1) return "방금전";
-    if (betweenTime < 60) {
-      return `${betweenTime}분전`;
-    }
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        if (betweenTime < 1) return"방금전";
+        if (betweenTime < 60) {
+          return`${betweenTime}분전`;
+        }
 
-    const betweenTimeHour = Math.floor(betweenTime / 60);
-    if (betweenTimeHour < 24) {
-      return `${betweenTimeHour}시간전`;
-    }
+        const betweenTimeHour = Math.floor(betweenTime / 60);
+        if (betweenTimeHour < 24) {
+          return`${betweenTimeHour}시간전`;
+        }
 
-    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-    if (betweenTimeDay < 365) {
-      return `${betweenTimeDay}일전`;
-    }
+        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        if (betweenTimeDay < 365) {
+          return`${betweenTimeDay}일전`;
+        }
 
-    return `${Math.floor(betweenTimeDay / 365)}년전`;
+        return`${Math.floor(betweenTimeDay / 365)}년전`;
   };
-  const [timeFormat, setTimeFormat] = useState(
-    formatTime(props.info.regDateTime)
-  );
-
-  return (
-    <ReviewContents>
-      <ReviewCard onClick={checkLogin}>
-        <ReviewCardContentWrapper>
-          <ReviewCardDesWrapper>
-            <ReviewCardDes>
-              <ReviewCardDesIcon src="/icon/location.png"></ReviewCardDesIcon>
-              <ReviewCardNation>{props.info.nationName}</ReviewCardNation>
-              <ReviewCardRegion>·</ReviewCardRegion>
-              <ReviewCardRegion>{props.info.regionName}</ReviewCardRegion>
-            </ReviewCardDes>
-            <ReviewHashtagWrapper>
-              <ReviewHashtag>{props.info.hashtags[0]}</ReviewHashtag>
-              <ReviewHashtag>{props.info.hashtags[1]}</ReviewHashtag>
-              <ReviewHashtag>{props.info.hashtags[2]}</ReviewHashtag>
-            </ReviewHashtagWrapper>
-          </ReviewCardDesWrapper>
-          <ReviewLine></ReviewLine>
-          <ReviewDetailWrapper>
-            <ReviewDetailTitle>{props.info.title}</ReviewDetailTitle>
-            <ReviewDetailContent>{props.info.content}</ReviewDetailContent>
-          </ReviewDetailWrapper>
-          <ReviewLongLine></ReviewLongLine>
-          <ReviewInfoWrapper>
-            <ReviewInfoTime>{timeFormat}</ReviewInfoTime>
-            <ReviewInfoAdditionWrapper>
-              <ReviewInfoAdditionIcon src="/icon/heart.png"></ReviewInfoAdditionIcon>
-              <ReviewInfoAdditionTxt>{props.info.likes}</ReviewInfoAdditionTxt>
-              <ReviewInfoAdditionIcon src="/icon/comment.png"></ReviewInfoAdditionIcon>
-              <ReviewInfoAdditionTxt>
-                {props.info.comments}
-              </ReviewInfoAdditionTxt>
-
-              <ReviewInfoAdditionIcon src="/icon/view_gray.png"></ReviewInfoAdditionIcon>
-              <ReviewInfoAdditionTxt>{props.info.hits}</ReviewInfoAdditionTxt>
-            </ReviewInfoAdditionWrapper>
-          </ReviewInfoWrapper>
-        </ReviewCardContentWrapper>
-        <ReviewImgWrapper>
-          <ReviewCardImg
-            src={
-              props.info.image === null
-                ? "/img/defaultImg.png"
-                : props.info.image
-            }
-          ></ReviewCardImg>
-        </ReviewImgWrapper>
-      </ReviewCard>
-    </ReviewContents>
-  );
+  const [timeFormat, setTimeFormat] = useState(formatTime(props.info.regDateTime));
+  
+    return (
+        <ReviewContents>
+            <ReviewCard onClick={checkLogin}>
+              <ReviewCardContentWrapper>
+                <ReviewCardDesWrapper>
+                    <ReviewCardDes>
+                        <ReviewCardDesIcon src="/icon/location.png"></ReviewCardDesIcon>
+                        <ReviewCardNation>{props.info.nationName}</ReviewCardNation>
+                        <ReviewCardRegion>·</ReviewCardRegion>
+                        <ReviewCardRegion>{props.info.regionName}</ReviewCardRegion>
+                    </ReviewCardDes>
+                    <ReviewHashtagWrapper>
+                        <ReviewHashtag>{props.info.hashtags[0]}</ReviewHashtag>
+                        <ReviewHashtag>{props.info.hashtags[1]}</ReviewHashtag>
+                        <ReviewHashtag>{props.info.hashtags[2]}</ReviewHashtag>
+                    </ReviewHashtagWrapper>
+                </ReviewCardDesWrapper>
+                <ReviewLine></ReviewLine>
+                <ReviewDetailWrapper>
+                    <ReviewDetailTitle>
+                        {props.info.title}
+                    </ReviewDetailTitle>
+                    <ReviewDetailContent>{props.info.content.length < 171 ? props.info.content : props.info.content.substring(0, 171) + "..."}</ReviewDetailContent>
+                </ReviewDetailWrapper>
+                <ReviewLongLine></ReviewLongLine>
+                <ReviewInfoWrapper>
+                    <ReviewInfoTime>{timeFormat}</ReviewInfoTime>
+                    <ReviewInfoAdditionWrapper>
+                        <ReviewInfoAdditionIcon src="/icon/heart.png"></ReviewInfoAdditionIcon>
+                        <ReviewInfoAdditionTxt>{props.info.likes}</ReviewInfoAdditionTxt>
+                        <ReviewInfoAdditionIcon src="/icon/comment.png"></ReviewInfoAdditionIcon>
+                        <ReviewInfoAdditionTxt>{props.info.comments}</ReviewInfoAdditionTxt>
+                        
+                        <ReviewInfoAdditionIcon src="/icon/view_gray.png"></ReviewInfoAdditionIcon>
+                        <ReviewInfoAdditionTxt>{props.info.hits}</ReviewInfoAdditionTxt>
+                    </ReviewInfoAdditionWrapper>
+                </ReviewInfoWrapper>
+              </ReviewCardContentWrapper>
+              <ReviewImgWrapper>
+                <ReviewCardImg src={props.info.image === null ? "/img/defaultImg.png" : props.info.image}></ReviewCardImg>
+              </ReviewImgWrapper>
+            </ReviewCard>
+          </ReviewContents>
+    );
+    
 }
 
 const ReviewContents = styled.div`

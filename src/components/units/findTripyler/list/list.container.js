@@ -40,11 +40,6 @@ export default function FindTripylerList(){
     })
 
     const [isCalendar, setIsCalendar] = useState(false);
-    // const [date, setDate] = useState({
-    //   startDate: new Date(),
-    //   endDate: new Date(),
-    //   key: 'selection'
-    // });
     const [tripDate, setTripDate] = useState([]);
 
     const [selectedNum, setSelectedNum] = useState(1);
@@ -427,7 +422,7 @@ export default function FindTripylerList(){
             </S.FindTripylerTitle>
             <S.FindTripylerFilterOne onChange={(e) => {setIsRecruiting(e.target.value)}}>
                 <S.FindTripylerOptionOne value="1">모집 중</S.FindTripylerOptionOne>
-                <S.FindTripylerOptionOne value="2">마감</S.FindTripylerOptionOne>
+                <S.FindTripylerOptionOne value="0">마감</S.FindTripylerOptionOne>
             </S.FindTripylerFilterOne>
             <S.FindTripylerFilterTwo onChange={(e) => {setOption(e.target.value); onClcickFilterFind();}}>
                 <option value="1">최신 순</option>
