@@ -31,9 +31,10 @@ const OAuthKaKao = () => {
               .then((response2) => {
                 console.log(response2.data);
                 if (response2.status === 200) {
-                  localStorage.setItem('login-token', response2.data.data.accessToken);
-                  localStorage.setItem('nickname', response2.data.data.nickname);
+                  setIsLoggedIn(response2.data.data.accessToken);
                   setNickname(response2.data.data.nickname);
+                  // localStorage.setItem('login-token', response2.data.data.accessToken);
+                  // localStorage.setItem('nickname', response2.data.data.nickname);
                   if (response2.data.data.needsAdditionalSignUp === true){
                     router.push('/auth/join/signup');
                   }
