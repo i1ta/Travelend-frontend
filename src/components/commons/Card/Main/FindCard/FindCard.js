@@ -66,47 +66,50 @@ export default function FindCard (props) {
                   <ReviewIcon src="/icon/location.png"></ReviewIcon>
                   <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
                 </CountryWrapper>
-                <ReviewCity>{props.info.regionName}</ReviewCity>
+                  <ReviewCity> · {props.info.regionName}</ReviewCity>
+                
               </ReviewInfo>
-              <ReviewInfo>
+              
+            </ReviewCardHeader>
+            
+            <ReviewUserWrapper>
+              <ReviewUser>
+                <ReviewInfoUserWrapper>
+                  <ReviewUserImg src={props.info.profileUrl}></ReviewUserImg>
+                  <ReviewUserInfoWrapper>
+                    <ReviewUsername>{props.info.nickname}</ReviewUsername>
+                    <ReviewAge>{parseInt(age / 10) * 10 < 10 ? "아동" : `${parseInt(age / 10) * 10}대`} {parseInt(age / 10) * 10 >= 10 && ageCategory} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
+                  </ReviewUserInfoWrapper>
+                </ReviewInfoUserWrapper>
+                <ReviewInfoCol>
                 <ReviewInfoWrapper>
                   <ReviewIcon src="/icon/user.png"></ReviewIcon>
-                  <ReviewInfoTxt>{props.info.totalPeopleNum - props.info.recruitPeopleNum - 1}인 모집 중 / 총 {props.info.totalPeopleNum}인</ReviewInfoTxt>
+                  <ReviewSmallTxt>{props.info.totalPeopleNum - props.info.recruitPeopleNum - 1}인 모집 중 / 총 {props.info.totalPeopleNum}인</ReviewSmallTxt>
                 </ReviewInfoWrapper>
                 <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
                   <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
                   <ReviewDateTxt>
-                    <ReviewInfoTxt>{props.info.startDate.substring(2).replace("-", ".")}</ReviewInfoTxt>
+                    <ReviewSmallTxt>{props.info.startDate.substring(2).replace("-", ".")}</ReviewSmallTxt>
                     <ReviewDateLine></ReviewDateLine>
-                    <ReviewInfoTxt>{props.info.endDate.substring(2).replace("-", ".")}</ReviewInfoTxt>
+                    <ReviewSmallTxt>{props.info.endDate.substring(2).replace("-", ".")}</ReviewSmallTxt>
                   </ReviewDateTxt>
                 </ReviewInfoWrapper>
-              </ReviewInfo>
-            </ReviewCardHeader>
-            <ReviewUserWrapper>
-              <ReviewUser>
-                <ReviewUserImg src={props.info.profileUrl}></ReviewUserImg>
-                <ReviewUserInfoWrapper>
-                  <ReviewUsername>{props.info.nickname}</ReviewUsername>
-                  <ReviewAge>{parseInt(age / 10) * 10 < 10 ? "아동" : `${parseInt(age / 10) * 10}대`} {parseInt(age / 10) * 10 >= 10 && ageCategory} {props.info.gender === "M" ? "남성" : "여성"}</ReviewAge>
-                </ReviewUserInfoWrapper>
+              </ReviewInfoCol>
               </ReviewUser>
-              <ReviewHashTagWrapper>
-                {props.info.hashtag.map((element, idx) => {
-                  if(0 <= idx && idx < 2){
-                  return(
-                  <ReviewHashTag>#{element}</ReviewHashTag>
-                )}})}
-            </ReviewHashTagWrapper>
+              
             </ReviewUserWrapper>
             <ReviewLine></ReviewLine>
             <ReviewCardContents>
               <ReviewCardContentsTitle>
-                {props.info.title}
+                {props.info.title.length < 20 ? props.info.title : props.info.title.substring(0, 21) + "..."}
               </ReviewCardContentsTitle>
-              <ReviewCardContentsContent>
-                {props.info.content} ...
-              </ReviewCardContentsContent>
+              <ReviewHashTagWrapper>
+                {props.info.hashtag.map((element, idx) => {
+                  if(0 <= idx && idx < 4){
+                  return(
+                  <ReviewHashTag>#{element}</ReviewHashTag>
+                )}})}
+            </ReviewHashTagWrapper>
             </ReviewCardContents>
             <ReviewCardFooter>
               <ReviewReactWrapper>
@@ -162,13 +165,20 @@ const ReviewCardHeader = styled.div`
 
 const ReviewInfo = styled.div`
   display: flex;
+  flex-direction: row;
+  width: 300px;
+`;
+
+const ReviewInfoCol = styled.div`
+  display: flex;
   flex-direction: column;
-  width: 102px;
+  margin-left: 50px;
 `;
 
 const CountryWrapper = styled.div`
   display: flex;
   align-items: center;
+
 `;
 
 const ReviewIcon = styled.img`
@@ -179,22 +189,25 @@ const ReviewIcon = styled.img`
 
 const ReviewInfoTxt = styled.div`
   font-weight: 300;
-  font-size: 10px;
+  font-size: 18px;
   line-height: 1;
   color: #666666;
 `;
 
+const ReviewSmallTxt = styled(ReviewInfoTxt)`
+  font-size: 10px;
+`;
+
 const ReviewCity = styled.div`
-  margin-top: 7px;
   font-weight: 500;
   font-size: 18px;
   line-height: 1;
   color: #000000;
+  margin-left: 10px;
 `;
 
 const ReviewInfoWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin: 3px 0;
 `;
@@ -213,17 +226,26 @@ const ReviewDateLine = styled.div`
 
 const ReviewUserWrapper = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 0 3px;
-  margin-bottom: 5px;
-  width: 310px;
+  margin: 0 3px 5px 3px;
+  width: 335px;
 `;
 
 const ReviewUser = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 10px;
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 335px;
+`;
+
+const ReviewInfoUserWrapper = styled.div`
+display: flex;
+flex-direction: row;
 `;
 
 const ReviewUserImg = styled.img`
@@ -252,19 +274,23 @@ const ReviewAge = styled.div`
 const ReviewHashTagWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin: 0 auto;
   margin-bottom: 8px;
+
 `;
 
 const ReviewHashTag = styled.button`
-  height: 20px;
-  padding: 0px 8px;
+  height: 25px;
+  padding: 3px 12px;
   margin-right: 8px;
+  margin-top: 5px;
   background: #00b4d8;
   border-radius: 30px;
 
   font-weight: 500;
   font-size: 10px;
   color: #ffffff;
+  white-space: nowrap;
 `;
 
 const ReviewLine = styled.div`
@@ -277,7 +303,7 @@ const ReviewLine = styled.div`
 
 const ReviewCardContents = styled.div`
   width: 295px;
-  height: 90px;
+  height: 80px;
 
   font-weight: 400;
   font-size: 12px;
