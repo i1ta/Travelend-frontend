@@ -43,7 +43,7 @@ export default function TriplogDetail() {
       .get(`${apiPath}/review/${reviewId}`)
       .then((res) => {
         const data = res.data.data;
-        console.log(res);
+
         setData({ ...data });
         setHashtag([
           data.hashtag1,
@@ -61,7 +61,6 @@ export default function TriplogDetail() {
     axios
       .get(`${apiPath}/review/${reviewId}/comment/list`)
       .then((res) => {
-        console.log(res);
         setCommentData([...res.data.data]);
       })
       .catch((error) => console.error(error));
@@ -93,7 +92,6 @@ export default function TriplogDetail() {
         reviewId,
       })
       .then((res) => {
-        console.log(res);
         fetchData();
       })
       .catch((error) => console.error(error));

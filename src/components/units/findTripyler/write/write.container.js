@@ -25,7 +25,6 @@ export default function FindTripylerWrite(props) {
 
   const onClickMoreBtn = (event) => {
     const stepNum = event.currentTarget.id;
-    console.log(event);
     if (stepNum === "1") setIsOpenStep1((prev) => !prev);
     if (stepNum === "2") setIsOpenStep2((prev) => !prev);
     if (stepNum === "3") setIsOpenStep3((prev) => !prev);
@@ -58,7 +57,6 @@ export default function FindTripylerWrite(props) {
       .get(`${apiPath}/tripyler/${tripylerId}`)
       .then((res) => {
         const data = res.data.data;
-        console.log(res);
         setData({ ...data });
         setShownMyHashtag([...data.hashtagList]);
         // setTripDate({
@@ -91,7 +89,6 @@ export default function FindTripylerWrite(props) {
       window.localStorage.getItem("login-token");
 
     props.isEdit && tripylerId && fetchData();
-    console.log(data);
   }, [tripylerId]);
 
   // 여행지역 검색
@@ -101,12 +98,10 @@ export default function FindTripylerWrite(props) {
   const onSubmitSearch = async (event) => {
     event.preventDefault();
     const value = event.target.search.value;
-    console.log(value);
 
     await axios
       .get(`${apiPath}/tripyler/search?regionName=${value}`)
       .then((res) => {
-        console.log(res);
         setPlace({ ...res.data.data });
         setErrPlace("");
       })
@@ -180,11 +175,8 @@ export default function FindTripylerWrite(props) {
   };
 
   const onClickCancelBtn = () => {
-    alert("취소");
-    console.log(title, content, totalPeopleNum, estimatedPrice);
-    console.log(tripDate)
-    console.log(shownMyHashtag)
-    console.log(shownPlace)
+    alert("취소되었습니다.");
+
   };
 
   // 아이디 검색
@@ -198,7 +190,6 @@ export default function FindTripylerWrite(props) {
     await axios
       .get(`${apiPath}/review/find-user?username=${value}`)
       .then((res) => {
-        console.log(res);
         if (res.data.data > 0) {
           if (withTripylerList.map((el) => el.nickname).includes(value)) {
             setErrTripyler("이미 포함된 아이디입니다.");
@@ -263,7 +254,6 @@ export default function FindTripylerWrite(props) {
         estimatedPrice,
         tripylerWithList: [...shownWithTripylerList.map((el) => el.nickname)],
       };
-      console.log(requestData);
       const formData = new FormData();
       formData.append(
         "tripylerCreateDto",
@@ -279,7 +269,6 @@ export default function FindTripylerWrite(props) {
           },
         })
         .then((res) => {
-          console.log(res);
           alert("게시물이 등록되었습니다");
           router.push("/findTripyler");
         })
@@ -331,7 +320,6 @@ export default function FindTripylerWrite(props) {
           },
         })
         .then((res) => {
-          console.log(res);
           alert(res.data.data);
           router.push(`/findTripyler/${tripylerId}`);
         })

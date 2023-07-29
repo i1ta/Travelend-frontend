@@ -52,13 +52,11 @@ export default function ReviewMain() {
       "startMonth": 1,
       "totalPeopleNum": 0,
     }
-    console.log(requestData);
 
         await axios
           .post(`${apipath}/review/list?option=1`, requestData)
           .then((res) => {
             setReviewList(res.data.data);
-            console.log(res.data.data);
           })
           .catch((error) => console.log(error));
       }
@@ -82,7 +80,6 @@ export default function ReviewMain() {
       await axios
         .post(`${apipath}/review/list?option=${parseInt(option || 1)}`, requestData)
         .then((res) => {
-          console.log(res.data.data);
           setReviewList(res.data.data);
           setPage(1);
         })
@@ -92,13 +89,11 @@ export default function ReviewMain() {
 
     useEffect(() => {
       if(reviewList.length !== 0){
-        console.log(reviewList);
         setNewReviewList(reviewList);
       }
     }, [reviewList]);
 
     useEffect(() => {
-      console.log(option);
       if(option !== ""){
         onClcickFilterFind();
       }
@@ -123,21 +118,20 @@ export default function ReviewMain() {
       setIsCountry(false);
     } else {
       setIsCountry(true);
-      console.log(selectedDestination);
       if (selectedDestination.city.name !== "") {
-        console.log(selectedDestination);
+
         return;
       }
     }
 
     await axios.get(apipath + "/destination/continent").then((res) => {
-      console.log(res);
+
       setDestination((prevDestination) => ({
         continent: res.data.data,
         country: [],
         city: [],
       }));
-      console.log(destination);
+
     });
   };
 
@@ -150,13 +144,11 @@ export default function ReviewMain() {
     axios
       .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
       .then((res) => {
-        console.log(res);
         setDestination((prevDestination) => ({
           ...prevDestination,
           country: res.data.data,
           city: [],
         }));
-        console.log(destination);
       });
   };
 
@@ -169,12 +161,10 @@ export default function ReviewMain() {
     axios
       .get(`${apipath}/destination/region?nationId=${e.target.id}`)
       .then((res) => {
-        console.log(res);
         setDestination((prevDestination) => ({
           ...prevDestination,
           city: res.data.data,
         }));
-        console.log(destination);
       });
   };
 
@@ -200,10 +190,8 @@ export default function ReviewMain() {
     const [page, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
     useEffect(() => {
-      console.log(pageNum, reviewList);
       if(pageNum.length === 0 && reviewList.length !== 0){
-        console.log("실행ㅜㅜ");
-        console.log(parseInt(reviewList.length / 5));
+
         
         if(reviewList.length % 5 === 0){
           for(let i = 0; i <= parseInt(reviewList.length / 5 - 1); i++){
@@ -214,7 +202,6 @@ export default function ReviewMain() {
             setPageNum((prev) => [...prev, i]);
           }
         }
-        console.log(pageNum);
       }
     }, [reviewList]);
 
@@ -495,7 +482,9 @@ export default function ReviewMain() {
             </S.FindTripylerNoContent>
           ) : (
           <S.FindTripylerContent>
-            {reviewList.map((card, idx) => {
+            {reviewList
+              .map((card, idx) => {
+                console.log(card)
               if(parseInt(idx/5) === page - 1)
               return(
               <ReviewCard id={card.tripylerId} info={card}/>

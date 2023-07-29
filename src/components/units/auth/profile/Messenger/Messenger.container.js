@@ -10,8 +10,7 @@ export default function Messenger(props) {
 
     useEffect(() => {
       // scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
-      console.log(scrollRef.current?.scrollHeight);
-      console.log("스크롤 렌더링");
+
       if(nowChatRoomId !== 0 && scrollRef.current?.scrollHeight){
         // scrollRef.current?.scrollTo(0, scrollRef.current?.scrollHeight);
         scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;

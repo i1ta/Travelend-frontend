@@ -22,7 +22,6 @@ export default function FindTripylerApplyDetail() {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
-    console.log(applyId);
     applyId && fetchData();
   }, [applyId]);
 
@@ -30,7 +29,6 @@ export default function FindTripylerApplyDetail() {
     await axios
       .get(`${apiPath}/tripyler/apply/${applyId}`)
       .then((res) => {
-        console.log(res);
         setData({ ...res.data.data });
       })
       .catch((err) => console.error(err));
@@ -40,7 +38,6 @@ export default function FindTripylerApplyDetail() {
     await axios
       .get(`${apiPath}/tripyler/apply/refuse/${applyId}`)
       .then((res) => {
-        console.log(res);
         alert("거절");
         router.push(`/findTripyler/${tripylerId}`);
       })
@@ -51,7 +48,6 @@ export default function FindTripylerApplyDetail() {
     await axios
       .get(`${apiPath}/tripyler/apply/accept/${applyId}`)
       .then((res) => {
-        console.log(res);
         alert("수락");
         setIsAccept(true);
       })
@@ -66,7 +62,6 @@ export default function FindTripylerApplyDetail() {
         recipientId: data.applicantId,
       })
       .then((res) => {
-        console.log(res);
         alert("전송이 완료되었습니다.");
         router.push(`/findTripyler/${tripylerId}`);
       })

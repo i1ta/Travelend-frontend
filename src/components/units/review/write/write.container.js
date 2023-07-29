@@ -22,7 +22,6 @@ export default function TriplogWrite(props) {
   // 더보기 버튼
   const onClickMoreBtn = (event) => {
     const stepNum = event.currentTarget.id;
-    console.log(event);
     if (stepNum === "1") setIsOpenStep1((prev) => !prev);
     if (stepNum === "2") setIsOpenStep2((prev) => !prev);
     if (stepNum === "3") setIsOpenStep3((prev) => !prev);
@@ -33,7 +32,6 @@ export default function TriplogWrite(props) {
     await axios
       .get(`${apiPath}/review/${reviewId}`)
       .then((res) => {
-        console.log(res);
         const data = res.data.data;
         setTitle(data.reviewTitle);
         setContent(data.reviewContent);
@@ -64,7 +62,6 @@ export default function TriplogWrite(props) {
     await axios
       .get(`${apiPath}/my-collections/my-all-tripylers`)
       .then((res) => {
-        console.log(res);
         setTripList([...res.data.data]);
       })
       .catch((err) => console.error(err));
@@ -123,7 +120,6 @@ export default function TriplogWrite(props) {
   // 작성완료, 취소 Btn
   const onClickCancelBtn = () => {
     alert("취소");
-    console.log(selectedInfo, title, content, oneLine);
   };
 
   const onClickSubmitBtn = async () => {
@@ -138,7 +134,6 @@ export default function TriplogWrite(props) {
       await axios
         .post(apiPath + "/review", requestData)
         .then((res) => {
-          console.log(res);
 
           if (selectedImageList.length > 0) {
             selectedImageList.forEach(async (el, idx) => {
@@ -151,7 +146,6 @@ export default function TriplogWrite(props) {
                   formData
                 )
                 .then((res) => {
-                  console.log(res);
                   if (idx === selectedImageList.length - 1) {
                     alert("후기가 등록되었습니다.");
                     router.push("/review");
@@ -197,7 +191,6 @@ export default function TriplogWrite(props) {
           },
         })
         .then((res) => {
-          console.log(res);
           // alert(res.data.data);
           alert("작성이 완료되었습니다.");
           // router.push("/review");

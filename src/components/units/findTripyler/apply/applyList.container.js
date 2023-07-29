@@ -13,7 +13,6 @@ export default function FindTripylerApplyList() {
     await axios
       .get(apiPath + "/tripyler/apply")
       .then((res) => {
-        console.log(res);
         setApplyList([...res.data.data]);
       })
       .catch((err) => console.error(err));
