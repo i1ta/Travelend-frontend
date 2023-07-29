@@ -52,6 +52,8 @@ export default function Review (props) {
                 <ReviewIconLike>
                   <ReviewInfoIconWrapper><ReviewIcon src="icon/heart.png"></ReviewIcon>{props.info.likes}</ReviewInfoIconWrapper>
                   <ReviewInfoIconWrapper><ReviewIcon src="icon/comment.png"></ReviewIcon>{props.info.comments}</ReviewInfoIconWrapper>
+                  <ReviewInfoIconWrapper><ReviewIcon src="/icon/view_gray.png"></ReviewIcon>{props.info.hits}</ReviewInfoIconWrapper>
+                        
                 </ReviewIconLike>
               </ReviewInfoWrapper>
             </ReviewCard>

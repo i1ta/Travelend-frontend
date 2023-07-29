@@ -70,13 +70,13 @@ export default function NotMyProfile(props) {
               <S.Tc>이름</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.namePrivate ? lock : props.data.name}</S.TdTxt>
+                  <S.TdTxt>{props.data.name === null ? "비공개" : props.data.name}</S.TdTxt>
                 </S.TdWrapper>
               </S.Td>
               <S.Tc>MBTI</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.mbtiPrivate ? lock : props.data.mbti}</S.TdTxt>
+                  <S.TdTxt>{props.data.mbti === null ? "비공개" : props.data.mbti}</S.TdTxt>
                   
                 </S.TdWrapper>
               </S.Td>
@@ -93,7 +93,7 @@ export default function NotMyProfile(props) {
                 <S.TdWrapper>
                   <S.TdTxt>
                     <a href="https://www.instagram.com/" style={{'font-weight': 'bold'}}>
-                        {props.data.instagramPrivate ? lock : `${props.data.instagram}`}
+                        {props.data.instagram === null ? "비공개" : `${props.data.instagram}`}
                     </a>
                   </S.TdTxt>
                   
@@ -120,7 +120,7 @@ export default function NotMyProfile(props) {
               <S.Tc>연락처</S.Tc>
               <S.Td>
                 <S.TdWrapper>
-                  <S.TdTxt>{props.data.phonePrivate ? lock : formatPhone(props.data.phone)}</S.TdTxt>
+                  <S.TdTxt>{props.data.phone === null ? "비공개" : formatPhone(props.data.phone)}</S.TdTxt>
                 </S.TdWrapper>
               </S.Td>
             </tr>
