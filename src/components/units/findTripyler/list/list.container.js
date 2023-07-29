@@ -64,8 +64,6 @@ export default function FindTripylerList(){
 
     // 필터링 값이 존재할 시 셋팅
     useEffect(() => {
-      console.log(findCardFilter);
-      console.log(selectedNum, keyword);
       if(JSON.stringify(findCardFilter) !== '{}'){
         setSelectedDestination(prevDestination => ({
           continent: {id: parseInt(findCardFilter.continentId), name: findCardFilter.continent.split("\"")[1]},
@@ -73,10 +71,8 @@ export default function FindTripylerList(){
           city: {id: parseInt(findCardFilter.cityId), name: findCardFilter.city.split("\"")[1]},
         }))
         if(findCardFilter.startDate.split("\"")[1] === "" && findCardFilter.endDate.split("\"")[1] === ""){
-          console.log("1번");
           setTripDate([]);
         }else{
-          console.log("2번");
           setTripDate([findCardFilter.startDate.split("\"")[1] || null, findCardFilter.endDate.split("\"")[1] || null])
         }
         setShowDestination({
@@ -94,36 +90,28 @@ export default function FindTripylerList(){
     useEffect(() => {
       const fetchData = async () => {
         if(ready){
-        console.log(findCardFilter);
-        console.log(selectedDestination.city.name);
+
         if (JSON.stringify(findCardFilter) !== '{}' && findCardFilter.city !== "") {
-          console.log("대륙, 나라, 도시 렌더링 후 필터링 값으로 api");
           try {
             const res1 = await axios.get(apipath + '/destination/continent');
-            console.log(res1);
             setDestination(prevDestination => ({
               continent: res1.data.data,
               country: [],
               city: []
             }));
-            console.log(destination);
     
             const res2 = await axios.get(`${apipath}/destination/nation?continentId=${selectedDestination.continent.id}`);
-            console.log(res2);
             setDestination(prevDestination => ({
               ...prevDestination,
               country: res2.data.data,
               city: []
             }));
-            console.log(destination);
     
             const res3 = await axios.get(`${apipath}/destination/region?nationId=${selectedDestination.country.id}`);
-            console.log(res3);
             setDestination(prevDestination => ({
               ...prevDestination,
               city: res3.data.data,
             }));
-            console.log(destination);
           } catch (error) {
             console.log(error);
           }
@@ -137,12 +125,10 @@ export default function FindTripylerList(){
             "startDate": tripDate[0],
             "totalPeopleNum": parseInt(selectedNum),
           }
-          console.log(requestData);
       
           await axios
             .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
             .then((res) => {
-              console.log(res.data.data);    
               setCardList(res.data.data);   
               setPage(1);
             setPageNum([]);  
@@ -175,12 +161,10 @@ export default function FindTripylerList(){
         "startDate": tripDate[0],
         "totalPeopleNum": parseInt(selectedNum),
       }
-      console.log(requestData);
   
       await axios
         .post(`${apipath}/tripyler/list?isRecruiting=${parseInt(isRecruiting || 1)}&option=${parseInt(option || 1)}`, requestData)
         .then((res) => {
-          console.log(res.data.data);
           setNewCardList(res.data.data);
           setPage(1);
           setPageNum([]);
@@ -191,14 +175,12 @@ export default function FindTripylerList(){
     };
 
     useEffect(() => {
-      console.log(isRecruiting);
       if(isRecruiting !== ""){
         onClcickFilterFind();
       }
     }, [isRecruiting]);
 
     useEffect(() => {
-      console.log(option);
       if(option !== ""){
         onClcickFilterFind();
       }
@@ -210,22 +192,18 @@ export default function FindTripylerList(){
         setIsCountry(false);
       } else {
         setIsCountry(true);
-        console.log(selectedDestination);
         if(selectedDestination.city.name !== ""){
-          console.log(selectedDestination);
           return;
         }
 
         axios
           .get(apipath + '/destination/continent')
           .then((res) => {
-            console.log(res);
             setDestination(prevDestination => ({
               continent: res.data.data,
               country: [],
               city: []
             }))
-          console.log(destination);
         });
       }
     }
@@ -240,13 +218,11 @@ export default function FindTripylerList(){
       axios
         .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
         .then((res) => {
-          console.log(res);
           setDestination(prevDestination => ({
             ...prevDestination,
             country: res.data.data,
             city: []
           }))
-        console.log(destination);
       });
     }
   
@@ -259,12 +235,10 @@ export default function FindTripylerList(){
       axios
         .get(`${apipath}/destination/region?nationId=${e.target.id}`)
         .then((res) => {
-          console.log(res);
           setDestination(prevDestination => ({
             ...prevDestination,
             city: res.data.data,
           }))
-        console.log(destination);
       });
     }
   
@@ -280,7 +254,6 @@ export default function FindTripylerList(){
         for(let i = 0; i <= parseInt(newCardList.length / 12); i++){
           setPageNum((prev) => [...prev, i]);
         }
-        console.log(pageNum);
       }
     }, [newCardList]);
     return(
@@ -315,12 +288,10 @@ export default function FindTripylerList(){
                             ...prev,
                             city: {id: e.target.id ,name: e.target.innerText}
                           }));
-                          console.log(selectedDestination);
                           setShowDestination(prev => ({
                             country: selectedDestination.country.name,
                             city: e.target.innerText
                           }))
-                          console.log(showDestination)
                         }}
                         selected={selectedDestination.city.name === des.name}
                         >{des.name}</S.ContinentContent>

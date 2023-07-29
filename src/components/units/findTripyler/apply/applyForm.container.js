@@ -54,7 +54,6 @@ export default function FindTripylerApply() {
           tripylerId,
         })
         .then((res) => {
-          console.log(res);
           alert("신청이 완료되었습니다.");
           router.push(`/findTripyler/${tripylerId}`);
         })

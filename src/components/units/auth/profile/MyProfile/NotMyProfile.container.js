@@ -5,7 +5,6 @@ import Modal from "../../../../commons/Modal/Modal";
 import axios from "axios";
 
 export default function NotMyProfile(props) {
-    console.log(props);
     const lock = "비공개";
   const formatPhone = (phoneNum) => {
     const regex = /^(\d{3})(\d{4})(\d{4})$/;

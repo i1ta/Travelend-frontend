@@ -20,7 +20,6 @@ export default function Profile() {
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
-  console.log(router.query);
   useEffect(() => {
     if (router.query.userId) {
       setSelectedCategory("NotMyProfile");
@@ -89,10 +88,8 @@ export default function Profile() {
     await axios
       .get(apiPath + "/profile/my-profile")
       .then((response) => {
-        console.log(response);
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
-        console.log(responseData);
       })
       .catch((error) => console.error(error));
   };
@@ -109,7 +106,6 @@ export default function Profile() {
       await axios
         .get(apiPath + `/profile/${userId}`)
         .then((res) => {
-          console.log(res);
           setNotMyProfileData(res.data.data);
         })
         .catch((err) => console.log(err));
@@ -126,14 +122,7 @@ export default function Profile() {
     getHashtag,
     getBio
   ) => {
-    console.log(getInsta, getPhone, getMbtiIdx, getHashtag);
-    console.log(
-      myProfileData.firstBio,
-      myProfileData.secondBio,
-      myProfileData.thirdBio
-    );
-    console.log(getHashtag[0]?.id, getHashtag[1]?.id, getHashtag[2]?.id);
-    console.log(getBio[0], getBio[1], getBio[2]);
+
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
@@ -160,7 +149,6 @@ export default function Profile() {
         { "Content-Type": "application/json" }
       )
       .then((response) => {
-        console.log(response);
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
       })
@@ -183,7 +171,6 @@ export default function Profile() {
         .catch((error) => console.error(error));
     };
     if (selectedCategory === "Messenger") fetchMsgList();
-    console.log(msgData);
 
     return () => {};
   }, [selectedCategory]);
@@ -196,7 +183,6 @@ export default function Profile() {
         recipientId: msgData.recipientId,
       })
       .then(async (response) => {
-        console.log(response);
         const result = await fetchMsgContents(msgData.chatRoomId);
         setMsgData((prev) => ({
           ...prev,
@@ -207,7 +193,6 @@ export default function Profile() {
   };
 
   const onSubmitSendMsg = (event) => {
-    console.log(event.target);
     event.preventDefault();
     handleSendMsg(event.target.message.value);
     event.target.reset();
@@ -237,7 +222,6 @@ export default function Profile() {
     } catch (error) {
       console.error(error);
     }
-    console.log(msgData);
   };
 
   // 로그아웃 버튼
@@ -288,7 +272,6 @@ export default function Profile() {
     await axios
       .post(apiPath + "/profile/profile-picture", formData)
       .then((response) => {
-        console.log(response);
         fetchMyProfile();
         setSelectedFile(selectedUrl);
       })
@@ -299,7 +282,6 @@ export default function Profile() {
     await axios
       .delete(apiPath + "/profile/profile-picture")
       .then((response) => {
-        console.log(response);
         fetchMyProfile();
       })
       .catch((error) => console.error(error));
@@ -314,7 +296,6 @@ export default function Profile() {
     // setIsModifyCheckModal(true);
     setSelectedFile(selectedUrl);
     setIsProfileModal(false);
-    console.log(selectedFile);
   };
 
   // My collection 리스트 가져오기
@@ -325,7 +306,6 @@ export default function Profile() {
     await axios
       .get(apiPath + "/my-collections/review-like-list")
       .then((res) => {
-        console.log(res);
         setMyCollectionReviewData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -333,7 +313,6 @@ export default function Profile() {
     await axios
       .get(apiPath + "/my-collections/tripyler-like-list")
       .then((res) => {
-        console.log(res);
         setMyCollectionLikeData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -341,7 +320,6 @@ export default function Profile() {
     await axios
       .get(apiPath + "/my-collections/tripyler-apply-list")
       .then((res) => {
-        console.log(res);
         setMyCollectionApplyData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -349,7 +327,6 @@ export default function Profile() {
 
   // Triplog 리스트 가져오기
   const onOpenTriplog = async (e) => {
-    console.log(e);
 
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
@@ -357,7 +334,6 @@ export default function Profile() {
     await axios
       .get(apiPath + `/my-collections/my-reviews?year=${e}`)
       .then((res) => {
-        console.log(res);
         setMyReviewsData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -365,7 +341,6 @@ export default function Profile() {
     await axios
       .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
       .then((res) => {
-        console.log(res);
         setMyTripylersData(res.data.data);
       })
       .catch((err) => console.log(err));

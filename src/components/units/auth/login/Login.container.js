@@ -39,13 +39,11 @@ export default function LoginForm() {
           username: data.username,
         };
 
-        console.log(requestData);
         const response = await axios.post(
           "https://api.tripyle.xyz/user/login",
           requestData,
           { "Content-Type": "application/json; charset=utf-8" }
         );
-        console.log(response);
         if (response.status === 200 && response.data.data.accessToken) {
           localStorage.setItem("login-token", response.data.data.accessToken);
           setIsLoggedIn(true);

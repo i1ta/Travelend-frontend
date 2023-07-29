@@ -40,7 +40,7 @@ export default function MyProfile(props) {
       await axios
       .get(apiPath + "/profile/mbti")
       .then( async (response) => {
-        console.log(response);
+
         setMbtiList(response.data.data);
       })
       .catch((error) => {
@@ -104,7 +104,6 @@ export default function MyProfile(props) {
   const apiPath = "https://api.tripyle.xyz";
 
   useEffect(() => {
-    console.log(isModify);
   }, [isModify]);
 
   useEffect(() => {
@@ -119,13 +118,11 @@ export default function MyProfile(props) {
     await axios
       .get(apiPath + "/profile/mbti")
       .then( async (response) => {
-        console.log(response);
         setMbtiList(response.data.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    console.log(mbtiList);
     setModalOpen(true);
   };
 
@@ -136,15 +133,11 @@ export default function MyProfile(props) {
   const handleSubmitModal = (e) => {
     setMbti(e.target.innerText);
 
-    console.log(e.target.innerText);
     for(let i = 0; i < 16; i++){
-      console.log(mbtiList[i]);
       if(mbtiList[i].name == e.target.innerText){
         setMbtiIdx(mbtiList[i].id);
-        console.log(mbtiList[i].id);
       }
     }
-    console.log(e.target.innerText);
     handleCloseModal();
   };
 
@@ -159,7 +152,6 @@ export default function MyProfile(props) {
       }
       
       const bioList = [firstBio, secondBio, thirdBio];
-      console.log(instagram);
       await props.modifyProfile(instagram, phone, idx, myHashtag, bioList);
       await props.fetchMyProfile();
       props.setModify(true);
@@ -192,7 +184,6 @@ export default function MyProfile(props) {
           "phone": phone
         })
         .then((response) => {
-          console.log(response);
           if(response.data.code === 200){
             setAuthAnswer(response.data.data);
           }
@@ -222,7 +213,6 @@ export default function MyProfile(props) {
     await axios
       .post(apiPath + `/profile/${e.target.id}-private`)
       .then((res) => {
-        console.log(res);
         location.reload(); // 새로고침
       });
   }
@@ -234,7 +224,6 @@ export default function MyProfile(props) {
     await axios
       .post(apiPath + `/profile/${e.target.id}-private`)
       .then((res) => {
-        console.log(res);
         location.reload(); // 새로고침
       });
   }

@@ -72,7 +72,6 @@ export default function FindTripylerDetail() {
   };
 
   const checkApplyUser = async (e) => {
-    console.log(e.target.id);
     router.push({
       pathname: "/auth/profile",
       query: { userId: parseInt(e.target.id) },
@@ -84,7 +83,6 @@ export default function FindTripylerDetail() {
     await axios
       .get(apiPath + "/tripyler/apply")
       .then((res) => {
-        console.log(res);
         const { [tripylerId]: selectedValue } = res.data.data;
         setApplyList([...selectedValue]);
       })
@@ -92,7 +90,6 @@ export default function FindTripylerDetail() {
   };
 
   const onClickMoreApply = () => {
-    console.log(applyList);
     setIsOpenApplyList((prev) => !prev);
   };
 
@@ -105,7 +102,6 @@ export default function FindTripylerDetail() {
       .get(`${apiPath}/tripyler/${tripylerId}`)
       .then((res) => {
         const data = res.data.data;
-        console.log(res);
         setData({ ...data });
         setHashtag([...data.hashtagList]);
       })
@@ -117,7 +113,6 @@ export default function FindTripylerDetail() {
     axios
       .get(`${apiPath}/tripyler/${tripylerId}/comment/list`)
       .then((res) => {
-        console.log(res);
         setCommentData([...res.data.data]);
       })
       .catch((error) => console.error(error));
@@ -139,7 +134,6 @@ export default function FindTripylerDetail() {
         fetchComment();
       })
       .catch((err) => console.error(err));
-    console.log(event.target.comment.value);
     event.target.reset();
   };
 
@@ -150,7 +144,6 @@ export default function FindTripylerDetail() {
         tripylerId,
       })
       .then((res) => {
-        console.log(res);
         fetchData();
       })
       .catch((error) => console.error(error));

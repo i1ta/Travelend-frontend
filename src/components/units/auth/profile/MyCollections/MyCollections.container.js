@@ -19,13 +19,10 @@ export default function MyCollections(props) {
 
   useEffect(() => {
     if(props.likeData){
-      console.log(props.likeData);
     }
     if(props.reviewData){
-      console.log(props.reviewData);
     }
     if(props.applyData){
-      console.log(props.applyData);
     }
   }, [props])
   return (

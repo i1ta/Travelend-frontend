@@ -47,7 +47,6 @@ export default function Main() {
         try {
           const res = await axios.post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData);
           setResponse(res.data.data);
-          console.log(res.data.data);
         } catch (error) {
           console.log(error);
         }
@@ -69,13 +68,11 @@ export default function Main() {
       "startDate": tripDate[0],
       "totalPeopleNum": parseInt(selectedNum),
     }
-    console.log(requestData);
 
     await axios
       .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
       .then((res) => {
         const arr = res.data.data;
-        console.log(res.data.data);
         setFindCardList(res.data.data);
         // setFindCardList((prev) => [...prev, ...arr]);
         
@@ -128,13 +125,11 @@ export default function Main() {
       "startMonth": 1,
       "totalPeopleNum": 0,
     }
-    console.log(requestData);
 
     await axios
       .post(`${apipath}/review/list?option=4`, requestData)
       .then((res) => {
         setReviewList(res.data.data);
-        console.log(res.data.data);
       })
       .catch((error) => console.log(error));
 
@@ -167,19 +162,16 @@ export default function Main() {
     } else {
       setIsCountry(true);
       if(selectedDestination.city.name !== ""){
-        console.log(destination);
         return;
       }
       axios
         .get(apipath + '/destination/continent')
         .then((res) => {
-          console.log(res);
           setDestination(prevDestination => ({
             continent: res.data.data,
             country: [],
             city: []
           }))
-        console.log(destination);
       });
     }
   }
@@ -193,13 +185,11 @@ export default function Main() {
     axios
       .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
       .then((res) => {
-        console.log(res);
         setDestination(prevDestination => ({
           ...prevDestination,
           country: res.data.data,
           city: []
         }))
-      console.log(destination);
     });
   }
 
@@ -212,12 +202,10 @@ export default function Main() {
     axios
       .get(`${apipath}/destination/region?nationId=${e.target.id}`)
       .then((res) => {
-        console.log(res);
         setDestination(prevDestination => ({
           ...prevDestination,
           city: res.data.data,
         }))
-      console.log(destination);
     });
   }
 
