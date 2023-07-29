@@ -131,7 +131,7 @@ export default function Main() {
     console.log(requestData);
 
     await axios
-      .post(`${apipath}/review/list?option=1`, requestData)
+      .post(`${apipath}/review/list?option=4`, requestData)
       .then((res) => {
         setReviewList(res.data.data);
         console.log(res.data.data);

@@ -93,10 +93,10 @@ export default function NavBar(props) {
                 onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
           <PageList>
-            <Item onClick={() => router.push("/addition/introduce")}>Trip'yler 소개</Item>
+            <Item onClick={() => router.push("/")}>Trip'yler 소개</Item>
             <Item onClick={() => {router.push("/findTripyler"); setFindCardFilter({});}}>Trip'yler 찾기</Item>
             <Item onClick={() => router.push("/review")}>여행 후기</Item>
-            <Item onClick={() => router.push("/addition/contact")}>Contact</Item>
+            <Item onClick={() => router.push("/")}>Contact</Item>
           </PageList>
 
           {!loginState ? (
