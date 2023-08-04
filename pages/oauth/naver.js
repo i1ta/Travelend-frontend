@@ -9,7 +9,6 @@ import { LoginState } from '@/States/LoginState';
 
 const OAuthNaver = () => {
   const router = useRouter();
-  console.log(router.query);
   const code = router.query.code;
 
   const setIsLoggedIn = useSetRecoilState(LoginState);
