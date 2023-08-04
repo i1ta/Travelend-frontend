@@ -13,7 +13,6 @@ export default function Signup() {
     const [gender, setGender] = useState("");
 
     const onSubmitForm  = async (data) => {
-      console.log("회원가입 버튼 눌렀음");
   
       // if (!email.includes("@") || !email.includes(".com")) {
       //   setErrorEmail("이메일을 확인해주세요");
@@ -22,7 +21,6 @@ export default function Signup() {
   
       // signup api 요청
       try {
-        console.log(data);
         const {
           name,
           email,
@@ -43,7 +41,6 @@ export default function Signup() {
         .post("https://api.tripyle.xyz/user/signup/kakao", 
         requestData,
         {"content-type": "application/json"})
-        console.log(response)
         if(response.status === 200){
           router.push('/main');
         }
@@ -103,7 +100,7 @@ export default function Signup() {
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"W"}
+                value={"F"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel>여자</S.SpanLabel>

@@ -1,20 +1,224 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./Main.styles";
 import { useRecoilState } from "recoil";
 import { LoginState } from '@/States/LoginState';
+import { FindCardList } from "@/States/LoginState";
+import {FindCardFilter} from "@/States/LoginState";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import axios from "axios";
+
+import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
+import FindCard from '../../commons/Card/Main/FindCard/FindCard';
+import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
+import Calendar from "@/components/commons/Tools/Calendar";
+import PreviewCard from "@/components/commons/Card/Preview/Preview";
+import { setDate } from "date-fns";
 
 export default function Main() {
-  const [selectedFilter, setSelectedFilter] = useState("centralAsia");
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [findCardList, setFindCardList] = useRecoilState(FindCardList);
+  const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
+  const apipath = 'https://api.tripyle.xyz';
 
-  const onClicRreviewFilter = (event) => {
-    setSelectedFilter(event.target.id);
+  const [response, setResponse] = useState([]);
+
+  const checkLogin = async () => {
+    if(!isLoggedIn){
+      alert('로그인이 필요한 서비스입니다');
+      router.push("/auth/signIn");
+    }
   };
 
-  const onClcickFilterFind = () => {
-    alert("리스트 페이지 이동");
-    setIsLoggedIn(false);
+  // 초기값 불러오기
+  useEffect(() => {
+    const fetchData = async () => {
+      if (response.length === 0) {
+        const requestData = {
+          "continentId": 0,
+          "endDate": null,
+          "keyWord": "",
+          "nationId": 0,
+          "regionId": 0,
+          "startDate": null,
+          "totalPeopleNum": 0,
+        };
+  
+        try {
+          const res = await axios.post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData);
+          setResponse(res.data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  // Trip'yler 찾기 필터링
+  const router = useRouter();
+  const onClcickFilterFind = async () => {
+    const requestData = {
+      "continentId": parseInt(selectedDestination.continent.id),
+      "endDate": tripDate[1],
+      "keyWord": keyword,
+      "nationId": parseInt(selectedDestination.country.id),
+      "regionId": parseInt(selectedDestination.city.id),
+      "startDate": tripDate[0],
+      "totalPeopleNum": parseInt(selectedNum),
+    }
+
+    await axios
+      .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
+      .then((res) => {
+        const arr = res.data.data;
+        setFindCardList(res.data.data);
+        // setFindCardList((prev) => [...prev, ...arr]);
+        
+      })
+      .catch((error) => console.log(error));
+
+      const query = {
+        continent: JSON.stringify(selectedDestination.continent.name),
+        continentId: selectedDestination.continent.id,
+        country: JSON.stringify(selectedDestination.country.name),
+        countryId: selectedDestination.country.id,
+        city: JSON.stringify(selectedDestination.city.name),
+        cityId: selectedDestination.city.id,
+        startDate: JSON.stringify(tripDate[0] || ""),
+        endDate: JSON.stringify(tripDate[1] || ""),
+        num: selectedNum,
+        keyword: JSON.stringify(keyword)
+      }
+
+    // router.push({
+    //   pathname: `findTripyler`,
+    //   query: 
+    //   {
+    //     continent: JSON.stringify(selectedDestination.continent.name),
+    //     continentId: selectedDestination.continent.id,
+    //     country: JSON.stringify(selectedDestination.country.name),
+    //     countryId: selectedDestination.country.id,
+    //     city: JSON.stringify(selectedDestination.city.name),
+    //     cityId: selectedDestination.city.id,
+    //     startDate: JSON.stringify(date.startDate),
+    //     endDate: JSON.stringify(date.endDate),
+    //     num: selectedNum,
+    //     keyword: JSON.stringify(keyword)
+    //   }
+    // });
+    router.push("/findTripyler");
+    setFindCardFilter(query);
   };
+
+  // 여행 후기 필터링
+  const [reviewList, setReviewList] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+    const requestData = {
+      "continentId": 0,
+      "endMonth": 12,
+      "keyWord": "",
+      "nationId": 0,
+      "regionId": 0,
+      "startMonth": 1,
+      "totalPeopleNum": 0,
+    }
+
+    await axios
+      .post(`${apipath}/review/list?option=4`, requestData)
+      .then((res) => {
+        setReviewList(res.data.data);
+      })
+      .catch((error) => console.log(error));
+
+    }
+    fetchData();
+  }, []);
+  
+  // 여행지 선택
+  const [isCountry, setIsCountry] = useState(false);
+  const [destination, setDestination] = useState({
+    continent: [],
+    country: [],
+    city: []
+  })
+  const [selectedDestination, setSelectedDestination] = useState({
+    continent: {id: 0, name: ""},
+    country: {id: 0, name: ""},
+    city: {id: 0, name: ""}
+  });
+  const [showDestination, setShowDestination] = useState({
+    country: "",
+    city: "",
+  })
+
+  useEffect(() => {}, [showDestination]);
+
+  const onOpenDestination = async () => {
+    if(isCountry === true){
+      setIsCountry(false);
+    } else {
+      setIsCountry(true);
+      if(selectedDestination.city.name !== ""){
+        return;
+      }
+      axios
+        .get(apipath + '/destination/continent')
+        .then((res) => {
+          setDestination(prevDestination => ({
+            continent: res.data.data,
+            country: [],
+            city: []
+          }))
+      });
+    }
+  }
+
+  const onOpenCountry = (e) => {
+    setSelectedDestination(prev => ({
+      ...prev,
+      continent: {id: e.target.id ,name: e.target.innerText}
+    }))
+
+    axios
+      .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
+      .then((res) => {
+        setDestination(prevDestination => ({
+          ...prevDestination,
+          country: res.data.data,
+          city: []
+        }))
+    });
+  }
+
+  const onOpenCity = (e) => {
+    setSelectedDestination(prev => ({
+      ...prev,
+      country: {id: e.target.id ,name: e.target.innerText}
+    }))
+
+    axios
+      .get(`${apipath}/destination/region?nationId=${e.target.id}`)
+      .then((res) => {
+        setDestination(prevDestination => ({
+          ...prevDestination,
+          city: res.data.data,
+        }))
+    });
+  }
+
+  // 달력
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+  const [tripDate, setTripDate] = useState([])
+
+  
+  // 인원수 선택
+  const [selectedNum, setSelectedNum] = useState(0);
+
+  // 검색어
+  const [keyword, setKeyword] = useState("");
 
   return (
     <>
@@ -30,146 +234,153 @@ export default function Main() {
           </S.BannerTxt>
         </S.BannerImgWrapper>
         <S.FindFilter>
-          <S.FilterWrapper>
-            <S.FilterTitleWrapper>
-              <S.FilterTitleImg src="icon/location.png"></S.FilterTitleImg>
-              <S.FilterTitleTxt>여행지</S.FilterTitleTxt>
-            </S.FilterTitleWrapper>
-            <S.Filter style={{ width: "280px" }}>
-              <S.FilterInput>한국, 서울</S.FilterInput>
-              <S.FilterBtn></S.FilterBtn>
-            </S.Filter>
-          </S.FilterWrapper>
-          <S.FilterWrapper>
-            <S.FilterTitleWrapper>
-              <S.FilterTitleImg src="icon/calendar.png"></S.FilterTitleImg>
-              <S.FilterTitleTxt>일정</S.FilterTitleTxt>
-            </S.FilterTitleWrapper>
-            <S.DateFilterWrapper>
-              <S.Filter style={{ width: "200px" }}>
-                <S.FilterInput>가는 날</S.FilterInput>
-                <S.FilterBtn></S.FilterBtn>
-              </S.Filter>
-              <S.DateLine></S.DateLine>
-              <S.Filter style={{ width: "200px" }}>
-                <S.FilterInput>오는 날</S.FilterInput>
-                <S.FilterBtn></S.FilterBtn>
-              </S.Filter>
-            </S.DateFilterWrapper>
-          </S.FilterWrapper>
-          <S.FilterWrapper>
-            <S.FilterTitleWrapper>
-              <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
-              <S.FilterTitleTxt>인원</S.FilterTitleTxt>
-            </S.FilterTitleWrapper>
-            <S.Filter style={{ width: "140px" }}>
-              <S.FilterInput>4명</S.FilterInput>
-              <S.FilterBtn></S.FilterBtn>
-            </S.Filter>
-          </S.FilterWrapper>
-          <S.FilterFindBtn onClick={onClcickFilterFind}>
-            <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
-            <S.BtnArrow src="icon/arrow.png"></S.BtnArrow>
-          </S.FilterFindBtn>
+          <S.FilterMainWrapper>
+            <S.FilterMiddleWrapper>
+            <S.FilterFrontWrapper>
+              <S.FilterWrapper>
+                <S.FilterTitleWrapper>
+                  <S.FilterTitleImg src="icon/location.png"></S.FilterTitleImg>
+                  <S.FilterTitleTxt>여행지</S.FilterTitleTxt>
+                  {isCountry && (
+                  <S.CountrySelectWrapper>
+                    <S.ContinentSelect>
+                      {destination.continent.map((des) => (
+                        <S.ContinentContent id={des.id} onClick={onOpenCountry} selected={selectedDestination.continent.name === des.name}>{des.name}</S.ContinentContent>
+                      ))}
+                    </S.ContinentSelect>
+                    <S.CountrySelect>
+                      {destination.country.map((des) => (
+                        <S.ContinentContent id={des.id} onClick={onOpenCity} selected={selectedDestination.country.name === des.name}>{des.name}</S.ContinentContent>
+                      ))}
+                    </S.CountrySelect>
+                    <S.CitySelect>
+                      {destination.city.map((des) => (
+                        <S.ContinentContent 
+                        id={des.id} 
+                        onClick={(e) => {
+                          setIsCountry(false); 
+                          setSelectedDestination(prev => ({
+                            ...prev,
+                            city: {id: e.target.id ,name: e.target.innerText}
+                          }));
+                          setShowDestination(prev => ({
+                            country: selectedDestination.country,
+                            city: e.target.innerText
+                          }))
+                        }}
+                        selected={selectedDestination.city.name === des.name}
+                        >{des.name}</S.ContinentContent>
+                      ))}
+                    </S.CitySelect>
+                  </S.CountrySelectWrapper>
+                )}
+                </S.FilterTitleWrapper>
+                <S.Filter style={{ width: "280px" }} onClick={onOpenDestination}>
+                  <S.FilterInput>{selectedDestination.city.name === "" ? "선택" : `${showDestination.country.name}, ${showDestination.city}`}</S.FilterInput>
+                  <S.FilterBtn></S.FilterBtn>
+                </S.Filter>
+                
+              </S.FilterWrapper>
+
+            <S.FilterWrapper style={{position: "relative"}}>
+              <S.FilterTitleWrapper>
+                <S.FilterTitleImg src="icon/calendar.png"></S.FilterTitleImg>
+                <S.FilterTitleTxt>일정</S.FilterTitleTxt>
+              </S.FilterTitleWrapper>
+              <S.DateFilterWrapper onClick={(e) => {isOpenCalendar ? setIsOpenCalendar(false) : setIsOpenCalendar(true)}}>
+                <S.Filter style={{ width: "200px" }}>
+                  <S.FilterInput>{tripDate.length === 0 ? `가는 날`: tripDate[0]}</S.FilterInput>
+                  <S.FilterBtn></S.FilterBtn>
+                </S.Filter>
+                <S.DateLine></S.DateLine>
+                <S.Filter style={{ width: "200px" }}>
+                  <S.FilterInput>{tripDate.length === 0 ? `오는 날`: tripDate[1]}</S.FilterInput>
+                  <S.FilterBtn></S.FilterBtn>
+                </S.Filter>
+              </S.DateFilterWrapper>
+              {isOpenCalendar &&(
+                <S.CalendarWrapper>
+                  <Calendar
+                    setIsOpenCalendar={setIsOpenCalendar}
+                    setTripDate={setTripDate}
+                    restrict={false}
+                  />
+                  
+                </S.CalendarWrapper>
+              )}
+            </S.FilterWrapper>
+
+            <S.FilterWrapper>
+              <S.FilterTitleWrapper>
+                <S.FilterTitleImg src="icon/user.png"></S.FilterTitleImg>
+                <S.FilterTitleTxt>인원</S.FilterTitleTxt>
+              </S.FilterTitleWrapper>
+              <S.FilterSelect>
+                <S.FilterMinusImg src="/icon/minus.png" onClick={(e) => setSelectedNum((prev) => prev <= 0 ? 0 : prev - 1)}></S.FilterMinusImg>
+                <S.FilterNum>{selectedNum <= 0 ? "선택" : `${selectedNum}명`}</S.FilterNum>
+                <S.FilterPlusImg src="/icon/plus.png" onClick={(e) => setSelectedNum((prev) => prev + 1)}></S.FilterPlusImg>
+              </S.FilterSelect>
+            </S.FilterWrapper>
+          </S.FilterFrontWrapper>
+
+            <S.FilterBackWrapper>
+              <S.FilterWrapper>
+                <S.FilterTitleWrapper>
+                  <S.FilterTitleImg src="icon/searchBlack.png"></S.FilterTitleImg>
+                  <S.FilterTitleTxt>검색</S.FilterTitleTxt>
+                </S.FilterTitleWrapper>
+                <S.Input 
+                  style={{ width: "925px" }} 
+                  placeholder="직접 입력"
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
+              </S.FilterWrapper>
+            </S.FilterBackWrapper>
+            </S.FilterMiddleWrapper>
+            <S.FilterFindBtn onClick={onClcickFilterFind}>
+              <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
+              <S.BtnArrow src="icon/arrow.png"></S.BtnArrow>
+            </S.FilterFindBtn>
+          </S.FilterMainWrapper>
         </S.FindFilter>
       </S.Banner>
 
-      <S.Review>
-        <S.ReviewTitle>Trip’yler들의 실제 여행 후기</S.ReviewTitle>
-        <S.ReviewFilter>
-          <S.ReviewFilterBtn
-            id="centralAsia"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            중앙아시아
-          </S.ReviewFilterBtn>
-          <S.ReviewFilterBtn
-            id="westAsia"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            서남아시아
-          </S.ReviewFilterBtn>
-          <S.ReviewFilterBtn
-            id="eastAsia"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            동남아시아
-          </S.ReviewFilterBtn>
-          <S.ReviewFilterBtn
-            id="europe"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            유럽
-          </S.ReviewFilterBtn>
-          <S.ReviewFilterBtn
-            id="northAme"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            북아메리카
-          </S.ReviewFilterBtn>
-          <S.ReviewFilterBtn
-            id="southAme"
-            onClick={onClicRreviewFilter}
-            selectedFilter={selectedFilter}
-          >
-            남아메리카
-          </S.ReviewFilterBtn>
-        </S.ReviewFilter>
-        <S.ReviewContents>
-          <S.ReviewCard>
-            <S.ReviewImg src="img/review1.png"></S.ReviewImg>
-            <S.ReviewCardHeader>
-              <S.ReviewInfo>
-                <S.CountryWrapper>
-                  <S.ReviewIcon src="icon/location.png"></S.ReviewIcon>
-                  <S.ReviewInfoTxt>그리스</S.ReviewInfoTxt>
-                </S.CountryWrapper>
-                <S.ReviewCity>산토리니</S.ReviewCity>
-              </S.ReviewInfo>
-              <S.ReviewInfo>
-                <S.ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
-                  <S.ReviewIcon src="icon/calendar.png"></S.ReviewIcon>
-                  <S.ReviewDateTxt>
-                    <S.ReviewInfoTxt>23.01.12</S.ReviewInfoTxt>
-                    <S.ReviewDateLine></S.ReviewDateLine>
-                    <S.ReviewInfoTxt>23.01.23</S.ReviewInfoTxt>
-                  </S.ReviewDateTxt>
-                </S.ReviewInfoWrapper>
-                <S.ReviewInfoWrapper>
-                  <S.ReviewIcon src="icon/user.png"></S.ReviewIcon>
-                  <S.ReviewInfoTxt>4인</S.ReviewInfoTxt>
-                </S.ReviewInfoWrapper>
-              </S.ReviewInfo>
-            </S.ReviewCardHeader>
-            <S.ReviewHashTagWrapper>
-              <S.ReviewHashTag>#해시태그</S.ReviewHashTag>
-              <S.ReviewHashTag>#해시태그</S.ReviewHashTag>
-              <S.ReviewHashTag>#해시태그</S.ReviewHashTag>
-            </S.ReviewHashTagWrapper>
-            <S.ReviewLine></S.ReviewLine>
-            <S.ReviewCardContents>
-              나중에 상세 페이지 만들어지고 api도 구현되면은 그때 마저 넣을게요
-            </S.ReviewCardContents>
-            <S.ReviewCardFooter>
-              <S.ReviewReactWrapper>
-                <S.ReviewReactIcon src="icon/heart.png"></S.ReviewReactIcon>
-                <S.ReviewReactTxt>1.2k</S.ReviewReactTxt>
-                <S.ReviewReactIcon src="icon/comment.png"></S.ReviewReactIcon>
-                <S.ReviewReactTxt>24</S.ReviewReactTxt>
-              </S.ReviewReactWrapper>
-              <S.ReviewDetailBtn>
-                <S.ReviewDetailBtnTxt>상세보기</S.ReviewDetailBtnTxt>
-                <S.BtnArrow></S.BtnArrow>
-              </S.ReviewDetailBtn>
-            </S.ReviewCardFooter>
-          </S.ReviewCard>
-        </S.ReviewContents>
-      </S.Review>
+      <S.ContentWrapper>
+        <S.FindTripylerTitleWrapper onClick={onClcickFilterFind}>
+          <S.FindTripylerTitle>함께 동행할 Trip’yler 찾기</S.FindTripylerTitle>
+          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
+        </S.FindTripylerTitleWrapper>
+        <S.Review>
+          <S.FindTripylerContent>
+            {response.map((res, idx) => {
+            if(idx >= 0 && idx < 8)
+            { return (
+              <FindCard id={res.tripylerId} info={res}/>
+            )}})}
+          </S.FindTripylerContent>
+        </S.Review>
+      </S.ContentWrapper>
+      
+      <S.ContentWrapper>
+        <S.ReviewTitleWrapper onClick={(e) => {router.push("/review")}}>
+          <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
+          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
+        </S.ReviewTitleWrapper>
+        <S.Review>
+          {reviewList.map((e, i) => {
+            if(i >= 0 && i < 5)
+            { return (
+              <ReviewComponent idx={i + 1} info={e}/>
+          )}})}
+          
+        </S.Review>
+      </S.ContentWrapper>
+
+      <S.AdWrapper style={{'cursor': 'pointer'}} onClick={(e) => router.push("/review/write")}>
+        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
+      </S.AdWrapper>
+
+      <PreviewCard/>
     </>
   );
 }

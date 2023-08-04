@@ -5,7 +5,7 @@ export const Page = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 150px;
   width: fit-content;
 `;
 
@@ -79,10 +79,8 @@ export const Error = styled.div`
   display: flex;
   align-items: center;
 
-  font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  line-height: 1;
   color: #ff1d1d;
 `;
 
@@ -90,7 +88,6 @@ export const GenderWrapper = styled.div`
   height: 73px;
   width: 500px;
   margin-right: 15px;
-  /* background-color: aliceblue; */
 
   display: flex;
   justify-content: center;
@@ -223,12 +220,12 @@ export const ModalTitle = styled.div`
   color: #ffffff;
 `;
 
-export const ModalInputWrapper = styled.div`
+export const ModalInputWrapper = styled.form`
   width: 458px;
   height: 36px;
   border: 1px solid #999999;
   border-radius: 10px;
-  margin-bottom: 26px;
+  margin-bottom: 4px;
   display: flex;
   justify-content: space-between;
 `;
@@ -256,26 +253,42 @@ export const ModalInputBtn = styled.button`
   color: #ffffff;
 `;
 
-export const ModalMyStyleWrapper = styled.div`
-  display: flex;
-  margin-bottom: 43px;
+export const ModalHashtagError = styled(Error)`
+  width: 458px;
+  height: 10px;
+  font-size: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+  text-align: center;
 `;
 
-export const ModalHashtag = styled.div`
+export const ModalMyStyleWrapper = styled.div`
+  height: 27px;
+  display: flex;
+  margin-bottom: 43px;
+  gap: 10.5px;
+`;
+
+export const ModalHashtag = styled.button`
   width: 83px;
   height: 27px;
-  padding: 7px 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid #90e0ef;
   border-radius: 30px;
-  background-color: white;
+  background-color: #90e0ef;
   cursor: pointer;
 
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12px;
-  color: #00b4d8;
+  color: #ffffff;
+  line-height: 1;
+`;
+
+export const ModalRecogHahstag = styled(ModalHashtag)`
+  background-color: #ffffff;
+  color: #90e0ef;
 `;
 
 export const ModalRecogStyleWrapper = styled.div`
@@ -286,8 +299,8 @@ export const ModalRecogStyleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 1px solid #666666;
-  border-bottom: 1px solid #666666;
+  border-top: 1px solid #90e0ef;
+  border-bottom: 1px solid #90e0ef;
 `;
 
 export const ModalRecogTitle = styled.div`
@@ -302,8 +315,27 @@ export const ModalRecogTitle = styled.div`
   font-weight: 700;
   font-size: 16px;
   text-align: center;
-  color: #666666;
+  color: #90e0ef;
 `;
+
+export const ModalRecogHashtagWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 10.5px;
+`;
+
+// export const ModalRecogHashtag = styled.button`
+//   width: 44.5px;
+//   height: 17px;
+//   border: 1px solid #90e0ef;
+//   border-radius: 15.5px;
+
+//   font-size: 10px;
+//   font-weight: 600;
+//   color: #90e0ef;
+//   text-align: center;
+// `;
 
 export const ModalBtnWrapper = styled.div`
   display: flex;
@@ -328,6 +360,14 @@ export const ModalSubmitBtn = styled(ModalCancelBtn)`
   background-color: #c8b6ff;
   color: #ffffff;
   border: none;
+`;
+
+export const Hashtag = styled(ModalHashtag)`
+  width: 130px;
+  height: 40px;
+  cursor: default;
+
+  font-size: 16px;
 `;
 
 export const AcceptTitleWrapper = styled.div`
@@ -389,7 +429,7 @@ export const EnrollBtn = styled.button`
   height: 73px;
   background: #c8b6ff;
   border-radius: 5px;
-  margin-left: 10px;
+  margin: 40px 0px 200px 10px;
 
   font-style: normal;
   font-weight: 700;

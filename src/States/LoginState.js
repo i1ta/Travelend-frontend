@@ -1,5 +1,5 @@
-import { atom } from 'recoil';
-import { recoilPersist } from 'recoil-persist';
+import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
@@ -14,3 +14,21 @@ export const NicknameState = atom({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const IsFirstLogin = atom({
+  key: "IsFirstLogin",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const FindCardList = atom({
+  key: "FindCardList",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+})
+
+export const FindCardFilter = atom({
+  key: "FindCardFilter", 
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+})

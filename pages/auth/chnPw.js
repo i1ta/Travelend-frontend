@@ -1,35 +1,31 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
-import ChnPwForm from '../../src/components/units/auth/findInfo/ChnPw.container.js';
-import Header from '@/components/commons/Layout/Layout';
-import SocialLogin from '@/components/commons/Layout/SocialLogin.js/SocialLogin.js';
-
+import ChnPwForm from "../../src/components/units/auth/findInfo/ChnPw.container.js";
+import Header from "@/components/commons/Layout/Layout";
+import SocialLogin from "@/components/commons/Layout/SocialLogin.js/SocialLogin.js";
 
 export default function chnPw() {
   return (
     <>
-      <Header />
       <Container>
         <ChnPwForm />
         <Box>
-          <Link href='/auth/findId'>아이디 찾기</Link>
+          <Link href="/auth/findId">아이디 찾기</Link>
         </Box>
-        
-        <SocialLogin/>
+
+        <SocialLogin />
       </Container>
     </>
   );
+}
 
-};
-
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Box = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 1.7rem;
-`
+`;
 
 const Link = styled.a`
   text-decoration: none;
@@ -38,14 +34,14 @@ const Link = styled.a`
   font-size: 13px;
   letter-spacing: -1.5px;
 
-  &: hover{
+  &:hover {
     color: #999999;
   }
 `;
 
 const LinkUp = styled.a`
   text-decoration: none;
-  color: #C8B6FF;
+  color: #c8b6ff;
 `;
 
 const Text = styled.span`
@@ -57,10 +53,10 @@ const Text = styled.span`
 `;
 
 const Button = styled.button`
-  border: 2.5px solid #C8B6FF;
+  border: 2.5px solid #c8b6ff;
   border-radius: 5px;
   background-color: white;
-  color: #C8B6FF;
+  color: #c8b6ff;
 
   padding: 7px 15px;
   margin: 0 20px;
@@ -70,7 +66,7 @@ const Button = styled.button`
 
   cursor: pointer;
 
-  &:hover{
-    border: 2.5px solid #9D7DFF;
+  &:hover {
+    border: 2.5px solid #9d7dff;
   }
-`
+`;

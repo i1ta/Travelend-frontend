@@ -3,7 +3,7 @@ import * as S from "./Join.styles";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { constSelector } from "recoil";
+import StyleModal from "@/components/commons/Modal/StyleModal";
 
 export default function Join() {
   // 라이브러리 변수
@@ -40,6 +40,15 @@ export default function Join() {
   const [errorGender, setErrorGender] = useState("");
   const [errorbirthDate, setErrorBirthDate] = useState("");
   const [errorCheckBox, setErrorCheckBox] = useState("");
+  const [errorStyle, setErrorStyle] = useState("");
+
+  // 모달 창
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+
+  const onClickOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
@@ -169,6 +178,11 @@ export default function Join() {
       return;
     } else setErrorBirthDate("");
 
+    if (shownMyHashtag.length == 0) {
+      setErrorStyle("여행스타일을 최소 한개 이상 선택해주세요");
+      return;
+    } else setErrorStyle("");
+
     if (!isChecked1 || !isChecked2 || !isChecked3) {
       setErrorCheckBox("필수항목을 체크해주세요");
       return;
@@ -179,13 +193,13 @@ export default function Join() {
       .post(apiPath + "/user/signup", {
         birthDate,
         email,
-        firstTripStyleId: 0,
+        firstTripStyleId: shownMyHashtag[0]?.id || 0,
         gender,
         name,
         password,
         phone,
-        secondTripStyleId: 0,
-        thirdTripStyleId: 0,
+        secondTripStyleId: shownMyHashtag[1]?.id || 0,
+        thirdTripStyleId: shownMyHashtag[2]?.id || 0,
         username,
       })
       .then((response) => {
@@ -200,7 +214,6 @@ export default function Join() {
   // 아이디 변수 저장
   const onChangeUsername = (event) => {
     setUsername(event.target.value);
-    console.log(username);
   };
 
   // 휴대폰 번호 변수 저장
@@ -446,7 +459,7 @@ export default function Join() {
               <S.RadioBtn
                 type="radio"
                 name="gender"
-                value={"W"}
+                value={"F"}
                 onChange={onChangeGender}
               ></S.RadioBtn>
               <S.SpanLabel>여자</S.SpanLabel>
@@ -492,43 +505,24 @@ export default function Join() {
               <S.LabelTxt>여행스타일</S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
-            <S.Input
-              placeholder={"여행 스타일을 입력하세요"}
-              readOnly
-              style={{ cursor: "default" }}
-            ></S.Input>
-            <S.CheckBtn type="button" onClick={handleOpenModal}>
+            <S.GenderWrapper style={{ gap: "20px" }}>
+              {shownMyHashtag.length === 0 ? (
+                <S.Input
+                  placeholder={"여행 스타일을 입력하세요"}
+                  readOnly
+                  style={{ cursor: "default" }}
+                ></S.Input>
+              ) : (
+                shownMyHashtag.map((e) => (
+                  <S.Hashtag key={e.id}>#{e.name}</S.Hashtag>
+                ))
+              )}
+            </S.GenderWrapper>
+            <S.CheckBtn type="button" onClick={onClickOpenModal}>
               입력하기
             </S.CheckBtn>
           </S.InputWrapper>
-          {isModalOpen && (
-            <S.ModalOverlay>
-              <S.Modal>
-                <S.ModalTitle>여행 스타일</S.ModalTitle>
-                <S.ModalInputWrapper>
-                  <S.ModalInput
-                    placeholder={"여행스타일을 입력하세요 (최대 3개)"}
-                  ></S.ModalInput>
-                  <S.ModalInputBtn>+</S.ModalInputBtn>
-                </S.ModalInputWrapper>
-                <S.ModalMyStyleWrapper>
-                  <S.ModalHashtag>#떠돌이</S.ModalHashtag>
-                </S.ModalMyStyleWrapper>
-                <S.ModalRecogStyleWrapper>
-                  <S.ModalRecogTitle>추천 키워드</S.ModalRecogTitle>
-                  <S.ModalHashtag>#여행</S.ModalHashtag>
-                </S.ModalRecogStyleWrapper>
-                <S.ModalBtnWrapper>
-                  <S.ModalCancelBtn onClick={handleCloseModal}>
-                    취소
-                  </S.ModalCancelBtn>
-                  <S.ModalSubmitBtn onClick={handleSubmitModal}>
-                    확인
-                  </S.ModalSubmitBtn>
-                </S.ModalBtnWrapper>
-              </S.Modal>
-            </S.ModalOverlay>
-          )}
+          <S.Error>{errorStyle}</S.Error>
 
           <S.AcceptTitleWrapper>
             <S.Line></S.Line>
@@ -591,6 +585,17 @@ export default function Join() {
           <S.EnrollBtn onClick={onClickEnrollBtn}>회원가입</S.EnrollBtn>
         </S.Page>
       </form>
+
+      {/* =================== 모달창  ==================== */}
+
+      {isModalOpen && (
+        <StyleModal
+          data={shownMyHashtag}
+          setData={setShownMyHashtag}
+          setIsOpenModal={setIsModalOpen}
+          limitLen="3"
+        />
+      )}
     </>
   );
 }
