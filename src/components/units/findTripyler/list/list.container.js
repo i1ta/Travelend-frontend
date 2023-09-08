@@ -135,12 +135,33 @@ export default function FindTripylerList(){
             })
             .catch((error) => console.log(error));
           
+          }
+        } else{
+          const requestData = {
+            "continentId": 0,
+            "endDate": null,
+            "keyWord": "",
+            "nationId": 0,
+            "regionId": 0,
+            "startDate": null,
+            "totalPeopleNum": 0,
+          }
+
+          await axios
+            .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
+            .then((res) => {
+              setCardList(res.data.data);   
+              setPage(1);
+              setPageNum([]);  
+            })
+            .catch((error) => console.log(error));
+          
         }
-      }
       };
     
       fetchData();
     }, [ready]);
+
 
     useEffect(() => {
       if(newCardList.length === 0){
