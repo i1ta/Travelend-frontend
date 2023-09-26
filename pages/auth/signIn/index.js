@@ -16,7 +16,7 @@ function login() {
 
   return (
     <>
-      <Layout login />
+      {/* <Layout login /> */}
       <div>
         <LoginForm />
         <Box>

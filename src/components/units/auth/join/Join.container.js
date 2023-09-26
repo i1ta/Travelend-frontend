@@ -42,14 +42,6 @@ export default function Join() {
   const [errorCheckBox, setErrorCheckBox] = useState("");
   const [errorStyle, setErrorStyle] = useState("");
 
-  // 모달 창
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shownMyHashtag, setShownMyHashtag] = useState([]);
-
-  const onClickOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
     if (!username) {
@@ -291,9 +283,14 @@ export default function Join() {
   };
 
   // 모달 창
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [hashtag, setHashtag] = useState("");
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+  
+  const onClickOpenModal = () => {
+    setIsModalOpen(true);
+  };
 
   const handleOpenModal = async () => {
     await axios

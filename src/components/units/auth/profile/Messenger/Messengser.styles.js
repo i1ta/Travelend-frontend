@@ -79,13 +79,43 @@ export const NoneSelectedTxt = styled.div`
   color: #666666;
 `;
 
-export const UserWrapper = styled.div`
+export const TopWrapper = styled.div`
   width: 100%;
   height: 78px;
   padding: 16px 30px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
   border-bottom: 1px solid #999999;
+`;
+
+export const UserWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const BlockWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const BlockTxt = styled.div`
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    color: #c8b6ff;
+  }
+`;
+
+export const BlockHypen = styled.div`
+  width: 1px;
+  height: 15px;
+  background: #999;
 `;
 
 export const ChatWrapper = styled.div`
@@ -121,7 +151,6 @@ export const ChatWrapper = styled.div`
   }
 `;
 
-
 export const ChatBubbleWrapper = styled.div`
   display: flex;
   justify-content: ${(props) => (props.isSend ? "flex-end" : "flex-start")};
@@ -154,8 +183,6 @@ export const ChatTime = styled.div`
   display: ${(props) => (props.show ? "block" : "none")};
 `;
 
-
-
 export const SendWrapper = styled.form`
   height: 73px;
   display: flex;
@@ -185,15 +212,14 @@ export const SendBtn = styled.button`
   text-align: center;
   color: #ffffff;
 
-  &:hover{
+  &:hover {
     background: #ffffff;
     color: #000000;
   }
-  ${({ sendOn }) => 
-  sendOn && 
-  `
+  ${({ sendOn }) =>
+    sendOn &&
+    `
   background: #ffffff;
   color: #000000;
-  `
-  }
+  `}
 `;
