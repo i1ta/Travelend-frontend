@@ -20,7 +20,7 @@ export default function Join() {
 
   // 기타 state
   const apiPath = "https://api.tripyle.xyz";
-  const [isSendCheckNum, setIsSendCheckNum] = useState(false);
+  const [isSendCheckNum, setIsSendCheckNum] = useState(true);
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
@@ -287,7 +287,7 @@ export default function Join() {
   const [inputValue, setInputValue] = useState("");
   const [hashtag, setHashtag] = useState("");
   const [shownMyHashtag, setShownMyHashtag] = useState([]);
-  
+
   const onClickOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -316,7 +316,7 @@ export default function Join() {
   const handleAddHashtag = async (e) => {
     await axios
       .get(apiPath + "/hashtag", {
-        name: hashtag
+        name: hashtag,
       })
       .then((response) => {
         console.log(response);
@@ -324,11 +324,10 @@ export default function Join() {
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
-  const handleSubmitModal =  (e) => {
+  const handleSubmitModal = (e) => {
     handleCloseModal();
-    
   };
 
   return (
@@ -421,7 +420,10 @@ export default function Join() {
             <>
               <S.InputWrapper>
                 <S.BlankLabel></S.BlankLabel>
-                <S.Input onChange={onChangePhoneCheckNum}></S.Input>
+                <S.PhoneCheckInputWrapper>
+                  <S.PhoneCheckInput onChange={onChangePhoneCheckNum} />
+                  <S.Timer>03:00</S.Timer>
+                </S.PhoneCheckInputWrapper>
                 <S.CheckBtn type="button" onClick={onClickAuthNumCheckBtn}>
                   확인
                 </S.CheckBtn>

@@ -9,6 +9,8 @@ import MyProfile from "./MyProfile/MyProfile.container";
 import MyCollections from "./MyCollections/MyCollections.container";
 import Triplog from "./Triplog/Triplog.container";
 import Messenger from "./Messenger/Messenger.container";
+import Block from "@/components/commons/Modal/Block";
+import Report from "@/components/commons/Modal/Report";
 
 import { LoginState } from "@/States/LoginState";
 
@@ -34,33 +36,11 @@ export default function Profile() {
 
   const [userId, setUserId] = useState(parseInt(router.query.userId));
   const [notMyProfildData, setNotMyProfileData] = useState({});
+  const [myProfileData, setMyProfileData] = useState({});
 
   const onClickCategory = (event) => {
     setSelectedCategory(event.target.id);
   };
-
-  const [myProfileData, setMyProfileData] = useState({
-    name: "",
-    namePrivate: false,
-    username: "",
-    age: 0,
-    email: "",
-    gender: "",
-    mbti: "",
-    mbtiPrivate: false,
-    phone: "",
-    phonePrivate: false,
-    address: "",
-    profileUrl: "",
-    instagram: "",
-    instagramPrivate: false,
-    firstTripStyle: "",
-    secondTripStyle: "",
-    thirdTripStyle: "",
-    firstBio: "",
-    secondBio: "",
-    thirdBio: "",
-  });
 
   const [msgListData, setMsgListData] = useState([]);
   const [msgData, setMsgData] = useState({
@@ -122,7 +102,6 @@ export default function Profile() {
     getHashtag,
     getBio
   ) => {
-
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
@@ -327,7 +306,6 @@ export default function Profile() {
 
   // Triplog 리스트 가져오기
   const onOpenTriplog = async (e) => {
-
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
@@ -346,6 +324,17 @@ export default function Profile() {
       .catch((err) => console.log(err));
   };
 
+  // 신고, 차단기능
+  const [isOpenBlock, setIsOpenBlock] = useState(false);
+  const toggleBlock = () => {
+    setIsOpenBlock((prev) => !prev);
+  };
+
+  const [isOpenReport, setIsOpenReport] = useState(false);
+  const toggleReport = () => {
+    setIsOpenReport((prev) => !prev);
+  };
+
   return (
     <>
       {isModify ? (
@@ -360,10 +349,14 @@ export default function Profile() {
                   data={notMyProfildData.profileUrl}
                 />
               </S.ProfileImage>
-
               <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
               <S.ProfileLine></S.ProfileLine>
 
+              <S.BlockWrapper>
+                <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
+                <S.BlockHypen />
+                <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
+              </S.BlockWrapper>
             </S.SideNotBar>
             {selectedCategory === "NotMyProfile" && (
               <NotMyProfile data={notMyProfildData} />
@@ -533,6 +526,22 @@ export default function Profile() {
             />
           )}
         </S.Container>
+      )}
+
+      {/* ========== 모달 ========== */}
+      {isOpenBlock && (
+        <Block
+          name={notMyProfildData.username}
+          id={userId}
+          toggleBlock={toggleBlock}
+        />
+      )}
+      {isOpenReport && (
+        <Report
+          name={notMyProfildData.username}
+          id={userId}
+          toggleReport={toggleReport}
+        />
       )}
     </>
   );

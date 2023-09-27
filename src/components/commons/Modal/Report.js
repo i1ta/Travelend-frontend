@@ -3,6 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import Block from "./Block";
 
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 // 필수 props: name, id, toggleReport
 export default function Report(props) {
   const [reasonList, setReasonList] = useState([]);
@@ -74,6 +76,7 @@ export default function Report(props) {
                 <CmbBoxTxt>
                   {reason?.reason || "신고 이유를 선택해주세요"}
                 </CmbBoxTxt>
+                <ArrowDropDownIcon style={{ color: "#999" }} />
               </ModalCmbBox>
               {isOpenCmbBox && (
                 <CmbBoxWrapper>
