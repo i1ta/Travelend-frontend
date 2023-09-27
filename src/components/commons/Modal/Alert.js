@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-// 필수 props: title, onClickSubmit
+// 필수 props: title, toggleAlert
 export default function Alert(props) {
   return (
     <>
       <ModalOverlay>
         <Modal>
           <ModalTitle>{props.title}</ModalTitle>
-          <ModalSubmitBtn onClick={props.onClickSubmit}>확인</ModalSubmitBtn>
+          <ModalSubmitBtn onClick={props.toggleAlert}>확인</ModalSubmitBtn>
         </Modal>
       </ModalOverlay>
     </>

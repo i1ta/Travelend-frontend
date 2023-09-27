@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
     <RecoilRoot>
       <Head>
         <title>Tripyle</title>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <GlobalStyle />
       <Layout pathname={router.pathname}>

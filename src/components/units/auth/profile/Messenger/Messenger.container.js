@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import * as S from "./Messengser.styles";
-import Confirm from "@/components/commons/Modal/Confirm";
-import Alert from "@/components/commons/Modal/Alert";
-import axios from "axios";
 import Report from "@/components/commons/Modal/Report";
+import Block from "@/components/commons/Modal/Block";
 
 export default function Messenger(props) {
   const [input, setInput] = useState("");
@@ -13,8 +11,7 @@ export default function Messenger(props) {
   const [nowRecipientId, setNowRecipientId] = useState(0);
   const scrollRef = useRef(null);
 
-  const [isOpenBlockConfirm, setIsOpenBlockConfirm] = useState(false);
-  const [isOpenBlockAlert, setIsOpenBlockAlert] = useState(false);
+  const [isOpenBlock, setIsOpenBlock] = useState(false);
   const [isOpenReport, setIsOpenReport] = useState(false);
 
   useEffect(() => {
@@ -28,25 +25,8 @@ export default function Messenger(props) {
   }, [nowChatRoomId]);
 
   // 차단기능
-  const toggleBlockConfirm = () => {
-    setIsOpenBlockConfirm((prev) => !prev);
-  };
-
-  const toggleBlockAlert = () => {
-    setIsOpenBlockAlert((prev) => !prev);
-  };
-
-  const onClickBlockSubmit = async () => {
-    await axios
-      .post(`https://api.tripyle.xyz/block`, {
-        blockeeId: nowRecipientId,
-      })
-      .then((res) => {
-        console.log(res);
-        toggleBlockConfirm();
-        toggleBlockAlert();
-      })
-      .catch((err) => console.error(err));
+  const toggleBlock = () => {
+    setIsOpenBlock((prev) => !prev);
   };
 
   // 신고기능
@@ -54,24 +34,11 @@ export default function Messenger(props) {
     setIsOpenReport((prev) => !prev);
   };
 
-  const onClickReportSubmit = async () => {
-    await axios
-      .post(`https://api.tripyle.xyz/report`, {
-        reporteeId: nowRecipientId,
-      })
-      .then((res) => {
-        console.log(res);
-        toggleBlockConfirm();
-        toggleBlockAlert();
-      })
-      .catch((err) => console.error(err));
-  };
-
   return (
     <>
       <S.MsgForm>
         <S.MsgListSection>
-          <S.ListTitle onClick={toggleBlockConfirm}>쪽지 목록</S.ListTitle>
+          <S.ListTitle onClick={toggleBlock}>쪽지 목록</S.ListTitle>
           {props.msgListData.map((e) => (
             <S.MsgList
               id={e.chatRoomId}
@@ -108,7 +75,7 @@ export default function Messenger(props) {
               <S.BlockWrapper>
                 <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
                 <S.BlockHypen />
-                <S.BlockTxt onClick={toggleBlockConfirm}>차단</S.BlockTxt>
+                <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
               </S.BlockWrapper>
             </S.TopWrapper>
             <S.ChatWrapper ref={scrollRef}>
@@ -193,20 +160,22 @@ export default function Messenger(props) {
           </S.MsgSection>
         )}
       </S.MsgForm>
-      {isOpenBlockConfirm && (
-        <Confirm
-          title={`${props.msgData.name}님을 차단하시겠습니까?`}
-          onClickSubmit={onClickBlockSubmit}
-          onClickCancel={toggleBlockConfirm}
+
+      {/* ========== 모달 ========== */}
+      {isOpenBlock && (
+        <Block
+          name={props.msgData.name}
+          id={nowRecipientId}
+          toggleBlock={toggleBlock}
         />
       )}
-      {isOpenBlockAlert && (
-        <Alert
-          title={`${props.msgData.name}님이 차단되었습니다.`}
-          onClickSubmit={toggleBlockAlert}
+      {isOpenReport && (
+        <Report
+          name={props.msgData.name}
+          id={nowRecipientId}
+          toggleReport={toggleReport}
         />
       )}
-      {isOpenReport && <Report />}
     </>
   );
 }
