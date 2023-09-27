@@ -19,7 +19,7 @@ const OAuthKaKao = () => {
     if (code) {
       axios
         .post(
-          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=보안상삭제&redirect_uri=https://tripyle.xyz/oauth/kakao&code=${router.query.code}&client_secret=보안상삭제`,
+          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=https://www.tripyle.xyz/oauth/kakao&code=${router.query.code}&client_secret=kgyjs7zgBqJ7141qoYq4xqSgOtjdFJKi`,
 
           {
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",

@@ -45,7 +45,7 @@ export default function TriplogWrite(props) {
           tripylerId: data.tripylerId,
           tripylerWithList: [...data.tripylerWithList],
         });
-        setImageList([...data.reviewImageList]);
+        setImageList([...data.reviewImageList.map((el) => ({ url: el }))]);
       })
       .catch((err) => console.error(err));
   };
@@ -120,6 +120,7 @@ export default function TriplogWrite(props) {
   // 작성완료, 취소 Btn
   const onClickCancelBtn = () => {
     alert("취소");
+    console.log(selectedInfo, title, content, oneLine);
   };
 
   const onClickSubmitBtn = async () => {
@@ -134,7 +135,6 @@ export default function TriplogWrite(props) {
       await axios
         .post(apiPath + "/review", requestData)
         .then((res) => {
-
           if (selectedImageList.length > 0) {
             selectedImageList.forEach(async (el, idx) => {
               const formData = new FormData();

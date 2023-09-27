@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import Layout from "@/components/commons/Layout/Layout";
 import { useRouter } from "next/router";
+import Head from 'next/head';
 
 import { NicknameState } from "../src/States/LoginState";
 
@@ -19,6 +20,10 @@ export default function App({ Component, pageProps }) {
   }
   return (
     <RecoilRoot>
+      <Head>
+        <title>Tripyle</title>
+        <link rel="icon" href="/favicon.png" />
+      </Head>
       <GlobalStyle />
       <Layout pathname={router.pathname}>
         <Component {...pageProps} />

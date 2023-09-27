@@ -42,14 +42,6 @@ export default function Join() {
   const [errorCheckBox, setErrorCheckBox] = useState("");
   const [errorStyle, setErrorStyle] = useState("");
 
-  // 모달 창
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shownMyHashtag, setShownMyHashtag] = useState([]);
-
-  const onClickOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
     if (!username) {
@@ -288,6 +280,55 @@ export default function Join() {
       setIsChecked4(false);
       setIsChecked5(false);
     }
+  };
+
+  // 모달 창
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [hashtag, setHashtag] = useState("");
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+  
+  const onClickOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOpenModal = async () => {
+    await axios
+      .get(apiPath + "/hashtag/recommend")
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleAddHashtag = async (e) => {
+    await axios
+      .get(apiPath + "/hashtag", {
+        name: hashtag
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  const handleSubmitModal =  (e) => {
+    handleCloseModal();
+    
   };
 
   return (

@@ -52,6 +52,15 @@ export default function FindTripylerWrite(props) {
     } else setTotalPeopleNum((prev) => prev + 1);
   };
 
+  const fetchImage = async (imgUrl) => {
+    await fetch(imgUrl).then(async (response) => {
+      const contentType = response.headers.get("content-type");
+      const blob = await response.blob();
+      const file = new File([blob], "fileName", { contentType });
+      setSelectedImage(file);
+    });
+  };
+
   const fetchData = async () => {
     await axios
       .get(`${apiPath}/tripyler/${tripylerId}`)
@@ -59,19 +68,18 @@ export default function FindTripylerWrite(props) {
         const data = res.data.data;
         setData({ ...data });
         setShownMyHashtag([...data.hashtagList]);
-        // setTripDate({
-        //   startDate: new Date(data.startDate),
-        //   endDate: new Date(data.endDate),
-        // });
         setTotalPeopleNum(data.totalPeopleNum);
         setTitle(data.title);
         setContent(data.content);
         setImageUrl(data.image);
         setCommaPrice(data.estimatedPrice);
         setEstimatedPrice(data.estimatedPrice);
-        // setShownWithTripylerList([
-        //   ...data.tripylerWithList?.map((el) => el.nickname),
-        // ]);
+        setShownWithTripylerList([
+          ...data.tripylerWithList?.map((el) => ({
+            id: el.userId,
+            nickname: el.nickname,
+          })),
+        ]);
         setShownPlace({
           continentId: data.continentId,
           nationId: data.nationId,
@@ -80,6 +88,7 @@ export default function FindTripylerWrite(props) {
           regionName: data.regionName,
         });
         setTripDate([data.startDate, data.endDate]);
+        data.image && fetchImage(data.image);
       })
       .catch((error) => console.error(error));
   };
@@ -176,7 +185,16 @@ export default function FindTripylerWrite(props) {
 
   const onClickCancelBtn = () => {
     alert("취소되었습니다.");
-
+    console.log(
+      shownPlace,
+      tripDate,
+      totalPeopleNum,
+      shownMyHashtag,
+      title,
+      content,
+      imageUrl,
+      selectedImage
+    );
   };
 
   // 아이디 검색
