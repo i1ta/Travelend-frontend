@@ -84,6 +84,39 @@ export const Error = styled.div`
   color: #ff1d1d;
 `;
 
+export const PhoneCheckInputWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  width: 500px;
+  margin-right: 15px;
+  padding: 0 20px;
+
+  border-radius: 10px;
+  border: 1px solid #d6d5d5;
+`;
+
+export const PhoneCheckInput = styled.input`
+  width: 85%;
+  height: 100%;
+  padding: 15px 0;
+  font-weight: 400;
+  font-size: 15px;
+  color: #666666;
+  border: none;
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: #666666;
+  }
+`;
+
+export const Timer = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  color: #03045e;
+`;
+
 export const GenderWrapper = styled.div`
   height: 73px;
   width: 500px;

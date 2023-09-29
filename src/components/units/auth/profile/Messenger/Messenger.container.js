@@ -11,25 +11,25 @@ export default function Messenger(props) {
   const [nowRecipientId, setNowRecipientId] = useState(0);
   const scrollRef = useRef(null);
 
-  const [isOpenBlock, setIsOpenBlock] = useState(false);
-  const [isOpenReport, setIsOpenReport] = useState(false);
-
+  
   useEffect(() => {
     // scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
-
+    
     if (nowChatRoomId !== 0 && scrollRef.current?.scrollHeight) {
       // scrollRef.current?.scrollTo(0, scrollRef.current?.scrollHeight);
       scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
       // scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [nowChatRoomId]);
-
+  
   // 차단기능
+  const [isOpenBlock, setIsOpenBlock] = useState(false);
   const toggleBlock = () => {
     setIsOpenBlock((prev) => !prev);
   };
-
+  
   // 신고기능
+  const [isOpenReport, setIsOpenReport] = useState(false);
   const toggleReport = () => {
     setIsOpenReport((prev) => !prev);
   };
