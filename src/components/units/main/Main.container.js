@@ -10,10 +10,8 @@ import axios from "axios";
 
 import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
 import FindCard from '../../commons/Card/Main/FindCard/FindCard';
-import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
-import { setDate } from "date-fns";
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
