@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {FindCardFilter} from "@/States/LoginState";
+import { FindCardFilter } from "@/States/LoginState";
 import { LoginState, IsFirstLogin } from "../../../States/LoginState";
 
 export default function NavBar(props) {
@@ -56,14 +56,14 @@ export default function NavBar(props) {
   const onMesseageBtn = () => {
     router.push({
       pathname: "/auth/profile",
-      query: {category: "message"}
+      query: { category: "message" },
     });
   };
 
   const onLikeBtn = () => {
     router.push({
       pathname: "/auth/profile",
-      query: {category: "myCollections"}
+      query: { category: "myCollections" },
     });
   };
 
@@ -194,6 +194,7 @@ const PageList = styled.ul`
 
 const AuthList = styled(PageList)`
   gap: 0px;
+  position: relative;
 `;
 
 const Item = styled.li`
@@ -269,8 +270,8 @@ const InfoMsg = styled.div`
   border-radius: 15px;
   background-color: #ffffff;
   position: absolute;
-  top: 110%;
-  left: 72%;
+  top: 60px;
+  left: -70px;
 
   display: flex;
   flex-direction: column;
