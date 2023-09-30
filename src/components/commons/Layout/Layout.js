@@ -9,7 +9,8 @@ export default function Layout(props) {
     "/auth/join",
     "/auth/findPw",
     "/auth/findId",
-    "/auth/chnPw"
+    "/auth/chnPw",
+    "/404",
   ];
   const showFooter = !excludedPaths.includes(props.pathname);
 
