@@ -12,13 +12,14 @@ import Messenger from "./Messenger/Messenger.container";
 import Block from "@/components/commons/Modal/Block";
 import Report from "@/components/commons/Modal/Report";
 
-import { LoginState } from "@/States/LoginState";
+import { LoginState, IsAdmin } from "@/States/LoginState";
 
 import axios from "axios";
 
 export default function Profile() {
   const [selectedCategory, setSelectedCategory] = useState("MyProfile");
   const [_, setIsLoggedIn] = useRecoilState(LoginState);
+  const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
@@ -210,6 +211,7 @@ export default function Profile() {
       window.localStorage.clear();
       router.push("/");
       setIsLoggedIn(false);
+      setIsAdmin(false);
       alert("로그아웃 완료");
     }
   };
@@ -220,6 +222,7 @@ export default function Profile() {
   const handleModify = (value) => {
     setIsModify(value);
   };
+
   // 프로필이미지 api
   const [isProfileModal, setIsProfileModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(myProfileData.profileUrl);
