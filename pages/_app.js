@@ -6,8 +6,6 @@ import Layout from "@/components/commons/Layout/Layout";
 import { useRouter } from "next/router";
 import Head from 'next/head';
 
-import { NicknameState } from "../src/States/LoginState";
-
 export default function App({ Component, pageProps }) {
   const router = useRouter();
 

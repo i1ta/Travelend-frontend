@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { FindCardFilter } from "@/States/LoginState";
-import { LoginState, IsFirstLogin } from "../../../States/LoginState";
+import {
+  LoginState,
+  IsFirstLogin,
+  FindCardFilter,
+  IsAdmin,
+} from "@/States/LoginState";
 
 export default function NavBar(props) {
   const loginState = useRecoilValue(LoginState);
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
+  const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
   const [infoMsg, setInfoMsg] = useState([]);
   const [infoMsgNum, setInfoMsgNum] = useState(-1);
 
@@ -85,7 +90,7 @@ export default function NavBar(props) {
   return (
     <>
       <Nav className={isHidden ? "hidden" : ""} scrollY={scrollY}>
-        <NavContainer>
+        <NavContainer onClick={()=>console.log(isAdmin)}>
           <Container>
             <HomeLogo 
                 src="/assets/logo.png"
@@ -97,6 +102,7 @@ export default function NavBar(props) {
             <Item onClick={() => {router.push("/findTripyler"); setFindCardFilter({});}}>Trip'yler 찾기</Item>
             <Item onClick={() => router.push("/review")}>여행 후기</Item>
             <Item onClick={() => router.push("/addition/contact")}>Contact</Item>
+            {isAdmin && <AdminItem onClick={() => router.push("/admin")}>관리자 페이지</AdminItem>}
           </PageList>
 
           {!loginState ? (
@@ -198,13 +204,19 @@ const AuthList = styled(PageList)`
 `;
 
 const Item = styled.li`
-  padding: 20px 20px;
+  padding: 15px 20px;
   font-size: 18px;
   white-space: nowrap;
   margin: 0 0.5vw;
   font-weight: 600;
   color: 000;
   cursor: pointer;
+  border-radius: 10px;
+`;
+
+const AdminItem = styled(Item)`
+  background-color: #d3c5ff;
+  color: #fff;
 `;
 
 const BeforeLoginItem = styled.li`
