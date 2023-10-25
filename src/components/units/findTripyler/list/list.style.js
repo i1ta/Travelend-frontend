@@ -405,8 +405,12 @@ export const FindTripylerFilterOne = styled.select`
   cursor: pointer;
 
   &:focus{
-    border: 2px solid #00B4D8;;
+    border: 2px solid #00B4D8;
   }
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 `;
 
 export const FindTripylerOptionOne = styled.option`
@@ -415,6 +419,8 @@ export const FindTripylerOptionOne = styled.option`
   width: 111px;
   height: 50px;
   text-align: center;
+  padding: 13px 5px;
+  font-size: 16px;
 `;
 
 export const FindTripylerFilterTwo = styled.select`
@@ -431,6 +437,11 @@ export const FindTripylerFilterTwo = styled.select`
   &:focus{
     border: 2px solid #00B4D8;;
   }
+
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 `;
 
 export const PageNationWrapper = styled.div`
