@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
@@ -6,17 +6,19 @@ import { useRecoilState } from "recoil";
 import { LoginState } from "@/States/LoginState";
 
 export default function ReviewMain(props) {
+  const ref = useRef();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
-  const checkLogin = async () => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다");
-      router.push("/auth/signIn");
-    } else {
-      router.push(`/review/${props.info.reviewId}`);
-    }
-  };
+  console.log(ref.current);
+  // const checkLogin = async () => {
+  //   if (!isLoggedIn) {
+  //     alert("로그인이 필요한 서비스입니다");
+  //     router.push("/auth/signIn");
+  //   } else {
+  //     router.push(`/review/${props.info.reviewId}`);
+  //   }
+  // };
 
   // 시간 형식 변경
   const formatTime = () => {
@@ -44,7 +46,7 @@ export default function ReviewMain(props) {
   
     return (
         <ReviewContents>
-            <ReviewCard onClick={checkLogin}>
+            <ReviewCard onClick={() => props.onClick()}>
               <ReviewCardContentWrapper>
                 <ReviewCardDesWrapper>
                     <ReviewCardDes>
@@ -53,10 +55,10 @@ export default function ReviewMain(props) {
                         <ReviewCardRegion>·</ReviewCardRegion>
                         <ReviewCardRegion>{props.info.regionName}</ReviewCardRegion>
                     </ReviewCardDes>
-                    <ReviewHashtagWrapper>
-                        <ReviewHashtag>{props.info.hashtags[0]}</ReviewHashtag>
-                        <ReviewHashtag>{props.info.hashtags[1]}</ReviewHashtag>
-                        <ReviewHashtag>{props.info.hashtags[2]}</ReviewHashtag>
+                    <ReviewHashtagWrapper ref={ref}>
+                        <ReviewHashtag>#{props.info.hashtags[0]}</ReviewHashtag>
+                        <ReviewHashtag>#{props.info.hashtags[1]}</ReviewHashtag>
+                        <ReviewHashtag>#{props.info.hashtags[2]}</ReviewHashtag>
                     </ReviewHashtagWrapper>
                 </ReviewCardDesWrapper>
                 <ReviewLine></ReviewLine>
@@ -64,7 +66,7 @@ export default function ReviewMain(props) {
                     <ReviewDetailTitle>
                         {props.info.title}
                     </ReviewDetailTitle>
-                    <ReviewDetailContent>{props.info.content.length < 171 ? props.info.content : props.info.content.substring(0, 171) + "..."}</ReviewDetailContent>
+                    <ReviewDetailContent>{props.info.content.length < 169 ? props.info.content : props.info.content.substring(0, 169) + "..."}</ReviewDetailContent>
                 </ReviewDetailWrapper>
                 <ReviewLongLine></ReviewLongLine>
                 <ReviewInfoWrapper>
@@ -98,7 +100,7 @@ const ReviewContents = styled.div`
 
 const ReviewCard = styled.div`
   width: 1400px;
-  height: 343px;
+  height: 340px;
 
   margin-bottom: 50px;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
@@ -111,6 +113,8 @@ const ReviewCard = styled.div`
 
 const ReviewCardContentWrapper = styled.div`
   width: 824px;
+  height: 340px;
+  padding: 30px 0;
 
   display: flex;
   flex-direction: column;
@@ -119,8 +123,10 @@ const ReviewCardContentWrapper = styled.div`
 const ReviewCardDesWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-left: 30px;
+  height: 70px;
 `;
 
 const ReviewCardDes = styled.div`
@@ -174,7 +180,7 @@ const ReviewLine = styled.div`
   width: 294px;
   background-color: #d6d6d6;
   margin-left: 30px;
-  margin-top: 20px;
+  // margin-top: 20px;
 `;
 const ReviewLongLine = styled(ReviewLine)`
   width: 765px;
@@ -184,26 +190,32 @@ const ReviewDetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 30px;
+  height: 150px;
 `;
 
 const ReviewDetailTitle = styled.div`
   font-size: 25px;
   color: #9ab3f5;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 20px 0 0 0;
 `;
 
 const ReviewDetailContent = styled.div`
+  height: 117px;
   font-size: 16px;
   color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  // justify-content: center;
 `;
 
 const ReviewInfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 30px;
-  margin-top: 30px;
+  padding: 15px 30px;
+  // margin-top: 30px;
+  height: 60px;
 `;
 
 const ReviewInfoTime = styled.div`

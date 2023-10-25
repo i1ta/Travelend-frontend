@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import * as S from "./Main.styles";
-import { useRecoilState } from "recoil";
-import { LoginState } from '@/States/LoginState';
-import { FindCardList } from "@/States/LoginState";
-import {FindCardFilter} from "@/States/LoginState";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { LoginState, JwtTokenState, FindCardList, FindCardFilter, logout } from '@/States/LoginState';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
@@ -19,16 +17,33 @@ export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [findCardList, setFindCardList] = useRecoilState(FindCardList);
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
+  const setJwtToken = useSetRecoilState(JwtTokenState);
+  const jwtInfo = useRecoilValue(JwtTokenState);
   const apipath = 'https://api.tripyle.xyz';
 
   const [response, setResponse] = useState([]);
 
+  // 토큰이 만료되었을 경우
+  const checkToken = async () => {
+    if(jwtInfo.expiryTime < new Date().getTime()){
+      alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+      router.push("/auth/signIn");
+      logout({setJwtToken});
+      setIsLoggedIn(false);
+      return;
+    } 
+  }
+
   const checkLogin = async () => {
     if(!isLoggedIn){
+      console.log("!");
       alert('로그인이 필요한 서비스입니다');
       router.push("/auth/signIn");
     }
   };
+
+  useEffect(() => {if(isLoggedIn) {checkToken()}}, []);
+
 
   // 초기값 불러오기
   useEffect(() => {
@@ -59,6 +74,7 @@ export default function Main() {
   // Trip'yler 찾기 필터링
   const router = useRouter();
   const onClcickFilterFind = async () => {
+    if(isLoggedIn) {checkToken(); return;} 
     const requestData = {
       "continentId": parseInt(selectedDestination.continent.id),
       "endDate": tripDate[1],
@@ -355,14 +371,33 @@ export default function Main() {
             {response.map((res, idx) => {
             if(idx >= 0 && idx < 8)
             { return (
-              <FindCard id={res.tripylerId} info={res}/>
+              <FindCard 
+                key={res.tripylerId} 
+                id={res.tripylerId} 
+                info={res}
+                onClick={() => {
+                  if(!isLoggedIn) {
+                    checkLogin();
+                  } else {
+                    if(!checkToken()){
+                      router.push(`/findTripyler/${res.tripylerId}`);
+                    }
+                  }
+                }}
+              />
             )}})}
           </S.FindTripylerContent>
         </S.Review>
       </S.ContentWrapper>
       
       <S.ContentWrapper>
-        <S.ReviewTitleWrapper onClick={(e) => {router.push("/review")}}>
+        <S.ReviewTitleWrapper onClick={(e) => {
+          if(isLoggedIn) {
+            if(!checkToken()) {
+              router.push("/review")
+            } 
+          }
+        }}>
           <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
           <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
         </S.ReviewTitleWrapper>
@@ -370,7 +405,20 @@ export default function Main() {
           {reviewList.map((e, i) => {
             if(i >= 0 && i < 5)
             { return (
-              <ReviewComponent idx={i + 1} info={e}/>
+              <ReviewComponent 
+                key={i + 1} 
+                idx={i + 1} 
+                info={e}
+                onClick={() => {
+                  if(!isLoggedIn) {
+                    checkLogin();
+                  } else {
+                    if(!checkToken()){
+                      router.push(`/review/${e.reviewId}`);
+                    }
+                  }
+                }}
+              />
           )}})}
           
         </S.Review>

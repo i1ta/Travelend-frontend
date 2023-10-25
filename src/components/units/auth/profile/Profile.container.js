@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 
 import * as S from "./Profile.styles";
@@ -10,16 +10,30 @@ import MyCollections from "./MyCollections/MyCollections.container";
 import Triplog from "./Triplog/Triplog.container";
 import Messenger from "./Messenger/Messenger.container";
 
-import { LoginState } from "@/States/LoginState";
+import { LoginState, IsJwtValidSelector, logout, JwtTokenState } from "@/States/LoginState";
 
 import axios from "axios";
 
 export default function Profile() {
   const [selectedCategory, setSelectedCategory] = useState("MyProfile");
-  const [_, setIsLoggedIn] = useRecoilState(LoginState);
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
+  const setIsLoggedIn = useRecoilState(LoginState);
+
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+
+  // 토큰 만료 여부 확인
+  // useEffect(() => {
+  //   if(!isJwtValid){
+  //     router.push("/auth/signIn");
+  //     alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+  //     logout({setJwtToken});
+  //     setIsLoggedIn(false);
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (router.query.userId) {
       setSelectedCategory("NotMyProfile");
@@ -230,7 +244,7 @@ export default function Profile() {
     if (result) {
       window.localStorage.clear();
       router.push("/");
-      setIsLoggedIn(false);
+      logout({setJwtToken});
       alert("로그아웃 완료");
     }
   };

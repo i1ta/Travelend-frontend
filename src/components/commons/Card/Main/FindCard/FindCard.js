@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { LoginState } from "@/States/LoginState";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from "@/States/LoginState";
 
 export default function FindCard(props) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-
-  const checkLogin = async () => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다");
-      router.push("/auth/signIn");
-    } else {
-      router.push(`/findTripyler/${props.id}`);
-    }
-  };
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
 
   // 나이 형식 변경
   const [age, setAge] = useState(parseInt(props.info.age));
@@ -59,7 +52,8 @@ export default function FindCard(props) {
   );
 
   return (
-    <ReviewCard onClick={checkLogin}>
+    // <ReviewCard onClick={checkLogin}>
+    <ReviewCard onClick={props.onClick}>
       <ReviewImgWrapper>
         <ReviewImg
           src={
@@ -104,7 +98,7 @@ export default function FindCard(props) {
                 모집 중 / 총 {props.info.totalPeopleNum}인
               </ReviewSmallTxt>
             </ReviewInfoWrapper>
-            <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
+            <ReviewInfoWrapper style={{ "marginBottom": "5px" }}>
               <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
               <ReviewDateTxt>
                 <ReviewSmallTxt>

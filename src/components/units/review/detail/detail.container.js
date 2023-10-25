@@ -1,11 +1,14 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function TriplogDetail() {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const apiPath = "https://api.tripyle.xyz";
   const { reviewId } = router.query;
 
@@ -53,7 +56,15 @@ export default function TriplogDetail() {
           data.hashtag5,
         ]);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        if(error.response.data.code === 401){
+          router.push("/auth/signIn");
+          alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
+          localStorage.clear();
+          setIsLoggedIn(false);
+        }
+      });
   };
 
   // 댓글 기능

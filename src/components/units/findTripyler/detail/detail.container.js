@@ -1,6 +1,8 @@
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
 import { useRouter } from "next/router";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from '@/States/LoginState';
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -8,6 +10,24 @@ export default function FindTripylerDetail() {
   const router = useRouter();
   const apiPath = "https://api.tripyle.xyz";
   const { tripylerId } = router.query;
+  
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  
+  // 토큰 만료 여부 확인
+  // useEffect(() => {
+  //   if(!isJwtValid){
+  //     router.push("/auth/signIn");
+  //     alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+  //     logout({setJwtToken});
+  //     setIsLoggedIn(false);
+  //   }
+  //   if(!isLoggedIn){
+  //     router.push("/auth/signIn");
+  //     alert("로그인이 필요한 서비스입니다.");
+  //   }
+  // }, []);
 
   const [data, setData] = useState({
     tripylerId: 0,
@@ -105,7 +125,9 @@ export default function FindTripylerDetail() {
         setData({ ...data });
         setHashtag([...data.hashtagList]);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error)
+      });
   };
 
   // 댓글 기능

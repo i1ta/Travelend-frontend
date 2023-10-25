@@ -5,6 +5,8 @@ import * as S from "./write.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 
 export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
@@ -52,6 +54,7 @@ export default function FindTripylerWrite(props) {
     } else setTotalPeopleNum((prev) => prev + 1);
   };
 
+
   const fetchData = async () => {
     await axios
       .get(`${apiPath}/tripyler/${tripylerId}`)
@@ -81,7 +84,9 @@ export default function FindTripylerWrite(props) {
         });
         setTripDate([data.startDate, data.endDate]);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {

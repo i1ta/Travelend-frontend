@@ -1,24 +1,34 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { LoginState } from '@/States/LoginState';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from "@/States/LoginState";
 
 export default function Review (props) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
 
-  const checkLogin = async () => {
-    if(!isLoggedIn){
-      alert('로그인이 필요한 서비스입니다');
-      router.push("/auth/signIn");
-    } else{
-      router.push(`/review/${props.info.reviewId}`)
-    }
-  };
+  // const checkLogin = async () => {
+  //   if (!isLoggedIn) {
+  //     alert("로그인이 필요한 서비스입니다");
+  //     router.push("/auth/signIn");
+  //     return;
+  //   } 
+  //   if(!isJwtValid){
+  //     router.push("/auth/signIn");
+  //     alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+  //     logout({setJwtToken});
+  //     setIsLoggedIn(false);
+  //     return;
+  //   } else{
+  //     router.push(`/review/${props.info.reviewId}`)
+  //   }
+  // };
     return (
-        <ReviewContents>
-            <ReviewCard onClick={checkLogin}>
+        <ReviewContents onClick={props.onClick}>
+            <ReviewCard>
               <ReviewNum>{props.idx}</ReviewNum>
               <ReviewUserImg src={props.info.userProfileUrl}/>
               <ReviewUserWrapper>

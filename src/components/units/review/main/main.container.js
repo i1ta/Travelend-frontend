@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import * as S from "./main.styles";
-import { useRecoilState } from "recoil";
-import { useRecoilValue } from "recoil";
-import { LoginState } from "@/States/LoginState";
-import { FindCardList } from "@/States/LoginState";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from "@/States/LoginState";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
@@ -16,6 +14,9 @@ import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 export default function ReviewMain() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
+  const jwtInfo = useRecoilValue(JwtTokenState);
   const apipath = "https://api.tripyle.xyz";
 
   const router = useRouter();
@@ -31,10 +32,22 @@ export default function ReviewMain() {
     if (!isLoggedIn) {
       alert("로그인이 필요한 서비스입니다");
       router.push("/auth/signIn");
-    } else {
-      router.push(`/review/write`);
-    }
-  };
+      return;
+    } 
+  }
+
+  // 토큰이 만료되었을 경우
+  const checkToken = async () => {
+    if(jwtInfo.expiryTime < new Date().getTime()){
+      alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+      router.push("/auth/signIn");
+      logout({setJwtToken});
+      setIsLoggedIn(false);
+      return;
+    } 
+  }
+
+  useEffect(() => {if(isLoggedIn) {checkToken()}}, []);
 
   // 여행 후기 필터링
   const [reviewList, setReviewList] = useState([]);
@@ -57,6 +70,7 @@ export default function ReviewMain() {
           .post(`${apipath}/review/list?option=1`, requestData)
           .then((res) => {
             setReviewList(res.data.data);
+            console.log(res.data.data);
           })
           .catch((error) => console.log(error));
       }
@@ -66,6 +80,9 @@ export default function ReviewMain() {
 
     const [option, setOption] = useState("");
     const onClcickFilterFind = async () => {
+      if(isLoggedIn){
+        checkToken();
+      }
       setPageNum([]);
       const requestData = {
         "continentId": parseInt(selectedDestination.continent.id),
@@ -350,7 +367,6 @@ export default function ReviewMain() {
                                     ...prev,
                                     startMonth: e.target.id,
                                   }));
-                                  console.log(date.startMonth);
                                 }}
                               >
                                 {e}월
@@ -375,7 +391,6 @@ export default function ReviewMain() {
                                     ...prev,
                                     endMonth: e.target.id,
                                   }));
-                                  console.log(date.endMonth);
                                 }}
                               >
                                 {e}월
@@ -458,7 +473,15 @@ export default function ReviewMain() {
         <S.FindTripylerTitleWrapper>
           <S.FindTripylerTitle>
             <div>Trip’yler의 인기 여행 후기</div>
-            <S.FindTripylerWriteBtn onClick={checkLogin}>
+            <S.FindTripylerWriteBtn onClick={() => {
+              if(!isLoggedIn){
+                checkLogin();
+              } else{
+                if(!checkToken()) {
+                  router.push("/review/write");
+                }
+              }
+            }}>
               후기 작성 〉
             </S.FindTripylerWriteBtn>
           </S.FindTripylerTitle>
@@ -484,10 +507,21 @@ export default function ReviewMain() {
           <S.FindTripylerContent>
             {reviewList
               .map((card, idx) => {
-                console.log(card)
               if(parseInt(idx/5) === page - 1)
               return(
-              <ReviewCard id={card.tripylerId} info={card}/>
+              <ReviewCard 
+                id={card.tripylerId} 
+                info={card}
+                onClick={() => {
+                  if(!isLoggedIn){
+                    checkLogin();
+                  } else{
+                    if(!checkToken()){
+                      router.push(`/review/${card.tripylerId}`);
+                    }
+                  }
+                }}
+              />
             )})}
           </S.FindTripylerContent>
           )}
