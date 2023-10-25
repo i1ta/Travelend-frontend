@@ -65,14 +65,20 @@ export const IsFirstLogin = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const IsAdmin = atom({
+  key: "IsAdmin",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const FindCardList = atom({
   key: "FindCardList",
   default: [],
   effects_UNSTABLE: [persistAtom],
-})
+});
 
 export const FindCardFilter = atom({
-  key: "FindCardFilter", 
+  key: "FindCardFilter",
   default: {},
   effects_UNSTABLE: [persistAtom],
-})
+});

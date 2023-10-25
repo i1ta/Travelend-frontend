@@ -29,8 +29,31 @@ export const ProfileLine = styled.div`
   width: 250px;
   height: 1px;
   background-color: #999999;
+  margin-bottom: 1.5rem;
 `;  
 
+export const BlockWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const BlockTxt = styled.div`
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    color: #c8b6ff;
+  }
+`;
+
+export const BlockHypen = styled.div`
+  width: 1px;
+  height: 15px;
+  background: #999;
+`;
 
 export const ProfileImage = styled.div`
   width: 280px;

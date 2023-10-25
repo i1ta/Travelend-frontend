@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import * as S from "./MyProfile.styles";
 import Modal from "../../../../commons/Modal/Modal";
@@ -11,7 +11,7 @@ export default function MyProfile(props) {
     if(phoneNum === null){
       return "";
     }
-    return phoneNum.replace(regex, "$1-$2-$3");
+    return phoneNum?.replace(regex, "$1-$2-$3");
   };
 
   const [mbtiList, setMbtiList] = useState([]);

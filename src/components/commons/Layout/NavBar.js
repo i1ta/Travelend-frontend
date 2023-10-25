@@ -2,8 +2,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {FindCardFilter} from "@/States/LoginState";
-import { LoginState, IsFirstLogin, logout, JwtTokenState } from "../../../States/LoginState";
+import {
+  FindCardFilter,
+  LoginState,
+  IsFirstLogin,
+  logout,
+  JwtTokenState,
+  IsAdmin
+} from "@/States/LoginState";
 import TopBtn from "./TopBtn";
 
 export default function NavBar(props) {
@@ -12,6 +18,7 @@ export default function NavBar(props) {
   const jwtInfo = useRecoilValue(JwtTokenState);
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
+  const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
   const [infoMsg, setInfoMsg] = useState([]);
   const [infoMsgNum, setInfoMsgNum] = useState(-1);
 
@@ -139,6 +146,7 @@ export default function NavBar(props) {
               } 
             >여행 후기</Item>
             <Item onClick={() => router.push("/addition/contact")}>Contact</Item>
+            {isAdmin && <AdminItem onClick={() => router.push("/admin")}>관리자 페이지</AdminItem>}
           </PageList>
 
           {!isLoggedIn ? (
@@ -237,16 +245,23 @@ const PageList = styled.ul`
 
 const AuthList = styled(PageList)`
   gap: 0px;
+  position: relative;
 `;
 
 const Item = styled.li`
-  padding: 20px 20px;
+  padding: 15px 20px;
   font-size: 18px;
   white-space: nowrap;
   margin: 0 0.5vw;
   font-weight: 600;
   color: 000;
   cursor: pointer;
+  border-radius: 10px;
+`;
+
+const AdminItem = styled(Item)`
+  background-color: #d3c5ff;
+  color: #fff;
 `;
 
 const BeforeLoginItem = styled.li`
@@ -312,8 +327,8 @@ const InfoMsg = styled.div`
   border-radius: 15px;
   background-color: #ffffff;
   position: absolute;
-  top: 110%;
-  left: 72%;
+  top: 60px;
+  left: -70px;
 
   display: flex;
   flex-direction: column;
@@ -337,18 +352,3 @@ const InfoMsgBtn = styled.button`
   text-align: center;
   border-radius: 10px;
 `;
-
-// const TopBtnWrapper = styled.div`
-// `;
-
-// const TopBtn = styled.div`
-//   background-color: #000;
-//   color: #fff;
-//   width: 25px;
-//   height: 25px;
-//   pointer: cursor;
-
-//   position: flxed;
-//   bottom: 10;
-//   right: 0;
-// `;

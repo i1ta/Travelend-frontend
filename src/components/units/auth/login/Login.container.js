@@ -5,7 +5,14 @@ import { useRouter } from "next/router";
 
 import * as S from "./Login.styles";
 
-import { login, NicknameState, IsFirstLogin, LoginState, JwtTokenState } from "@/States/LoginState";
+import { 
+  login, 
+  NicknameState, 
+  IsFirstLogin, 
+  LoginState, 
+  JwtTokenState, 
+  IsAdmin 
+} from "@/States/LoginState";
 
 import axios from "axios";
 
@@ -24,6 +31,7 @@ export default function LoginForm() {
   const [nickname, setNickname] = useRecoilState(NicknameState);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
+  const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
 
   // Sign In 버튼 클릭 시
   const onSubmit = async (data) => {
@@ -45,12 +53,16 @@ export default function LoginForm() {
           requestData,
           { "Content-Type": "application/json; charset=utf-8" }
         );
+
         if (response.status === 200 && response.data.data.accessToken) {
           localStorage.setItem("login-token", response.data.data.accessToken);
           login({jwtToken: response.data.data.accessToken, setJwtToken});
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);
+          response.data.data.userRole === "ROLE_ADMIN"
+            ? setIsAdmin(true)
+            : setIsAdmin(false);
           router.push("/");
         }
       }

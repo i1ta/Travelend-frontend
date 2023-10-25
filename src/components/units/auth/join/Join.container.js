@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Join.styles";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -42,14 +42,6 @@ export default function Join() {
   const [errorCheckBox, setErrorCheckBox] = useState("");
   const [errorStyle, setErrorStyle] = useState("");
 
-  // 모달 창
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [shownMyHashtag, setShownMyHashtag] = useState([]);
-
-  const onClickOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
   // 중복확인 버튼
   const onClickUsernameCheckBtn = () => {
     if (!username) {
@@ -89,6 +81,8 @@ export default function Join() {
           setAuthCheckNum(response.data.data);
           setErrorPhone("");
           setIsSendCheckNum(true);
+          setSeconds(180);
+          setIsRunning(true);
           alert("인증번호가 전송되었습니다.");
         })
         .catch((error) => {
@@ -99,9 +93,12 @@ export default function Join() {
 
   // 인증확인 버튼
   const onClickAuthNumCheckBtn = () => {
-    if (inputCheckNum !== String(authCheckNum)) {
+    if (!isRunning) {
+      setErrorPhoneCheck("시간이 초과되었습니다.");
+    } else if (inputCheckNum !== String(authCheckNum)) {
       setErrorPhoneCheck("인증번호가 잘못되었습니다.");
     } else {
+      setIsRunning(false);
       alert("인증번호가 확인되었습니다.");
       setErrorPhoneCheck("");
       setIsPhoneAuth(true);
@@ -290,6 +287,41 @@ export default function Join() {
     }
   };
 
+  // 모달 창
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [shownMyHashtag, setShownMyHashtag] = useState([]);
+
+  const onClickOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 타이머 기능
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let interval;
+
+    if (isRunning && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setIsRunning(false);
+      clearInterval(interval);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isRunning, seconds]);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onClickEnrollBtn)}>
@@ -353,7 +385,14 @@ export default function Join() {
 
           <S.InputWrapper>
             <S.Label>
-              <S.LabelTxt>휴대폰</S.LabelTxt>
+              <S.LabelTxt
+                onClick={() => {
+                  setSeconds(10);
+                  setIsRunning(true);
+                }}
+              >
+                휴대폰
+              </S.LabelTxt>
               <S.LabelStar>*</S.LabelStar>
             </S.Label>
             <S.Input
@@ -365,11 +404,11 @@ export default function Join() {
               type="button"
               onClick={onClcickAuthNumBtn}
               style={{
-                borderColor: isSendCheckNum ? "#D6D5D5" : "",
-                color: isSendCheckNum ? "#D6D5D5" : "",
-                cursor: isSendCheckNum ? "default" : "",
+                borderColor: !isRunning && !isPhoneAuth ? "" : "#D6D5D5",
+                color: !isRunning && !isPhoneAuth ? "" : "#D6D5D5",
+                cursor: !isRunning && !isPhoneAuth ? "" : "default",
               }}
-              disabled={isSendCheckNum}
+              disabled={isRunning || isPhoneAuth}
             >
               인증받기
             </S.CheckBtn>
@@ -380,8 +419,20 @@ export default function Join() {
             <>
               <S.InputWrapper>
                 <S.BlankLabel></S.BlankLabel>
-                <S.Input onChange={onChangePhoneCheckNum}></S.Input>
-                <S.CheckBtn type="button" onClick={onClickAuthNumCheckBtn}>
+                <S.PhoneCheckInputWrapper>
+                  <S.PhoneCheckInput onChange={onChangePhoneCheckNum} />
+                  <S.Timer>{formatTime(seconds)}</S.Timer>
+                </S.PhoneCheckInputWrapper>
+                <S.CheckBtn
+                  type="button"
+                  onClick={onClickAuthNumCheckBtn}
+                  style={{
+                    borderColor: isPhoneAuth ? "#D6D5D5" : "",
+                    color: isPhoneAuth ? "#D6D5D5" : "",
+                    cursor: isPhoneAuth ? "default" : "",
+                  }}
+                  disabled={isPhoneAuth}
+                >
                   확인
                 </S.CheckBtn>
               </S.InputWrapper>
