@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {FindCardFilter} from "@/States/LoginState";
-import { LoginState, IsFirstLogin } from "../../../States/LoginState";
+import { LoginState, IsFirstLogin, logout, JwtTokenState } from "../../../States/LoginState";
+import TopBtn from "./TopBtn";
 
 export default function NavBar(props) {
-  const loginState = useRecoilValue(LoginState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const setJwtToken = useSetRecoilState(JwtTokenState);
+  const jwtInfo = useRecoilValue(JwtTokenState);
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const [infoMsg, setInfoMsg] = useState([]);
   const [infoMsgNum, setInfoMsgNum] = useState(-1);
 
   // 스크롤 이벤트
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   let prevScrollPos = window.pageYOffset;
 
@@ -21,14 +24,33 @@ export default function NavBar(props) {
     const currentScrollPos = window.pageYOffset;
     const isScrollingDown = currentScrollPos > prevScrollPos;
 
-    if (isScrollingDown && !isHidden) {
-      setIsHidden(true);
-    } else if (!isScrollingDown && isHidden) {
-      setIsHidden(false);
-    }
-
     prevScrollPos = currentScrollPos;
   };
+
+  // 토큰이 만료되었을 경우
+  const checkToken = async (e) => {
+    if(jwtInfo.expiryTime < new Date().getTime()){
+      alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+      router.push("/auth/signIn");
+      logout({setJwtToken});
+      setIsLoggedIn(false);
+      return true;
+    } else {return false;}
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', (e) => {
+      if(window.scrollY > 0){
+        setIsHidden(false);
+      } else{
+        setIsHidden(true);
+      }
+    })
+  }, []);
+
+  const topScroll = () => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
 
   useEffect(() => {
     if (isFirstLogin) {
@@ -41,7 +63,7 @@ export default function NavBar(props) {
     }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loginState, isHidden]);
+  }, [isLoggedIn]);
 
   const router = useRouter();
 
@@ -54,37 +76,45 @@ export default function NavBar(props) {
   };
 
   const onMesseageBtn = () => {
-    router.push({
-      pathname: "/auth/profile",
-      query: {category: "message"}
-    });
+    if(!checkToken()){
+      router.push({
+        pathname: "/auth/profile",
+        query: {category: "message"}
+      });
+    }
   };
 
   const onLikeBtn = () => {
-    router.push({
-      pathname: "/auth/profile",
-      query: {category: "myCollections"}
-    });
+    if(!checkToken()){
+      router.push({
+        pathname: "/auth/profile",
+        query: {category: "myCollections"}
+      });
+    }
   };
 
   const onProfileBtn = () => {
-    router.push("/auth/profile");
+    if(!checkToken()) {
+      router.push("/auth/profile");
+    }
   };
 
   const onClickInfoMsgBtn = () => {
-    if (infoMsgNum < 2) {
-      setInfoMsgNum((prev) => prev + 1);
-    } else {
-      setInfoMsgNum(-1);
-      setIsFirstLogin(false);
-      router.push("/auth/profile");
+    if(!checkToken()){
+      if (infoMsgNum < 2) {
+        setInfoMsgNum((prev) => prev + 1);
+      } else {
+        setInfoMsgNum(-1);
+        setIsFirstLogin(false);
+        router.push("/auth/profile");
+      }
     }
   };
 
   // prettier-ignore
   return (
     <>
-      <Nav className={isHidden ? "hidden" : ""} scrollY={scrollY}>
+      <Nav scrollY={scrollY}>
         <NavContainer>
           <Container>
             <HomeLogo 
@@ -94,12 +124,24 @@ export default function NavBar(props) {
           </Container>
           <PageList>
             <Item onClick={() => router.push("/addition/introduce")}>Trip'yler 소개</Item>
-            <Item onClick={() => {router.push("/findTripyler"); setFindCardFilter({});}}>Trip'yler 찾기</Item>
-            <Item onClick={() => router.push("/review")}>여행 후기</Item>
+            <Item onClick={() => {
+              if(isLoggedIn) {
+                if(!checkToken()) {
+                  router.push("/findTripyler"); setFindCardFilter({});
+                }
+              } 
+            }}>Trip'yler 찾기</Item>
+            <Item onClick={() => {
+              if(isLoggedIn) {
+                if(!checkToken()){
+                  router.push("/review")}}
+                }
+              } 
+            >여행 후기</Item>
             <Item onClick={() => router.push("/addition/contact")}>Contact</Item>
           </PageList>
 
-          {!loginState ? (
+          {!isLoggedIn ? (
             <AuthList>
               <BeforeLoginItem>
                 <SignInBtn onClick={onLoginBtn}>로그인</SignInBtn>
@@ -143,8 +185,9 @@ export default function NavBar(props) {
           )}
         </NavContainer>
       </Nav>
-      <NavBottom className={isHidden ? "hidden" : ""} />
+      <NavBottom />
       {props.children}
+      <TopBtn isHidden={isHidden} onClick={() => topScroll()}/>
     </>
   );
 }
@@ -167,7 +210,7 @@ const Nav = styled.nav`
   z-index: 100;
   display: flex;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -294,3 +337,18 @@ const InfoMsgBtn = styled.button`
   text-align: center;
   border-radius: 10px;
 `;
+
+// const TopBtnWrapper = styled.div`
+// `;
+
+// const TopBtn = styled.div`
+//   background-color: #000;
+//   color: #fff;
+//   width: 25px;
+//   height: 25px;
+//   pointer: cursor;
+
+//   position: flxed;
+//   bottom: 10;
+//   right: 0;
+// `;
