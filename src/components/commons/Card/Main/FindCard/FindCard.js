@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { LoginState } from "@/States/LoginState";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from "@/States/LoginState";
 
 export default function FindCard(props) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-
-  const checkLogin = async () => {
-    if (!isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다");
-      router.push("/auth/signIn");
-    } else {
-      router.push(`/findTripyler/${props.id}`);
-    }
-  };
+  const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+  const setJwtToken = useSetRecoilState(JwtTokenState);
 
   // 나이 형식 변경
   const [age, setAge] = useState(parseInt(props.info.age));
@@ -59,7 +52,9 @@ export default function FindCard(props) {
   );
 
   return (
-    <ReviewCard onClick={checkLogin}>
+    <>
+    {(props.idx !== 2) && (props.idx !== 5) ? (
+    <ReviewCard onClick={props.onClick}>
       <ReviewImgWrapper>
         <ReviewImg
           src={
@@ -72,7 +67,6 @@ export default function FindCard(props) {
       <ReviewCardHeader>
         <ReviewInfo>
           <CountryWrapper>
-            <ReviewIcon src="/icon/location.png"></ReviewIcon>
             <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
           </CountryWrapper>
           <ReviewCity> · {props.info.regionName}</ReviewCity>
@@ -81,21 +75,7 @@ export default function FindCard(props) {
 
       <ReviewUserWrapper>
         <ReviewUser>
-          <ReviewInfoUserWrapper>
-            <ReviewUserImg
-              src={props.info.profileUrl || "/icon/defaultProfile.png"}
-            ></ReviewUserImg>
-            <ReviewUserInfoWrapper>
-              <ReviewUsername>{props.info.nickname}</ReviewUsername>
-              <ReviewAge>
-                {parseInt(age / 10) * 10 < 10
-                  ? "아동"
-                  : `${parseInt(age / 10) * 10}대`}{" "}
-                {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
-                {props.info.gender === "M" ? "남성" : "여성"}
-              </ReviewAge>
-            </ReviewUserInfoWrapper>
-          </ReviewInfoUserWrapper>
+          
           <ReviewInfoCol>
             <ReviewInfoWrapper>
               <ReviewIcon src="/icon/user.png"></ReviewIcon>
@@ -104,7 +84,7 @@ export default function FindCard(props) {
                 모집 중 / 총 {props.info.totalPeopleNum}인
               </ReviewSmallTxt>
             </ReviewInfoWrapper>
-            <ReviewInfoWrapper style={{ "margin-bottom": "5px" }}>
+            <ReviewInfoWrapper style={{ "marginBottom": "5px" }}>
               <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
               <ReviewDateTxt>
                 <ReviewSmallTxt>
@@ -134,9 +114,27 @@ export default function FindCard(props) {
           })}
         </ReviewHashTagWrapper>
       </ReviewCardContents>
+      <ReviewLine></ReviewLine>
       <ReviewCardFooter>
-        <ReviewReactWrapper>
+        <ReviewInfoUserWrapper>
+          <ReviewUserImg
+            src={props.info.profileUrl || "/icon/defaultProfile.png"}
+          ></ReviewUserImg>
+          <ReviewUserInfoWrapper>
+            <ReviewUsername>{props.info.nickname}</ReviewUsername>
+            <ReviewAge>
+              {parseInt(age / 10) * 10 < 10
+                ? "아동"
+                : `${parseInt(age / 10) * 10}대`}{" "}
+              {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
+              {props.info.gender === "M" ? "남성" : "여성"}
+            </ReviewAge>
+          </ReviewUserInfoWrapper>
+        </ReviewInfoUserWrapper>
+      <ReviewReactWrapper>
+        <ReviewCardTimeWrapper>
           <ReviewCardTime>{timeFormat}</ReviewCardTime>
+        </ReviewCardTimeWrapper>
           <ReviewReactContent>
             <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
             <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
@@ -149,39 +147,144 @@ export default function FindCard(props) {
         </ReviewReactWrapper>
       </ReviewCardFooter>
     </ReviewCard>
+    ) : (
+      <LastReviewCard onClick={props.onClick}>
+      <ReviewImgWrapper>
+        <ReviewImg
+          src={
+            props.info.imageUrl === null
+              ? "/img/defaultImg.png"
+              : props.info.imageUrl
+          }
+        ></ReviewImg>
+      </ReviewImgWrapper>
+      <ReviewCardHeader>
+        <ReviewInfo>
+          <CountryWrapper>
+            <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
+          </CountryWrapper>
+          <ReviewCity> · {props.info.regionName}</ReviewCity>
+        </ReviewInfo>
+      </ReviewCardHeader>
+
+      <ReviewUserWrapper>
+        <ReviewUser>
+          
+          <ReviewInfoCol>
+            <ReviewInfoWrapper>
+              <ReviewIcon src="/icon/user.png"></ReviewIcon>
+              <ReviewSmallTxt>
+                {props.info.totalPeopleNum - props.info.recruitPeopleNum - 1}인
+                모집 중 / 총 {props.info.totalPeopleNum}인
+              </ReviewSmallTxt>
+            </ReviewInfoWrapper>
+            <ReviewInfoWrapper style={{ "marginBottom": "5px" }}>
+              <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
+              <ReviewDateTxt>
+                <ReviewSmallTxt>
+                  {props.info.startDate.substring(2).replace("-", ".")}
+                </ReviewSmallTxt>
+                <ReviewDateLine></ReviewDateLine>
+                <ReviewSmallTxt>
+                  {props.info.endDate.substring(2).replace("-", ".")}
+                </ReviewSmallTxt>
+              </ReviewDateTxt>
+            </ReviewInfoWrapper>
+          </ReviewInfoCol>
+        </ReviewUser>
+      </ReviewUserWrapper>
+      <ReviewLine></ReviewLine>
+      <ReviewCardContents>
+        <ReviewCardContentsTitle>
+          {props.info.title.length < 20
+            ? props.info.title
+            : props.info.title.substring(0, 21) + "..."}
+        </ReviewCardContentsTitle>
+        <ReviewHashTagWrapper>
+          {props.info.hashtag.map((element, idx) => {
+            if (0 <= idx && idx < 4) {
+              return <ReviewHashTag>#{element}</ReviewHashTag>;
+            }
+          })}
+        </ReviewHashTagWrapper>
+      </ReviewCardContents>
+      <ReviewLine></ReviewLine>
+      <ReviewCardFooter>
+        <ReviewInfoUserWrapper>
+          <ReviewUserImg
+            src={props.info.profileUrl || "/icon/defaultProfile.png"}
+          ></ReviewUserImg>
+          <ReviewUserInfoWrapper>
+            <ReviewUsername>{props.info.nickname}</ReviewUsername>
+            <ReviewAge>
+              {parseInt(age / 10) * 10 < 10
+                ? "아동"
+                : `${parseInt(age / 10) * 10}대`}{" "}
+              {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
+              {props.info.gender === "M" ? "남성" : "여성"}
+            </ReviewAge>
+          </ReviewUserInfoWrapper>
+        </ReviewInfoUserWrapper>
+      <ReviewReactWrapper>
+        <ReviewCardTimeWrapper>
+          <ReviewCardTime>{timeFormat}</ReviewCardTime>
+        </ReviewCardTimeWrapper>
+          <ReviewReactContent>
+            <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
+            <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
+            <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
+            <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
+
+            <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
+            <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
+          </ReviewReactContent>
+        </ReviewReactWrapper>
+      </ReviewCardFooter>
+    </LastReviewCard>
+    )}
+    </>
   );
 }
 
 const ReviewCard = styled.div`
-  width: 335px;
-  height: 453px;
+  width: 415px;
+  height: 491px;
   background: #ffffff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+  border-radius: 5px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 75px;
   margin-bottom: 20px;
   cursor: pointer;
 `;
 
+const LastReviewCard = styled(ReviewCard)`
+  margin-right: 0;
+`;
+
 const ReviewImgWrapper = styled.div`
-  width: 335px;
-  height: 200px;
+  width: 415px;
+  height: 235px;
+
+  border-radius: 5px 5px 0 0;
 `;
 
 const ReviewImg = styled.img`
-  width: 335px;
-  height: 200px;
+  width: 415px;
+  height: 235px;
   margin-bottom: 20px;
   object-fit: cover;
+  border-radius: 5px 5px 0 0;
 `;
 
 const ReviewCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 295px;
+  width: 415px;
   margin-bottom: 14px;
   margin-top: 15px;
 `;
@@ -189,13 +292,19 @@ const ReviewCardHeader = styled.div`
 const ReviewInfo = styled.div`
   display: flex;
   flex-direction: row;
-  width: 300px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+  width: 350px;
+  height: 35px;
+  background-color: #9AB3F5;
+  border-radius: 5px;
 `;
 
 const ReviewInfoCol = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 50px;
 `;
 
 const CountryWrapper = styled.div`
@@ -210,21 +319,23 @@ const ReviewIcon = styled.img`
 `;
 
 const ReviewInfoTxt = styled.div`
-  font-weight: 300;
+  font-weight: 700;
   font-size: 18px;
   line-height: 1;
-  color: #666666;
+  color: #fff;
 `;
 
 const ReviewSmallTxt = styled(ReviewInfoTxt)`
   font-size: 10px;
+  color: #666;
+  font-weight: 300;
 `;
 
 const ReviewCity = styled.div`
   font-weight: 500;
   font-size: 18px;
   line-height: 1;
-  color: #000000;
+  color: #fff;
   margin-left: 10px;
 `;
 
@@ -253,7 +364,7 @@ const ReviewUserWrapper = styled.div`
   align-items: center;
   margin: 0 3px;
   margin: 0 3px 5px 3px;
-  width: 335px;
+  width: 340px;
 `;
 
 const ReviewUser = styled.div`
@@ -262,7 +373,7 @@ const ReviewUser = styled.div`
   justify-content: space-between;
   margin-left: 20px;
   margin-right: 20px;
-  width: 335px;
+  width: 415px;
 `;
 
 const ReviewInfoUserWrapper = styled.div`
@@ -275,55 +386,63 @@ const ReviewUserImg = styled.img`
   height: 30px;
   border-radius: 100px;
   margin-right: 8px;
+  margin-top: 10.5px;
   object-fit: cover;
 `;
 
 const ReviewUserInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 51px;
+  justify-content: center;
 `;
 
 const ReviewUsername = styled.div`
-  color: #c8b6ff;
+  color: #666;
   font-size: 10px;
+  height: 25px;
+  line-height: 25px;
 `;
 
 const ReviewAge = styled.div`
   color: #666666;
   font-size: 10px;
+  height: 26px;
+  line-height: 26px;
 `;
 
 const ReviewHashTagWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
-  margin-bottom: 8px;
+  margin-top: 5px;
 `;
 
 const ReviewHashTag = styled.button`
-  height: 25px;
-  padding: 3px 12px;
+  // height: 20px;
+  padding: 3px 5px;
   margin-right: 8px;
   margin-top: 5px;
-  background: #00b4d8;
+  background: #fff;
   border-radius: 30px;
+  border: 1px solid #999;
 
   font-weight: 500;
   font-size: 10px;
-  color: #ffffff;
+  color: #999999;
   white-space: nowrap;
 `;
 
 const ReviewLine = styled.div`
-  width: 295px;
+  width: 345px;
   height: 1px;
   background-color: #d6d6d6;
   margin-bottom: 8px;
 `;
 
 const ReviewCardContents = styled.div`
-  width: 295px;
-  height: 80px;
+  width: 330px;
+  height: 70px;
 
   font-weight: 400;
   font-size: 12px;
@@ -332,10 +451,10 @@ const ReviewCardContents = styled.div`
 `;
 
 const ReviewCardContentsTitle = styled.div`
-  color: #9ab3f5;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 8px 0;
+  color: #666666;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 5px 0 8px 0;
 `;
 
 const ReviewCardContentsContent = styled.div`
@@ -345,42 +464,50 @@ const ReviewCardContentsContent = styled.div`
 `;
 
 const ReviewCardFooter = styled.div`
-  width: 295px;
-  height: 70px;
+  width: 330px;
+  // height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 3px solid rgba(214, 214, 214, 0.3);
+`;
+
+const ReviewCardTimeWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const ReviewCardTime = styled.div`
   color: #666666;
   font-size: 10px;
+  height: 25px;
+  line-height: 25px;
 `;
 
 const ReviewReactContent = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 12px 0;
+  height: 26px;
+  line-height: 26px;
 `;
 
 const ReviewReactWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 51px;
 `;
 
 const ReviewReactIcon = styled.img`
   width: 14px;
   height: 14px;
-  margin-right: 4px;
+  margin: 6px 4px 0 5px;
 `;
 
 const ReviewReactTxt = styled.div`
-  width: 25px;
+  width: 10px;
   margin: 0 2px;
   font-weight: 400;
   font-size: 10px;
-  line-height: 1;
+  line-height: 26px;
   color: #666666;
 `;
 

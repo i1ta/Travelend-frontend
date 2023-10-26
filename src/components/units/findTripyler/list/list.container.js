@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 import * as S from "./list.style";
-import { useRecoilState } from "recoil";
-import { useRecoilValue } from "recoil";
-import { LoginState } from '@/States/LoginState';
-import { FindCardList } from "@/States/LoginState";
-import {FindCardFilter} from "@/States/LoginState";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { LoginState, IsJwtValidSelector, JwtTokenState, logout, FindCardFilter } from '@/States/LoginState';
 import { useRouter } from "next/router";
-import Link from "next/link";
 import axios from "axios";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
@@ -17,6 +13,9 @@ import PreviewCard from "@/components/commons/Card/Preview/Preview";
 
 
 export default function FindTripylerList(){
+    const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
+    const setJwtToken = useSetRecoilState(JwtTokenState);
+    const jwtInfo = useRecoilValue(JwtTokenState);
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
     const apipath = 'https://api.tripyle.xyz';
@@ -49,18 +48,28 @@ export default function FindTripylerList(){
 
     const [ready, setReady] = useState(false);
 
-
     // 로그인 여부 확인
-    const checkLogin = async () => {
+    const checkLogin = async () => {      
       if(!isLoggedIn){
         alert('로그인이 필요한 서비스입니다');
         router.push("/auth/signIn");
         setFindCardFilter({});
-      } else{
-        router.push(`/findTripyler/write`);
-        setFindCardFilter({});
-      }
+        return;
+      } 
     };
+
+    // 토큰이 만료되었을 경우
+    const checkToken = async () => {
+      if(jwtInfo.expiryTime < new Date().getTime()){
+        alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+        router.push("/auth/signIn");
+        logout({setJwtToken});
+        setIsLoggedIn(false);
+        return;
+      } 
+    }
+
+    useEffect(() => {if(isLoggedIn) {checkToken()}}, []);
 
     // 필터링 값이 존재할 시 셋팅
     useEffect(() => {
@@ -395,7 +404,16 @@ export default function FindTripylerList(){
         <S.FindTripylerTitleWrapper>
             <S.FindTripylerTitle>
               <div>함께 동행할 Trip’yler 찾기</div>
-              <S.FindTripylerWriteBtn onClick={checkLogin}>글쓰기 〉</S.FindTripylerWriteBtn>
+              <S.FindTripylerWriteBtn onClick={() => {
+                if(!isLoggedIn){
+                  checkLogin();
+                } else{
+                  if(!checkToken()){
+                    router.push(`/findTripyler/write`); 
+                    setFindCardFilter({});
+                  }
+                }
+              }}>글쓰기 〉</S.FindTripylerWriteBtn>
             </S.FindTripylerTitle>
             <S.FindTripylerFilterOne onChange={(e) => {setIsRecruiting(e.target.value)}}>
                 <S.FindTripylerOptionOne value="1">모집 중</S.FindTripylerOptionOne>
@@ -418,7 +436,15 @@ export default function FindTripylerList(){
             {newCardList.map((card, idx) => { 
               if(parseInt(idx / 12) === page - 1){
               return(
-              <FindCard id={card.tripylerId} info={card}/>
+              <FindCard onClick={() => {
+                if(!isLoggedIn){
+                  checkLogin();
+                } else{
+                  if(!checkToken()) {
+                    router.push(`/findTripyler/${card.tripylerId}`);
+                  }
+                }
+              }} id={card.tripylerId} info={card}/>
             )}})}
           </S.FindTripylerContent>
           )}

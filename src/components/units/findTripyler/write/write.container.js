@@ -5,6 +5,8 @@ import * as S from "./write.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { LoginState } from '@/States/LoginState';
 
 export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
@@ -90,7 +92,9 @@ export default function FindTripylerWrite(props) {
         setTripDate([data.startDate, data.endDate]);
         data.image && fetchImage(data.image);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
