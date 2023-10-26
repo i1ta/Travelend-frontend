@@ -55,7 +55,6 @@ export default function PreviewCard(props) {
 
   const previewCardRef = useRef(null);
   const onRightSide = async (e) => {
-    console.log(previewCardRef.current);
     if (previewCardRef.current) {
       previewCardRef.current.scrollLeft += 480;
     }
@@ -70,7 +69,7 @@ export default function PreviewCard(props) {
   const [currentIdx, setCurrentIdx] = useState(0);
   return (
     <PreviewWrapper>
-      <PreviewTitle>실제 이용 후기로 보는 Trip'yle</PreviewTitle>
+      <PreviewTitle>이용자들이 말하는 Trip'yle</PreviewTitle>
       <PreviewContentWrapper>
         <ArrowIcon
           src="/icon/previewLeftArrow.png"
@@ -107,23 +106,22 @@ export default function PreviewCard(props) {
 
 const PreviewWrapper = styled.div`
   height: 930px;
-  padding: 48px;
+  padding: 100px 50px;
 
   display: flex;
   flex-direction: column;
 `;
 
 const PreviewTitle = styled.div`
-  font-size: 35px;
+  font-size: 25px;
   font-weight: bold;
-  color: #c8b6ff;
+  color: #9AB3F5;
   text-align: center;
 `;
 
 const PreviewContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
 
   justify-content: center;
   align-items: center;
@@ -139,7 +137,8 @@ const ArrowIcon = styled.img`
 
 const PreviewCardWrapper = styled.div`
   height: 600px;
-  width: 1470px;
+  // width: 1470px;
+  width: 700px;
 
   align-items: center;
 
@@ -159,8 +158,8 @@ const PreviewCardWrapper = styled.div`
 `;
 
 const Preview = styled.div`
-  height: 535px;
-  width: 443px;
+  height: 402px;
+  width: 670px;
 
   display: flex;
   flex-direction: column;
@@ -176,12 +175,13 @@ const PreviewUser = styled.div`
   flex-direction: row;
 
   align-items: center;
-  padding: 40px 40px 30px 40px;
+  padding: 20px 40px 20px 40px;
+  background-color: #fff;
 `;
 
 const PreviewUserImg = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 100px;
   object-fit: cover;
   margin-right: 30px;
@@ -191,9 +191,9 @@ const PreviewUserId = styled.div`
   justify-content: center;
   align-items: center;
 
-  font-size: 25px;
-  color: #c8b6ff;
-  font-weight: bold;
+  font-size: 20px;
+  color: #666;
+  font-weight: 700;
 `;
 
 const PreviewContent = styled.div`
@@ -203,11 +203,12 @@ const PreviewContent = styled.div`
 const PreviewTitleTxt = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: #c8b6ff;
-  margin: 30px 0;
+  color: #333;
+  margin: 35px 0;
 `;
 
 const PreviewTxt = styled.div`
   font-size: 16px;
-  color: #a7a7a7;
+  color: #666;
+  line-height: 35px;
 `;

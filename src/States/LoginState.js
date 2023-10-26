@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-const JWT_EXPIRY_TIME = 60 * 1000; // 만료 시간 (24시간 밀리 초로 표현)
+const JWT_EXPIRY_TIME = 604800000; // 만료 시간 (24시간 밀리 초로 표현)
 
 // JWT 토큰을 저장할 atom
 export const JwtTokenState = atom({

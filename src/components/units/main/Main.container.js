@@ -34,7 +34,6 @@ export default function Main() {
 
   const checkLogin = async () => {
     if(!isLoggedIn){
-      console.log("!");
       alert('로그인이 필요한 서비스입니다');
       router.push("/auth/signIn");
     }
@@ -234,13 +233,29 @@ export default function Main() {
   // 검색어
   const [keyword, setKeyword] = useState("");
 
+  // 광고 배너
+  const [adverIdx, setAdverIdx] = useState(0);
+  // let adverIdx = 0;
+  const advertiseArr = [
+    {img: "/img/adver1.png", title: ["오사카 2박 3일 하나투어 패키지", "30% 할인"]},
+    {img: "/img/adver2.png", title: ["뉴욕 4박 5일 모두투어 패키지", "50% 할인"]},
+    {img: "/img/adver3.png", title: ["가을 맞이 밴쿠버 5박 6일 하나투어 패키지", "30% 할인"]},
+  ];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAdverIdx((prevIdx) => (prevIdx === 2 ? 0 : prevIdx + 1));
+    }, 5000);
+
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 클리어
+  }, [adverIdx]);
   return (
     <>
       <S.Banner>
         <S.BannerImgWrapper>
           <S.BannerTitle>
-            <S.TitleTxt style={{ color: "#90E0EF" }}>여행</S.TitleTxt>에
-            <S.TitleTxt style={{ color: "#C8B6FF" }}> 스타일</S.TitleTxt>을
+            <S.TitleTxt>여행</S.TitleTxt>에
+            <S.TitleTxt> 스타일</S.TitleTxt>을
             더하다
           </S.BannerTitle>
           <S.BannerTxt>
@@ -360,18 +375,22 @@ export default function Main() {
       </S.Banner>
 
       <S.ContentWrapper>
-        <S.FindTripylerTitleWrapper onClick={onClcickFilterFind}>
-          <S.FindTripylerTitle>함께 동행할 Trip’yler 찾기</S.FindTripylerTitle>
-          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
-        </S.FindTripylerTitleWrapper>
+        <S.ReviewTitleWrapper onClick={onClcickFilterFind}>
+          <S.FindTripylerTitle>함께 동행할 Trip’yler를 만나보세요</S.FindTripylerTitle>
+          <S.BtnBigArrow src="icon/move.png"></S.BtnBigArrow>
+        </S.ReviewTitleWrapper>
         <S.Review>
+          <S.SubTitleWrapper>
+            <S.SubTitle><img src="/icon/location.png" width="25px" height="25px" /> 인기 여행지</S.SubTitle>
+          </S.SubTitleWrapper>
           <S.FindTripylerContent>
             {response.map((res, idx) => {
-            if(idx >= 0 && idx < 8)
+            if(idx >= 0 && idx < 6)
             { return (
               <FindCard 
                 key={res.tripylerId} 
                 id={res.tripylerId} 
+                idx={idx}
                 info={res}
                 onClick={() => {
                   if(!isLoggedIn) {
@@ -388,6 +407,18 @@ export default function Main() {
         </S.Review>
       </S.ContentWrapper>
       
+      <S.ReviewBannerWrapper>
+        <S.ReviewBannerImgOneWrapper>
+          <S.ReviewBannerImgOne src="/img/city1.avif"/>
+        </S.ReviewBannerImgOneWrapper>
+        <S.ReviewBannerImgTwoWrapper>
+          <S.ReviewBannerImgTwo src="/img/city2.jpg"/>
+        </S.ReviewBannerImgTwoWrapper>
+        <S.PreviewWrapper>
+          <PreviewCard/>
+        </S.PreviewWrapper>
+      </S.ReviewBannerWrapper>
+
       <S.ContentWrapper>
         <S.ReviewTitleWrapper onClick={(e) => {
           if(isLoggedIn) {
@@ -396,16 +427,20 @@ export default function Main() {
             } 
           }
         }}>
-          <S.ReviewTitle>인기 여행 후기 Top5</S.ReviewTitle>
-          <S.BtnBigArrow src="icon/arrow.png"></S.BtnBigArrow>
+          <S.FindTripylerTitle>Trip'yler들의 여행 후기를 만나보세요</S.FindTripylerTitle>
+          <S.BtnBigArrow src="icon/move.png"></S.BtnBigArrow>
         </S.ReviewTitleWrapper>
         <S.Review>
+          <S.SubTitleWrapper>
+            <S.SubTitle><img src="/icon/location.png" width="25px" height="25px" /> 인기 여행 후기</S.SubTitle>
+          </S.SubTitleWrapper> 
+        <S.FindTripylerContent>
           {reviewList.map((e, i) => {
-            if(i >= 0 && i < 5)
+            if(i >= 0 && i < 6)
             { return (
               <ReviewComponent 
-                key={i + 1} 
-                idx={i + 1} 
+                key={i} 
+                idx={i} 
                 info={e}
                 onClick={() => {
                   if(!isLoggedIn) {
@@ -418,15 +453,27 @@ export default function Main() {
                 }}
               />
           )}})}
+          </S.FindTripylerContent>
           
         </S.Review>
       </S.ContentWrapper>
 
-      <S.AdWrapper style={{'cursor': 'pointer'}} onClick={(e) => router.push("/review/write")}>
-        <S.AdImg src="/img/AdBanner.png"></S.AdImg>
+      <S.AdWrapper style={{'cursor': 'pointer'}}>
+        {advertiseArr.map((e, i) => {
+          if(i === adverIdx){
+            return (
+              <S.AdBannerWrapper>
+                <S.AdImg src={e.img} key={i}/>
+                <S.AdTitleWrapper>
+                  {e.title.map((title, j) => (
+                    <S.AdTitle idx={j} style={{ top : `calc(${j} * 100px + 300px)`}}>{title}</S.AdTitle>
+                  ))}
+                </S.AdTitleWrapper>
+              </S.AdBannerWrapper>
+            )}
+        })}
       </S.AdWrapper>
 
-      <PreviewCard/>
     </>
   );
 }
