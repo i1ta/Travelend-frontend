@@ -35,14 +35,14 @@ export default function NavBar(props) {
   };
 
   // 토큰이 만료되었을 경우
-  const checkToken = async (e) => {
+  function checkToken () {
     if(jwtInfo.expiryTime < new Date().getTime()){
       alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
       router.push("/auth/signIn");
       logout({setJwtToken});
       setIsLoggedIn(false);
       return true;
-    } else {return false;}
+    } else { return false; }
   };
 
   useEffect(() => {

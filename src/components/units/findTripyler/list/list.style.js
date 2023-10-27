@@ -333,6 +333,7 @@ export const FindTripylerContent = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin-left: 20px;
+  gap: 70px;
 `;
 
 export const FindTripylerNoContent = styled(FindTripylerContent)`

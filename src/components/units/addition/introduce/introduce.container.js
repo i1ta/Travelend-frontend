@@ -8,15 +8,11 @@ export default function IntroduceTripyle() {
 
     useEffect(() => {
         window.addEventListener('scroll', (e) => {
-            console.log(e);
-            console.log(window.scrollY);
             setScr(window.scrollY);
 
         });
         return () => {
-            window.removeEventListener('scroll', (e) => {
-                console.log(e.target);
-            })
+            window.removeEventListener('scroll', (e) => {})
         }
     }, []);
     
