@@ -53,7 +53,6 @@ export default function FindCard(props) {
 
   return (
     <>
-    {(props.idx !== 2) && (props.idx !== 5) ? (
     <ReviewCard onClick={props.onClick}>
       <ReviewImgWrapper>
         <ReviewImg
@@ -147,101 +146,6 @@ export default function FindCard(props) {
         </ReviewReactWrapper>
       </ReviewCardFooter>
     </ReviewCard>
-    ) : (
-      <LastReviewCard onClick={props.onClick}>
-      <ReviewImgWrapper>
-        <ReviewImg
-          src={
-            props.info.imageUrl === null
-              ? "/img/defaultImg.png"
-              : props.info.imageUrl
-          }
-        ></ReviewImg>
-      </ReviewImgWrapper>
-      <ReviewCardHeader>
-        <ReviewInfo>
-          <CountryWrapper>
-            <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
-          </CountryWrapper>
-          <ReviewCity> · {props.info.regionName}</ReviewCity>
-        </ReviewInfo>
-      </ReviewCardHeader>
-
-      <ReviewUserWrapper>
-        <ReviewUser>
-          
-          <ReviewInfoCol>
-            <ReviewInfoWrapper>
-              <ReviewIcon src="/icon/user.png"></ReviewIcon>
-              <ReviewSmallTxt>
-                {props.info.totalPeopleNum - props.info.recruitPeopleNum - 1}인
-                모집 중 / 총 {props.info.totalPeopleNum}인
-              </ReviewSmallTxt>
-            </ReviewInfoWrapper>
-            <ReviewInfoWrapper style={{ "marginBottom": "5px" }}>
-              <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
-              <ReviewDateTxt>
-                <ReviewSmallTxt>
-                  {props.info.startDate.substring(2).replace("-", ".")}
-                </ReviewSmallTxt>
-                <ReviewDateLine></ReviewDateLine>
-                <ReviewSmallTxt>
-                  {props.info.endDate.substring(2).replace("-", ".")}
-                </ReviewSmallTxt>
-              </ReviewDateTxt>
-            </ReviewInfoWrapper>
-          </ReviewInfoCol>
-        </ReviewUser>
-      </ReviewUserWrapper>
-      <ReviewLine></ReviewLine>
-      <ReviewCardContents>
-        <ReviewCardContentsTitle>
-          {props.info.title.length < 20
-            ? props.info.title
-            : props.info.title.substring(0, 21) + "..."}
-        </ReviewCardContentsTitle>
-        <ReviewHashTagWrapper>
-          {props.info.hashtag.map((element, idx) => {
-            if (0 <= idx && idx < 4) {
-              return <ReviewHashTag>#{element}</ReviewHashTag>;
-            }
-          })}
-        </ReviewHashTagWrapper>
-      </ReviewCardContents>
-      <ReviewLine></ReviewLine>
-      <ReviewCardFooter>
-        <ReviewInfoUserWrapper>
-          <ReviewUserImg
-            src={props.info.profileUrl || "/icon/defaultProfile.png"}
-          ></ReviewUserImg>
-          <ReviewUserInfoWrapper>
-            <ReviewUsername>{props.info.nickname}</ReviewUsername>
-            <ReviewAge>
-              {parseInt(age / 10) * 10 < 10
-                ? "아동"
-                : `${parseInt(age / 10) * 10}대`}{" "}
-              {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
-              {props.info.gender === "M" ? "남성" : "여성"}
-            </ReviewAge>
-          </ReviewUserInfoWrapper>
-        </ReviewInfoUserWrapper>
-      <ReviewReactWrapper>
-        <ReviewCardTimeWrapper>
-          <ReviewCardTime>{timeFormat}</ReviewCardTime>
-        </ReviewCardTimeWrapper>
-          <ReviewReactContent>
-            <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
-            <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
-            <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
-            <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
-
-            <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
-            <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
-          </ReviewReactContent>
-        </ReviewReactWrapper>
-      </ReviewCardFooter>
-    </LastReviewCard>
-    )}
     </>
   );
 }
@@ -256,7 +160,6 @@ const ReviewCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 75px;
   margin-bottom: 20px;
   cursor: pointer;
 `;
