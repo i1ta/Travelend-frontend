@@ -341,6 +341,7 @@ export const FindTripylerContent = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 75px;
   // margin-left: 20px;
 `;
 

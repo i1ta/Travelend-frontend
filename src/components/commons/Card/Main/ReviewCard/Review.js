@@ -25,7 +25,6 @@ export default function Review (props) {
 
     return (
       <>
-      {(props.idx !== 2) && (props.idx !== 5) ? (
       <ReviewCard onClick={props.onClick}>
         <ReviewImgWrapper>
           <ReviewImg
@@ -96,78 +95,6 @@ export default function Review (props) {
         </ReviewCardFooter>
         </ReviewContentWrapper>
       </ReviewCard>
-      ) : (
-        <LastReviewCard onClick={props.onClick}>
-        <ReviewImgWrapper>
-          <ReviewImg
-            src={
-              props.info.image === null
-                ? "/img/defaultImg.png"
-                : props.info.image
-            }
-          ></ReviewImg>
-        </ReviewImgWrapper>
-        <ReviewContentWrapper>
-        <ReviewCardHeader>
-          <ReviewInfo>
-            <CountryWrapper>
-              <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
-            </CountryWrapper>
-            <ReviewCity> · {props.info.regionName}</ReviewCity>
-          </ReviewInfo>
-        </ReviewCardHeader>
-
-        <ReviewCardContents>
-          <ReviewCardContentsTitle>
-            {props.info.title.length < 20
-              ? props.info.title
-              : props.info.title.substring(0, 21) + "..."}
-          </ReviewCardContentsTitle>
-        </ReviewCardContents>
-        <ReviewLine></ReviewLine>
-        <ReviewCardFooter>
-          <ReviewInfoUserWrapper>
-            <ReviewUserImg
-              src={props.info.userProfileUrl || "/icon/defaultProfile.png"}
-            ></ReviewUserImg>
-            <ReviewUserInfoWrapper>
-              <ReviewUsername>{props.info.username}</ReviewUsername>
-              <ReviewAge>
-                {parseInt(age / 10) * 10 < 10
-                  ? "아동"
-                  : `${parseInt(age / 10) * 10}대`}{" "}
-                {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
-                {props.info.gender === "M" ? "남성" : "여성"}
-              </ReviewAge>
-            </ReviewUserInfoWrapper>
-          </ReviewInfoUserWrapper>
-        <ReviewReactWrapper>
-            <ReviewInfoWrapper>
-                <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
-                <ReviewDateTxt>
-                  <ReviewSmallTxt>
-                    {props.info.startDate.substring(2).replace("-", ".")}
-                  </ReviewSmallTxt>
-                  <ReviewDateLine></ReviewDateLine>
-                  <ReviewSmallTxt>
-                    {props.info.endDate.substring(2).replace("-", ".")}
-                  </ReviewSmallTxt>
-                </ReviewDateTxt>
-              </ReviewInfoWrapper>
-            <ReviewReactContent>
-              <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
-              <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
-  
-              <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
-            </ReviewReactContent>
-          </ReviewReactWrapper>
-        </ReviewCardFooter>
-        </ReviewContentWrapper>
-      </LastReviewCard>
-      )}
       </>
     );
 }
@@ -182,7 +109,6 @@ const ReviewCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 75px;
   margin-bottom: 20px;
   cursor: pointer;
 
