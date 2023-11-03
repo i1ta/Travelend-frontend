@@ -10,16 +10,6 @@ export default function ReviewMain(props) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
-  console.log(ref.current);
-  // const checkLogin = async () => {
-  //   if (!isLoggedIn) {
-  //     alert("로그인이 필요한 서비스입니다");
-  //     router.push("/auth/signIn");
-  //   } else {
-  //     router.push(`/review/${props.info.reviewId}`);
-  //   }
-  // };
-
   // 시간 형식 변경
   const formatTime = () => {
     const today = new Date();

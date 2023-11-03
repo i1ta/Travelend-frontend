@@ -15,12 +15,26 @@ export const Banner = styled.div`
 export const BannerImgWrapper = styled.div`
   height: 854px;
   width: 1920px;
-  background-image: url("img/bannerImg.png");
+  position: relative;
 
   display: flex;
   flex-direction: column;
   // align-items: center;
   // justify-content: center;
+
+  background-image: url("img/bannerImg.png");
+  background-size: cover;
+  color: rgba(255, 255, 255, 1);
+
+  &::before{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    // background-color: rgba(255, 255, 255, 0.5);
+  }
 `;
 
 export const BannerTitle = styled.div`
@@ -30,12 +44,16 @@ export const BannerTitle = styled.div`
   font-size: 60px;
   line-height: 1;
   color: white;
+  position: relative;
+  z-index: 100;
 `;
 
 export const TitleTxt = styled.span`
   background: linear-gradient(to bottom, #77C0D2, #BBA9F6);
   color: transparent;
   -webkit-background-clip: text;
+  position: relative;
+  z-index: 100;
 `;
 
 export const BannerTxt = styled.div`
@@ -45,6 +63,8 @@ export const BannerTxt = styled.div`
   font-size: 25px;
   line-height: 1;
   color: #ffffff;
+  position: relative;
+  z-index: 100;
 `;
 
 export const FindFilter = styled.div`

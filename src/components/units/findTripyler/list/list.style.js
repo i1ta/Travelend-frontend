@@ -473,6 +473,12 @@ export const ArrowImg = styled.img`
   cursor: pointer;
 `;
 
+export const DoubleArrowImg = styled(ArrowImg)`
+  margin: 0 10px;
+  margin-top: 7px;
+  width: 25px;
+`;
+
 export const AdWrapper = styled.div`
   text-align: center;
   margin: 150px auto;

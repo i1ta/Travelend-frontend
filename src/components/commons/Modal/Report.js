@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Block from "./Block";
 
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 // 필수 props: name, id, toggleReport
 export default function Report(props) {
