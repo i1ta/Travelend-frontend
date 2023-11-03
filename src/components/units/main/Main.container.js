@@ -22,14 +22,14 @@ export default function Main() {
   const [response, setResponse] = useState([]);
 
   // 토큰이 만료되었을 경우
-  const checkToken = async () => {
+  function checkToken () {
     if(jwtInfo.expiryTime < new Date().getTime()){
       alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
       router.push("/auth/signIn");
       logout({setJwtToken});
       setIsLoggedIn(false);
-      return;
-    } 
+      return true;
+    } else {return false;}
   }
 
   const checkLogin = async () => {
@@ -71,7 +71,9 @@ export default function Main() {
   // Trip'yler 찾기 필터링
   const router = useRouter();
   const onClcickFilterFind = async () => {
-    if(isLoggedIn) {checkToken(); return;} 
+    if(checkToken()) {
+      return;
+    } 
     const requestData = {
       "continentId": parseInt(selectedDestination.continent.id),
       "endDate": tripDate[1],
@@ -86,9 +88,7 @@ export default function Main() {
       .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
       .then((res) => {
         const arr = res.data.data;
-        setFindCardList(res.data.data);
-        // setFindCardList((prev) => [...prev, ...arr]);
-        
+        setFindCardList(res.data.data);        
       })
       .catch((error) => console.log(error));
 
@@ -105,24 +105,9 @@ export default function Main() {
         keyword: JSON.stringify(keyword)
       }
 
-    // router.push({
-    //   pathname: `findTripyler`,
-    //   query: 
-    //   {
-    //     continent: JSON.stringify(selectedDestination.continent.name),
-    //     continentId: selectedDestination.continent.id,
-    //     country: JSON.stringify(selectedDestination.country.name),
-    //     countryId: selectedDestination.country.id,
-    //     city: JSON.stringify(selectedDestination.city.name),
-    //     cityId: selectedDestination.city.id,
-    //     startDate: JSON.stringify(date.startDate),
-    //     endDate: JSON.stringify(date.endDate),
-    //     num: selectedNum,
-    //     keyword: JSON.stringify(keyword)
-    //   }
-    // });
     router.push("/findTripyler");
     setFindCardFilter(query);
+    
   };
 
   // 여행 후기 필터링

@@ -333,6 +333,7 @@ export const FindTripylerContent = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   margin-left: 20px;
+  gap: 70px;
 `;
 
 export const FindTripylerNoContent = styled(FindTripylerContent)`
@@ -470,6 +471,12 @@ export const ArrowImg = styled.img`
   margin: 0 20px;
   margin-top: 7px;
   cursor: pointer;
+`;
+
+export const DoubleArrowImg = styled(ArrowImg)`
+  margin: 0 10px;
+  margin-top: 7px;
+  width: 25px;
 `;
 
 export const AdWrapper = styled.div`

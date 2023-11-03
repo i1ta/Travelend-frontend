@@ -33,16 +33,6 @@ export default function Profile() {
 
   const router = useRouter();
 
-  // 토큰 만료 여부 확인
-  // useEffect(() => {
-  //   if(!isJwtValid){
-  //     router.push("/auth/signIn");
-  //     alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
-  //     logout({setJwtToken});
-  //     setIsLoggedIn(false);
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (router.query.userId) {
       setSelectedCategory("NotMyProfile");

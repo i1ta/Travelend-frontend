@@ -59,14 +59,14 @@ export default function FindTripylerList(){
     };
 
     // 토큰이 만료되었을 경우
-    const checkToken = async () => {
+    function checkToken () {
       if(jwtInfo.expiryTime < new Date().getTime()){
         alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
         router.push("/auth/signIn");
         logout({setJwtToken});
         setIsLoggedIn(false);
-        return;
-      } 
+        return true;
+      } else { return false; }
     }
 
     useEffect(() => {if(isLoggedIn) {checkToken()}}, []);
@@ -276,16 +276,23 @@ export default function FindTripylerList(){
     const [isFirstCalendar, setIsFirstCalendar] = useState(false);
   
     // 페이지네이션
-    const [page, setPage] = useState(1);
+    const [currentPage, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
 
     useEffect(() => {
-      if(pageNum.length === 0 && newCardList.length !== 0){
-        for(let i = 0; i <= parseInt(newCardList.length / 12); i++){
-          setPageNum((prev) => [...prev, i]);
+      if(newCardList.length !== 0 && pageNum.length === 0){
+        const groupedPageNum = [];
+        for (let i = 0; i < Math.ceil(newCardList.length / 60); i++) {
+          const start = i * 10 + 1;
+          const end = Math.min((i + 1) * 10, Math.ceil(newCardList.length / 6));
+          const group = Array.from({ length: end - start + 1 }, (_, j) => start + j);
+          groupedPageNum.push(group);
         }
+        setPageNum(groupedPageNum);
       }
     }, [newCardList]);
+
+    useEffect(() => {console.log(pageNum)}, [pageNum]);
     return(
         <>
         <FindTripylerBanner title="Trip'yler 찾기" subTitle="함께 하고 싶은 여행자를 Trip'yle에서 바로 찾아보세요"/>
@@ -434,7 +441,7 @@ export default function FindTripylerList(){
           ) : (
           <S.FindTripylerContent>
             {newCardList.map((card, idx) => { 
-              if(parseInt(idx / 12) === page - 1){
+              if(parseInt(idx / 6) === currentPage - 1){
               return(
               <FindCard onClick={() => {
                 if(!isLoggedIn){
@@ -449,11 +456,14 @@ export default function FindTripylerList(){
           </S.FindTripylerContent>
           )}
 
-          {newCardList.length !== 0 && (
+          {/* {(newCardList.length && pageNum.length) && ( */}
+          {pageNum.length && (
           <S.PageNationWrapper>
+            <S.DoubleArrowImg src="/icon/doubleLeft.png" onClick={(e) => setPage(1)}></S.DoubleArrowImg>
             <S.ArrowImg src="/icon/pageLeftArrow.png" onClick={(e) => setPage((prev) => prev - 1 < 1 ? 1 : prev - 1 )}></S.ArrowImg>
-              {pageNum.map((i) => (<S.PageTxt onClick={(e) => setPage(i + 1)} selected={i + 1 === page}>{i + 1}</S.PageTxt>))}
-            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > parseInt(newCardList.length / 12) + 1 ? parseInt(newCardList.length / 12) + 1 : prev + 1 )}></S.ArrowImg>
+              {pageNum.map((i) => (i.includes(currentPage) && i.map((el) => (<S.PageTxt onClick={(e) => setPage(el)} selected={el === currentPage}>{el}</S.PageTxt>))))}
+            <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > Math.ceil(newCardList.length / 6) ? Math.ceil(newCardList.length / 6) : prev + 1 )}></S.ArrowImg>
+            <S.DoubleArrowImg src="/icon/doubleRight.png" onClick={(e) => setPage(Math.ceil(newCardList.length / 6))}></S.DoubleArrowImg>
           </S.PageNationWrapper>
           )}
         </S.Review>
