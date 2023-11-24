@@ -5,13 +5,13 @@ import { useRouter } from "next/router";
 
 import * as S from "./Login.styles";
 
-import { 
-  login, 
-  NicknameState, 
-  IsFirstLogin, 
-  LoginState, 
-  JwtTokenState, 
-  IsAdmin 
+import {
+  login,
+  NicknameState,
+  IsFirstLogin,
+  LoginState,
+  JwtTokenState,
+  IsAdmin,
 } from "@/States/LoginState";
 
 import axios from "axios";
@@ -56,7 +56,7 @@ export default function LoginForm() {
 
         if (response.status === 200 && response.data.data.accessToken) {
           localStorage.setItem("login-token", response.data.data.accessToken);
-          login({jwtToken: response.data.data.accessToken, setJwtToken});
+          login({ jwtToken: response.data.data.accessToken, setJwtToken });
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);

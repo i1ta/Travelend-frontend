@@ -2,7 +2,7 @@ import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { LoginState } from '@/States/LoginState';
+import { LoginState } from "@/States/LoginState";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -58,7 +58,7 @@ export default function TriplogDetail() {
       })
       .catch((error) => {
         console.error(error);
-        if(error.response.data.code === 401){
+        if (error.response.data.code === 401) {
           router.push("/auth/signIn");
           alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
           localStorage.clear();
@@ -158,8 +158,18 @@ export default function TriplogDetail() {
         </S.ContentsImgWrapper>
         <S.ContentsTopWrapper>
           <S.ContentsTitleWrapper>
-            <S.ContentsTitle>{data?.reviewTitle}</S.ContentsTitle>
-            <S.ContentsDate>{data?.regDateTime?.slice(0, 10)}</S.ContentsDate>
+            <S.ContentsTopLeftWrapper>
+              <S.ContentsTitle>{data?.reviewTitle}</S.ContentsTitle>
+              <S.ContentsDate>{data?.regDateTime?.slice(0, 10)}</S.ContentsDate>
+            </S.ContentsTopLeftWrapper>
+            {data.myReview && (
+              <S.ApplyBtn
+                onClick={onClickEditBtn}
+                style={data?.myReview ? {} : { visibility: "hidden" }}
+              >
+                수정하기
+              </S.ApplyBtn>
+            )}
           </S.ContentsTitleWrapper>
           <S.OneLineReview>{data?.reviewOneLine}</S.OneLineReview>
         </S.ContentsTopWrapper>
@@ -305,12 +315,7 @@ export default function TriplogDetail() {
             />
             <S.BtmTxt>좋아요 {data?.likes}개</S.BtmTxt>
           </S.BtmLeftWrapper>
-          {data.myReview && <S.ApplyBtn
-            onClick={onClickEditBtn}
-            style={data?.myReview ? {} : { visibility: "hidden" }}
-          >
-            수정하기
-          </S.ApplyBtn>}
+          <S.ListBtn onClick={() => router.push("/review")}>목록으로</S.ListBtn>
         </S.ContentsBtmWrapper>
       </S.Contents>
 

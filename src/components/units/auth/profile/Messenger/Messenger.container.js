@@ -2,32 +2,35 @@ import { useEffect, useState, useRef } from "react";
 import * as S from "./Messengser.styles";
 import Report from "@/components/commons/Modal/Report";
 import Block from "@/components/commons/Modal/Block";
+import { useRouter } from "next/router";
 
 export default function Messenger(props) {
+  const router = useRouter();
   const [input, setInput] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
   const [nowChatRoomId, setNowChatRoomId] = useState(0);
   const [nowRecipientId, setNowRecipientId] = useState(0);
-  const scrollRef = useRef(null);
+  const containerRef = useRef();
 
-  
+  const MoveToBottom = () => {
+    containerRef.current?.scrollTo({
+      top: containerRef.current.scrollHeight,
+      behavior: "auto",
+    });
+    console.log("실행");
+  };
+
   useEffect(() => {
-    // scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
-    
-    if (nowChatRoomId !== 0 && scrollRef.current?.scrollHeight) {
-      // scrollRef.current?.scrollTo(0, scrollRef.current?.scrollHeight);
-      scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
-      // scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [nowChatRoomId]);
-  
+    MoveToBottom();
+  }, [props.msgData]);
+
   // 차단기능
   const [isOpenBlock, setIsOpenBlock] = useState(false);
   const toggleBlock = () => {
     setIsOpenBlock((prev) => !prev);
   };
-  
+
   // 신고기능
   const [isOpenReport, setIsOpenReport] = useState(false);
   const toggleReport = () => {
@@ -55,10 +58,17 @@ export default function Messenger(props) {
               }}
               selectedId={props.msgData.chatRoomId}
             >
-              <S.Profile
-                src={e.profileUrl || "/icon/defaultProfile.png"}
-              ></S.Profile>
-              <S.ID>{e.name}</S.ID>
+              <S.ProfileContainer>
+                <S.Profile
+                  src={e.profileUrl || "/icon/defaultProfile.png"}
+                ></S.Profile>
+                <S.ID id={e.chatRoomId} selectedId={props.msgData.chatRoomId}>
+                  {e.name}
+                </S.ID>
+              </S.ProfileContainer>
+              <S.Date id={e.chatRoomId} selectedId={props.msgData.chatRoomId}>
+                23.11.24
+              </S.Date>
             </S.MsgList>
           ))}
         </S.MsgListSection>
@@ -66,11 +76,17 @@ export default function Messenger(props) {
         {props.msgData.chatRoomId ? (
           <S.MsgSection>
             <S.TopWrapper>
-              <S.UserWrapper>
+              <S.UserWrapper
+                onClick={() =>
+                  router.push(
+                    `/auth/profile?userId=${props.msgData.recipientId}`
+                  )
+                }
+              >
                 <S.Profile
                   src={props.msgData.profileUrl || "/icon/defaultProfile.png"}
                 ></S.Profile>
-                <S.ID>{props.msgData.name}</S.ID>
+                <S.RoomUserId>{props.msgData?.name}</S.RoomUserId>
               </S.UserWrapper>
               <S.BlockWrapper>
                 <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
@@ -78,7 +94,8 @@ export default function Messenger(props) {
                 <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
               </S.BlockWrapper>
             </S.TopWrapper>
-            <S.ChatWrapper ref={scrollRef}>
+
+            <S.ChatWrapper ref={containerRef}>
               {props.msgData.chatContents.map((e, index) => {
                 // 이전 메시지의 날짜와 현재 메시지의 날짜 비교
                 const currentDate = e.sendTime.split("T")[0];
