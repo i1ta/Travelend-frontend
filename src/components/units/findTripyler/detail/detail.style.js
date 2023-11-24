@@ -53,8 +53,14 @@ export const ContentsTopWrapper = styled.div`
   width: 1200px;
   margin: auto;
   display: flex;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
+`;
+
+export const ContentsTopLeftWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
 `;
 
 export const ContentsTitle = styled.div`
@@ -68,6 +74,19 @@ export const ContentsDate = styled.div`
   color: #666;
   font-size: 15px;
   font-weight: 300;
+`;
+
+export const ApplyBtn = styled.button`
+  padding: 15px 50px;
+  border-radius: 12px;
+  background: #00b4d8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const ContentsMidTopWrapper = styled.div`
@@ -342,18 +361,19 @@ export const BtmTxt = styled.div`
   margin-right: 25px;
 `;
 
-export const ApplyBtn = styled.button`
+export const ListBtn = styled.button`
   padding: 15px 30px;
   border-radius: 12px;
-  background: #00b4d8;
+  background: #ddd;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: #fff;
+  color: #666;
   font-size: 24px;
   font-weight: 700;
 `;
+
 // 폼 아래 항목들
 
 export const PostList = styled.div`

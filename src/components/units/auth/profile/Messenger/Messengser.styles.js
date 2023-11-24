@@ -32,13 +32,18 @@ export const MsgList = styled.button`
   height: 70px;
   padding: 0px 15px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   border-radius: 10px;
   margin-bottom: 25px;
 
   background-color: ${(props) =>
     props.selectedId == props.id ? "#c8b6ff" : "transparent"};
-  color: ${(props) => (props.selectedId == props.id ? "#FFFFFF" : "#000000")};
+`;
+
+export const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const Profile = styled.img`
@@ -52,7 +57,17 @@ export const Profile = styled.img`
 export const ID = styled.div`
   font-weight: 600;
   font-size: 18px;
-  margin-bottom: 3px;
+  color: ${(props) => (props.selectedId == props.id ? "#FFFFFF" : "#000000")};
+`;
+
+export const RoomUserId = styled(ID)`
+  color: #333;
+`;
+
+export const Date = styled.div`
+  font-weight: 500;
+  font-size: 12px;
+  color: ${(props) => (props.selectedId == props.id ? "#fff" : "#999")};
 `;
 
 // 채팅창 부분
@@ -93,6 +108,7 @@ export const TopWrapper = styled.div`
 export const UserWrapper = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const BlockWrapper = styled.div`

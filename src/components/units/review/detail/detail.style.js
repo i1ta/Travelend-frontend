@@ -54,12 +54,17 @@ export const ContentsTopWrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-export const ContentsTitleWrapper = styled.div`
-  width: 1200px;
-  margin: auto;
+export const ContentsTopLeftWrapper = styled.div`
   display: flex;
   align-items: flex-end;
-  margin-bottom: 20px;
+`;
+
+export const ContentsTitleWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 `;
 
 export const OneLineReview = styled.div`
@@ -79,6 +84,19 @@ export const ContentsDate = styled.div`
   color: #666;
   font-size: 15px;
   font-weight: 300;
+`;
+
+export const ApplyBtn = styled.button`
+  padding: 15px 50px;
+  border-radius: 12px;
+  background: #00b4d8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const ContentsMidTopWrapper = styled.div`
@@ -157,7 +175,7 @@ export const WithTripylerWrapper = styled.div`
   flex-direction: column;
   gap: 12px;
   position: relative;
-  `;
+`;
 
 export const WithTripTitle = styled.div`
   color: #000;
@@ -352,10 +370,10 @@ export const ImgShowWrapper = styled.div`
 
 export const ImgShowLeftArrow = styled.img`
   cursor: pointer;
-` 
+`;
 
 export const ImgShowRightArrow = styled(ImgShowLeftArrow)`
-transform: rotate(180deg);
+  transform: rotate(180deg);
 `;
 
 export const ShowingImgWrapper = styled.div`
@@ -403,15 +421,15 @@ export const BtmTxt = styled.div`
   margin-right: 25px;
 `;
 
-export const ApplyBtn = styled.button`
+export const ListBtn = styled.button`
   padding: 15px 30px;
   border-radius: 12px;
-  background: #00b4d8;
+  background: #ddd;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: #fff;
+  color: #666;
   font-size: 24px;
   font-weight: 700;
 `;
@@ -527,20 +545,20 @@ export const PostListCnt = styled.div`
 `;
 
 export const NoCmtWrapper = styled(CmtListWrapper)`
-padding: 50px 40px;
-align-items: center;
-gap: 25px;
-`
+  padding: 50px 40px;
+  align-items: center;
+  gap: 25px;
+`;
 
 export const NoCmtIcon = styled.img`
-width: 80px;
-height: 80px;
-`
+  width: 80px;
+  height: 80px;
+`;
 
 export const NoCmtTxt = styled.div`
-font-size: 18px;
-color: #666;
-`
+  font-size: 18px;
+  color: #666;
+`;
 
 export const ListWrapper = styled.div`
   padding: 30px;
@@ -569,4 +587,3 @@ export const ListTitle = styled.div`
 export const PostTitle = styled(CmtContents)`
   cursor: ${(props) => (props.reviewId ? "pointer" : "default")};
 `;
-

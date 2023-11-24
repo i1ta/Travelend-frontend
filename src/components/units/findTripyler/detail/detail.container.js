@@ -2,7 +2,12 @@ import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./detail.style";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from '@/States/LoginState';
+import {
+  LoginState,
+  IsJwtValidSelector,
+  JwtTokenState,
+  logout,
+} from "@/States/LoginState";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -10,11 +15,11 @@ export default function FindTripylerDetail() {
   const router = useRouter();
   const apiPath = "https://api.tripyle.xyz";
   const { tripylerId } = router.query;
-  
+
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-  
+
   // 토큰 만료 여부 확인
   // useEffect(() => {
   //   if(!isJwtValid){
@@ -126,7 +131,7 @@ export default function FindTripylerDetail() {
         setHashtag([...data.hashtagList]);
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error);
       });
   };
 
@@ -199,20 +204,31 @@ export default function FindTripylerDetail() {
         title="Trip'yler 찾기"
         subTitle="함께 하고 싶은 여행자를 Trip’yle에서 바로 찾아보세요"
       />
+
       <S.ContentsLoc>
         <S.LocIcon src="/icon/loc_white.svg" />
         <S.LocTxt>
           {data.nationName}, {data.regionName}
         </S.LocTxt>
       </S.ContentsLoc>
+
       <S.Contents>
         <S.ContentsImgWrapper>
           <S.ContentsImg src={data.image || "/img/defaultImg.png"} />
         </S.ContentsImgWrapper>
+
         <S.ContentsTopWrapper>
-          <S.ContentsTitle>{data.title}</S.ContentsTitle>
-          <S.ContentsDate>{data.regDateTime.slice(0, 10)}</S.ContentsDate>
+          <S.ContentsTopLeftWrapper>
+            <S.ContentsTitle>{data.title}</S.ContentsTitle>
+            <S.ContentsDate>{data.regDateTime.slice(0, 10)}</S.ContentsDate>
+          </S.ContentsTopLeftWrapper>
+          <S.ApplyBtn
+            onClick={data.myTripyler ? onClickEditBtn : onClickApplyBtn}
+          >
+            {data.myTripyler ? "수정하기" : "동행 신청"}
+          </S.ApplyBtn>
         </S.ContentsTopWrapper>
+
         <S.ContentsMidTopWrapper>
           <S.MidTopLeftWrapper>
             <S.UserImgWrapper>
@@ -255,6 +271,7 @@ export default function FindTripylerDetail() {
                   </S.WithTripMoreBox>
                 )}
               </S.WithTripProfileList>
+
               {isOpenWithTripList && (
                 <S.WithTripList>
                   <S.WithTripListTitle>Trip’yler 리스트</S.WithTripListTitle>
@@ -314,11 +331,13 @@ export default function FindTripylerDetail() {
             />
             <S.BtmTxt>좋아요 {data.likes}개</S.BtmTxt>
           </S.BtmLeftWrapper>
-          <S.ApplyBtn
-            onClick={data.myTripyler ? onClickEditBtn : onClickApplyBtn}
+          <S.ListBtn
+            onClick={() => {
+              router.push("/findTripyler");
+            }}
           >
-            {data.myTripyler ? "수정하기" : "동행 신청"}
-          </S.ApplyBtn>
+            목록보기
+          </S.ListBtn>
         </S.ContentsBtmWrapper>
       </S.Contents>
 
@@ -334,12 +353,17 @@ export default function FindTripylerDetail() {
               {isOpenApplyList
                 ? applyList.map((el) => (
                     <S.ApplyItem key={el.applicantId}>
-                      <S.ApplyProfileWrapper id={el.applicantId} onClick={checkApplyUser}>
+                      <S.ApplyProfileWrapper
+                        id={el.applicantId}
+                        onClick={checkApplyUser}
+                      >
                         <S.UserImg
                           src={el.profileUrl || "/icon/defaultProfile.png"}
                         />
                       </S.ApplyProfileWrapper>
-                      <S.ApplyID id={el.applicantId} onClick={checkApplyUser}>{el.nickname}</S.ApplyID>
+                      <S.ApplyID id={el.applicantId} onClick={checkApplyUser}>
+                        {el.nickname}
+                      </S.ApplyID>
                       <S.ViewApplyBtn
                         onClick={() =>
                           router.push(
