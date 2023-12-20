@@ -8,8 +8,8 @@ import {
   IsFirstLogin,
   logout,
   JwtTokenState,
-  IsAdmin
-} from "@/States/LoginState";
+  IsAdmin,
+} from "@/states/LoginState";
 import TopBtn from "./TopBtn";
 
 export default function NavBar(props) {
@@ -35,29 +35,31 @@ export default function NavBar(props) {
   };
 
   // 토큰이 만료되었을 경우
-  function checkToken () {
-    if(jwtInfo.expiryTime < new Date().getTime()){
+  function checkToken() {
+    if (jwtInfo.expiryTime < new Date().getTime()) {
       alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
       router.push("/auth/signIn");
-      logout({setJwtToken});
+      logout({ setJwtToken });
       setIsLoggedIn(false);
       return true;
-    } else { return false; }
-  };
+    } else {
+      return false;
+    }
+  }
 
   useEffect(() => {
-    window.addEventListener('scroll', (e) => {
-      if(window.scrollY > 0){
+    window.addEventListener("scroll", (e) => {
+      if (window.scrollY > 0) {
         setIsHidden(false);
-      } else{
+      } else {
         setIsHidden(true);
       }
-    })
+    });
   }, []);
 
   const topScroll = () => {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     if (isFirstLogin) {
@@ -83,31 +85,31 @@ export default function NavBar(props) {
   };
 
   const onMesseageBtn = () => {
-    if(!checkToken()){
+    if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: {category: "message"}
+        query: { category: "message" },
       });
     }
   };
 
   const onLikeBtn = () => {
-    if(!checkToken()){
+    if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: {category: "myCollections"}
+        query: { category: "myCollections" },
       });
     }
   };
 
   const onProfileBtn = () => {
-    if(!checkToken()) {
+    if (!checkToken()) {
       router.push("/auth/profile");
     }
   };
 
   const onClickInfoMsgBtn = () => {
-    if(!checkToken()){
+    if (!checkToken()) {
       if (infoMsgNum < 2) {
         setInfoMsgNum((prev) => prev + 1);
       } else {
