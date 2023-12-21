@@ -1,5 +1,4 @@
-// 가장 먼저 렌더링되는 페이지
-import GlobalStyle from "@/commons/styles/globalStyles";
+import GlobalStyle from "@/styles/globalStyles";
 import { useEffect, useState } from "react";
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import Layout from "@/components/commons/Layout/Layout";

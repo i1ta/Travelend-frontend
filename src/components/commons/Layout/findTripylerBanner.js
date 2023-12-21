@@ -2,15 +2,13 @@ import { styled } from "styled-components";
 
 export default function FindTripylerBanner(props) {
   return (
-    <>
-      <Banner>
-        <BannerContents>
-          <BannerTitle>{props.title}</BannerTitle>
-          <BannerSubTitle>{props.subTitle} </BannerSubTitle>
-          <BannerImg src="/img/airplane.png" />
-        </BannerContents>
-      </Banner>
-    </>
+    <Banner>
+      <BannerContents>
+        <BannerTitle>{props.title}</BannerTitle>
+        <BannerSubTitle>{props.subTitle} </BannerSubTitle>
+        <BannerImg src="/img/airplane.png" />
+      </BannerContents>
+    </Banner>
   );
 }
 

@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { useSetRecoilState } from "recoil";
 
-import { LoginState, NicknameState } from "@/States/LoginState";
+import { LoginState, NicknameState } from "@/states/LoginState";
 
 const OAuthKaKao = () => {
   // 로그인 상태 설정

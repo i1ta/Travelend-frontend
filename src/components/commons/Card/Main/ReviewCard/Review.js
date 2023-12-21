@@ -1,30 +1,35 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import { LoginState, IsJwtValidSelector, JwtTokenState, logout } from "@/States/LoginState";
+import {
+  LoginState,
+  IsJwtValidSelector,
+  JwtTokenState,
+  logout,
+} from "@/states/LoginState";
 
-export default function Review (props) {
+export default function Review(props) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
   const setJwtToken = useSetRecoilState(JwtTokenState);
 
-    // 나이 형식 변경
-    const [age, setAge] = useState(parseInt(props.info.age));
-    const [ageCategory, setAgeCategory] = useState("");
-    useEffect(() => {
-      if (0 <= age % 10 && age % 10 <= 3) {
-        setAgeCategory("초반");
-      } else if (4 <= age % 10 && age % 10 <= 6) {
-        setAgeCategory("중반");
-      } else {
-        setAgeCategory("후반");
-      }
-    }, [age]);
+  // 나이 형식 변경
+  const [age, setAge] = useState(parseInt(props.info.age));
+  const [ageCategory, setAgeCategory] = useState("");
+  useEffect(() => {
+    if (0 <= age % 10 && age % 10 <= 3) {
+      setAgeCategory("초반");
+    } else if (4 <= age % 10 && age % 10 <= 6) {
+      setAgeCategory("중반");
+    } else {
+      setAgeCategory("후반");
+    }
+  }, [age]);
 
-    return (
-      <>
+  return (
+    <>
       <ReviewCard onClick={props.onClick}>
         <ReviewImgWrapper>
           <ReviewImg
@@ -36,41 +41,41 @@ export default function Review (props) {
           ></ReviewImg>
         </ReviewImgWrapper>
         <ReviewContentWrapper>
-        <ReviewCardHeader>
-          <ReviewInfo>
-            <CountryWrapper>
-              <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
-            </CountryWrapper>
-            <ReviewCity> · {props.info.regionName}</ReviewCity>
-          </ReviewInfo>
-        </ReviewCardHeader>
+          <ReviewCardHeader>
+            <ReviewInfo>
+              <CountryWrapper>
+                <ReviewInfoTxt>{props.info.nationName}</ReviewInfoTxt>
+              </CountryWrapper>
+              <ReviewCity> · {props.info.regionName}</ReviewCity>
+            </ReviewInfo>
+          </ReviewCardHeader>
 
-        <ReviewCardContents>
-          <ReviewCardContentsTitle>
-            {props.info.title.length < 20
-              ? props.info.title
-              : props.info.title.substring(0, 21) + "..."}
-          </ReviewCardContentsTitle>
-        </ReviewCardContents>
-        <ReviewLine></ReviewLine>
-        <ReviewCardFooter>
-          <ReviewInfoUserWrapper>
-            <ReviewUserImg
-              src={props.info.userProfileUrl || "/icon/defaultProfile.png"}
-            ></ReviewUserImg>
-            <ReviewUserInfoWrapper>
-              <ReviewUsername>{props.info.username}</ReviewUsername>
-              <ReviewAge>
-                {parseInt(age / 10) * 10 < 10
-                  ? "아동"
-                  : `${parseInt(age / 10) * 10}대`}{" "}
-                {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
-                {props.info.gender === "M" ? "남성" : "여성"}
-              </ReviewAge>
-            </ReviewUserInfoWrapper>
-          </ReviewInfoUserWrapper>
-        <ReviewReactWrapper>
-            <ReviewInfoWrapper>
+          <ReviewCardContents>
+            <ReviewCardContentsTitle>
+              {props.info.title.length < 20
+                ? props.info.title
+                : props.info.title.substring(0, 21) + "..."}
+            </ReviewCardContentsTitle>
+          </ReviewCardContents>
+          <ReviewLine></ReviewLine>
+          <ReviewCardFooter>
+            <ReviewInfoUserWrapper>
+              <ReviewUserImg
+                src={props.info.userProfileUrl || "/icon/defaultProfile.png"}
+              ></ReviewUserImg>
+              <ReviewUserInfoWrapper>
+                <ReviewUsername>{props.info.username}</ReviewUsername>
+                <ReviewAge>
+                  {parseInt(age / 10) * 10 < 10
+                    ? "아동"
+                    : `${parseInt(age / 10) * 10}대`}{" "}
+                  {parseInt(age / 10) * 10 >= 10 && ageCategory}{" "}
+                  {props.info.gender === "M" ? "남성" : "여성"}
+                </ReviewAge>
+              </ReviewUserInfoWrapper>
+            </ReviewInfoUserWrapper>
+            <ReviewReactWrapper>
+              <ReviewInfoWrapper>
                 <ReviewIcon src="/icon/calendar.png"></ReviewIcon>
                 <ReviewDateTxt>
                   <ReviewSmallTxt>
@@ -82,21 +87,21 @@ export default function Review (props) {
                   </ReviewSmallTxt>
                 </ReviewDateTxt>
               </ReviewInfoWrapper>
-            <ReviewReactContent>
-              <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
-              <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
-  
-              <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
-              <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
-            </ReviewReactContent>
-          </ReviewReactWrapper>
-        </ReviewCardFooter>
+              <ReviewReactContent>
+                <ReviewReactIcon src="/icon/heart.png"></ReviewReactIcon>
+                <ReviewReactTxt>{props.info.likes}</ReviewReactTxt>
+                <ReviewReactIcon src="/icon/comment.png"></ReviewReactIcon>
+                <ReviewReactTxt>{props.info.comments}</ReviewReactTxt>
+
+                <ReviewReactIcon src="/icon/views.png"></ReviewReactIcon>
+                <ReviewReactTxt>{props.info.hits}</ReviewReactTxt>
+              </ReviewReactContent>
+            </ReviewReactWrapper>
+          </ReviewCardFooter>
         </ReviewContentWrapper>
       </ReviewCard>
-      </>
-    );
+    </>
+  );
 }
 
 const ReviewCard = styled.div`
@@ -160,7 +165,7 @@ const ReviewInfo = styled.div`
 
   width: 350px;
   height: 35px;
-  background-color: #9AB3F5;
+  background-color: #9ab3f5;
   border-radius: 5px;
 `;
 
@@ -275,7 +280,6 @@ const ReviewCardContentsTitle = styled.div`
   font-size: 15px;
   font-weight: 500;
   margin: 5px 0 5px 0;
-
 `;
 
 const ReviewCardFooter = styled.div`
@@ -286,7 +290,6 @@ const ReviewCardFooter = styled.div`
   align-items: center;
   margin: 0 auto;
 `;
-
 
 const ReviewReactContent = styled.div`
   display: flex;
