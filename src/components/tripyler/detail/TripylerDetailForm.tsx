@@ -1,10 +1,19 @@
-import Axios from '@/apis';
+import Axios from "@/apis";
 import { TripylerDetailFormProps } from "@/interfaces/detail";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function TripylerDetailForm({ data, fetchData }: TripylerDetailFormProps) {
+import { IoLocationOutline } from "react-icons/io5";
+import { GoPerson } from "react-icons/go";
+import { CiCalendar } from "react-icons/ci";
+import { IoMdHeart, IoMdHeartEmpty, IoIosList } from "react-icons/io";
+import { FiBriefcase } from "react-icons/fi";
+
+export default function TripylerDetailForm({
+  data,
+  fetchData,
+}: TripylerDetailFormProps) {
   const router = useRouter();
   const { tripylerId } = router.query;
 
@@ -21,7 +30,7 @@ export default function TripylerDetailForm({ data, fetchData }: TripylerDetailFo
   const formatUserInfo = (age: number, gender: string) => {
     const formatAge = age >= 10 ? `${age.toString().slice(0, 1)}0대` : "아동";
     const formatGender = gender === "M" ? "남성" : "여성";
-    return formatAge + " " + formatGender;
+    return formatAge + " | " + formatGender;
   };
 
   // 동행자 프로필
@@ -53,32 +62,30 @@ export default function TripylerDetailForm({ data, fetchData }: TripylerDetailFo
   };
 
   return (
-    <>
+    <Container>
+      <PostTitleWrapper>
+        <PostTitle>{data?.title}</PostTitle>
+        <PostTitleInfoWrapper>
+          <PostTitleInfo>{data?.regDateTime?.slice(0, 10)}</PostTitleInfo>
+          <PostTitleInfo>|</PostTitleInfo>
+          <PostTitleInfo>조회 수 {data?.hits}</PostTitleInfo>
+        </PostTitleInfoWrapper>
+      </PostTitleWrapper>
+
       <ContentsLoc>
-        <LocIcon src="/icon/loc_white.svg" />
-        <LocTxt>
-          {data?.nationName}, {data?.regionName}
-        </LocTxt>
+        <ContentsLocLeft>
+          <IoLocationOutline style={{ color: "#6179B6", fontSize: "25px" }} />
+          <LocTxt>
+            {data?.nationName}, {data?.regionName}
+          </LocTxt>
+        </ContentsLocLeft>
+        <ApplyBtn onClick={data?.myTripyler ? onClickEditBtn : onClickApplyBtn}>
+          {data?.myTripyler ? "수정하기" : "동행 신청"}
+        </ApplyBtn>
       </ContentsLoc>
 
       <Contents>
-        <ContentsImgWrapper>
-          <ContentsImg src={data?.image || "/img/defaultImg.png"} />
-        </ContentsImgWrapper>
-
         <ContentsTopWrapper>
-          <ContentsTopLeftWrapper>
-            <ContentsTitle>{data?.title}</ContentsTitle>
-            <ContentsDate>{data?.regDateTime?.slice(0, 10)}</ContentsDate>
-          </ContentsTopLeftWrapper>
-          <ApplyBtn
-            onClick={data?.myTripyler ? onClickEditBtn : onClickApplyBtn}
-          >
-            {data?.myTripyler ? "수정하기" : "동행 신청"}
-          </ApplyBtn>
-        </ContentsTopWrapper>
-
-        <ContentsMidTopWrapper>
           <MidTopLeftWrapper>
             <UserImgWrapper>
               <UserImg
@@ -95,212 +102,228 @@ export default function TripylerDetailForm({ data, fetchData }: TripylerDetailFo
             </UserTxtWrapper>
           </MidTopLeftWrapper>
 
-          <MidTopRightWrapper>
-            <WithTripylerWrapper>
-              <WithTripTitle>
-                동행 Trip’yler ({data?.tripylerWithList?.length}명)
-              </WithTripTitle>
-              <WithTripProfileList>
-                {data?.tripylerWithList
-                  ?.filter((el, idx) => idx < 4)
-                  .map((el, idx) => (
-                    <WithTripProfileWrapper
-                      key={el.nickname}
-                      style={{ left: `${idx * 35}px` }}
-                      onClick={onClickWithTrip}
-                    >
-                      <WithTripProfile
-                        src={el.profileUrl || "/icon/defaultProfile.png"}
-                      />
-                    </WithTripProfileWrapper>
-                  ))}
-                {data?.tripylerWithList?.length > 4 && (
-                  <WithTripMoreBox onClick={onClickWithTrip}>
-                    +{data?.tripylerWithList?.length - 4}
-                  </WithTripMoreBox>
-                )}
-              </WithTripProfileList>
+          <TripylerInfoWrapper>
+            <ContentsInfoWrapper>
+              <GoPerson />
+              <ContentsInfoTxt>
+                <b>{data?.totalPeopleNum - data?.recruitPeopleNum - 1}인</b>{" "}
+                모집 중 / 총 {data?.totalPeopleNum}인
+              </ContentsInfoTxt>
+            </ContentsInfoWrapper>
 
-              {isOpenWithTripList && (
-                <WithTripList>
-                  <WithTripListTitle>Trip’yler 리스트</WithTripListTitle>
-                  <WithTripListWrapper>
-                    {data?.tripylerWithList?.map((el) => (
-                      <WithTripListItem>
-                        <WithTripListProfile>
-                          <UserImg
-                            src={el.profileUrl || "/icon/defaultProfile.png"}
-                          />
-                        </WithTripListProfile>
-                        <WithTripListID>{el.nickname}</WithTripListID>
-                      </WithTripListItem>
-                    ))}
-                  </WithTripListWrapper>
-                </WithTripList>
+            <ContentsInfoWrapper>
+              <CiCalendar />
+              <ContentsInfoTxt>
+                {data?.startDate} ~ {data?.endDate}
+              </ContentsInfoTxt>
+            </ContentsInfoWrapper>
+          </TripylerInfoWrapper>
+        </ContentsTopWrapper>
+
+        <Line />
+
+        <ContentsMidTopWrapper>
+          <div>
+            <MidBtmTitle>이번 여행의 Trip’yler 스타일</MidBtmTitle>
+            <MidBtmStyleWrapper>
+              {data?.hashtagList?.map((el) => (
+                <MidBtmStyle key={el.id}>#{el.name}</MidBtmStyle>
+              ))}
+            </MidBtmStyleWrapper>
+          </div>
+
+          <WithTripylerWrapper>
+            <WithTripTitleWrapper>
+              <FiBriefcase style={{ color: "#333", fontSize: "24px" }} />
+              <WithTripTitle>
+                함께 하는 <b>Trip’yler</b>
+              </WithTripTitle>
+            </WithTripTitleWrapper>
+            <WithTripProfileList>
+              {data?.tripylerWithList
+                ?.filter((el, idx) => idx < 4)
+                .map((el, idx) => (
+                  <WithTripProfileWrapper
+                    key={el.nickname}
+                    style={{ left: `${idx * 35}px` }}
+                    onClick={onClickWithTrip}
+                  >
+                    <WithTripProfile
+                      src={el.profileUrl || "/icon/defaultProfile.png"}
+                    />
+                  </WithTripProfileWrapper>
+                ))}
+              {data?.tripylerWithList?.length > 4 && (
+                <WithTripMoreBox onClick={onClickWithTrip}>
+                  +{data?.tripylerWithList?.length - 4}
+                </WithTripMoreBox>
               )}
-            </WithTripylerWrapper>
-            <TripylerInfoWrapper>
-              <ContentsInfoWrapper>
-                <ContentsInfoIcon src="/icon/user.png" />
-                <ContentsInfoTxt>
-                  {data?.totalPeopleNum - data?.recruitPeopleNum - 1}인 모집 중 /
-                  총 {data?.totalPeopleNum}인
-                </ContentsInfoTxt>
-              </ContentsInfoWrapper>
-              <ContentsInfoWrapper>
-                <ContentsInfoIcon src="/icon/calendar.png" />
-                <ContentsInfoTxt>
-                  {data?.startDate} ~ {data?.endDate}
-                </ContentsInfoTxt>
-              </ContentsInfoWrapper>
-              <ContentsInfoWrapper>
-                <ContentsInfoIcon src="/icon/money.svg" />
-                <ContentsInfoTxt>
-                  약 {data?.estimatedPrice?.toLocaleString()}원
-                </ContentsInfoTxt>
-              </ContentsInfoWrapper>
-            </TripylerInfoWrapper>
-          </MidTopRightWrapper>
+            </WithTripProfileList>
+
+            {isOpenWithTripList && (
+              <WithTripList>
+                <WithTripListTitle>Trip’yler 리스트</WithTripListTitle>
+                <WithTripListWrapper>
+                  {data?.tripylerWithList?.map((el) => (
+                    <WithTripListItem>
+                      <WithTripListProfile>
+                        <UserImg
+                          src={el.profileUrl || "/icon/defaultProfile.png"}
+                        />
+                      </WithTripListProfile>
+                      <WithTripListID>{el.nickname}</WithTripListID>
+                    </WithTripListItem>
+                  ))}
+                </WithTripListWrapper>
+              </WithTripList>
+            )}
+          </WithTripylerWrapper>
         </ContentsMidTopWrapper>
+
         <ContentsMidBtmWrapper>
-          <MidBtmTitle>이런 여행 스타일인 분을 선호해요</MidBtmTitle>
-          <MidBtmStyleWrapper>
-            {data?.hashtagList?.map((el) => (
-              <MidBtmStyle key={el.id}>#{el.name}</MidBtmStyle>
-            ))}
-          </MidBtmStyleWrapper>
           <MidBtmTitle>이런 여행을 하고 싶어요</MidBtmTitle>
           <MidBtmBodyTxt>{data?.content}</MidBtmBodyTxt>
         </ContentsMidBtmWrapper>
+
         <ContentsBtmWrapper>
           <BtmLeftWrapper>
-            <BtmIcon
-              src={data?.tokenUserLiked ? "/icon/like.png" : "/icon/heart.png"}
-              onClick={onClickLike}
-            />
+            {data?.tokenUserLiked ? (
+              <IoMdHeartEmpty
+                style={{
+                  color: "rgba(255, 0, 0, 1)",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                }}
+                onClick={onClickLike}
+              />
+            ) : (
+              <IoMdHeart
+                style={{
+                  color: "rgba(255, 0, 0, 1)",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                }}
+                onClick={onClickLike}
+              />
+            )}
             <BtmTxt>좋아요 {data?.likes}개</BtmTxt>
           </BtmLeftWrapper>
+
           <ListBtn
             onClick={() => {
               router.push("/findTripyler");
             }}
           >
-            목록보기
+            <IoIosList />
+            목록
           </ListBtn>
         </ContentsBtmWrapper>
       </Contents>
-    </>
+    </Container>
   );
 }
 
-const ContentsLoc = styled.div`
-  width: 1400px;
-  height: 65px;
-  margin: auto;
-  margin-bottom: 50px;
-  background-color: rgba(0, 180, 216, 0.6);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  padding: 0px 25px;
-`;
-
-const LocIcon = styled.img`
-  width: 35px;
-  height: 35px;
-  margin-right: 15px;
-`;
-
-const LocTxt = styled.div`
-  color: #ffffff;
-  font-size: 30px;
-  font-weight: 700;
-`;
-
-const Contents = styled.div`
-  width: 1400px;
-  margin: auto;
-  margin-bottom: 100px;
+const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
+  gap: 45px;
 `;
 
-const ContentsImgWrapper = styled.div`
+const PostTitleWrapper = styled.div`
   width: 100%;
-  height: 380px;
-  overflow: hidden;
-  margin-bottom: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ContentsImg = styled.img`
-  width: 100%;
-  object-fit: cover;
-`;
-
-const ContentsTopWrapper = styled.div`
-  width: 1200px;
-  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  padding: 4px 35px;
+  border-radius: 5px;
+  background: #6179b6;
 `;
 
-const ContentsTopLeftWrapper = styled.div`
-  display: flex;
-  align-items: flex-end;
-`;
-
-const ContentsTitle = styled.div`
-  color: #9ab3f5;
-  font-size: 45px;
-  font-weight: 600;
-  margin-right: 30px;
-`;
-
-const ContentsDate = styled.div`
-  color: #666;
-  font-size: 15px;
-  font-weight: 300;
-`;
-
-const ApplyBtn = styled.button`
-  padding: 15px 50px;
-  border-radius: 12px;
-  background: #00b4d8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+const PostTitle = styled.div`
   color: #fff;
-  font-size: 24px;
+  font-size: 25px;
+  font-weight: 500;
+`;
+
+const PostTitleInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const PostTitleInfo = styled.div`
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const ContentsLoc = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ContentsLocLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const LocTxt = styled.div`
+  color: #6179b6;
+  font-size: 25px;
   font-weight: 700;
 `;
 
-const ContentsMidTopWrapper = styled.div`
-  width: 1200px;
-  margin: auto;
-  padding: 30px 0px;
+const ApplyBtn = styled.button`
+  padding: 10px 50px;
+  border-radius: 5px;
+  background: #9ab3f5;
+
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+`;
+
+const Contents = styled.div`
+  width: 100%;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  border: 0.5px solid #6179b6;
+  background: #fff;
+`;
+
+const ContentsTopWrapper = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(214, 214, 214, 0.6);
-  border-bottom: 1px solid rgba(214, 214, 214, 0.6);
+`;
+
+const Line = styled.div`
+  width: 100%;
+  height: 0.5px;
+  background-color: #999;
+  margin-top: 20px;
+  margin-bottom: 40px;
 `;
 
 const MidTopLeftWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 20px;
 `;
 
 const UserImgWrapper = styled.div`
   width: 100px;
   height: 100px;
-  margin-right: 30px;
   border-radius: 50%;
   overflow: hidden;
 `;
@@ -314,36 +337,19 @@ const UserImg = styled.img`
 const UserTxtWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
+  gap: 20px;
 `;
 
 const UserID = styled.div`
-  margin-bottom: 20px;
-  color: #c8b6ff;
-  font-size: 30px;
+  color: #666;
+  font-size: 20px;
   font-weight: 600;
 `;
 
 const UserInfo = styled.div`
   color: #666;
-  font-size: 25px;
+  font-size: 16px;
   font-weight: 500;
-`;
-
-const UserStyleWrapper = styled.div`
-  height: 95px;
-  display: flex;
-  align-items: flex-end;
-`;
-
-const UserStyle = styled.div`
-  border-radius: 30px;
-  background: #00b4d8;
-  padding: 8px 18px;
-  margin-right: 10px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 400;
 `;
 
 const MidTopRightWrapper = styled.div`
@@ -359,8 +365,14 @@ const WithTripylerWrapper = styled.div`
   position: relative;
 `;
 
+const WithTripTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 const WithTripTitle = styled.div`
-  color: #000;
+  color: #333;
   font-size: 20px;
   font-weight: 500;
 `;
@@ -469,67 +481,72 @@ const WithTripListID = styled.div`
 const TripylerInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 13px;
+  gap: 20px;
 `;
 
 const ContentsInfoWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ContentsInfoIcon = styled.img`
-  margin-right: 20px;
-  width: 30px;
-  height: 30px;
+  gap: 10px;
 `;
 
 const ContentsInfoTxt = styled.div`
   color: #666;
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const ContentsMidTopWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 65px;
 `;
 
 const ContentsMidBtmWrapper = styled.div`
-  width: 1200px;
-  margin: auto;
-  padding: 30px 0px;
-  border-bottom: 1px solid rgba(214, 214, 214, 0.6);
+  width: 100%;
+  margin-bottom: 16px;
 `;
 
 const MidBtmTitle = styled.div`
-  color: #9ab3f5;
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 17px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 24px;
 `;
 
 const MidBtmStyleWrapper = styled.div`
   display: flex;
-  margin-bottom: 65px;
+  gap: 16px;
 `;
 
-const MidBtmStyle = styled(UserStyle)`
-  background-color: #90e0ef;
+const MidBtmStyle = styled.div`
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid #999;
+
+  color: #999;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 const MidBtmBodyTxt = styled.div`
-  width: 1200px;
+  width: 100%;
   min-height: 300px;
   margin: auto;
-  padding: 50px 30px;
-  border-radius: 20px;
-  background: rgba(167, 167, 167, 0.15);
+  padding: 40px 20px;
+  border-radius: 10px;
+  background: #f9fbff;
+  white-space: normal;
 
-  color: rgba(0, 0, 0, 0.8);
-  font-size: 20px;
+  color: #666;
+  font-size: 16px;
   font-weight: 500;
 `;
 
 const ContentsBtmWrapper = styled.div`
-  width: 1200px;
-  margin: auto;
-  padding: 30px 0px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -538,31 +555,27 @@ const ContentsBtmWrapper = styled.div`
 const BtmLeftWrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const BtmIcon = styled.img`
-  width: 40px;
-  height: 40px;
-  margin-right: 15px;
-  cursor: pointer;
+  gap: 8px;
 `;
 
 const BtmTxt = styled.div`
   color: #666;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  margin-right: 25px;
 `;
 
 const ListBtn = styled.button`
-  padding: 15px 30px;
-  border-radius: 12px;
-  background: #ddd;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #fff;
+  border: 1px solid #999;
+
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 
   color: #666;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 700;
 `;

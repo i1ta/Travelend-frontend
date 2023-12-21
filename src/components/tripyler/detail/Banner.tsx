@@ -11,10 +11,10 @@ export default function Banner({ imageUrl }: BannerProps) {
 
 const Container = styled.div`
   width: 100%;
-  height: 500px;
+  height: 300px;
   background-color: #ddfaff;
   overflow: hidden;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 `;
 
 const BannerImg = styled.img`

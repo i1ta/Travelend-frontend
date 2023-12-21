@@ -1,4 +1,4 @@
-import FindTripylerList from "@/components/units/findTripyler/list/list.container";
+import FindTripylerList from "@/components/tripyler/list/list.container";
 
 export default function FindTripylerListPage() {
   return <FindTripylerList></FindTripylerList>;

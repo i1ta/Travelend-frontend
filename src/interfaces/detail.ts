@@ -19,6 +19,12 @@ export interface ApplyListData {
   tripylerApplyId: number;
 }
 
+export interface ApplyListItem {
+  el: ApplyListData;
+  checkApplyUser: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClickApplyBtn: (id: number) => void;
+}
+
 export interface TripylerDetailFormProps {
   data: TripylerDetailData;
   fetchData: () => void;

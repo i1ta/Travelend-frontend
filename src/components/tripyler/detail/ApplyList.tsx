@@ -1,8 +1,27 @@
 import Axios from "@/apis";
-import { ApplyListData } from "@/interfaces/detail";
+import { ApplyListData, ApplyListItem } from "@/interfaces/detail";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
+const ListItem = ({ el, checkApplyUser, onClickApplyBtn }: ApplyListItem) => {
+  return (
+    <ApplyItem key={el.applicantId}>
+      <ApplyProfileWrapper
+        id={el.applicantId.toString()}
+        onClick={checkApplyUser}
+      >
+        <UserImg src={el.profileUrl || "/icon/defaultProfile.png"} />
+      </ApplyProfileWrapper>
+      <ApplyID id={el.applicantId.toString()} onClick={checkApplyUser}>
+        {el.nickname}
+      </ApplyID>
+      <ViewApplyBtn onClick={() => onClickApplyBtn(el.tripylerApplyId)}>
+        신청폼
+      </ViewApplyBtn>
+    </ApplyItem>
+  );
+};
 
 export default function ApplyList() {
   const router = useRouter();
@@ -24,11 +43,15 @@ export default function ApplyList() {
     setIsOpenApplyList((prev) => !prev);
   };
 
-  const checkApplyUser = async (e: React.MouseEvent<HTMLDivElement>) => {
+  const checkApplyUser = (e: React.MouseEvent<HTMLDivElement>) => {
     router.push({
       pathname: "/auth/profile",
       query: { userId: parseInt(e.currentTarget.id) },
     });
+  };
+
+  const onClickApplyBtn = (id: number) => {
+    router.push(`/findTripyler/${tripylerId}/${id}`);
   };
 
   useEffect(() => {
@@ -39,38 +62,18 @@ export default function ApplyList() {
     <PostList>
       <PostListTitleWrapper>
         <PostListTitle>동행 신청자</PostListTitle>
-        <PostListCnt>{applyList.length}명</PostListCnt>
+        <PostListCnt>총 {applyList.length}명</PostListCnt>
       </PostListTitleWrapper>
 
       {applyList.length > 0 ? (
         <List>
           {isOpenApplyList
             ? applyList.map((el) => (
-                <ApplyItem key={el.applicantId}>
-                  <ApplyProfileWrapper
-                    id={el.applicantId.toString()}
-                    onClick={checkApplyUser}
-                  >
-                    <UserImg
-                      src={el.profileUrl || "/icon/defaultProfile.png"}
-                    />
-                  </ApplyProfileWrapper>
-                  <ApplyID
-                    id={el.applicantId.toString()}
-                    onClick={checkApplyUser}
-                  >
-                    {el.nickname}
-                  </ApplyID>
-                  <ViewApplyBtn
-                    onClick={() =>
-                      router.push(
-                        `/findTripyler/${tripylerId}/${el.tripylerApplyId}`
-                      )
-                    }
-                  >
-                    신청폼 보기
-                  </ViewApplyBtn>
-                </ApplyItem>
+                <ListItem
+                  el={el}
+                  checkApplyUser={checkApplyUser}
+                  onClickApplyBtn={onClickApplyBtn}
+                />
               ))
             : applyList
                 .filter((el: any, index: number) => index < 6)
@@ -89,7 +92,7 @@ export default function ApplyList() {
                         )
                       }
                     >
-                      신청폼 보기
+                      신청폼
                     </ViewApplyBtn>
                   </ApplyItem>
                 ))}
@@ -111,37 +114,35 @@ export default function ApplyList() {
 }
 
 export const PostList = styled.div`
-  width: 1400px;
-  margin: auto;
-  margin-bottom: 120px;
+  width: 100%;
 `;
 
 export const PostListTitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 export const PostListTitle = styled.div`
   color: #868686;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   margin-right: 20px;
 `;
 
 export const PostListCnt = styled.div`
   color: #666;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
 `;
 
 export const List = styled.div`
-  padding: 30px 40px;
+  padding: 20px;
   border-top: 1px solid rgba(214, 214, 214, 0.6);
   border-bottom: 1px solid rgba(214, 214, 214, 0.6);
   display: flex;
   flex-wrap: wrap;
-  gap: 97px;
+  gap: 40px;
 `;
 
 export const ApplyItem = styled.div`
@@ -150,26 +151,20 @@ export const ApplyItem = styled.div`
   align-items: center;
 `;
 
-export const UserImgWrapper = styled.div`
-  width: 100px;
-  height: 100px;
-  margin-right: 30px;
+export const ApplyProfileWrapper = styled.div`
+  width: 80px;
+  height: 80px;
+  margin-right: 0px;
+  margin-bottom: 10px;
   border-radius: 50%;
   overflow: hidden;
 `;
 
-export const ApplyProfileWrapper = styled(UserImgWrapper)`
-  width: 130px;
-  height: 130px;
-  margin-right: 0px;
-  margin-bottom: 10px;
-`;
-
 export const ApplyID = styled.div`
   color: #666;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
   cursor: pointer;
 
   &:hover {
@@ -179,14 +174,13 @@ export const ApplyID = styled.div`
 `;
 
 export const ViewApplyBtn = styled.button`
-  width: 135px;
-  height: 50px;
+  padding: 5px 10px;
   border-radius: 10px;
-  border: 1px solid #c8b6ff;
+  border: 1px solid #9ab3f5;
 
-  color: #c8b6ff;
+  color: #9ab3f5;
   text-align: center;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
 `;
 

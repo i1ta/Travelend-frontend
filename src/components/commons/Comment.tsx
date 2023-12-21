@@ -3,6 +3,8 @@ import Axios from "../../apis";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+import { IoChatbubbleOutline, IoSend } from "react-icons/io5";
+
 interface Data {
   content: string;
   nickname: string;
@@ -49,7 +51,10 @@ export default function Comment() {
     <PostList>
       <PostListTitleWrapper>
         <PostListTitle>댓글</PostListTitle>
-        <PostListCnt>{data.length}개</PostListCnt>
+        <IoChatbubbleOutline
+          style={{ color: "#666", fontSize: "20px", marginRight: "4px" }}
+        />
+        <PostListCnt>{data.length}</PostListCnt>
       </PostListTitleWrapper>
       {data.length > 0 ? (
         <CmtListWrapper>
@@ -72,7 +77,7 @@ export default function Comment() {
       {data.length > cmtLen && (
         <MoreBtn onClick={onClickMoreCmt}>
           <MoreBtnTxt>댓글 더보기</MoreBtnTxt>
-          <MoreBtnIcon src="/icon/moreBtn.svg" />
+          {/* <MoreBtnIcon src="/icon/moreBtn.svg" /> */}
         </MoreBtn>
       )}
       <CmtWriteWrapper onSubmit={onSubmitCmt}>
@@ -82,16 +87,16 @@ export default function Comment() {
           name="comment"
           autoComplete="off"
         />
-        <CmtWriteBtn>작성</CmtWriteBtn>
+        <CmtWriteBtn>
+          <IoSend />
+        </CmtWriteBtn>
       </CmtWriteWrapper>
     </PostList>
   );
 }
 
 const PostList = styled.div`
-  width: 1400px;
-  margin: auto;
-  margin-bottom: 120px;
+  width: 100%;
 `;
 
 const PostListTitleWrapper = styled.div`
@@ -102,7 +107,7 @@ const PostListTitleWrapper = styled.div`
 
 const PostListTitle = styled.div`
   color: #868686;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   margin-right: 20px;
 `;
@@ -116,7 +121,7 @@ const PostListCnt = styled.div`
 const ListTitle = styled.div`
   width: 230px;
   color: #868686;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 700;
   margin-right: 20px;
 `;
@@ -154,11 +159,8 @@ const CmtList = styled.div`
 
 const CmtContents = styled.div`
   color: #868686;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
+  font-size: 16px;
   font-weight: 500;
-  line-height: normal;
 `;
 
 const MoreBtn = styled.button`
@@ -180,34 +182,30 @@ const MoreBtnTxt = styled.div`
   font-weight: 500;
 `;
 
-const MoreBtnIcon = styled.img``;
-
 const CmtWriteWrapper = styled.form`
   display: flex;
   align-items: center;
-  padding: 0px 40px;
   margin-top: 30px;
 `;
 
 const CmtInput = styled.input`
   width: 950px;
-  height: 60px;
-  padding: 15px 26px;
+  padding: 12px 20px;
   color: #868686;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
-  margin-right: 30px;
+  margin-right: 10px;
 
   border-radius: 10px;
-  background: rgba(225, 225, 225, 0.3);
+  background: #f9fbff;
   border: none;
 `;
 
 const CmtWriteBtn = styled.button`
-  width: 150px;
-  height: 60px;
-  background-color: #90e0ef;
+  padding: 10px;
+  background-color: #9AB3F5;
   border-radius: 10px;
+  display: flex;
 
   color: #fff;
   font-size: 22px;

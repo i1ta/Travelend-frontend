@@ -12,8 +12,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
-import ReviewComponent from "../../commons/Card/Main/ReviewCard/Review";
-import FindCard from "../../commons/Card/Main/FindCard/FindCard";
+import ReviewComponent from "../commons/Card/Main/ReviewCard/Review";
+import FindCard from "../commons/Card/Main/FindCard/FindCard";
 import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
 

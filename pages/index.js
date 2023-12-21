@@ -1,4 +1,4 @@
-import Main from "../src/components/units/main/Main.container";
+import Main from "../src/components/main/Main.container";
 import { useRecoilValue } from "recoil";
 import { LoginState } from "../src/states/LoginState";
 

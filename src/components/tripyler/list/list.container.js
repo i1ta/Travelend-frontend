@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import FindCard from "../../../commons/Card/Main/FindCard/FindCard";
+import FindCard from "../../commons/Card/Main/FindCard/FindCard";
 import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";

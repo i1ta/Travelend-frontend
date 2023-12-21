@@ -1,14 +1,18 @@
-import Banner from "@/components/tripyler/detail/Banner";
-import TripylerDetailForm from "@/components/tripyler/detail/TripylerDetailForm";
-import Comment from "@/components/commons/Comment";
-import MorePost from "@/components/commons/MorePost";
-import ApplyList from "@/components/tripyler/detail/ApplyList";
+import Banner from "../../../src/components/tripyler/detail/Banner";
+import TripylerDetailForm from "../../../src/components/tripyler/detail/TripylerDetailForm";
+import Comment from "../../../src/components/commons/Comment";
+import MorePost from "../../../src/components/commons/MorePost";
+import ApplyList from "../../../src/components/tripyler/detail/ApplyList";
+import {
+  TripylerDetailData,
+  MorePostData,
+} from "../../../src/interfaces/detail";
 
+import Axios from "../../../src/apis";
+import React from "react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Axios from "@/apis";
-import React from "react";
-import { TripylerDetailData, MorePostData } from "@/interfaces/detail";
+import styled from "styled-components";
 
 export default function FindTripylerDetailPage() {
   const router = useRouter();
@@ -44,10 +48,22 @@ export default function FindTripylerDetailPage() {
   return (
     <>
       <Banner imageUrl={data?.image} />
-      <TripylerDetailForm data={data} fetchData={fetchData} />
-      {data?.myTripyler && <ApplyList />}
-      <Comment />
-      <MorePost data={morePostData} />
+      <Container>
+        <TripylerDetailForm data={data} fetchData={fetchData} />
+        {data?.myTripyler && <ApplyList />}
+        <Comment />
+        <MorePost data={morePostData} />
+      </Container>
     </>
   );
 }
+
+const Container = styled.div`
+  max-width: 1000px;
+  width: 95%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 120px;
+`;
