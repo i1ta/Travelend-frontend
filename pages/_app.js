@@ -1,7 +1,6 @@
-// 가장 먼저 렌더링되는 페이지
-import GlobalStyle from "@/commons/styles/globalStyles";
 import Layout from "@/components/commons/Layout/Layout";
 import Loading from "@/components/units/loading/Loading";
+import GlobalStyle from "@/styles/globalStyles";
 import Head from 'next/head';
 import { useRouter } from "next/router";
 import { Suspense, useEffect, useState } from "react";

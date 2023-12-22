@@ -1,4 +1,4 @@
-import FindTripylerApplyDetail from "@/components/units/findTripyler/apply/applyDetail.container";
+import FindTripylerApplyDetail from "@/components/tripyler/apply/applyDetail.container";
 
 export default function FindTripylerApplyDetailPage() {
   return <FindTripylerApplyDetail />;
