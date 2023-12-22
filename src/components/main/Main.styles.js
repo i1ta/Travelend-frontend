@@ -403,7 +403,7 @@ export const ContentWrapper = styled.div`
 `;
 
 export const AdWrapper = styled.div`
-  width: 1960px;
+  max-width: 1960px;
   margin: 150px auto;
 `;
 
@@ -429,6 +429,7 @@ export const AdTitle = styled.div`
   color: #fff;
   font-size: 70px;  
   font-weight: bold;
+  white-space: nowrap;
 `;
 
 export const FindTripylerTitle = styled(FindTripylerTitleWrapper)`

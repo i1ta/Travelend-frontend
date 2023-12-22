@@ -1,9 +1,10 @@
-import GlobalStyle from "@/styles/globalStyles";
-import { useEffect, useState } from "react";
-import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import Layout from "@/components/commons/Layout/Layout";
-import { useRouter } from "next/router";
+import Loading from "@/components/units/loading/Loading";
+import GlobalStyle from "@/styles/globalStyles";
 import Head from 'next/head';
+import { useRouter } from "next/router";
+import { Suspense, useEffect, useState } from "react";
+import { RecoilRoot } from "recoil";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -22,9 +23,11 @@ export default function App({ Component, pageProps }) {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <GlobalStyle />
-      <Layout pathname={router.pathname}>
-        <Component {...pageProps} />
-      </Layout>
+      <Suspense fallback={Loading}>
+        <Layout pathname={router.pathname}>
+          <Component {...pageProps} />
+        </Layout>
+      </Suspense>
     </RecoilRoot>
   );
 }

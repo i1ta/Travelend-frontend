@@ -1,5 +1,5 @@
-import Main from "../src/components/main/Main.container";
 import { useRecoilValue } from "recoil";
+import Main from "../src/components/main/Main.container";
 import { LoginState } from "../src/states/LoginState";
 
 export default function MainPage() {

@@ -1,17 +1,18 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useForm } from "react-hook-form";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import * as S from "./Login.styles";
 
 import {
-  login,
-  NicknameState,
-  IsFirstLogin,
-  LoginState,
-  JwtTokenState,
   IsAdmin,
+  IsFirstLogin,
+  JwtTokenState,
+  LoginState,
+  NicknameState,
+  login,
 } from "@/states/LoginState";
 
 import axios from "axios";
@@ -25,6 +26,12 @@ export default function LoginForm() {
     password: "",
     username: "",
   });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // 아이디 기억하기
+  const [isRemember, setIsRemember] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['rememberUser']);
 
   // 로그인 상태 설정
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -33,10 +40,19 @@ export default function LoginForm() {
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
 
+  useEffect(() => {
+    if(cookies.rememberUser !== undefined){
+      setUsername(cookies.rememberUser.username);
+      setPassword(cookies.rememberUser.password);
+      // setState({...state, username: cookies.rememberId});
+    }
+  }, []);
+
+
   // Sign In 버튼 클릭 시
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
-      setState(data);
+      // setState(data);
       setIsSubmitting(true);
       if (username == "") {
         alert("아이디를 입력해주세요.");
@@ -44,8 +60,8 @@ export default function LoginForm() {
         alert("비밀번호를 입력해주세요.");
       } else {
         const requestData = {
-          password: data.password,
-          username: data.username,
+          password: password,
+          username: username,
         };
 
         const response = await axios.post(
@@ -55,6 +71,15 @@ export default function LoginForm() {
         );
 
         if (response.status === 200 && response.data.data.accessToken) {
+          // 아이디 기억하기
+          if(isRemember){
+            setCookie('rememberUser', {
+              username: username,
+              password: password
+            }, {maxAge: 24 * 60 * 60 * 7 * 1000});
+            setIsRemember(false);
+          }
+
           localStorage.setItem("login-token", response.data.data.accessToken);
           login({ jwtToken: response.data.data.accessToken, setJwtToken });
           setIsLoggedIn(true);
@@ -86,22 +111,25 @@ export default function LoginForm() {
               type="text"
               placeholder="ID"
               required
-              {...register("username", { required: true })}
+              value={username}
+              onChange={(e) => {console.log(e.target.value); setUsername( e.target.value )}}
             />
             <S.Input
               id="password"
               type="password"
               placeholder="PASSWORD"
               required
-              {...register("password", { required: true })}
+              value={password}
+              onChange={(e) => {console.log(e.target.value); setPassword( e.target.value )}}
+              onKeyDown={(e) => {if(e.key === "Enter"){onSubmit();}}}
             />
           </S.InputWrapper>
           <S.CheckboxContainer>
             <S.CheckboxWrapper>
-              <S.CheckboxInput type="checkbox" id="loginChk" />
+              <S.CheckboxInput type="checkbox" id="loginChk" onClick={() => {setIsRemember((prev) => !prev)}}/>
               <S.Label htmlFor="loginChk">Remember me</S.Label>
             </S.CheckboxWrapper>
-            <S.Button type="submit" disabled={isSubmitting}>
+            <S.Button type="button" disabled={isSubmitting} onClick={onSubmit}>
               Sign In
             </S.Button>
           </S.CheckboxContainer>
