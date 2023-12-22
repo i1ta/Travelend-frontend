@@ -1,9 +1,6 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
-import { css } from "@emotion/styled";
 
 import { KAKAO_REDIRECT_URL } from "@/OAuth/kakao.js";
 import { CALLBACK_URL } from "@/OAuth/naver.js";
@@ -36,9 +33,9 @@ export default function SocialLogin() {
         </Button>
       </Box>
       <Box>
-        <span>⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼</span>
+        <BaseLineWrapper><BaseLine></BaseLine></BaseLineWrapper>
         <Text> SNS 로그인 </Text>
-        <span>⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼</span>
+        <BaseLineWrapper><BaseLine></BaseLine></BaseLineWrapper>
       </Box>
       <Box>
         <SocialImg onClick={onNaverHandler}>
@@ -107,4 +104,17 @@ const SocialImg = styled.div`
 
 const StyledImage = styled(Image)`
   border-radius: 50px;
+`;
+
+const BaseLineWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BaseLine = styled.span`
+  background-color: #000;
+  height: 1px;
+  width: 128px;
+
 `;

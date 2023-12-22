@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import * as S from "./Main.styles";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { LoginState, JwtTokenState, FindCardList, FindCardFilter, logout } from '@/States/LoginState';
-import { useRouter } from "next/router";
-import Link from "next/link";
+import { FindCardFilter, FindCardList, JwtTokenState, LoginState } from '@/States/LoginState';
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import * as S from "./Main.styles";
 
-import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
-import FindCard from '../../commons/Card/Main/FindCard/FindCard';
-import Calendar from "@/components/commons/Tools/Calendar";
 import PreviewCard from "@/components/commons/Card/Preview/Preview";
+import Calendar from "@/components/commons/Tools/Calendar";
+import FindCard from '../../commons/Card/Main/FindCard/FindCard';
+import ReviewComponent from '../../commons/Card/Main/ReviewCard/Review';
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -26,7 +25,10 @@ export default function Main() {
     if(jwtInfo.expiryTime < new Date().getTime()){
       alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
       router.push("/auth/signIn");
-      logout({setJwtToken});
+      
+      // JWT 토큰을 제거
+      setJwtToken({token: null, expiryTime: null});
+      window.localStorage.clear();
       setIsLoggedIn(false);
       return true;
     } else {return false;}
@@ -458,7 +460,6 @@ export default function Main() {
             )}
         })}
       </S.AdWrapper>
-
     </>
   );
 }
