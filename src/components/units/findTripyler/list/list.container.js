@@ -178,8 +178,8 @@ export default function FindTripylerList(){
       }
     }, [cardList])
 
-    const [isRecruiting, setIsRecruiting] = useState("");
-    const [option, setOption] = useState("");
+    const [isRecruiting, setIsRecruiting] = useState("1");
+    const [option, setOption] = useState("1");
     const onClcickFilterFind = async () => {
 
       const requestData = {
@@ -275,6 +275,9 @@ export default function FindTripylerList(){
     // 달력
     const [isFirstCalendar, setIsFirstCalendar] = useState(false);
   
+    // 필터링
+    const [filterOn, setFilterOn] = useState(false);
+
     // 페이지네이션
     const [currentPage, setPage] = useState(1);
     const [pageNum, setPageNum] = useState([]);
@@ -295,7 +298,7 @@ export default function FindTripylerList(){
     useEffect(() => {console.log(pageNum)}, [pageNum]);
     return(
         <>
-        <FindTripylerBanner title="Trip'yler 찾기" subTitle="함께 하고 싶은 여행자를 Trip'yle에서 바로 찾아보세요"/>
+        <FindTripylerBanner title="Trip'yler 찾기" subTitle={["함께 동행하고 싶은 여행자를", "Trip'yle에서 바로 찾아보고", "여행동행 게시물도 작성해보세요."]}/>
         <S.Banner>
         <S.FindFilter>
           <S.FilterMainWrapper>
@@ -393,16 +396,14 @@ export default function FindTripylerList(){
                 <S.Input 
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  style={{ width: "925px" }} 
                   placeholder="직접 입력"
                 />
               </S.FilterWrapper>
+              <S.FilterFindBtn onClick={onClcickFilterFind}>
+                <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
+              </S.FilterFindBtn>
             </S.FilterBackWrapper>
             </S.FilterMiddleWrapper>
-            <S.FilterFindBtn onClick={onClcickFilterFind}>
-              <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
-              <S.BtnArrow src="/icon/arrow.png"></S.BtnArrow>
-            </S.FilterFindBtn>
           </S.FilterMainWrapper>
         </S.FindFilter>
       </S.Banner>
@@ -410,8 +411,9 @@ export default function FindTripylerList(){
       <S.ContentWrapper>
         <S.FindTripylerTitleWrapper>
             <S.FindTripylerTitle>
-              <div>함께 동행할 Trip’yler 찾기</div>
-              <S.FindTripylerWriteBtn onClick={() => {
+              <div>Trip’yler 찾기 게시물</div>
+            </S.FindTripylerTitle>
+              {/* <S.FindTripylerWriteBtn onClick={() => {
                 if(!isLoggedIn){
                   checkLogin();
                 } else{
@@ -421,18 +423,26 @@ export default function FindTripylerList(){
                   }
                 }
               }}>글쓰기 〉</S.FindTripylerWriteBtn>
-            </S.FindTripylerTitle>
-            <S.FindTripylerFilterOne onChange={(e) => {setIsRecruiting(e.target.value)}}>
-                <S.FindTripylerOptionOne value="1">모집 중</S.FindTripylerOptionOne>
-                <S.FindTripylerOptionOne value="0">마감</S.FindTripylerOptionOne>
-            </S.FindTripylerFilterOne>
-            <S.FindTripylerFilterTwo onChange={(e) => {setOption(e.target.value); onClcickFilterFind();}}>
-                <option value="1">최신 순</option>
-                <option value="2">좋아요 순</option>
-                <option value="3">댓글 순</option>
-                <option value="4">조회수 순</option>
-            </S.FindTripylerFilterTwo>
+             */}
         </S.FindTripylerTitleWrapper>
+        <S.FilterContainer>
+          <S.FilterCategoryBox>
+            <S.FilterCategory onClick={(e) => {setOption("1"); onClcickFilterFind();}} selected={option === "1"}>최신 순</S.FilterCategory>
+            <S.FilterCategory onClick={(e) => {setOption("2"); onClcickFilterFind();}} selected={option === "2"}>많이 본 순</S.FilterCategory>
+            <S.FilterCategory onClick={(e) => {setOption("3"); onClcickFilterFind();}} selected={option === "3"}>좋아요 순</S.FilterCategory>
+            <S.FilterCategory onClick={(e) => {setOption("4"); onClcickFilterFind();}} selected={option === "4"}>댓글 많은 순</S.FilterCategory>
+          </S.FilterCategoryBox>
+          <S.FilterRecruitBox>
+            <S.FilterRecruit onClick={() => {setFilterOn((prev) => !prev)}}>{isRecruiting === "1" ? "모집 중" : "마감"}</S.FilterRecruit>
+            {filterOn && (
+              <S.FilterRecruitModalBox>
+                <S.FilterRecruitModal onClick={() => {setFilterOn(false); setIsRecruiting("1")}}>모집 중</S.FilterRecruitModal>
+                <S.FilterRecruitLine></S.FilterRecruitLine>
+                <S.FilterRecruitModal onClick={() => {setFilterOn(false); setIsRecruiting("0")}}>마감</S.FilterRecruitModal>
+              </S.FilterRecruitModalBox>
+            )}
+          </S.FilterRecruitBox>
+        </S.FilterContainer>
         <S.Review>
           {newCardList.length === 0 ? (
             <S.FindTripylerNoContent>
@@ -465,6 +475,35 @@ export default function FindTripylerList(){
             <S.ArrowImg src="/icon/pageRightArrow.png" onClick={(e) => setPage((prev) => prev + 1 > Math.ceil(newCardList.length / 6) ? Math.ceil(newCardList.length / 6) : prev + 1 )}></S.ArrowImg>
             <S.DoubleArrowImg src="/icon/doubleRight.png" onClick={(e) => setPage(Math.ceil(newCardList.length / 6))}></S.DoubleArrowImg>
           </S.PageNationWrapper>
+          )}
+        </S.Review>
+
+        <S.FindTripylerTitleWrapper>
+            <S.FindTripylerTitle>
+              <div>실시간 인기 Trip'yler 찾기 게시물</div>
+            </S.FindTripylerTitle>
+        </S.FindTripylerTitleWrapper>
+        <S.Review>
+          {newCardList.length === 0 ? (
+            <S.FindTripylerNoContent>
+              <S.NoContent>조건에 맞는 게시 글이 존재하지 않습니다</S.NoContent>
+            </S.FindTripylerNoContent>
+          ) : (
+          <S.FindTripylerContent>
+            {newCardList.map((card, idx) => { 
+              if(idx >= 0 && idx < 3){
+              return(
+              <FindCard onClick={() => {
+                if(!isLoggedIn){
+                  checkLogin();
+                } else{
+                  if(!checkToken()) {
+                    router.push(`/findTripyler/${card.tripylerId}`);
+                  }
+                }
+              }} id={card.tripylerId} info={card}/>
+            )}})}
+          </S.FindTripylerContent>
           )}
         </S.Review>
       </S.ContentWrapper>
