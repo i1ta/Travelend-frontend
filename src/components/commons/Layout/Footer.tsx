@@ -1,6 +1,10 @@
 import { useRouter } from "next/router";
 import { styled } from "styled-components";
 
+import { IoIosCall } from "react-icons/io";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
+import { CiMail } from "react-icons/ci";
+
 export default function Footer() {
   const router = useRouter();
 
@@ -10,7 +14,7 @@ export default function Footer() {
       <Foot>
         <Container>
           <Section>
-            <Title>About Us</Title>
+            <Logo src="/assets/logo.svg" />
             <Content>
               Trip’yle는 여행자들에게 좀 더 색다른 여행 스타일을 <br />
               제공해주는 ‘여행 동행자 매칭 플랫폼’입니다. <br />
@@ -19,7 +23,7 @@ export default function Footer() {
             </Content>
           </Section>
           <Section>
-            <Title>Menu</Title>
+            <Title>Quick Link</Title>
             <MenuWrapper>
               <Menu onClick={() => router.push("/main")}>Trip’yle 소개</Menu>
               <Menu onClick={() => router.push("/findTripyler")}>
@@ -33,17 +37,23 @@ export default function Footer() {
             <Title>Information</Title>
             <ItemWrapper>
               <Item>
-                <ItemImg src="/icon/phone.svg" />
+                <IoIosCall style={{ color: "#666", fontSize: "24px" }} />
                 <ItemTxt>02-1234-1234</ItemTxt>
               </Item>
               <Item>
-                <ItemImg src="/icon/email.svg" />
+                <CiMail style={{ color: "#666", fontSize: "24px" }} />
                 <ItemTxt>Tripyler@naver.com</ItemTxt>
               </Item>
               <Item>
-                <SnsImg src="/icon/insta.svg" />
-                <SnsImg src="/icon/youtube.svg" />
-                <SnsImg src="/icon/blog.svg" />
+                <SnsImgWrapper>
+                  <FaInstagram style={{ color: "#fff", fontSize: "35px" }} />
+                </SnsImgWrapper>
+                <SnsImgWrapper>
+                  <FaYoutube style={{ color: "#fff", fontSize: "35px" }} />
+                </SnsImgWrapper>
+                <SnsImgWrapper>
+                  <SnsImg src="/icon/blog.svg" />
+                </SnsImgWrapper>
               </Item>
             </ItemWrapper>
           </Section>
@@ -60,16 +70,22 @@ const FooterTop = styled.div`
 const Foot = styled.div`
   width: 100%;
   height: 500px;
-  background-color: rgba(167, 167, 167, 0.6);
+  background-color: rgba(154, 179, 245, 0.2);
   padding-top: 110px;
 `;
 
+const Logo = styled.img`
+  width: 150px;
+  margin-bottom: 50px;
+`;
+
 const Container = styled.div`
-  width: 1400px;
+  max-width: 1400px;
+  width: 95%;
   margin: auto;
   display: flex;
   justify-content: space-between;
-  color: #fff;
+  color: #666;
 `;
 
 const Section = styled.div`
@@ -80,11 +96,12 @@ const Section = styled.div`
 const Title = styled.div`
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 70px;
+  color: #333;
+  margin-bottom: 85px;
 `;
 
 const Content = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 35px;
 `;
@@ -92,11 +109,11 @@ const Content = styled.div`
 const MenuWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
 `;
 
 const Menu = styled(Content)`
-  line-height: 0;
+  line-height: 16px;
   cursor: pointer;
 `;
 
@@ -108,20 +125,26 @@ const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const ItemImg = styled.img`
-  width: 30px;
-  height: 30px;
-  margin-right: 20px;
+  gap: 10px;
 `;
 
 const ItemTxt = styled.div`
-  width: 180px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
+  flex: 1;
+`;
+
+const SnsImgWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #666;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SnsImg = styled.img`
-  cursor: pointer;
+  width: 60%;
 `;
