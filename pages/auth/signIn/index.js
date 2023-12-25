@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import Image from "next/image";
 import axios from 'axios';
 
-import Layout from '../../../src/components/commons/Layout/Layout.js';
-import LoginForm from '../../../src/components/units/auth/login/Login.container.js';
+import LoginForm from '@/components/auth/login/Login.container.js';
 import SocialLogin from '@/components/commons/Layout/SocialLogin.js/SocialLogin.js';
 
 
@@ -16,7 +15,6 @@ function login() {
 
   return (
     <>
-      {/* <Layout login /> */}
       <div>
         <LoginForm />
         <Box>

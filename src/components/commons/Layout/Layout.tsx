@@ -1,7 +1,12 @@
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
-export default function Layout(props) {
+interface LayoutProps {
+  children: React.ReactNode;
+  pathname: string;
+}
+
+export default function Layout({ pathname, children }: LayoutProps) {
   // 푸터를 나타내지 않는 경로를 배열에 입력
   const excludedPaths = [
     "/auth/profile",
@@ -12,12 +17,12 @@ export default function Layout(props) {
     "/auth/chnPw",
     "/404",
   ];
-  const showFooter = !excludedPaths.includes(props.pathname);
+  const showFooter = !excludedPaths.includes(pathname);
 
   return (
     <>
       <NavBar />
-      {props.children}
+      {children}
       {showFooter && <Footer />}
     </>
   );
