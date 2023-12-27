@@ -243,7 +243,7 @@ const PostTitleWrapper = styled.div`
 
 const PostTitle = styled.div`
   color: #fff;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 500;
 `;
 
