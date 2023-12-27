@@ -10,7 +10,7 @@ export default function FindTripylerBanner(props: any) {
             <BannerSubTitle>{props.subTitle}</BannerSubTitle>
           ) : (
             <>
-              {props.subTitle.map((e: any, i: number) => (
+              {props.subTitle?.map((e: any, i: number) => (
                 <BannerSubTitle
                   key={i}
                   style={{ top: `calc(${i} * 45px + 246px)` }}

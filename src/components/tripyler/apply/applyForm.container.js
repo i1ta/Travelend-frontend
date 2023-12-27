@@ -1,5 +1,5 @@
-import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import * as S from "./applyForm.style";
+import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -61,9 +61,8 @@ export default function FindTripylerApply() {
     }
   };
   return (
-    <>
-      <FindTripylerBanner />
-      <S.PageTitle>함께 동행할 Trip’yler 신청</S.PageTitle>
+    <Container>
+      <PageTitle>함께 동행할 Trip’yler 신청</PageTitle>
       <S.Form>
         <S.ContentsItem>
           <S.FormTitle>Trip’yler 신청 관련 안내사항</S.FormTitle>
@@ -124,6 +123,26 @@ export default function FindTripylerApply() {
         </S.ContentsItem>
         <S.ApplyBtn onClick={onClickApplyBtn}>신청 완료</S.ApplyBtn>
       </S.Form>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 1000px;
+  width: 95%;
+  margin: auto;
+  margin-top: 50px;
+`;
+
+const PageTitle = styled.div`
+  width: 100%;
+  padding: 8px 20px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  background: ${(props) => props.theme.colors.main2};
+  margin-bottom: 30px;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+`;

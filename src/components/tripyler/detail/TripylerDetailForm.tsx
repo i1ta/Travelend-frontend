@@ -1,5 +1,5 @@
 import Axios from "@/apis";
-import { TripylerDetailFormProps } from "@/interfaces/detail";
+import { TripylerDetailFormProps } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
@@ -243,7 +243,7 @@ const PostTitleWrapper = styled.div`
 
 const PostTitle = styled.div`
   color: #fff;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 500;
 `;
 
