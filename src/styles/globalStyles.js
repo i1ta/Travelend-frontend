@@ -8,10 +8,10 @@ const style = css`
     border-collapse: collapse;
     text-decoration: none;
 
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   li {
@@ -25,6 +25,11 @@ const style = css`
     background-color: transparent;
   }
 
+  textarea {
+    border: none;
+    outline: none;
+  }
+
   input {
     outline: none;
   }
@@ -32,9 +37,8 @@ const style = css`
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset;
   }
-`
+`;
 const GlobalStyle = () => {
   return <Global styles={style} />;
-
-}
+};
 export default GlobalStyle;

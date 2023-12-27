@@ -1,5 +1,5 @@
 import Axios from "@/apis";
-import { TripylerDetailFormProps } from "@/interfaces/detail";
+import { TripylerDetailFormProps } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
