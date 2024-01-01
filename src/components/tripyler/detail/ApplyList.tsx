@@ -1,5 +1,5 @@
 import Axios from "@/apis";
-import { ApplyListData, ApplyListItem } from "@/interfaces/detail";
+import { ApplyListData, ApplyListItem } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";

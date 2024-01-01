@@ -1,4 +1,3 @@
-// filterFunctions.js
 
 import Axios from "@/apis";
 
@@ -11,8 +10,6 @@ export default async function onClickFilterFind (
   setFindCardFilter,
   router
 ) {
-
-//   const router = useRouter();
 
   const requestData = {
     continentId: selectedDestination.continent.id,

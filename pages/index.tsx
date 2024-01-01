@@ -14,11 +14,11 @@ export default function MainPage() {
   const loginState = useRecoilValue(LoginState);
   const router = useRouter();
 
-  const [data, setData] = useState<TripylerMainData>();
+  const [data, setData] = useState<TripylerMainData[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (data?.data?.length === 0) {
+      if (data?.length === 0) {
         const requestData: RequestData = {
           continentId: 0,
           endDate: null,
@@ -46,7 +46,6 @@ export default function MainPage() {
 
   return (
     <>
-      
       <Main/>
     </>
   );

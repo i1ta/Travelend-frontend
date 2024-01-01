@@ -1,5 +1,5 @@
 import Axios from "@/apis";
-import { TripylerDetailFormProps } from "@/interfaces/detail";
+import { TripylerDetailFormProps } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
@@ -228,7 +228,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 45px;
+  gap: 30px;
 `;
 
 const PostTitleWrapper = styled.div`
@@ -236,14 +236,14 @@ const PostTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 35px;
+  padding: 8px 20px;
   border-radius: 5px;
   background: #6179b6;
 `;
 
 const PostTitle = styled.div`
   color: #fff;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 500;
 `;
 

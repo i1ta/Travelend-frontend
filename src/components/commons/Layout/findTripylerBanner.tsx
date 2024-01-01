@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export default function FindTripylerBanner(props) {
+export default function FindTripylerBanner(props: any) {
   return (
     <>
       <Banner>
@@ -9,8 +9,17 @@ export default function FindTripylerBanner(props) {
           {typeof props?.subTitle === "string" ? (
             <BannerSubTitle>{props?.subTitle}</BannerSubTitle>
           ) : (
-            <>{props?.subTitle?.map((e, i) => (<BannerSubTitle idx={i} style={{ top : `calc(${i} * 45px + 246px)`}}>{e}</BannerSubTitle>))}</>
-          )} 
+            <>
+              {props.subTitle?.map((e: any, i: number) => (
+                <BannerSubTitle
+                  key={i}
+                  style={{ top: `calc(${i} * 45px + 246px)` }}
+                >
+                  {e}
+                </BannerSubTitle>
+              ))}
+            </>
+          )}
         </BannerContents>
       </Banner>
     </>
@@ -50,7 +59,7 @@ const BannerSubTitle = styled.div`
   font-style: normal;
   font-weight: 500;
   color: #666666;
-  `;
+`;
 
 const BannerImg = styled.img`
   position: absolute;

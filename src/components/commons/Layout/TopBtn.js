@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { styled, keyframes } from "styled-components";
 
 export default function TopBtn(props){

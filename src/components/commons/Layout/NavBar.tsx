@@ -12,7 +12,15 @@ import {
 } from "@/states/LoginState";
 import TopBtn from "./TopBtn";
 
-export default function NavBar(props) {
+import { FiSend } from "react-icons/fi";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { CgProfile } from "react-icons/cg";
+
+interface NavBarProps {
+  children: React.ReactNode;
+}
+
+export default function NavBar({ children }: NavBarProps) {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const jwtInfo = useRecoilValue(JwtTokenState);
@@ -123,11 +131,11 @@ export default function NavBar(props) {
   // prettier-ignore
   return (
     <>
-      <Nav scrollY={scrollY}>
+      <Nav>
         <NavContainer>
           <Container>
             <HomeLogo 
-                src="/assets/logo.png"
+                src="/assets/logo.svg"
                 alt="로고"
                 onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
@@ -162,26 +170,16 @@ export default function NavBar(props) {
             </AuthList>
           ) : (
             <AuthList>
-              <AfterLoginItem id="3">
-                <NicknameWrapper src="/icon/bell.png" />
-              </AfterLoginItem>
               <AfterLoginItem id="0" infoMsgNum={infoMsgNum}>
-                <NicknameWrapper
-                  src="/icon/messenger.png"
-                  onClick={onMesseageBtn}
-                />
+                <FiSend onClick={onMesseageBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
+
               <AfterLoginItem id="1" infoMsgNum={infoMsgNum}>
-                <NicknameWrapper
-                  src="/icon/heart_gray.png"
-                  onClick={onLikeBtn}
-                />
+                <IoMdHeartEmpty  onClick={onLikeBtn} style={{color: "#666", fontSize: "28px", cursor: "pointer"}}/>
               </AfterLoginItem>
+
               <AfterLoginItem id="2" infoMsgNum={infoMsgNum}>
-                <NicknameWrapper
-                  src="/icon/profile.png"
-                  onClick={onProfileBtn}
-                />
+                <CgProfile onClick={onProfileBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
               {isFirstLogin && (
                 <InfoMsg>
@@ -195,35 +193,22 @@ export default function NavBar(props) {
           )}
         </NavContainer>
       </Nav>
-      <NavBottom />
-      {props.children}
+      {children}
       <TopBtn isHidden={isHidden} onClick={() => topScroll()}/>
     </>
   );
 }
 
 const HomeLogo = styled.img`
-  width: 140px;
+  width: 120px;
   cursor: pointer;
 `;
 
-const NavBottom = styled.div`
-  width: 100%;
-  height: 110px;
-`;
-
 const Nav = styled.nav`
-  height: 110px;
+  height: 100px;
   background-color: #ffffff;
-  padding: 30px 0;
-  box-shadow: 0px 1px 10px #999;
-  z-index: 100;
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   transition: transform 0.3s ease;
 
   &.hidden {
@@ -235,14 +220,15 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 1440px;
-  margin: 0 auto;
+  max-width: 1400px;
+  width: 95%;
+  margin: auto;
 `;
 
 const PageList = styled.ul`
   display: flex;
   padding-left: 0;
-  gap: 30px;
+  gap: 15px;
 `;
 
 const AuthList = styled(PageList)`
@@ -251,18 +237,18 @@ const AuthList = styled(PageList)`
 `;
 
 const Item = styled.li`
-  padding: 15px 20px;
-  font-size: 18px;
+  padding: 10px 20px;
+  font-size: 16px;
   white-space: nowrap;
   margin: 0 0.5vw;
   font-weight: 600;
-  color: 000;
+  color: #333;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 const AdminItem = styled(Item)`
-  background-color: #d3c5ff;
+  background-color: #9ab3f5;
   color: #fff;
 `;
 
@@ -273,8 +259,8 @@ const BeforeLoginItem = styled.li`
 `;
 
 const AfterLoginItem = styled.li`
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -290,35 +276,26 @@ const Container = styled.div`
 `;
 
 const SignInBtn = styled.button`
+  width: 100px;
   background-color: transparent;
-  border-radius: 50px;
-  border: 2px solid #c8b6ff;
+  border-radius: 5px;
+  border: 1px solid #9ab3f5;
+  padding: 10px 0;
+  text-align: center;
 
-  color: #c8b6ff;
-  letter-spacing: -2px;
-
+  color: #9ab3f5;
   font-size: 18px;
-
-  padding: 0.7rem 1.5rem;
   cursor: pointer;
 `;
 
 const SignUpBtn = styled.button`
-  background-color: #c8b6ff;
+  width: 100px;
+  background-color: #9ab3f5;
+  border-radius: 5px;
   color: white;
-  border-radius: 50px;
-  border: 2px solid #c8b6ff;
-  color: white;
-  letter-spacing: -2px;
-
   font-size: 18px;
-  padding: 0.7rem 1.5rem;
-  cursor: pointer;
-`;
-
-const NicknameWrapper = styled.img`
-  width: 25px;
-  height: 25px;
+  padding: 10px 0;
+  text-align: center;
   cursor: pointer;
 `;
 

@@ -1,4 +1,4 @@
-import { MorePostProps } from "@/interfaces/detail";
+import { MorePostProps } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import styled from "styled-components";
@@ -18,14 +18,14 @@ export default function MorePost({ data }: MorePostProps) {
     <PostList>
       <PostListTitle>목록</PostListTitle>
       <ListWrapper>
-        <FaCaretUp style={{color: "#D9D9D9"}}/>
+        <FaCaretUp style={{ color: "#D9D9D9" }} />
         <ListTitle>이전 게시물</ListTitle>
         <PostTitle onClick={onClickPrevPost}>{data?.previousTitle}</PostTitle>
       </ListWrapper>
       <ListWrapper
         style={{ borderBottom: "1px solid rgba(214, 214, 214, 0.60)" }}
       >
-        <FaCaretDown style={{color: "#D9D9D9"}}/>
+        <FaCaretDown style={{ color: "#D9D9D9" }} />
         <ListTitle>다음 게시물</ListTitle>
         <PostTitle onClick={onClickNextPost}>{data?.nextTitle}</PostTitle>
       </ListWrapper>
