@@ -5,11 +5,11 @@ export default function FindTripylerBanner(props) {
     <>
       <Banner>
         <BannerContents>
-          <BannerTitle>{props.title}</BannerTitle>
-          {typeof props.subTitle === "string" ? (
-            <BannerSubTitle>{props.subTitle}</BannerSubTitle>
+          <BannerTitle>{props?.title}</BannerTitle>
+          {typeof props?.subTitle === "string" ? (
+            <BannerSubTitle>{props?.subTitle}</BannerSubTitle>
           ) : (
-            <>{props.subTitle.map((e, i) => (<BannerSubTitle idx={i} style={{ top : `calc(${i} * 45px + 246px)`}}>{e}</BannerSubTitle>))}</>
+            <>{props?.subTitle?.map((e, i) => (<BannerSubTitle idx={i} style={{ top : `calc(${i} * 45px + 246px)`}}>{e}</BannerSubTitle>))}</>
           )} 
         </BannerContents>
       </Banner>

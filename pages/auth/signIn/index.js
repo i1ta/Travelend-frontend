@@ -1,14 +1,10 @@
 import styled from '@emotion/styled';
 import Image from "next/image";
-import axios from 'axios';
 
-import Layout from '../../../src/components/commons/Layout/Layout.js';
-import LoginForm from '../../../src/components/units/auth/login/Login.container.js';
 import SocialLogin from '@/components/commons/Layout/SocialLogin.js/SocialLogin.js';
+import LoginForm from '../../../src/components/auth/login/Login.container.js';
 
 
-import { REST_API_KEY, KAKAO_REDIRECT_URL } from '@/OAuth/kakao.js';
-import { CALLBACK_URL } from '@/OAuth/naver.js';
 
 
 function login() {

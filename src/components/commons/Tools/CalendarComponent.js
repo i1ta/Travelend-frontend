@@ -1,6 +1,4 @@
 import { DateRange } from "react-date-range";
-import React, { useEffect, useState } from "react";
-import { getDate } from "date-fns";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
@@ -9,14 +7,16 @@ function CalendarComponent(props) {
   const onRangeChange = (ranges) => {
     console.log(ranges);
 
-    props.setDate({
-      startDate: ranges["selection"].startDate,
-      endDate: ranges["selection"].endDate,
-      key: ranges["selection"].key,
-    });
+    if(ranges && ranges["selection"]){
+      props.setDate({
+        startDate: ranges["selection"].startDate,
+        endDate: ranges["selection"].endDate,
+        key: ranges["selection"].key,
+      });
 
-    if (ranges["selection"].endDate !== ranges["selection"].startDate) {
-      props.setIsCalendar(false);
+      if (ranges["selection"].endDate !== ranges["selection"].startDate) {
+        props.setIsCalendar(false);
+      }
     }
   };
 

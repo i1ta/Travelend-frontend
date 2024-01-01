@@ -1,14 +1,14 @@
-import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import * as S from "./detail.style";
-import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
-  LoginState,
   IsJwtValidSelector,
   JwtTokenState,
-} from "@/states/LoginState";
+  LoginState,
+} from "@/States/LoginState";
+import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import * as S from "./detail.style";
 
 export default function FindTripylerDetail() {
   const router = useRouter();

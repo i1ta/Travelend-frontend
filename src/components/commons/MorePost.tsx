@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { useRouter } from "next/router";
 import { MorePostProps } from "@/interfaces/detail";
-import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import styled from "styled-components";
 
 export default function MorePost({ data }: MorePostProps) {
   const router = useRouter();
