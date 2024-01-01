@@ -1,18 +1,17 @@
-import Banner from "../../../src/components/tripyler/detail/Banner";
-import TripylerDetailForm from "../../../src/components/tripyler/detail/TripylerDetailForm";
 import Comment from "../../../src/components/commons/Comment";
 import MorePost from "../../../src/components/commons/MorePost";
 import ApplyList from "../../../src/components/tripyler/detail/ApplyList";
+import Banner from "../../../src/components/tripyler/detail/Banner";
+import TripylerDetailForm from "../../../src/components/tripyler/detail/TripylerDetailForm";
 import {
-  TripylerDetailData,
   MorePostData,
-} from "../../../src/interfaces/detail";
+  TripylerDetailData,
+} from "../../../src/interfaces/tripylerDetail.ts";
 
-import Axios from "../../../src/apis";
-import React from "react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Axios from "../../../src/apis";
 
 export default function FindTripylerDetailPage() {
   const router = useRouter();

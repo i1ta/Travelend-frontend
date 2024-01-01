@@ -5,9 +5,9 @@ export default function FindTripylerBanner(props: any) {
     <>
       <Banner>
         <BannerContents>
-          <BannerTitle>{props.title}</BannerTitle>
-          {typeof props.subTitle === "string" ? (
-            <BannerSubTitle>{props.subTitle}</BannerSubTitle>
+          <BannerTitle>{props?.title}</BannerTitle>
+          {typeof props?.subTitle === "string" ? (
+            <BannerSubTitle>{props?.subTitle}</BannerSubTitle>
           ) : (
             <>
               {props.subTitle?.map((e: any, i: number) => (

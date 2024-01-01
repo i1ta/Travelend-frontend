@@ -1,21 +1,19 @@
-import { useState, useEffect } from "react";
-import * as S from "./list.style";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
-  LoginState,
+  FindCardFilter,
   IsJwtValidSelector,
   JwtTokenState,
+  LoginState,
   logout,
-  FindCardFilter,
-} from "@/states/LoginState";
-import { useRouter } from "next/router";
+} from "@/States/LoginState";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import * as S from "./list.style";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import FindCard from "../../commons/Card/Main/FindCard/FindCard";
-import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import Calendar from "@/components/commons/Tools/Calendar";
-import PreviewCard from "@/components/commons/Card/Preview/Preview";
+import FindCard from "../../commons/Card/Main/FindCard/FindCard";
 
 export default function FindTripylerList() {
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
@@ -175,6 +173,7 @@ export default function FindTripylerList() {
               setCardList(res.data.data);
               setPage(1);
               setPageNum([]);
+              console.log(res.data.data);
             })
             .catch((error) => console.log(error));
         }
@@ -327,7 +326,7 @@ export default function FindTripylerList() {
   }, [newCardList]);
 
   useEffect(() => {
-    console.log(pageNum);
+    // console.log(pageNum);
   }, [pageNum]);
   return (
     <>
