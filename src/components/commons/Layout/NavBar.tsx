@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { styled, keyframes } from "styled-components";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   FindCardFilter,
-  LoginState,
-  IsFirstLogin,
-  logout,
-  JwtTokenState,
   IsAdmin,
-} from "@/states/LoginState";
+  IsFirstLogin,
+  JwtTokenState,
+  LoginState,
+  logout,
+} from "@/States/LoginState";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { styled } from "styled-components";
 import TopBtn from "./TopBtn";
 
+import { CgProfile } from "react-icons/cg";
 import { FiSend } from "react-icons/fi";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
 
 interface NavBarProps {
   children: React.ReactNode;
@@ -27,8 +27,8 @@ export default function NavBar({ children }: NavBarProps) {
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
-  const [infoMsg, setInfoMsg] = useState([]);
-  const [infoMsgNum, setInfoMsgNum] = useState(-1);
+  const [infoMsg, setInfoMsg] = useState<string[]>([]);
+  const [infoMsgNum, setInfoMsgNum] = useState<number>(-1);
 
   // 스크롤 이벤트
   const [isHidden, setIsHidden] = useState(true);
@@ -205,6 +205,7 @@ const HomeLogo = styled.img`
 `;
 
 const Nav = styled.nav`
+  min-width: 1720px;
   height: 100px;
   background-color: #ffffff;
   display: flex;
@@ -258,7 +259,7 @@ const BeforeLoginItem = styled.li`
   font-weight: bold;
 `;
 
-const AfterLoginItem = styled.li`
+const AfterLoginItem = styled.li<{infoMsgNum : number}>`
   width: 40px;
   height: 40px;
   display: flex;
@@ -266,7 +267,7 @@ const AfterLoginItem = styled.li`
   align-items: center;
   white-space: nowrap;
   background-color: ${(props) =>
-    props.id == props.infoMsgNum ? "rgba(179, 136, 235, 30%)" : "transparent"};
+    props.id == String(props.infoMsgNum) ? "rgba(179, 136, 235, 30%)" : "transparent"};
 
   border-radius: 50%;
 `;

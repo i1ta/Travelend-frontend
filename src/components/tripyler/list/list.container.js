@@ -5,15 +5,18 @@ import {
   LoginState,
   logout,
 } from "@/States/LoginState";
-import axios from "axios";
+import Axios from "@/apis";
+import { message } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import * as S from "./list.style";
 
 import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
+import Pagenation from "@/components/commons/Pagenation";
 import Calendar from "@/components/commons/Tools/Calendar";
 import FindCard from "../../commons/Card/Main/FindCard/FindCard";
+import PlatformBox from "./PlatformBox.tsx";
 
 export default function FindTripylerList() {
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
@@ -24,6 +27,7 @@ export default function FindTripylerList() {
   const apipath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [isCountry, setIsCountry] = useState(false);
   const [destination, setDestination] = useState({
@@ -54,7 +58,10 @@ export default function FindTripylerList() {
   // 로그인 여부 확인
   const checkLogin = async () => {
     if (!isLoggedIn) {
-      alert("로그인이 필요한 서비스입니다");
+      messageApi.open({
+        type: 'warning',
+        content: '로그인이 필요한 서비스입니다.'
+      });
       router.push("/auth/signIn");
       setFindCardFilter({});
       return;
@@ -64,7 +71,10 @@ export default function FindTripylerList() {
   // 토큰이 만료되었을 경우
   function checkToken() {
     if (jwtInfo.expiryTime < new Date().getTime()) {
-      alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+      messageApi.open({
+        type: 'warning',
+        content: '토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.'
+      });
       router.push("/auth/signIn");
       logout({ setJwtToken });
       setIsLoggedIn(false);
@@ -127,15 +137,15 @@ export default function FindTripylerList() {
           findCardFilter.city !== ""
         ) {
           try {
-            const res1 = await axios.get(apipath + "/destination/continent");
+            const res1 = await Axios.get("/destination/continent");
             setDestination((prevDestination) => ({
               continent: res1.data.data,
               country: [],
               city: [],
             }));
 
-            const res2 = await axios.get(
-              `${apipath}/destination/nation?continentId=${selectedDestination.continent.id}`
+            const res2 = await Axios.get(
+              `/destination/nation?continentId=${selectedDestination.continent.id}`
             );
             setDestination((prevDestination) => ({
               ...prevDestination,
@@ -143,8 +153,8 @@ export default function FindTripylerList() {
               city: [],
             }));
 
-            const res3 = await axios.get(
-              `${apipath}/destination/region?nationId=${selectedDestination.country.id}`
+            const res3 = await Axios.get(
+              `/destination/region?nationId=${selectedDestination.country.id}`
             );
             setDestination((prevDestination) => ({
               ...prevDestination,
@@ -164,9 +174,9 @@ export default function FindTripylerList() {
             totalPeopleNum: parseInt(selectedNum),
           };
 
-          await axios
+          await Axios
             .post(
-              `${apipath}/tripyler/list?isRecruiting=1&option=1`,
+              `/tripyler/list?isRecruiting=1&option=1`,
               requestData
             )
             .then((res) => {
@@ -188,8 +198,8 @@ export default function FindTripylerList() {
           totalPeopleNum: 0,
         };
 
-        await axios
-          .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
+        await Axios
+          .post(`/tripyler/list?isRecruiting=1&option=1`, requestData)
           .then((res) => {
             setCardList(res.data.data);
             setPage(1);
@@ -208,8 +218,9 @@ export default function FindTripylerList() {
     }
   }, [cardList]);
 
-  const [isRecruiting, setIsRecruiting] = useState("");
-  const [option, setOption] = useState("");
+  const [isRecruiting, setIsRecruiting] = useState(1);
+  const [isRecruitingOpen, setIsRecruitingOpen] = useState(false);
+  const [option, setOption] = useState("1");
   const onClcickFilterFind = async () => {
     const requestData = {
       continentId: parseInt(selectedDestination.continent.id),
@@ -221,9 +232,9 @@ export default function FindTripylerList() {
       totalPeopleNum: parseInt(selectedNum),
     };
 
-    await axios
+    await Axios
       .post(
-        `${apipath}/tripyler/list?isRecruiting=${parseInt(
+        `/tripyler/list?isRecruiting=${parseInt(
           isRecruiting || 1
         )}&option=${parseInt(option || 1)}`,
         requestData
@@ -240,12 +251,21 @@ export default function FindTripylerList() {
   useEffect(() => {
     if (isRecruiting !== "") {
       onClcickFilterFind();
+      messageApi.open({
+        type: 'success',
+        content: '조회 완료'
+      });
     }
   }, [isRecruiting]);
 
   useEffect(() => {
     if (option !== "") {
       onClcickFilterFind();
+      messageApi.open({
+        type: 'success',
+        content: '조회 완료'
+      });
+      
     }
   }, [option]);
 
@@ -259,7 +279,7 @@ export default function FindTripylerList() {
         return;
       }
 
-      axios.get(apipath + "/destination/continent").then((res) => {
+      Axios.get("/destination/continent").then((res) => {
         setDestination((prevDestination) => ({
           continent: res.data.data,
           country: [],
@@ -275,8 +295,8 @@ export default function FindTripylerList() {
       continent: { id: e.target.id, name: e.target.innerText },
     }));
 
-    axios
-      .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
+    Axios
+      .get(`/destination/nation?continentId=${e.target.id}`)
       .then((res) => {
         setDestination((prevDestination) => ({
           ...prevDestination,
@@ -292,8 +312,8 @@ export default function FindTripylerList() {
       country: { id: e.target.id, name: e.target.innerText },
     }));
 
-    axios
-      .get(`${apipath}/destination/region?nationId=${e.target.id}`)
+    Axios
+      .get(`/destination/region?nationId=${e.target.id}`)
       .then((res) => {
         setDestination((prevDestination) => ({
           ...prevDestination,
@@ -329,10 +349,11 @@ export default function FindTripylerList() {
     // console.log(pageNum);
   }, [pageNum]);
   return (
-    <>
+    <S.Container>
       <FindTripylerBanner
         title="Trip'yler 찾기"
-        subTitle="함께 하고 싶은 여행자를 Trip'yle에서 바로 찾아보세요"
+        subTitle={["함께 동행하고 싶은 여행자를", "Trip'yle에서 바로 찾아보고", "여행 동행 게시물도 작성해보세요."]}
+        review={false}
       />
       <S.Banner>
         <S.FindFilter>
@@ -471,26 +492,30 @@ export default function FindTripylerList() {
                   </S.FilterSelect>
                 </S.FilterWrapper>
               </S.FilterFrontWrapper>
+              </S.FilterMiddleWrapper>
 
-              <S.FilterBackWrapper>
-                <S.FilterWrapper>
-                  <S.FilterTitleWrapper>
-                    <S.FilterTitleImg src="/icon/searchBlack.png"></S.FilterTitleImg>
-                    <S.FilterTitleTxt>검색</S.FilterTitleTxt>
-                  </S.FilterTitleWrapper>
-                  <S.Input
-                    value={keyword}
-                    onChange={(e) => setKeyword(e.target.value)}
-                    style={{ width: "925px" }}
-                    placeholder="직접 입력"
-                  />
-                </S.FilterWrapper>
-              </S.FilterBackWrapper>
-            </S.FilterMiddleWrapper>
-            <S.FilterFindBtn onClick={onClcickFilterFind}>
-              <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
-              <S.BtnArrow src="/icon/arrow.png"></S.BtnArrow>
-            </S.FilterFindBtn>
+              <S.FilterBottomWrapper>
+                <S.FilterBackWrapper>
+                  <S.FilterWrapper>
+                    <S.FilterTitleWrapper>
+                      <S.FilterTitleImg src="/icon/searchBlack.png"></S.FilterTitleImg>
+                      <S.FilterTitleTxt>검색</S.FilterTitleTxt>
+                    </S.FilterTitleWrapper>
+                    <S.Input
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                      style={{ width: "725px" }}
+                      placeholder="직접 입력"
+                    />
+                  </S.FilterWrapper>
+                </S.FilterBackWrapper>
+                <S.FilterBtnWrapper>
+                  <S.FilterFindBtn onClick={onClcickFilterFind}>
+                    <S.FilterFindBtnTxt>여행자 찾기</S.FilterFindBtnTxt>
+                    {/* <S.BtnArrow src="/icon/arrow.png"></S.BtnArrow> */}
+                  </S.FilterFindBtn>
+                </S.FilterBtnWrapper>
+              </S.FilterBottomWrapper>
           </S.FilterMainWrapper>
         </S.FindFilter>
       </S.Banner>
@@ -498,7 +523,7 @@ export default function FindTripylerList() {
       <S.ContentWrapper>
         <S.FindTripylerTitleWrapper>
           <S.FindTripylerTitle>
-            <div>함께 동행할 Trip’yler 찾기</div>
+            <div>Trip'yler 찾기 게시물</div>
             <S.FindTripylerWriteBtn
               onClick={() => {
                 if (!isLoggedIn) {
@@ -514,26 +539,67 @@ export default function FindTripylerList() {
               글쓰기 〉
             </S.FindTripylerWriteBtn>
           </S.FindTripylerTitle>
-          <S.FindTripylerFilterOne
-            onChange={(e) => {
-              setIsRecruiting(e.target.value);
-            }}
-          >
-            <S.FindTripylerOptionOne value="1">모집 중</S.FindTripylerOptionOne>
-            <S.FindTripylerOptionOne value="0">마감</S.FindTripylerOptionOne>
-          </S.FindTripylerFilterOne>
-          <S.FindTripylerFilterTwo
-            onChange={(e) => {
-              setOption(e.target.value);
-              onClcickFilterFind();
-            }}
-          >
-            <option value="1">최신 순</option>
-            <option value="2">좋아요 순</option>
-            <option value="3">댓글 순</option>
-            <option value="4">조회수 순</option>
-          </S.FindTripylerFilterTwo>
         </S.FindTripylerTitleWrapper>
+        <S.FindTripylerTitleWrapperBetween>
+          <S.FindTripylerTitleBetween>
+            <S.FindTripylerFilterTwo>
+              <S.FindTripylerFilterTwoCategory 
+                onClick={() => {
+                  setOption("1");
+                  onClcickFilterFind();
+                }}
+                selected={option === "1"}
+              >최신 순</S.FindTripylerFilterTwoCategory>
+              <S.FindTripylerFilterTwoCategory 
+                onClick={() => {
+                  setOption("2");
+                  onClcickFilterFind();
+                }}
+                selected={option === "2"}
+              >좋아요 순</S.FindTripylerFilterTwoCategory>
+              <S.FindTripylerFilterTwoCategory 
+                onClick={() => {
+                  setOption("3");
+                  onClcickFilterFind();
+                }}
+                selected={option === "3"}
+              >댓글 많은 순</S.FindTripylerFilterTwoCategory>
+              <S.FindTripylerFilterTwoCategory 
+                onClick={() => {
+                  setOption("4");
+                  onClcickFilterFind();
+                }}
+                selected={option === "4"}
+              >많이 본 순</S.FindTripylerFilterTwoCategory>
+            </S.FindTripylerFilterTwo>
+            <S.FindTripylerFilterOne>
+              <S.FindTripylerFilterOneTitle
+                onClick={() => setIsRecruitingOpen((prev) => !prev)}
+              >
+                {
+                  isRecruiting === 1 ? "모집 중" : "마감"
+                }
+              </S.FindTripylerFilterOneTitle>
+              {isRecruitingOpen && (
+                <S.FindTripylerOptionOneWrapper>
+                  <S.FindTripylerOptionOne 
+                    onClick={(e) => {
+                      setIsRecruiting(1);
+                      setIsRecruitingOpen(false);
+                    }}
+                  >모집 중</S.FindTripylerOptionOne>
+                  <S.FindTripylerLine></S.FindTripylerLine>
+                  <S.FindTripylerOptionOne 
+                    onClick={(e) => {
+                      setIsRecruiting(2);
+                      setIsRecruitingOpen(false);
+                    }}
+                  >마감</S.FindTripylerOptionOne>
+                </S.FindTripylerOptionOneWrapper>
+              )}
+            </S.FindTripylerFilterOne>
+          </S.FindTripylerTitleBetween>
+        </S.FindTripylerTitleWrapperBetween>
         <S.Review>
           {newCardList.length === 0 ? (
             <S.FindTripylerNoContent>
@@ -541,7 +607,7 @@ export default function FindTripylerList() {
             </S.FindTripylerNoContent>
           ) : (
             <S.FindTripylerContent>
-              {newCardList.map((card, idx) => {
+              {newCardList?.map((card, idx) => {
                 if (parseInt(idx / 6) === currentPage - 1) {
                   return (
                     <FindCard
@@ -565,47 +631,18 @@ export default function FindTripylerList() {
 
           {/* {(newCardList.length && pageNum.length) && ( */}
           {pageNum.length && (
-            <S.PageNationWrapper>
-              <S.DoubleArrowImg
-                src="/icon/doubleLeft.png"
-                onClick={(e) => setPage(1)}
-              ></S.DoubleArrowImg>
-              <S.ArrowImg
-                src="/icon/pageLeftArrow.png"
-                onClick={(e) =>
-                  setPage((prev) => (prev - 1 < 1 ? 1 : prev - 1))
-                }
-              ></S.ArrowImg>
-              {pageNum.map(
-                (i) =>
-                  i.includes(currentPage) &&
-                  i.map((el) => (
-                    <S.PageTxt
-                      onClick={(e) => setPage(el)}
-                      selected={el === currentPage}
-                    >
-                      {el}
-                    </S.PageTxt>
-                  ))
-              )}
-              <S.ArrowImg
-                src="/icon/pageRightArrow.png"
-                onClick={(e) =>
-                  setPage((prev) =>
-                    prev + 1 > Math.ceil(newCardList.length / 6)
-                      ? Math.ceil(newCardList.length / 6)
-                      : prev + 1
-                  )
-                }
-              ></S.ArrowImg>
-              <S.DoubleArrowImg
-                src="/icon/doubleRight.png"
-                onClick={(e) => setPage(Math.ceil(newCardList.length / 6))}
-              ></S.DoubleArrowImg>
-            </S.PageNationWrapper>
+            <Pagenation 
+              currentPage={currentPage}
+              setPage={setPage}
+              pageNum={pageNum}
+              totalNum={newCardList?.length}
+              pageSize="6"
+            />
           )}
+
+          <PlatformBox />
         </S.Review>
       </S.ContentWrapper>
-    </>
+    </S.Container>
   );
 }

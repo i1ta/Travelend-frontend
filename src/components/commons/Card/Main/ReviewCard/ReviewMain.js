@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { LoginState } from "@/States/LoginState";
+import theme from "@/styles/theme";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { LoginState } from "@/states/LoginState";
 
 export default function ReviewMain(props) {
   const ref = useRef();
@@ -163,7 +163,7 @@ const ReviewHashtagWrapper = styled.div`
 `;
 
 const ReviewHashtag = styled.div`
-  background-color: #00b4d8;
+  background-color: ${theme.colors.review};
   border-radius: 30px;
   width: px;
   height: 43px;

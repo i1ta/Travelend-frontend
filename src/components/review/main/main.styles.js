@@ -1,8 +1,10 @@
+import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 // import FindCard from "../../commons/FindCard/FindCard;"
 
 export const Banner = styled.div`
-  background-color: #ffffff;
+  background-color: #fff;
+  opacity: 0.9;
   margin: auto;
   margin-bottom: 30px;
   /* background-image: url("img/bannerImg.png"); */
@@ -200,7 +202,7 @@ export const DateLine = styled.div`
 export const FilterFindBtn = styled.button`
   width: 160px;
   height: 60px;
-  background: #b388eb;
+  background: ${theme.colors.review};
   border-radius: 50px;
   margin: auto;
 
@@ -456,14 +458,14 @@ export const FindTripylerTitle = styled.div`
   margin: 60px 0;
   padding: 10px 0 10px 40px;
   border-radius: 10px;
-  background-color: rgba(0, 180, 216, 0.6);
+  background-color: ${theme.colors.review};
   align-items: center;
   justify-content: space-between;
 `;
 
 export const FindTripylerWriteBtn = styled.div`
   background-color: #ffffff;
-  color: #66d2e8;
+  color: ${theme.colors.review};
   margin-right: 15px;
   border-radius: 50px;
   font-size: 18px;
@@ -504,18 +506,18 @@ export const FindTripylerOptionOne = styled.option`
 `;
 
 export const FindTripylerFilterTwo = styled.select`
-  border: 2px solid #00b4d8;
+  border: 2px solid ${theme.colors.review};
   border-radius: 20px;
   width: 111px;
   height: 50px;
   margin-left: 20px;
   text-align: center;
   font-size: 15px;
-  color: #00b4d8;
+  color: ${theme.colors.review};
   cursor: pointer;
 
   &:focus {
-    border: 2px solid #00b4d8;
+    border: 2px solid ${theme.colors.review};
   }
 `;
 
