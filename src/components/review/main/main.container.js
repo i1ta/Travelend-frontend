@@ -1,21 +1,18 @@
-import { useState, useEffect } from "react";
-import * as S from "./main.styles";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
-  LoginState,
   IsJwtValidSelector,
   JwtTokenState,
+  LoginState,
   logout,
-} from "@/states/LoginState";
-import { useRouter } from "next/router";
-import Link from "next/link";
+} from "@/States/LoginState";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import * as S from "./main.styles";
 
-import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
-import FindCard from "@/components/commons/Card/Main/FindCard/FindCard";
-import CalendarComponent from "@/components/commons/Tools/CalendarComponent";
 import ReviewCard from "@/components/commons/Card/Main/ReviewCard/ReviewMain";
-import PreviewCard from "@/components/commons/Card/Preview/Preview";
+import FindTripylerBanner from "@/components/commons/Layout/findTripylerBanner";
+import Pagenation from "@/components/commons/Pagenation";
 
 export default function ReviewMain() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -216,16 +213,18 @@ export default function ReviewMain() {
   const [page, setPage] = useState(1);
   const [pageNum, setPageNum] = useState([]);
   useEffect(() => {
-    if (pageNum.length === 0 && reviewList.length !== 0) {
-      if (reviewList.length % 5 === 0) {
-        for (let i = 0; i <= parseInt(reviewList.length / 5 - 1); i++) {
-          setPageNum((prev) => [...prev, i]);
-        }
-      } else {
-        for (let i = 0; i <= parseInt(reviewList.length / 5); i++) {
-          setPageNum((prev) => [...prev, i]);
-        }
+    if (reviewList.length !== 0 && pageNum.length === 0) {
+      const groupedPageNum = [];
+      for (let i = 0; i < Math.ceil(reviewList.length / 60); i++) {
+        const start = i * 10 + 1;
+        const end = Math.min((i + 1) * 10, Math.ceil(reviewList.length / 6));
+        const group = Array.from(
+          { length: end - start + 1 },
+          (_, j) => start + j
+        );
+        groupedPageNum.push(group);
       }
+      setPageNum(groupedPageNum);
     }
   }, [reviewList]);
 
@@ -234,6 +233,7 @@ export default function ReviewMain() {
       <FindTripylerBanner
         title="Trip'yler 여행 후기"
         subTitle="Trip'yler가 함께한 여행 후기를 구경해보세요!"
+        review={true}
       />
       {isOpen ? (
         <S.Banner>
@@ -451,7 +451,7 @@ export default function ReviewMain() {
                 <S.FilterBackWrapper>
                   <S.FilterWrapper>
                     <S.FilterTitleWrapper>
-                      <S.FilterTitleImg src="/icon/user.png"></S.FilterTitleImg>
+                      <S.FilterTitleImg src="/icon/searchBlack.png"></S.FilterTitleImg>
                       <S.FilterTitleTxt>검색</S.FilterTitleTxt>
                     </S.FilterTitleWrapper>
                     <S.Input
@@ -536,32 +536,13 @@ export default function ReviewMain() {
           )}
 
           {reviewList.length !== 0 && (
-            <S.PageNationWrapper>
-              <S.ArrowImg
-                src="/icon/pageLeftArrow.png"
-                onClick={(e) =>
-                  setPage((prev) => (prev - 1 < 1 ? 1 : prev - 1))
-                }
-              ></S.ArrowImg>
-              {pageNum.map((i) => (
-                <S.PageTxt
-                  onClick={(e) => setPage(i + 1)}
-                  selected={i + 1 === page}
-                >
-                  {i + 1}
-                </S.PageTxt>
-              ))}
-              <S.ArrowImg
-                src="/icon/pageRightArrow.png"
-                onClick={(e) =>
-                  setPage((prev) =>
-                    prev + 1 > parseInt(reviewList.length / 5) + 1
-                      ? parseInt(reviewList.length / 5) + 1
-                      : prev + 1
-                  )
-                }
-              ></S.ArrowImg>
-            </S.PageNationWrapper>
+            <Pagenation 
+              currentPage={page}
+              setPage={setPage}
+              pageNum={pageNum}
+              totalNum={reviewList?.length}
+              pageSize="5"
+            />
           )}
         </S.Review>
       </S.ContentWrapper>

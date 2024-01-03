@@ -1,6 +1,11 @@
+import theme from "@/styles/theme";
 import styled from "@emotion/styled";
-import {css} from "styled-components";
+import { css } from "styled-components";
 // import FindCard from "../../commons/FindCard/FindCard;"
+
+export const Container = styled.div`
+  min-width: 1720px;
+`;
 
 export const Banner = styled.div`
   background-color: #ffffff;
@@ -40,8 +45,6 @@ export const FilterWrapper = styled.div`
 `;
 
 export const FilterMainWrapper = styled.div`
-
-  width: 1220px;
   margin: 0 auto;
 `;
 
@@ -53,13 +56,17 @@ export const FilterMiddleWrapper = styled.div`
 export const FilterFrontWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 0 auto;
+  // margin: 0 auto;
 `
 
-export const FilterBackWrapper = styled.div`
+export const FilterBottomWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 35px auto 0 auto;
+  margin: 0 auto;
+`;
+
+export const FilterBackWrapper = styled.div`
+  margin-top: 35px;
 `;
 
 export const FilterTitleWrapper = styled.div`
@@ -70,7 +77,7 @@ export const FilterTitleWrapper = styled.div`
 export const Filter = styled.div`
   height: 50px;
   padding: 15px 20px;
-  background: #f2efef;
+  background: #fff;
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
@@ -82,7 +89,7 @@ export const FilterSelect = styled.div`
   width: 140px;
   height: 50px;
   padding: 15px 20px;
-  background: #f2efef;
+  background: #fff;
   border-radius: 20px;
 
   display: flex;
@@ -123,9 +130,8 @@ export const FilterTitleTxt = styled.div`
 
 export const Input = styled.input`
   height: 50px;
-  width: 725px;
   padding: 15px 20px;
-  background: #f2efef;
+  background: #fff;
   border-radius: 20px;
   border: none;
   display: flex;
@@ -162,12 +168,17 @@ export const DateLine = styled.div`
   margin: 0px 7px;
 `;
 
+export const FilterBtnWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+
 export const FilterFindBtn = styled.button`
   width: 138px;
   height: 50px;
   background: rgba(154, 179, 245, 0.8);
   border-radius: 20px;
-  margin: 34px 0 0 10px;
+  margin-left: 10px;
 
   display: flex;
   justify-content: center;
@@ -346,18 +357,23 @@ export const FindTripylerTitle = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 30px;
-  color: #9AB3F5;
+  color: ${theme.colors.main2};
   margin: 30px 0;
   padding: 10px 0 10px 0;
   background-color: #fff;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #9AB3F5;
+  border-bottom: 2px solid ${theme.colors.main2};
 `;
+
+export const FindTripylerTitleBetween = styled(FindTripylerTitle)`
+  border: none;
+  margin: 0 auto;
+`
 
 export const FindTripylerWriteBtn = styled.div`
   background-color: #ffffff;
-  color: #66D2E8;
+  color: ${theme.colors.main2};
   margin-right: 15px;
   border-radius: 50px;
   font-size: 18px;
@@ -374,19 +390,24 @@ export const FindTripylerTitleWrapper = styled.div`
   justify-content: center;
 `
 
-export const FindTripylerFilterOne = styled.select`
-  border: 2px solid #00B4D8;
-  border-radius: 20px;
-  width: 111px;
-  height: 50px;
-  margin-left: 20px;
+export const FindTripylerTitleWrapperBetween = styled(FindTripylerTitleWrapper)`
+  justify-content: space-between;
+  margin-bottom: 2rem;
+`
+
+export const FindTripylerFilterOne = styled.div`
+  // border: 2px solid ${theme.colors.text};
+  border-radius: 5px;
+  width: 100px;
+  height: 39px;
+  line-height: 39px;
   text-align: center;
   font-size: 15px;
-  color: #00B4D8;
+  color: ${theme.colors.text};
   cursor: pointer;
 
   &:focus{
-    border: 2px solid #00B4D8;
+    border: 2px solid ${theme.colors.text};
   }
   -o-appearance: none;
   -webkit-appearance: none;
@@ -394,26 +415,43 @@ export const FindTripylerFilterOne = styled.select`
   appearance: none;
 `;
 
-export const FindTripylerOptionOne = styled.option`
-  border: 2px solid #00B4D8;
-  border-radius: 20px;
-  width: 111px;
-  height: 50px;
-  text-align: center;
-  padding: 13px 5px;
-  font-size: 16px;
+export const FindTripylerFilterOneTitle = styled.div`
+border: 2px solid ${theme.colors.text};
+border-radius: 5px;
+  position: relative;
+  width: 100px;
+  height: 39px;
+  line-height: 39px;
 `;
 
-export const FindTripylerFilterTwo = styled.select`
-  border: 2px solid #00B4D8;
-  border-radius: 20px;
-  width: 111px;
-  height: 50px;
-  margin-left: 20px;
+export const FindTripylerOptionOneWrapper = styled.div`
+  position: absolute;
+  z-index: 1;
+  width: 100px;
+  border: 2px solid ${theme.colors.text};
+  border-radius: 5px;
+`;
+
+export const FindTripylerOptionOne = styled.div`
+  text-align: center;
+  width: 100px;
+  height: 39px;
+  line-height: 39px;
+`;
+
+export const FindTripylerLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${theme.colors.text};
+`;
+
+export const FindTripylerFilterTwo = styled.div`
+  display: flex;
   text-align: center;
   font-size: 15px;
   color: #00B4D8;
   cursor: pointer;
+  gap: 1.25rem;
 
   &:focus{
     border: 2px solid #00B4D8;;
@@ -423,6 +461,22 @@ export const FindTripylerFilterTwo = styled.select`
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+`;
+
+export const FindTripylerFilterTwoCategory = styled.div`
+  color: ${theme.colors.text};
+  border: 1px solid ${theme.colors.text};
+  border-radius: 20px;
+  width: 6.9375rem;
+  height: 2.4375rem;
+  font-size: 0.9375rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${(props) => props.selected && theme.colors.text};
+  color: ${(props) => props.selected && "#fff"};
 `;
 
 export const FilterContainer = styled.div`

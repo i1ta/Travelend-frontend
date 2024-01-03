@@ -30,8 +30,8 @@ export default function TripylerBox ( { onClcickFilterFind, tripylerList } : Pro
           <Review>
             <SubTitleWrapper>
               <SubTitle>
-                <SubTitleImg src="/icon/location.png" width="25px" height="25px" /> 인기
-                여행지
+                <SubTitleImg src="/icon/location.png" width="25px" height="25px" />
+                인기 동행자 찾기 게시물
               </SubTitle>
             </SubTitleWrapper>
             <FindTripylerContent>

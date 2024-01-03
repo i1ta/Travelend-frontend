@@ -155,11 +155,10 @@ export default function MainBanner () {
           <Banner>
             <BannerImgWrapper>
               <BannerTitle>
-                <TitleTxt>여행</TitleTxt>에<TitleTxt> 스타일</TitleTxt>을
-                더하다
+                여행의 모든 여정을 함께하다
               </BannerTitle>
               <BannerTxt>
-                함께 하고 싶은 여행자를 Trip’yle에서 바로 찾아보세요
+                함께 하고 싶은 여행자를 Trivelend에서 바로 찾아보세요
               </BannerTxt>
             </BannerImgWrapper>
             <FindFilter>

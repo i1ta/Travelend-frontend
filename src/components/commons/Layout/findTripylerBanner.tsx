@@ -1,40 +1,63 @@
-import { styled } from "styled-components";
+import theme from "@/styles/theme";
+import { css, styled } from "styled-components";
 
 export default function FindTripylerBanner(props: any) {
   return (
     <>
-      <Banner>
-        <BannerContents>
-          <BannerTitle>{props?.title}</BannerTitle>
-          {typeof props?.subTitle === "string" ? (
-            <BannerSubTitle>{props?.subTitle}</BannerSubTitle>
-          ) : (
-            <>
-              {props.subTitle?.map((e: any, i: number) => (
-                <BannerSubTitle
-                  key={i}
-                  style={{ top: `calc(${i} * 45px + 246px)` }}
-                >
-                  {e}
-                </BannerSubTitle>
-              ))}
-            </>
-          )}
-        </BannerContents>
+      <Banner review={props?.review}>
+        <BannerContentsWrapper>
+          <BannerContents>
+            <BannerTitle review={props?.review}>{props?.title}</BannerTitle>
+            {typeof props?.subTitle === "string" ? (
+              <BannerSubTitle review={props?.review}>{props?.subTitle}</BannerSubTitle>
+            ) : (
+              <>
+                {props.subTitle?.map((e: any, i: number) => (
+                  <BannerSubTitle
+                    key={i}
+                    style={{ top: `calc(${i} * 45px + 246px)` }}
+                    review={props?.review}
+                  >
+                    {e}
+                  </BannerSubTitle>
+                ))}
+              </>
+            )}
+          </BannerContents>
+          <BannerImgWrppaer>
+            {/* <BannerImg src="/img/airplane.png"></BannerImg> */}
+          </BannerImgWrppaer>
+        </BannerContentsWrapper>
       </Banner>
     </>
   );
 }
 
-const Banner = styled.div`
-  min-width: 1960px;
+const Banner = styled.div<{ review: boolean }>`
+  min-width: 1720px;
   height: 570px;
-  background-image: url("img/bannerImg.png");
-  background-size: cover;
+
+  ${(props) => (props.review 
+    ? 
+      css`
+        background-color: ${theme.colors.main2};
+        margin-bottom: 150px;
+      ` 
+    : 
+      css`
+        background-image: url("img/bannerImg.png");
+        background-size: cover;
+      `
+  )};
   display: flex;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: 150px;
+`;
+
+const BannerContentsWrapper = styled.div`
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
 `;
 
 const BannerContents = styled.div`
@@ -43,25 +66,34 @@ const BannerContents = styled.div`
   position: relative;
 `;
 
-const BannerTitle = styled.div`
+const BannerTitle = styled.div<{ review: boolean }>`
   position: absolute;
   top: 150px;
   font-weight: bold;
   font-size: 60px;
   display: flex;
-  color: #000000;
+  color: ${(props) => (props.review ? '#fff' : '#000')};
 `;
 
-const BannerSubTitle = styled.div`
+const BannerSubTitle = styled.div<{ review: boolean }>`
   position: absolute;
   top: 246px;
   font-size: 25px;
   font-style: normal;
-  font-weight: 500;
-  color: #666666;
+  font-weight: 700;
+  color: ${(props) => (props.review ? '#fff' : theme.colors.text)};
+`;
+
+const BannerImgWrppaer = styled.div`
+  // background-image: url("img/airplane.png");
+  // background-size: cover;
+
+  // width: 500px;
+  // height: 200px;
+  // margin-left: 320px;
 `;
 
 const BannerImg = styled.img`
-  position: absolute;
-  left: 720px;
+  // background-image: url("img/airplane.png");
+  // background-size: cover;
 `;
