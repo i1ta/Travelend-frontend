@@ -8,29 +8,29 @@ export default function ContactTripyle() {
 
   const [checked, setChecked] = useState(false);
 
-  // 이미지
-  const [image, setImage] = useState({});
-  const [selectedImageList, setSelectedImageList] = useState([]);
+  interface imageState {
+    url?: string;
+    name?: string;
+  }
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImageList((prev) => [...prev, file]);
+  // 이미지
+  const [image, setImage] = useState<imageState>();
+  const [selectedImageList, setSelectedImageList] = useState<File[]>([]);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    setSelectedImageList((prev: File[]) => [...prev, file as File]);
 
     if (file) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        setImage((prev) => ({ url: reader.result, name: file.name }));
+        setImage({ url: reader.result as string, name: file.name });
       });
       reader.readAsDataURL(file);
     }
   };
 
-  const deleteImg = (event) => {
-    setImage({});
-    setSelectedImageList([]);
-  };
-
-  const sendInfo = (e) => {
+  const sendInfo = () => {
     if (title === "") {
       alert("제목을 입력해주세요.");
       return;
@@ -114,8 +114,8 @@ export default function ContactTripyle() {
               />
             </>
           ) : (
-            <S.ImgWrapper onClick={deleteImg}>
-              <S.Image src={image.url} />
+            <S.ImgWrapper>
+              <S.Image src={image?.url || ""} />
             </S.ImgWrapper>
           )}
         </S.PhotoBox>
