@@ -205,7 +205,7 @@ const HomeLogo = styled.img`
 `;
 
 const Nav = styled.nav`
-  min-width: 1720px;
+  width: 100%;
   height: 100px;
   background-color: #ffffff;
   display: flex;
@@ -259,7 +259,7 @@ const BeforeLoginItem = styled.li`
   font-weight: bold;
 `;
 
-const AfterLoginItem = styled.li<{infoMsgNum : number}>`
+const AfterLoginItem = styled.li<{ infoMsgNum: number }>`
   width: 40px;
   height: 40px;
   display: flex;
@@ -267,7 +267,9 @@ const AfterLoginItem = styled.li<{infoMsgNum : number}>`
   align-items: center;
   white-space: nowrap;
   background-color: ${(props) =>
-    props.id == String(props.infoMsgNum) ? "rgba(179, 136, 235, 30%)" : "transparent"};
+    props.id == String(props.infoMsgNum)
+      ? "rgba(179, 136, 235, 30%)"
+      : "transparent"};
 
   border-radius: 50%;
 `;

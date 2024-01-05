@@ -55,12 +55,12 @@ export default function FindTripylerWrite(props) {
   };
 
   const fetchImage = async (imgUrl) => {
-    await fetch(imgUrl).then(async (response) => {
-      const contentType = response.headers.get("content-type");
-      const blob = await response.blob();
-      const file = new File([blob], "fileName", { contentType });
-      setSelectedImage(file);
-    });
+    // await fetch(imgUrl).then(async (response) => {
+    //   const contentType = response.headers.get("content-type");
+    //   const blob = await response.blob();
+    //   const file = new File([blob], "fileName", { contentType });
+    //   setSelectedImage(file);
+    // });
   };
 
   const fetchData = async () => {
@@ -91,6 +91,7 @@ export default function FindTripylerWrite(props) {
         });
         setTripDate([data.startDate, data.endDate]);
         data.image && fetchImage(data.image);
+        console.log(data);
       })
       .catch((error) => {
         console.error(error);
@@ -348,6 +349,15 @@ export default function FindTripylerWrite(props) {
         .catch((err) => console.error(err));
     } else {
       alert("필수입력 항목을 확인해주세요");
+      console.log(
+        shownPlace,
+        tripDate,
+        shownMyHashtag,
+        title,
+        content,
+        totalPeopleNum,
+        estimatedPrice
+      );
     }
   };
 
