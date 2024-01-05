@@ -16,11 +16,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiSend } from "react-icons/fi";
 import { IoMdHeartEmpty } from "react-icons/io";
 
-interface NavBarProps {
-  children: React.ReactNode;
-}
-
-export default function NavBar({ children }: NavBarProps) {
+export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const jwtInfo = useRecoilValue(JwtTokenState);
@@ -114,7 +110,6 @@ export default function NavBar({ children }: NavBarProps) {
 
   // prettier-ignore
   return (
-    <>
       <Nav>
         <NavContainer>
           <Container>
@@ -177,9 +172,6 @@ export default function NavBar({ children }: NavBarProps) {
           )}
         </NavContainer>
       </Nav>
-      {children}
-      <TopBtn />
-    </>
   );
 }
 
