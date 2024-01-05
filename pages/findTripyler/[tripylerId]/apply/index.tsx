@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import ApplyInfo from "@/components/tripyler/apply/ApplyInfo";
-import ApplyForm from "@/components/tripyler/apply/ApplyForm";
-import ApplyBtn from "@/components/tripyler/apply/ApplyBtn";
+import ApplyInfo from "../../../../src/components/tripyler/apply/ApplyInfo";
+import ApplyForm from "../../../../src/components/tripyler/apply/ApplyForm";
+import ApplyBtn from "../../../../src/components/tripyler/apply/ApplyBtn";
 
 export default function FindTripylerApplyPage() {
   const [isChecked, setIsChecked] = useState(false);

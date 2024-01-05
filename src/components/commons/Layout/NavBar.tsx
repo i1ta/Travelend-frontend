@@ -5,7 +5,7 @@ import {
   JwtTokenState,
   LoginState,
   logout,
-} from "@/States/LoginState";
+} from "@/states/LoginState";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -16,11 +16,7 @@ import { CgProfile } from "react-icons/cg";
 import { FiSend } from "react-icons/fi";
 import { IoMdHeartEmpty } from "react-icons/io";
 
-interface NavBarProps {
-  children: React.ReactNode;
-}
-
-export default function NavBar({ children }: NavBarProps) {
+export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const jwtInfo = useRecoilValue(JwtTokenState);
@@ -31,8 +27,6 @@ export default function NavBar({ children }: NavBarProps) {
   const [infoMsgNum, setInfoMsgNum] = useState<number>(-1);
 
   // 스크롤 이벤트
-  const [isHidden, setIsHidden] = useState(true);
-  const [scrollY, setScrollY] = useState(0);
   let prevScrollPos = window.pageYOffset;
 
   const handleScroll = () => {
@@ -54,20 +48,6 @@ export default function NavBar({ children }: NavBarProps) {
       return false;
     }
   }
-
-  useEffect(() => {
-    window.addEventListener("scroll", (e) => {
-      if (window.scrollY > 0) {
-        setIsHidden(false);
-      } else {
-        setIsHidden(true);
-      }
-    });
-  }, []);
-
-  const topScroll = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   useEffect(() => {
     if (isFirstLogin) {
@@ -130,7 +110,6 @@ export default function NavBar({ children }: NavBarProps) {
 
   // prettier-ignore
   return (
-    <>
       <Nav>
         <NavContainer>
           <Container>
@@ -193,9 +172,6 @@ export default function NavBar({ children }: NavBarProps) {
           )}
         </NavContainer>
       </Nav>
-      {children}
-      <TopBtn isHidden={isHidden} onClick={() => topScroll()}/>
-    </>
   );
 }
 
@@ -205,7 +181,7 @@ const HomeLogo = styled.img`
 `;
 
 const Nav = styled.nav`
-  min-width: 1720px;
+  width: 100%;
   height: 100px;
   background-color: #ffffff;
   display: flex;
@@ -259,7 +235,7 @@ const BeforeLoginItem = styled.li`
   font-weight: bold;
 `;
 
-const AfterLoginItem = styled.li<{infoMsgNum : number}>`
+const AfterLoginItem = styled.li<{ infoMsgNum: number }>`
   width: 40px;
   height: 40px;
   display: flex;
@@ -267,7 +243,9 @@ const AfterLoginItem = styled.li<{infoMsgNum : number}>`
   align-items: center;
   white-space: nowrap;
   background-color: ${(props) =>
-    props.id == String(props.infoMsgNum) ? "rgba(179, 136, 235, 30%)" : "transparent"};
+    props.id == String(props.infoMsgNum)
+      ? "rgba(179, 136, 235, 30%)"
+      : "transparent"};
 
   border-radius: 50%;
 `;

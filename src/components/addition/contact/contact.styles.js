@@ -1,8 +1,5 @@
 import { styled } from "styled-components";
 
-export const MainWrapper = styled.div`
-`;
-
 export const MainContainer = styled.div`
     margin: 100px auto;
 

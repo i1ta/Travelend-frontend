@@ -1,5 +1,6 @@
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import TopBtn from "./TopBtn";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,8 +22,10 @@ export default function Layout({ pathname, children }: LayoutProps) {
 
   return (
     <>
-      <NavBar children={children}/>
+      <NavBar />
+      {children}
       {showFooter && <Footer />}
+      <TopBtn />
     </>
   );
 }
