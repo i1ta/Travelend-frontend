@@ -60,35 +60,41 @@ export default function ContactTripyle() {
     <S.MainContainer>
       <S.TitleWrapper>
         <S.MainTitle>Contact</S.MainTitle>
-        <S.MainTxtBox>
-          <S.MainTxt>
-            Trip'yle를 방문해주신 Trip'yler 여러분 모두 환영합니다!
-          </S.MainTxt>
-          <S.MainTxt>
-            Trip'yle 이용 중 불편했던 점이 있으시다면 아래 내용을 기입해주세요.
-          </S.MainTxt>
-          <S.MainTxt>
-            구체적인 문의 내용과 문의와 관련된 화면 스크린샷을 보내주시면 문제를
-            보다 빠르게 확인할 수 있습니다.
-          </S.MainTxt>
-        </S.MainTxtBox>
+        <S.MainTxt>
+          Travelend를 방문해주신 Blender 여러분 모두 환영합니다!
+          <br />
+          - Travelend 이용 중 불편했던 점
+          <br />
+          - Travelend 에게 제안하고 싶은 내용
+          <br />
+          구체적인 문의 내용과 문의와 관련된 화면 스크린샷을 보내주시면 문제를
+          보다 빠르게 확인할 수 있습니다.
+        </S.MainTxt>
         <S.Line></S.Line>
       </S.TitleWrapper>
-      <S.ContentWrapper>
+
+      <S.ContentContainer>
         <S.TitleBox>
-          <S.TitleLittleBox>제목</S.TitleLittleBox>
+          <S.TitleTag>제목</S.TitleTag>
           <S.TitleInput
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </S.TitleBox>
-        <S.ContentBox>
-          <S.ContentInput
-            placeholder="문의 내용을 입력해주세요"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </S.ContentBox>
+
+        <S.EmailInput
+          placeholder="답변 받을 메일 주소"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <S.ContentInput
+          placeholder="문의 내용을 입력해주세요"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+
         <S.PhotoBox>
           {selectedImageList.length === 0 ? (
             <>
@@ -113,17 +119,7 @@ export default function ContactTripyle() {
             </S.ImgWrapper>
           )}
         </S.PhotoBox>
-        <S.EmailBox>
-          <S.EmailInput
-            placeholder="답변 받을 메일 주소"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </S.EmailBox>
-        <S.EmailNoti>
-          위의 이메일 주소로 답변을 보내드릴 예정입니다.
-        </S.EmailNoti>
+
         <S.TermsBox>
           <S.TermsInput
             type="checkbox"
@@ -132,10 +128,9 @@ export default function ContactTripyle() {
           />
           <S.TermsTxt>개인정보 이용동의 (필수)</S.TermsTxt>
         </S.TermsBox>
-      </S.ContentWrapper>
-      <S.BtnWrapper>
-        <S.Btn onClick={sendInfo}>보내기</S.Btn>
-      </S.BtnWrapper>
+      </S.ContentContainer>
+
+      <S.Btn onClick={sendInfo}>제출</S.Btn>
     </S.MainContainer>
   );
 }
