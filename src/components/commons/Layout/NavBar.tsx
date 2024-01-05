@@ -5,7 +5,7 @@ import {
   JwtTokenState,
   LoginState,
   logout,
-} from "@/States/LoginState";
+} from "@/states/LoginState";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -31,8 +31,6 @@ export default function NavBar({ children }: NavBarProps) {
   const [infoMsgNum, setInfoMsgNum] = useState<number>(-1);
 
   // 스크롤 이벤트
-  const [isHidden, setIsHidden] = useState(true);
-  const [scrollY, setScrollY] = useState(0);
   let prevScrollPos = window.pageYOffset;
 
   const handleScroll = () => {
@@ -54,20 +52,6 @@ export default function NavBar({ children }: NavBarProps) {
       return false;
     }
   }
-
-  useEffect(() => {
-    window.addEventListener("scroll", (e) => {
-      if (window.scrollY > 0) {
-        setIsHidden(false);
-      } else {
-        setIsHidden(true);
-      }
-    });
-  }, []);
-
-  const topScroll = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   useEffect(() => {
     if (isFirstLogin) {
@@ -194,7 +178,7 @@ export default function NavBar({ children }: NavBarProps) {
         </NavContainer>
       </Nav>
       {children}
-      <TopBtn isHidden={isHidden} onClick={() => topScroll()}/>
+      <TopBtn />
     </>
   );
 }
