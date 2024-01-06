@@ -5,12 +5,11 @@ import {
   JwtTokenState,
   LoginState,
   logout,
-} from "@/states/LoginState";
+} from "@/States/LoginState";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import TopBtn from "./TopBtn";
 
 import { CgProfile } from "react-icons/cg";
 import { FiSend } from "react-icons/fi";
@@ -25,6 +24,7 @@ export default function NavBar() {
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
   const [infoMsg, setInfoMsg] = useState<string[]>([]);
   const [infoMsgNum, setInfoMsgNum] = useState<number>(-1);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   // 스크롤 이벤트
   let prevScrollPos = window.pageYOffset;
@@ -170,7 +170,48 @@ export default function NavBar() {
               )}
             </AuthList>
           )}
+
+          <MenuBtnWrapper onClick={() => setIsMenuOpen(true)}>
+            <MenuBtn src="/icon/menu.png"/>
+          </MenuBtnWrapper>
         </NavContainer>
+
+        {isMenuOpen && (
+          <MenuWrapper>
+            <MenuCloseBoxWrapper onClick={() => setIsMenuOpen(false)}></MenuCloseBoxWrapper>
+            <MenuBoxWrapper>
+              <MenuCloseBtnWrapper>
+                <MenuCloseBtn 
+                  src="/icon/close_menu.png" 
+                  alt="close"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+              </MenuCloseBtnWrapper>
+
+              <MenuCategoryWrapper>
+                <MenuCategory onClick={() => {router.push("/addition/introduce"); setIsMenuOpen(false);}}>Trip'yler 소개</MenuCategory>
+                <MenuCategory onClick={() => {
+                  if(isLoggedIn) {
+                    if(!checkToken()) {
+                      router.push("/findTripyler"); setFindCardFilter({});
+                    }
+                  } 
+                  setIsMenuOpen(false);
+                }}>Trip'yler 찾기</MenuCategory>
+                <MenuCategory
+                  onClick={() => {
+                  if(isLoggedIn) {
+                    if(!checkToken()){
+                      router.push("/review")
+                    }
+                  }
+                  setIsMenuOpen(false);
+                }}>여행 후기</MenuCategory>
+                <MenuCategory onClick={() => {router.push("/addition/contact"); setIsMenuOpen(false);}}>Contact</MenuCategory>
+              </MenuCategoryWrapper>
+            </MenuBoxWrapper>
+          </MenuWrapper>
+        )}
       </Nav>
   );
 }
@@ -206,11 +247,28 @@ const PageList = styled.ul`
   display: flex;
   padding-left: 0;
   gap: 15px;
+
+  ${({theme}) => theme.media.tablet}{
+    display: none;
+  }
+  
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+  }
+
 `;
 
 const AuthList = styled(PageList)`
   gap: 0px;
   position: relative;
+
+  ${({theme}) => theme.media.tablet}{
+    display: none;
+  }
+  
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+  }
 `;
 
 const Item = styled.li`
@@ -309,4 +367,77 @@ const InfoMsgBtn = styled.button`
   color: #ffffff;
   text-align: center;
   border-radius: 10px;
+`;
+
+// 메뉴
+const MenuBtnWrapper = styled.div`
+  ${({theme}) => theme.media.desktop}{
+    display: none;
+  }
+`;
+
+const MenuBtn = styled.img`
+    width: 2rem;
+    height: 2rem;
+`;
+
+const MenuWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  z-index: 102;
+`;
+
+const MenuCloseBoxWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100vh;
+
+`;
+
+const MenuBoxWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+
+  display: flex;
+  flex-direction: column;
+`;
+
+const MenuCloseBtnWrapper = styled.div`
+  width: 100%;
+  height: 7vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+`;
+
+const MenuCloseBtn = styled.img`
+  width: 2.5rem;
+  height: 2.5rem;
+`;
+
+const MenuCategoryWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 0;
+  align-items: center;
+`;
+
+const MenuCategory = styled.li`
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 8vh;
+  text-align: center;
 `;
