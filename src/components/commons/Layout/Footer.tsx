@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { styled } from "styled-components";
 
-import { IoIosCall } from "react-icons/io";
-import { FaInstagram, FaYoutube } from "react-icons/fa";
 import { CiMail } from "react-icons/ci";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
+import { IoIosCall } from "react-icons/io";
 
 export default function Footer() {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function Footer() {
               <Menu onClick={() => router.push("/main")}>Contact</Menu>
             </MenuWrapper>
           </Section>
-          <Section>
+          <InfoSection>
             <Title>Information</Title>
             <ItemWrapper>
               <Item>
@@ -56,7 +56,7 @@ export default function Footer() {
                 </SnsImgWrapper>
               </Item>
             </ItemWrapper>
-          </Section>
+          </InfoSection>
         </Container>
       </Foot>
     </>
@@ -91,6 +91,24 @@ const Container = styled.div`
 const Section = styled.div`
   display: flex;
   flex-direction: column;
+
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+    align-items: center;
+    justify-contents: center;
+  }
+`;
+
+const InfoSection = styled(Section)`
+  ${({theme}) => theme.media.tablet}{
+    display: block;
+    text-align: center;
+  }
+  ${({theme}) => theme.media.mobile}{
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
 `;
 
 const Title = styled.div`
@@ -126,6 +144,13 @@ const Item = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+
+  ${({theme}) => theme.media.tablet}{
+    justify-content: center;
+  }
+  ${({theme}) => theme.media.mobile}{
+    justify-content: center;
+  }
 `;
 
 const ItemTxt = styled.div`

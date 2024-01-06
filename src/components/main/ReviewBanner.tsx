@@ -18,14 +18,23 @@ export default function ReviewBanner () {
 }
 
 
-/* 리뷰 배너*/
+/* 리뷰 배너 */
 export const ReviewBannerWrapper = styled.div`
-    width: 1960px;
+    max-width: 1960px;
+    width: 100vw;
     height: 770px;
     background-color: #EBF0FF;
     position: relative;
 
     margin: 150px auto;
+
+    ${({theme}) => theme.media.tablet}{
+        display: none;
+    }
+    
+    ${({theme}) => theme.media.mobile}{
+        display: none;
+    }
 `;
 
 export const ReviewBannerImgOneWrapper = styled.div`
@@ -54,4 +63,8 @@ export const ReviewBannerImgTwo = styled(ReviewBannerImgOne)``;
 export const PreviewWrapper = styled.div`
     position: absolute;
     right: 0;
+
+    ${({theme}) => theme.media.pc}{
+        display: none;
+    }
 `;

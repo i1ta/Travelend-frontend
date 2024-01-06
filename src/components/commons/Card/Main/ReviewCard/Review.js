@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
-  LoginState,
   IsJwtValidSelector,
   JwtTokenState,
-  logout,
-} from "@/states/LoginState";
+  LoginState
+} from "@/States/LoginState";
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 export default function Review(props) {
   const router = useRouter();
@@ -105,8 +104,11 @@ export default function Review(props) {
 }
 
 const ReviewCard = styled.div`
-  width: 415px;
+width: 100%;
+max-width: 415px;
+min-width: 346px;
   height: 491px;
+
   background: #ffffff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
   border-radius: 5px;
@@ -114,10 +116,17 @@ const ReviewCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
   cursor: pointer;
 
   position: relative;
+  top: 0;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    top: -3px;
+    box-shadow: 0 10px 10px rgba(153, 153, 153, 0.7);
+  }
 `;
 
 const LastReviewCard = styled(ReviewCard)`
@@ -125,13 +134,13 @@ const LastReviewCard = styled(ReviewCard)`
 `;
 
 const ReviewImgWrapper = styled.div`
-  width: 415px;
+  width: 100%;
   height: 491px;
   border-radius: 5px;
 `;
 
 const ReviewImg = styled.img`
-  width: 415px;
+  width: 100%;
   height: 491px;
   object-fit: cover;
   border-radius: 5px;
@@ -140,7 +149,7 @@ const ReviewImg = styled.img`
 const ReviewContentWrapper = styled.div`
   position: absolute;
   top: 315px;
-  width: 373px;
+  width: 90%;
   height: 150px;
   background-color: #fff;
   opacity: 0.8;
@@ -151,7 +160,7 @@ const ReviewCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 373px;
+  width: 90%;
   margin-bottom: 14px;
   margin-top: 10px;
 `;
@@ -163,7 +172,7 @@ const ReviewInfo = styled.div`
   justify-content: center;
   margin: 0 auto;
 
-  width: 350px;
+  width: 84%;
   height: 35px;
   background-color: #9ab3f5;
   border-radius: 5px;
@@ -183,20 +192,20 @@ const ReviewIcon = styled.img`
 
 const ReviewInfoTxt = styled.div`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 0.9rem;
   line-height: 1;
   color: #fff;
 `;
 
 const ReviewSmallTxt = styled(ReviewInfoTxt)`
-  font-size: 10px;
+  font-size: 0.5rem;
   color: #666;
   font-weight: 300;
 `;
 
 const ReviewCity = styled.div`
   font-weight: 500;
-  font-size: 18px;
+  font-size: 0.9rem;
   line-height: 1;
   color: #fff;
   margin-left: 10px;
@@ -244,20 +253,20 @@ const ReviewUserInfoWrapper = styled.div`
 
 const ReviewUsername = styled.div`
   color: #666;
-  font-size: 10px;
+  font-size: 0.5rem;
   height: 25px;
   line-height: 25px;
 `;
 
 const ReviewAge = styled.div`
   color: #666666;
-  font-size: 10px;
+  font-size: 0.5rem;
   height: 26px;
   line-height: 26px;
 `;
 
 const ReviewLine = styled.div`
-  width: 345px;
+  width: 83%;
   height: 1px;
   background-color: #d6d6d6;
   margin: 0 auto;
@@ -265,11 +274,11 @@ const ReviewLine = styled.div`
 `;
 
 const ReviewCardContents = styled.div`
-  width: 330px;
+  width: 80%;
   height: 23px;
 
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.6rem;
   line-height: 1;
   color: #333333;
   margin: 0 auto;
@@ -277,13 +286,13 @@ const ReviewCardContents = styled.div`
 
 const ReviewCardContentsTitle = styled.div`
   color: #000;
-  font-size: 15px;
+  font-size: 0.75rem;
   font-weight: 500;
   margin: 5px 0 5px 0;
 `;
 
 const ReviewCardFooter = styled.div`
-  width: 330px;
+  width: 80%;
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -314,7 +323,7 @@ const ReviewReactTxt = styled.div`
   width: 10px;
   margin: 0 2px;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 0.5rem;
   line-height: 26px;
   color: #666666;
 `;

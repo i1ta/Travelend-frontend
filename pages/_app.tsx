@@ -1,13 +1,12 @@
 import Layout from "@/components/commons/Layout/Layout";
 import Loading from "@/components/units/loading/Loading";
 import GlobalStyle from "@/styles/globalStyles";
+import theme from "@/styles/theme";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { RecoilRoot } from "recoil";
-import React from "react";
 import { ThemeProvider } from "styled-components";
-import theme from "@/styles/theme";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import FindCard from "../commons/Card/Main/FindCard/FindCard";
+// import theme from "@/styles/theme";
 
 import {
   TripylerMainData
@@ -69,28 +70,58 @@ const Review = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 1400px;
+  // width: 1400px;
+  max-width: 1400px;
+  width: 100vw;
 `;
 
 const FindTripylerContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 75px;
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // gap: 75px;
   // margin-left: 20px;
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+
+  // grid-template-columns: 1fr 1fr 1fr;
+  // grid-template-rows: auto auto auto;
+  grid-template-row: 1fr 1fr 1fr;
+  grid-gap: 20px;
+
+  ${({theme}) => theme.media.desktop}{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    // grid-template-rows: minmax(calc(491px * 3, auto));
+  }
+
+  ${({theme}) => theme.media.tablet}{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+  }
 `;
+
 
 const FindTripylerTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  width: 1400px;
+  // width: 1400px;
+  max-width: 1400px;
+  width: 100vw;
   height: 64px;
 
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 1.5rem;
   color: #9AB3F5;
   margin: 0 auto;
   margin-top: 60px;
@@ -103,13 +134,20 @@ const FindTripylerTitleWrapper = styled.div`
 `;
 
 const SubTitleWrapper = styled.div`
-
+  margin-left: 1rem;
+  ${({theme}) => theme.media.mobile}{
+    margin: 0 auto;
+    font-weight: 700;
+  }
 `;
 
 const SubTitle = styled.div`
-  font-size: 30px;
+  font-size: 1.5rem;
   color: #666;
   margin-bottom: 50px;
+
+  display: flex;
+  align-items: center;
 `;
 
 const SubTitleImg = styled.img``;
@@ -119,53 +157,15 @@ const ContentWrapper = styled.div`
   justify-content: center;
 `;
 
-const AdWrapper = styled.div`
-  max-width: 1960px;
-  margin: 150px auto;
-`;
-
-const AdBannerWrapper = styled.div`
-  position: relative;
-  margin: 30px auto;
-`;
-
-const AdImg = styled.img`
-  height: 610px;
-  width: 1920px;
-  opacity: 0.7;
-`;
-
-const AdTitleWrapper = styled.div`
-
-`;
-
-const AdTitle = styled.div`
-  position: absolute;
-  left: 250px;
-
-  color: #fff;
-  font-size: 70px;  
-  font-weight: bold;
-  white-space: nowrap;
-`;
-
 const FindTripylerTitle = styled(FindTripylerTitleWrapper)`
   background-color: #fff;
   border-top: 2px solid #9AB3F5;
   border-bottom: 2px solid #9AB3F5;
+  padding-left: 1rem;
 `;
 
 const ReviewTitleWrapper = styled(FindTripylerTitleWrapper)`
   background-color: #fff;
   border-top: 2px solid #9AB3F5;
   border-bottom: 2px solid #9AB3F5;
-`;
-
-const ReviewTitle = styled.div``;
-
-const ReviewFilter = styled.div`
-  width: 1100px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;

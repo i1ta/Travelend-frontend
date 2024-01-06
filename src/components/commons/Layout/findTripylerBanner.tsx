@@ -34,7 +34,7 @@ export default function FindTripylerBanner(props: any) {
 }
 
 const Banner = styled.div<{ review: boolean }>`
-  min-width: 1720px;
+  min-width: 1000px;
   height: 570px;
 
   ${(props) => (props.review 
