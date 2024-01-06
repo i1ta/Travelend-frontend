@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function TriplogDetail() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-  const apiPath = "https://api.tripyle.xyz";
+  const apiPath = "https://api.tripyle.xyz"; 
   const { reviewId } = router.query;
 
   const [data, setData] = useState({});
