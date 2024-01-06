@@ -1,17 +1,21 @@
-import { MorePostProps } from "@/interfaces/tripylerDetail";
+import { MorePostProps } from "@/interfaces/detail";
 import { useRouter } from "next/router";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import styled from "styled-components";
 
-export default function MorePost({ data }: MorePostProps) {
+export default function MorePost({ data, isReview }: MorePostProps) {
   const router = useRouter();
 
   const onClickPrevPost = () => {
-    router.push(`/findTripyler/${data.previousTripylerId}`);
+    isReview
+      ? router.push(`/review/${data.previousId}`)
+      : router.push(`/findTripyler/${data.previousId}`);
   };
 
   const onClickNextPost = () => {
-    router.push(`/findTripyler/${data.nextTripylerId}`);
+    isReview
+      ? router.push(`/review/${data.nextId}`)
+      : router.push(`/findTripyler/${data.nextId}`);
   };
 
   return (
@@ -20,14 +24,26 @@ export default function MorePost({ data }: MorePostProps) {
       <ListWrapper>
         <FaCaretUp style={{ color: "#D9D9D9" }} />
         <ListTitle>이전 게시물</ListTitle>
-        <PostTitle onClick={onClickPrevPost}>{data?.previousTitle}</PostTitle>
+        <PostTitle
+          onClick={onClickPrevPost}
+          disabled={data?.previousId === null}
+          style={{ cursor: data?.previousId === null ? "default" : "pointer" }}
+        >
+          {data?.previousTitle || "--- 없음 ---"}
+        </PostTitle>
       </ListWrapper>
       <ListWrapper
         style={{ borderBottom: "1px solid rgba(214, 214, 214, 0.60)" }}
       >
         <FaCaretDown style={{ color: "#D9D9D9" }} />
         <ListTitle>다음 게시물</ListTitle>
-        <PostTitle onClick={onClickNextPost}>{data?.nextTitle}</PostTitle>
+        <PostTitle
+          onClick={onClickNextPost}
+          disabled={data?.nextId === null}
+          style={{ cursor: data?.nextId === null ? "default" : "pointer" }}
+        >
+          {data?.nextTitle || "--- 없음 ---"}
+        </PostTitle>
       </ListWrapper>
     </PostList>
   );
@@ -61,9 +77,8 @@ const ListTitle = styled.div`
   margin-right: 20px;
 `;
 
-const PostTitle = styled.div`
+const PostTitle = styled.button`
   color: #868686;
   font-size: 16px;
   font-weight: 500;
-  cursor: pointer;
 `;

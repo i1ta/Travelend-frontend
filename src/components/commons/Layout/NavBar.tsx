@@ -119,14 +119,14 @@ export default function NavBar() {
                 onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
           <PageList>
-            <Item onClick={() => router.push("/addition/introduce")}>Trip'yler 소개</Item>
+            <Item onClick={() => router.push("/introduce")}>Travelend 소개</Item>
             <Item onClick={() => {
               if(isLoggedIn) {
                 if(!checkToken()) {
                   router.push("/findTripyler"); setFindCardFilter({});
                 }
               } 
-            }}>Trip'yler 찾기</Item>
+            }}>Travelender 찾기</Item>
             <Item onClick={() => {
               if(isLoggedIn) {
                 if(!checkToken()){
@@ -134,7 +134,7 @@ export default function NavBar() {
                 }
               } 
             >여행 후기</Item>
-            <Item onClick={() => router.push("/addition/contact")}>Contact</Item>
+            <Item onClick={() => router.push("/contact")}>Contact</Item>
             {isAdmin && <AdminItem onClick={() => router.push("/admin")}>관리자 페이지</AdminItem>}
           </PageList>
 

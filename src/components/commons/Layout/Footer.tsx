@@ -16,18 +16,18 @@ export default function Footer() {
           <Section>
             <Logo src="/assets/logo.svg" />
             <Content>
-              Trip’yle는 여행자들에게 좀 더 색다른 여행 스타일을 <br />
+              Travelend는 여행자들에게 좀 더 색다른 여행 스타일을 <br />
               제공해주는 ‘여행 동행자 매칭 플랫폼’입니다. <br />
-              Trip’yle에서 본인과 잘 맞는 여행 동행자들을 찾아 보고 <br />
+              Travelend에서 본인과 잘 맞는 여행 동행자들을 찾아 보고 <br />
               각자의 여행 후기를 공유하며 소통해보세요.
             </Content>
           </Section>
           <Section>
             <Title>Quick Link</Title>
             <MenuWrapper>
-              <Menu onClick={() => router.push("/main")}>Trip’yle 소개</Menu>
+              <Menu onClick={() => router.push("/main")}>소개</Menu>
               <Menu onClick={() => router.push("/findTripyler")}>
-                Trip’yler 찾기
+                동행자 찾기
               </Menu>
               <Menu onClick={() => router.push("/review")}>여행 후기</Menu>
               <Menu onClick={() => router.push("/main")}>Contact</Menu>
@@ -42,7 +42,7 @@ export default function Footer() {
               </Item>
               <Item>
                 <CiMail style={{ color: "#666", fontSize: "24px" }} />
-                <ItemTxt>Tripyler@naver.com</ItemTxt>
+                <ItemTxt>travelend@gmail.com</ItemTxt>
               </Item>
               <Item>
                 <SnsImgWrapper>
