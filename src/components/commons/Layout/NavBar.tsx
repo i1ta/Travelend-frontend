@@ -119,14 +119,14 @@ export default function NavBar() {
                 onClick={() => {router.push("/"); setFindCardFilter({});}} />
           </Container>
           <PageList>
-            <Item onClick={() => router.push("/introduce")}>Trip'yler 소개</Item>
+            <Item onClick={() => router.push("/introduce")}>Travelend 소개</Item>
             <Item onClick={() => {
               if(isLoggedIn) {
                 if(!checkToken()) {
                   router.push("/findTripyler"); setFindCardFilter({});
                 }
               } 
-            }}>Trip'yler 찾기</Item>
+            }}>Travelender 찾기</Item>
             <Item onClick={() => {
               if(isLoggedIn) {
                 if(!checkToken()){

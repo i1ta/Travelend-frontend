@@ -525,7 +525,7 @@ export default function ReviewMain() {
                           checkLogin();
                         } else {
                           if (!checkToken()) {
-                            router.push(`/review/${card.tripylerId}`);
+                            router.push(`/review/${card.reviewId}`);
                           }
                         }
                       }}

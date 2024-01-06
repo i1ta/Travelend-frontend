@@ -1,12 +1,13 @@
 export interface MorePostData {
-  previousTripylerId: number;
-  nextTripylerId: number;
+  previousId: number;
+  nextId: number;
   previousTitle: string;
   nextTitle: string;
 }
 
 export interface MorePostProps {
   data: MorePostData;
+  isReview?: boolean;
 }
 
 export interface ApplyListData {
@@ -25,8 +26,13 @@ export interface ApplyListItem {
   onClickApplyBtn: (id: number) => void;
 }
 
-export interface TripylerDetailFormProps {
+export interface TripylerFormProps {
   data: TripylerDetailData;
+  fetchData: () => void;
+}
+
+export interface ReviewFormProps {
+  data: ReviewDetailData;
   fetchData: () => void;
 }
 
@@ -75,6 +81,48 @@ export interface TripylerWithList {
   userId: number;
 }
 
+export interface WithListProps {
+  withList: TripylerWithList[];
+}
+
 export interface BannerProps {
   imageUrl: string;
+}
+
+export interface ReviewDetailData {
+  age: number;
+  commentsCnt: number;
+  endDate: string;
+  gender: string;
+  hashtag1: string;
+  hashtag2: string;
+  hashtag3: string;
+  hashtag4: string;
+  hashtag5: string;
+  hits: number;
+  likes: number;
+  myReview: true;
+  nationName: string;
+  nextReviewId: number;
+  nextTitle: string;
+  nickname: string;
+  previousReviewId: number;
+  previousTitle: string;
+  profileUrl: string;
+  recruitPeopleNum: number;
+  regDateTime: string;
+  regionName: string;
+  reviewContent: string;
+  reviewId: number;
+  reviewImageList: string[];
+  reviewOneLine: string;
+  reviewTitle: string;
+  startDate: string;
+  tokenUserLiked: true;
+  totalPeopleNum: number;
+  tripylerId: number;
+  tripylerImage: string;
+  tripylerTitle: string;
+  tripylerWithList: TripylerWithList[];
+  userId: number;
 }

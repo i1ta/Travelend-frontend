@@ -1,4 +1,4 @@
-import { BannerProps } from "@/interfaces/tripylerDetail";
+import { BannerProps } from "@/interfaces/detail";
 import styled from "styled-components";
 
 export default function Banner({ imageUrl }: BannerProps) {

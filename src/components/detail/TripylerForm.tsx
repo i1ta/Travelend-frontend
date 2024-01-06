@@ -1,19 +1,18 @@
-import Axios from "@/apis";
-import { TripylerDetailFormProps } from "@/interfaces/tripylerDetail";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
+
+import Axios from "@/apis";
+import { TripylerFormProps } from "@/interfaces/detail";
+import { userInfoFormat } from "@/utils/format";
 
 import { IoLocationOutline } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
 import { CiCalendar } from "react-icons/ci";
 import { IoMdHeart, IoMdHeartEmpty, IoIosList } from "react-icons/io";
-import { FiBriefcase } from "react-icons/fi";
+import WithList from "./WithList";
 
-export default function TripylerDetailForm({
-  data,
-  fetchData,
-}: TripylerDetailFormProps) {
+export default function TripylerForm({ data, fetchData }: TripylerFormProps) {
   const router = useRouter();
   const { tripylerId } = router.query;
 
@@ -25,12 +24,6 @@ export default function TripylerDetailForm({
 
   const onClickEditBtn = () => {
     router.push(`/findTripyler/${tripylerId}/edit`);
-  };
-
-  const formatUserInfo = (age: number, gender: string) => {
-    const formatAge = age >= 10 ? `${age.toString().slice(0, 1)}0대` : "아동";
-    const formatGender = gender === "M" ? "남성" : "여성";
-    return formatAge + " | " + formatGender;
   };
 
   // 동행자 프로필
@@ -55,7 +48,7 @@ export default function TripylerDetailForm({
     await Axios.post("/tripyler/like", {
       tripylerId,
     })
-      .then((res) => {
+      .then(() => {
         fetchData();
       })
       .catch((error) => console.error(error));
@@ -98,7 +91,7 @@ export default function TripylerDetailForm({
               <UserID style={{ cursor: "pointer" }} onClick={checkUser}>
                 {data?.nickname}
               </UserID>
-              <UserInfo>{formatUserInfo(data?.age, data?.gender)}</UserInfo>
+              <UserInfo>{userInfoFormat(data?.age, data?.gender)}</UserInfo>
             </UserTxtWrapper>
           </MidTopLeftWrapper>
 
@@ -124,60 +117,14 @@ export default function TripylerDetailForm({
 
         <ContentsMidTopWrapper>
           <div>
-            <MidBtmTitle>이번 여행의 Trip’yler 스타일</MidBtmTitle>
+            <MidBtmTitle>이번 여행의 스타일</MidBtmTitle>
             <MidBtmStyleWrapper>
               {data?.hashtagList?.map((el) => (
                 <MidBtmStyle key={el.id}>#{el.name}</MidBtmStyle>
               ))}
             </MidBtmStyleWrapper>
           </div>
-
-          <WithTripylerWrapper>
-            <WithTripTitleWrapper>
-              <FiBriefcase style={{ color: "#333", fontSize: "24px" }} />
-              <WithTripTitle>
-                함께 하는 <b>Trip’yler</b>
-              </WithTripTitle>
-            </WithTripTitleWrapper>
-            <WithTripProfileList>
-              {data?.tripylerWithList
-                ?.filter((el, idx) => idx < 4)
-                .map((el, idx) => (
-                  <WithTripProfileWrapper
-                    key={el.nickname}
-                    style={{ left: `${idx * 35}px` }}
-                    onClick={onClickWithTrip}
-                  >
-                    <WithTripProfile
-                      src={el.profileUrl || "/icon/defaultProfile.png"}
-                    />
-                  </WithTripProfileWrapper>
-                ))}
-              {data?.tripylerWithList?.length > 4 && (
-                <WithTripMoreBox onClick={onClickWithTrip}>
-                  +{data?.tripylerWithList?.length - 4}
-                </WithTripMoreBox>
-              )}
-            </WithTripProfileList>
-
-            {isOpenWithTripList && (
-              <WithTripList>
-                <WithTripListTitle>Trip’yler 리스트</WithTripListTitle>
-                <WithTripListWrapper>
-                  {data?.tripylerWithList?.map((el) => (
-                    <WithTripListItem>
-                      <WithTripListProfile>
-                        <UserImg
-                          src={el.profileUrl || "/icon/defaultProfile.png"}
-                        />
-                      </WithTripListProfile>
-                      <WithTripListID>{el.nickname}</WithTripListID>
-                    </WithTripListItem>
-                  ))}
-                </WithTripListWrapper>
-              </WithTripList>
-            )}
-          </WithTripylerWrapper>
+          <WithList withList={data?.tripylerWithList} />
         </ContentsMidTopWrapper>
 
         <ContentsMidBtmWrapper>
@@ -350,132 +297,6 @@ const UserInfo = styled.div`
   color: #666;
   font-size: 16px;
   font-weight: 500;
-`;
-
-const MidTopRightWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 100px;
-`;
-
-const WithTripylerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-`;
-
-const WithTripTitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const WithTripTitle = styled.div`
-  color: #333;
-  font-size: 20px;
-  font-weight: 500;
-`;
-
-const WithTripProfileList = styled.div`
-  position: relative;
-  height: 50px;
-`;
-
-const WithTripProfileWrapper = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: absolute;
-`;
-
-const WithTripProfile = styled(UserImg)`
-  cursor: pointer;
-`;
-
-const WithTripMoreBox = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: absolute;
-  top: 5px;
-  left: 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #999;
-
-  color: #666;
-  font-size: 12px;
-  cursor: pointer;
-`;
-
-const WithTripList = styled.div`
-  width: 170px;
-  height: 200px;
-  border-radius: 10px;
-  background-color: #fff;
-  position: absolute;
-  top: 100px;
-  box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
-  padding-top: 10px;
-`;
-
-const WithTripListTitle = styled.div`
-  color: #000;
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-`;
-
-const WithTripListWrapper = styled.div`
-  max-height: 150px;
-  display: flex;
-  flex-direction: column;
-  padding-left: 15px;
-  gap: 15px;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 6px; /* 스크롤바 너비 설정 */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(167, 167, 167, 0.5);
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-    border-radius: 4px;
-  }
-`;
-
-const WithTripListItem = styled.div`
-  display: flex;
-  gap: 15px;
-`;
-
-const WithTripListProfile = styled(UserImgWrapper)`
-  width: 25px;
-  height: 25px;
-  margin-right: 0px;
-`;
-
-const WithTripListID = styled.div`
-  color: #666;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const TripylerInfoWrapper = styled.div`
