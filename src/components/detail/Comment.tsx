@@ -11,14 +11,19 @@ interface Data {
   userId: number;
 }
 
-export default function Comment() {
+interface CommentProps {
+  isReview?: boolean;
+}
+
+export default function Comment({ isReview }: CommentProps) {
   const router = useRouter();
-  const { tripylerId } = router.query;
+  const { tripylerId, reviewId } = router.query;
   const [data, setData] = useState<Data[]>([]);
   const [cmtLen, setCmtLen] = useState(5);
+  const id = tripylerId || reviewId;
 
   const fetchComment = async () => {
-    await Axios.get(`/tripyler/${tripylerId}/comment/list`)
+    await Axios.get(`/${isReview ? "review" : "tripyler"}/${id}/comment/list`)
       .then((res) => {
         setData([...res.data.data]);
       })
@@ -32,9 +37,9 @@ export default function Comment() {
   const onSubmitCmt = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await Axios.post(`/tripyler/comment`, {
+    await Axios.post(`/${isReview ? "review" : "tripyler"}/comment`, {
       content: e.currentTarget.comment.value,
-      tripylerId,
+      id,
     })
       .then(() => {
         fetchComment();
@@ -44,8 +49,8 @@ export default function Comment() {
   };
 
   useEffect(() => {
-    if (tripylerId) fetchComment();
-  }, [tripylerId]);
+    if (id) fetchComment();
+  }, [id]);
 
   return (
     <PostList>
@@ -203,7 +208,7 @@ const CmtInput = styled.input`
 
 const CmtWriteBtn = styled.button`
   padding: 10px;
-  background-color: #9AB3F5;
+  background-color: #9ab3f5;
   border-radius: 10px;
   display: flex;
 

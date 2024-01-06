@@ -1,12 +1,12 @@
-import Comment from "../../../src/components/commons/Comment";
-import MorePost from "../../../src/components/commons/MorePost";
-import ApplyList from "../../../src/components/tripyler/detail/ApplyList";
-import Banner from "../../../src/components/tripyler/detail/Banner";
-import TripylerDetailForm from "../../../src/components/tripyler/detail/TripylerDetailForm";
+import Comment from "../../../src/components/detail/Comment";
+import MorePost from "../../../src/components/detail/MorePost";
+import ApplyList from "../../../src/components/detail/ApplyList";
+import Banner from "../../../src/components/detail/Banner";
+import TripylerForm from "../../../src/components/detail/TripylerForm";
 import {
   MorePostData,
   TripylerDetailData,
-} from "../../../src/interfaces/tripylerDetail.ts";
+} from "../../../src/interfaces/detail.ts";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -27,8 +27,8 @@ export default function FindTripylerDetailPage() {
         const data = res.data.data;
         setData({ ...data });
         setMorePostData({
-          previousTripylerId: data.previousTripylerId,
-          nextTripylerId: data.nextTripylerId,
+          previousId: data.previousTripylerId,
+          nextId: data.nextTripylerId,
           previousTitle: data.previousTitle,
           nextTitle: data.nextTitle,
         });
@@ -48,7 +48,7 @@ export default function FindTripylerDetailPage() {
     <>
       <Banner imageUrl={data?.image} />
       <Container>
-        <TripylerDetailForm data={data} fetchData={fetchData} />
+        <TripylerForm data={data} fetchData={fetchData} />
         {data?.myTripyler && <ApplyList />}
         <Comment />
         <MorePost data={morePostData} />
