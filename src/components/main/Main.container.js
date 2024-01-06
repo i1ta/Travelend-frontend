@@ -9,6 +9,7 @@ import Axios from "@/apis";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 
 import MainBanner from "../commons/MainBanner";
 import AdverBanner from "./AdverBanner.tsx";
@@ -167,14 +168,8 @@ export default function Main() {
   const [keyword, setKeyword] = useState("");
 
   return (
-    <>
-      <MainBanner 
-        // selectedDestination={selectedDestination}
-        // setSelectedDestination={setSelectedDestination}
-        // setTripDate={setTripDate}
-        // setSelectedNum={setSelectedNum}
-        // setKeyword={setKeyword}
-      />
+    <Container>
+      <MainBanner />
 
       <TripylerBox 
         onClcickFilterFind={onClcickFilterFind} 
@@ -185,6 +180,14 @@ export default function Main() {
         reviewList={reviewList}
       />
       <AdverBanner/>
-    </>
+    </Container>
   );
 }
+
+export const Container = styled.div`
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+`;
+

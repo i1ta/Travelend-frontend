@@ -59,17 +59,27 @@ export default function AdverBanner (){
 
 const AdWrapper = styled.div`
   max-width: 1960px;
+  width: 100vw;
   margin: 150px auto;
+
+  ${({theme}) => theme.media.tablet}{
+    display: none;
+}
+
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+  }
 `;
 
 const AdBannerWrapper = styled.div`
   position: relative;
-  margin: 30px auto;
+  margin: 1.5rem auto;
 `;
 
 const AdImg = styled.img`
   height: 610px;
-  width: 1920px;
+  max-width: 1920px;
+    width: 100vw;
   opacity: 0.7;
 `;
 
@@ -79,10 +89,10 @@ const AdTitleWrapper = styled.div`
 
 const AdTitle = styled.div`
   position: absolute;
-  left: 250px;
+  left: 12.5rem;
 
   color: #fff;
-  font-size: 70px;  
+  font-size: 3.5rem;  
   font-weight: bold;
   white-space: nowrap;
 `;

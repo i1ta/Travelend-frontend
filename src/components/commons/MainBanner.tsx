@@ -11,7 +11,7 @@ import {
   ShowFilterDestination
 } from "@/interfaces/main";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import Calendar from "./Tools/Calendar";
@@ -154,19 +154,23 @@ export default function MainBanner () {
         <>
           <Banner>
             <BannerImgWrapper>
+              <BannerImg src="img/bannerImg.png" alt="banner"/>
+            </BannerImgWrapper>
+            <BannerTitleWrapper>
               <BannerTitle>
                 여행의 모든 여정을 함께하다
               </BannerTitle>
               <BannerTxt>
                 함께 하고 싶은 여행자를 Trivelend에서 바로 찾아보세요
               </BannerTxt>
-            </BannerImgWrapper>
+            </BannerTitleWrapper>
+
             <FindFilter>
               <FilterMainWrapper>
                 <FilterMiddleWrapper>
                   <FilterFrontWrapper>
-                    <FilterWrapper>
-                      <FilterTitleWrapper>
+                    <DesFilterWrapper>
+                      <DesFilterTitleWrapper>
                         <FilterTitleImg src="icon/location.png"></FilterTitleImg>
                         <FilterTitleTxt>여행지</FilterTitleTxt>
                         {isCountry && (
@@ -228,22 +232,29 @@ export default function MainBanner () {
                             </CitySelect>
                           </CountrySelectWrapper>
                         )}
-                      </FilterTitleWrapper>
+                      </DesFilterTitleWrapper>
                       <Filter
-                        style={{ width: "280px" }}
+                        // style={{ width: "280px" }}
                         onClick={onOpenDestination}
                       >
-                        <FilterInput>
+                        <DesFilterInput>
                           {selectedDestination.city.name === ""
                             ? "선택"
                             // : `${showDestination.country.name}, ${showDestination.city}`}
-                            : `${showDestination.country}, ${showDestination.city}`}
-                        </FilterInput>
+                            : (
+                              <React.Fragment>
+                                <ShowDesTxt>{showDestination.country}</ShowDesTxt>
+                                <ShowDesTxt>,</ShowDesTxt>
+                                <ShowDesTxt>{showDestination.city}</ShowDesTxt>
+                              </React.Fragment>
+                            )
+                          }
+                        </DesFilterInput>
                         <FilterBtn></FilterBtn>
                       </Filter>
-                    </FilterWrapper>
+                    </DesFilterWrapper>
     
-                    <FilterWrapper style={{ position: "relative" }}>
+                    <DateRangeFilterWrapper style={{ position: "relative" }}>
                       <FilterTitleWrapper>
                         <FilterTitleImg src="icon/calendar.png"></FilterTitleImg>
                         <FilterTitleTxt>일정</FilterTitleTxt>
@@ -255,14 +266,14 @@ export default function MainBanner () {
                             : setIsOpenCalendar(true);
                         }}
                       >
-                        <Filter style={{ width: "200px" }}>
+                        <Filter>
                           <FilterInput>
                             {tripDate.length === 0 ? `가는 날` : tripDate[0]}
                           </FilterInput>
                           <FilterBtn></FilterBtn>
                         </Filter>
                         <DateLine></DateLine>
-                        <Filter style={{ width: "200px" }}>
+                        <Filter>
                           <FilterInput>
                             {tripDate.length === 0 ? `오는 날` : tripDate[1]}
                           </FilterInput>
@@ -278,9 +289,9 @@ export default function MainBanner () {
                           />
                         </CalendarWrapper>
                       )}
-                    </FilterWrapper>
+                    </DateRangeFilterWrapper>
     
-                    <FilterWrapper>
+                    <NumFilterWrapper>
                       <FilterTitleWrapper>
                         <FilterTitleImg src="icon/user.png"></FilterTitleImg>
                         <FilterTitleTxt>인원</FilterTitleTxt>
@@ -300,7 +311,7 @@ export default function MainBanner () {
                           onClick={(e) => setSelectedNum((prev) => prev + 1)}
                         ></FilterPlusImg>
                       </FilterSelect>
-                    </FilterWrapper>
+                    </NumFilterWrapper>
                   </FilterFrontWrapper>
     
                   <FilterBackWrapper>
@@ -310,17 +321,18 @@ export default function MainBanner () {
                         <FilterTitleTxt>검색</FilterTitleTxt>
                       </FilterTitleWrapper>
                       <Input
-                        style={{ width: "925px" }}
                         placeholder="직접 입력"
                         onChange={(e) => setKeyword(e.target.value)}
                       />
                     </FilterWrapper>
                   </FilterBackWrapper>
                 </FilterMiddleWrapper>
-                <FilterFindBtn onClick={onClcickFilterFind}>
-                  <FilterFindBtnTxt>여행자 찾기</FilterFindBtnTxt>
-                  <BtnArrow src="icon/arrow.png"></BtnArrow>
-                </FilterFindBtn>
+                <FilterFindBtnWrapper>
+                  <FilterFindBtn onClick={onClcickFilterFind}>
+                    <FilterFindBtnTxt>여행자 찾기</FilterFindBtnTxt>
+                    <BtnArrow src="icon/arrow.png"></BtnArrow>
+                  </FilterFindBtn>
+                </FilterFindBtnWrapper>
               </FilterMainWrapper>
             </FindFilter>
           </Banner>
@@ -328,55 +340,63 @@ export default function MainBanner () {
     );
 }
 
-
-export const Banner = styled.div`
-  background-color: #ffffff;
-  margin: auto;
+// 배너
+const Banner = styled.div`
   margin-bottom: 200px;
-  /* background-image: url("img/bannerImg.png"); */
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin: 0 auto;
+  padding-bottom: 200px;
+
+  ${({theme}) => theme.media.mobile}{
+    padding-bottom: 250px;
+  }
+  // align-items: center;
 `;
 
-export const BannerImgWrapper = styled.div`
+const BannerImgWrapper = styled.div`
   height: 854px;
-  width: 1920px;
+  width: 100%;
+  max-width: 1640px;
   position: relative;
 
   display: flex;
   flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
 
-  background-image: url("img/bannerImg.png");
-  background-size: cover;
+  object-fit: cover;
   color: rgba(255, 255, 255, 1);
-
-  &::before{
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    // background-color: rgba(255, 255, 255, 0.5);
-  }
 `;
 
-export const BannerTitle = styled.div`
-  margin: 200px 260px 0 260px;
+const BannerImg = styled.img`
+  width: 100%;
+  height: 854px;
+  object-fit: cover;
+`;
+
+const BannerTitleWrapper = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  
+  width: 80%;
+  max-width: 1100px;
+`;
+
+const BannerTitle = styled.div`
+  margin: 200px 0 0 0;
   font-style: normal;
   font-weight: bold;
-  font-size: 60px;
+  font-size: 3rem;
   line-height: 1;
   color: white;
   position: relative;
   z-index: 100;
+  // white-space: nowrap;
 `;
 
-export const TitleTxt = styled.span`
+const TitleTxt = styled.span`
   background: linear-gradient(to bottom, #77C0D2, #BBA9F6);
   color: transparent;
   -webkit-background-clip: text;
@@ -384,63 +404,158 @@ export const TitleTxt = styled.span`
   z-index: 100;
 `;
 
-export const BannerTxt = styled.div`
-  margin: 100px 260px 0 260px;
+const BannerTxt = styled.div`
+  margin: 60px 0 0 0;
   font-style: normal;
   font-weight: 500;
-  font-size: 25px;
+  font-size: 1.25rem;
   line-height: 1;
   color: #ffffff;
   position: relative;
   z-index: 100;
+  // white-space: nowrap;
 `;
 
-export const FindFilter = styled.div`
-  width: 1400px;
+// 필터링
+// 필터링 가장 바깥 container
+const FindFilter = styled.div`
+  // width: 1400px;
+  width: 80%;
+  max-width: 1100px;
   height: 309px;
 
-  padding: 0px 95px;
+  padding: 0px 4rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
   box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
+
   position: absolute;
-  top: 580px;
+  top: 550px;  
+  left: 50%;
+  transform: translate(-50%, 0);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${({theme}) => theme.media.mobile}{
+    width: auto;
+    height: auto;
+    padding: 2rem;
+  }
+
+  ${({theme}) => theme.media.tablet}{
+    width: auto;
+    height: auto;
+    padding: 3rem;
+  }
 `;
 
-export const FilterWrapper = styled.div`
-  margin: 0 20px;
+// 여행자 찾기 버튼과 나머지 배치
+const FilterMainWrapper = styled.div`
+  // display: flex;
+  // flex-direction: row;
+  // width: 100%;
+  // justify-content: space-between;
+  // width: 1220px;
+
+  width: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: 7.5fr 2.5fr;
+  grid-template-rows: auto;
+
+  ${({theme}) => theme.media.desktop}{
+    grid-template-columns: 7.5fr 2.5fr;
+    grid-template-rows: auto;
+  }
+
+  ${({theme}) => theme.media.tablet}{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
 `;
 
-export const FilterMainWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 1220px;
-`;
-
-export const FilterMiddleWrapper = styled.div`
+const FilterMiddleWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
-export const FilterFrontWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+const FilterFrontWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3.5fr 1.5fr; // 세 개의 컬럼
+  grid-template-rows: auto; // 한 개의 행
+  gap: 20px; // 그리드 사이의 간격
+
+  ${({theme}) => theme.media.desktop}{
+    grid-template-columns: 2.5fr 3.5fr 1.5fr;
+    grid-template-rows: auto;
+  }
+
+  ${({theme}) => theme.media.tablet}{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 40px;
+    // width: 550px;
+    width: 60vw;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    grid-template-columns: auto;
+    grid-template-rows: repeat(3, 1fr);
+    width: 60vw;
+  }
 `;
 
-export const FilterBackWrapper = styled.div`
+
+const FilterWrapper = styled.div`
+  width: 100%;
+`;
+
+const DesFilterWrapper = styled(FilterWrapper)`
+  ${({theme}) => theme.media.tablet}{
+    order: 0;
+    // grid-column: 1 / 2;
+  }
+`
+
+const DateRangeFilterWrapper = styled(FilterWrapper)`
+  ${({theme}) => theme.media.tablet}{
+    order: 2;
+    grid-column: 1 / 3;
+  }
+`
+
+const NumFilterWrapper = styled(FilterWrapper)`
+  ${({theme}) => theme.media.tablet}{
+    order: 1;
+    // grid-column: 2 / 3;
+  }
+`
+
+
+const FilterBackWrapper = styled.div`
   margin-top: 35px;
 `;
 
-export const FilterTitleWrapper = styled.div`
+const FilterTitleWrapper = styled.div`
   display: flex;
   margin-bottom: 13px;
 `;
 
-export const Filter = styled.div`
+const DesFilterTitleWrapper = styled(FilterTitleWrapper)`
+  position: relative;
+`;
+
+const Filter = styled.div`
   height: 50px;
   padding: 15px 20px;
   background: #fff;
@@ -449,12 +564,15 @@ export const Filter = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+
+  width: 100%;
 `;
 
-export const FilterSelect = styled.div`
-  width: 140px;
+const FilterSelect = styled.div`
+  // min-width: 7rem;
+  width: 100%;
   height: 50px;
-  padding: 15px 20px;
+  padding: 0.75rem 1rem;
   background: #fff;
   border-radius: 20px;
 
@@ -467,96 +585,153 @@ export const FilterSelect = styled.div`
   color: #666666;
 `;
 
-export const FilterMinusImg = styled.img`
-  width: 16px;
-  height: 16px;
+const FilterMinusImg = styled.img`
+  width: 0.6rem;
+  height: 0.6rem;
   cursor: pointer;
+
+  ${({theme}) => theme.media.tablet}{
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    width: 1rem;
+    height: 1rem;
+  }
 `;
 
-export const FilterNum = styled.div``;
+const FilterNum = styled.div`
+  font-size: 0.75rem;
+`;
 
-export const FilterPlusImg = styled.img`
-  width: 16px;
-  height: 16px;
+const FilterPlusImg = styled.img`
+  width: 0.6rem;
+  height: 0.6rem;
   cursor: pointer;
+
+  ${({theme}) => theme.media.tablet}{
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    width: 1rem;
+    height: 1rem;
+  }
 `;
 
-export const FilterTitleImg = styled.img`
-  margin-right: 5px;
+const FilterTitleImg = styled.img`
+  margin-right: 4px;
+  width: 1rem;
+  height: 1rem;
 `;
 
-export const FilterTitleTxt = styled.div`
+const FilterTitleTxt = styled.div`
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1rem;
   line-height: 1;
   color: #333333;
 `;
 
-export const Input = styled.input`
+const Input = styled.input`
   height: 50px;
-  width: 925px;
-  padding: 15px 20px;
+  // width: 46.25rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
   background: #fff;
   border-radius: 20px;
   border: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: 0.8rem;
 `;
 
-export const FilterInput = styled.div`
+const FilterInput = styled.div`
+  width: 100%;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 0.8rem;
   color: #666666;
   text-align: center;
   align-items: center;
   justify-content: center;
 `;
 
-export const FilterBtn = styled.div`
+const DesFilterInput = styled(FilterInput)`
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  position: relative;
+`
+
+const ShowDesTxt = styled.span`
+
+`;
+
+const FilterBtn = styled.div`
   width: 12px;
   height: 9px;
   background-image: url("icon/listArrow.png");
 `;
 
-export const DateFilterWrapper = styled.div`
+const DateFilterWrapper = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
-export const DateLine = styled.div`
-  width: 12px;
+const DateLine = styled.div`
+  // width: 12px;
+  width: 25px;
   height: 2px;
   background-color: #666666;
   margin: 0px 7px;
 `;
 
-export const FilterFindBtn = styled.button`
-  width: 200px;
+// 여행자 찾기 버튼
+const FilterFindBtnWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const FilterFindBtn = styled.button`
+  width: 80%;
+  // min-width: 200px;
   height: 170px;
-  border-radius: 30px;
+  border-radius: 20px;
   background: rgba(154, 179, 245, 0.8);
   border-radius: 50px;
-  margin: 0 auto;
   margin-top: 33px;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${({theme}) => theme.media.tablet}{
+    width: 100%;
+    height: 80px;
+    border-radius: 10px;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+  }
 `;
 
-export const FilterFindBtnTxt = styled.div`
+const FilterFindBtnTxt = styled.div`
   margin-right: 4px;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 0.9rem;
   color: #ffffff;
 `;
 
 // 여행지 선택
-export const CountrySelectWrapper = styled.div`
+const CountrySelectWrapper = styled.div`
   width: 300px;
   height: 280px;
   background-color: #ffffff;
@@ -567,16 +742,18 @@ export const CountrySelectWrapper = styled.div`
   justify-content: center;
 
   position: absolute;
-  top: 128px;
-  left: 100px;
+  top: 82px;
+  left: 0;
+
+  z-index: 101;
 `;
 
-export const ContinentSelect = styled.div`
+const ContinentSelect = styled.div`
   width: 100px;
   border-right: 0.5px solid rgba(214, 214, 214, 0.5);
 `;
 
-export const ContinentContent = styled.div<{selected: boolean}>`
+const ContinentContent = styled.div<{selected: boolean}>`
   width: 100%;
   height: 40px;
   cursor: pointer;
@@ -590,7 +767,7 @@ export const ContinentContent = styled.div<{selected: boolean}>`
   background-color: ${(props) => (props.selected ? "#D4D4D4" : "ffffff")};
 `;
 
-export const CountrySelect = styled.div`
+const CountrySelect = styled.div`
   width: 100px;
   border-right: 0.5px solid rgba(214, 214, 214, 0.5);
   overflow-y: auto;
@@ -621,7 +798,7 @@ export const CountrySelect = styled.div`
   }
 `;
 
-export const CitySelect = styled.div`
+const CitySelect = styled.div`
   width: 100px;
 
   overflow-y: auto;
@@ -655,7 +832,7 @@ export const CitySelect = styled.div`
 // 달력
 
 
-export const CalendarWrapper = styled.div`
+const CalendarWrapper = styled.div`
 display: flex;
 flex-direction: row;
 justify-content: center;
@@ -668,9 +845,9 @@ right: 0px;
 
 `;
 
-export const BtnArrow = styled.img``;
+const BtnArrow = styled.img``;
 
-export const BtnBigArrow = styled(BtnArrow)`
+const BtnBigArrow = styled(BtnArrow)`
   margin-right: 20px;
   height: 15px;
   width: 20px;

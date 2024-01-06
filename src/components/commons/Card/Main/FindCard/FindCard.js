@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
-  LoginState,
   IsJwtValidSelector,
   JwtTokenState,
-  logout,
-} from "@/states/LoginState";
+  LoginState
+} from "@/States/LoginState";
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 export default function FindCard(props) {
   const router = useRouter();
@@ -155,8 +154,11 @@ export default function FindCard(props) {
 }
 
 const ReviewCard = styled.div`
-  width: 415px;
+  width: 100%;
+  max-width: 415px;
+  min-width: 346px;
   height: 491px;
+  
   background: #ffffff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
   border-radius: 5px;
@@ -164,8 +166,17 @@ const ReviewCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
   cursor: pointer;
+
+  position: relative;
+  top: 0;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    top: -3px;
+    box-shadow: 0 10px 10px rgba(153, 153, 153, 0.7);
+  }
 `;
 
 const LastReviewCard = styled(ReviewCard)`
@@ -173,14 +184,14 @@ const LastReviewCard = styled(ReviewCard)`
 `;
 
 const ReviewImgWrapper = styled.div`
-  width: 415px;
+  width: 100%;
   height: 235px;
 
   border-radius: 5px 5px 0 0;
 `;
 
 const ReviewImg = styled.img`
-  width: 415px;
+  width: 100%;
   height: 235px;
   margin-bottom: 20px;
   object-fit: cover;
@@ -191,7 +202,7 @@ const ReviewCardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 415px;
+  width: 100%;
   margin-bottom: 14px;
   margin-top: 15px;
 `;
@@ -203,7 +214,7 @@ const ReviewInfo = styled.div`
   justify-content: center;
   margin: 0 auto;
 
-  width: 350px;
+  width: 85%;
   height: 35px;
   background-color: #9ab3f5;
   border-radius: 5px;
@@ -227,20 +238,20 @@ const ReviewIcon = styled.img`
 
 const ReviewInfoTxt = styled.div`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 0.9rem;
   line-height: 1;
   color: #fff;
 `;
 
 const ReviewSmallTxt = styled(ReviewInfoTxt)`
-  font-size: 10px;
+  font-size: 0.5rem;
   color: #666;
   font-weight: 300;
 `;
 
 const ReviewCity = styled.div`
   font-weight: 500;
-  font-size: 18px;
+  font-size: 0.9rem;
   line-height: 1;
   color: #fff;
   margin-left: 10px;
@@ -271,7 +282,7 @@ const ReviewUserWrapper = styled.div`
   align-items: center;
   margin: 0 3px;
   margin: 0 3px 5px 3px;
-  width: 340px;
+  width: 82%;
 `;
 
 const ReviewUser = styled.div`
@@ -280,7 +291,7 @@ const ReviewUser = styled.div`
   justify-content: space-between;
   margin-left: 20px;
   margin-right: 20px;
-  width: 415px;
+  width: 100%;
 `;
 
 const ReviewInfoUserWrapper = styled.div`
@@ -306,14 +317,14 @@ const ReviewUserInfoWrapper = styled.div`
 
 const ReviewUsername = styled.div`
   color: #666;
-  font-size: 10px;
+  font-size: 0.5rem;
   height: 25px;
   line-height: 25px;
 `;
 
 const ReviewAge = styled.div`
   color: #666666;
-  font-size: 10px;
+  font-size: 0.5rem;
   height: 26px;
   line-height: 26px;
 `;
@@ -335,31 +346,31 @@ const ReviewHashTag = styled.button`
   border: 1px solid #999;
 
   font-weight: 500;
-  font-size: 10px;
+  font-size: 0.5rem;
   color: #999999;
   white-space: nowrap;
 `;
 
 const ReviewLine = styled.div`
-  width: 345px;
+  width: 83%;
   height: 1px;
   background-color: #d6d6d6;
   margin-bottom: 8px;
 `;
 
 const ReviewCardContents = styled.div`
-  width: 330px;
+  width: 80%;
   height: 70px;
 
   font-weight: 400;
-  font-size: 12px;
+  font-size: 0.6rem;
   line-height: 1;
   color: #333333;
 `;
 
 const ReviewCardContentsTitle = styled.div`
   color: #666666;
-  font-size: 12px;
+  font-size: 0.6rem;
   font-weight: 500;
   margin: 5px 0 8px 0;
 `;
@@ -371,7 +382,7 @@ const ReviewCardContentsContent = styled.div`
 `;
 
 const ReviewCardFooter = styled.div`
-  width: 330px;
+  width: 80%;
   // height: 70px;
   display: flex;
   justify-content: space-between;
@@ -385,7 +396,7 @@ const ReviewCardTimeWrapper = styled.div`
 
 const ReviewCardTime = styled.div`
   color: #666666;
-  font-size: 10px;
+  font-size: 0.5rem;
   height: 25px;
   line-height: 25px;
 `;

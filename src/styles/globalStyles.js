@@ -37,6 +37,108 @@ const style = css`
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset;
   }
+
+  html {
+    font-size: 125%;
+    -webkit-text-size-adjust: none;
+  }
+
+  @media screen and (min-device-width: 0px) and (max-device-width: 79.9px) {
+    html {
+      /* 5px */
+      font-size: 31.25%;
+    }
+  }
+
+  @media screen and (min-device-width: 80px) {
+    html {
+      /* 5px */
+      font-size: 31.25%;
+    }
+  }
+
+  @media screen and (min-device-width: 120px) {
+    html {
+      font-size: 37.5%;
+    }
+  }
+
+  @media screen and (min-device-width: 200px) {
+    html {
+      /* 7px */
+      font-size: 43.75%;
+    }
+  }
+
+  @media screen and (min-device-width: 280px) {
+    html {
+      /* 8px */
+      font-size: 50%;
+    }
+  }
+
+  @media screen and (min-device-width: 320px) {
+    html {
+      /* 10px */
+      font-size: 62.5%;
+    }
+  }
+
+  @media screen and (min-device-width: 360px) {
+    html {
+      /* 11.25px */
+      font-size: 70.3125%;
+    }
+  }
+
+  @media screen and (min-device-width: 375px) {
+    html {
+      font-size: 73.2421%;
+    }
+  }
+
+  @media screen and (min-device-width: 412px) {
+    html {
+      font-size: 80.4688%;
+    }
+  }
+
+  @media screen and (min-device-width: 414px) {
+    html {
+      font-size: 80.8594%;
+    }
+  }
+
+  @media screen and (min-device-width: 640px) {
+    html {
+      font-size: 87.5%;
+    }
+  }
+
+  @media screen and (min-device-width: 768px) {
+    html {
+      font-size: 93.75%;
+    }
+  }
+
+  @media screen and (min-device-width: 860px) {
+    html {
+      font-size: 100%;
+    }
+  }
+  
+  @media screen and (min-device-width: 1080px) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+
+  @media screen and (min-device-width: 1024px) {
+    html {
+      // 18px
+      font-size: 112.5%;
+    }
+  }
 `;
 const GlobalStyle = () => {
   return <Global styles={style} />;
