@@ -43,46 +43,46 @@ const style = css`
     -webkit-text-size-adjust: none;
   }
 
-  @media screen and (min-device-width: 0px) and (max-device-width: 79.9px) {
+  @media screen and (min-device-width: 0px) and (max-device-width: 359.9px) {
     html {
       /* 5px */
-      font-size: 31.25%;
-    }
-  }
-
-  @media screen and (min-device-width: 80px) {
-    html {
-      /* 5px */
-      font-size: 31.25%;
-    }
-  }
-
-  @media screen and (min-device-width: 120px) {
-    html {
-      font-size: 37.5%;
-    }
-  }
-
-  @media screen and (min-device-width: 200px) {
-    html {
-      /* 7px */
-      font-size: 43.75%;
-    }
-  }
-
-  @media screen and (min-device-width: 280px) {
-    html {
-      /* 8px */
-      font-size: 50%;
-    }
-  }
-
-  @media screen and (min-device-width: 320px) {
-    html {
-      /* 10px */
       font-size: 62.5%;
     }
   }
+
+  // @media screen and (min-device-width: 80px) {
+  //   html {
+  //     /* 5px */
+  //     font-size: 31.25%;
+  //   }
+  // }
+
+  // @media screen and (min-device-width: 120px) {
+  //   html {
+  //     font-size: 37.5%;
+  //   }
+  // }
+
+  // @media screen and (min-device-width: 200px) {
+  //   html {
+  //     /* 7px */
+  //     font-size: 43.75%;
+  //   }
+  // }
+
+  // @media screen and (min-device-width: 280px) {
+  //   html {
+  //     /* 8px */
+  //     font-size: 50%;
+  //   }
+  // }
+
+  // @media screen and (min-device-width: 320px) {
+  //   html {
+  //     /* 10px */
+  //     font-size: 62.5%;
+  //   }
+  // }
 
   @media screen and (min-device-width: 360px) {
     html {
@@ -103,7 +103,7 @@ const style = css`
     }
   }
 
-  @media screen and (min-device-width: 414px) {
+  @media screen and (min-device-width: 480px) {
     html {
       font-size: 80.8594%;
     }
@@ -117,23 +117,29 @@ const style = css`
 
   @media screen and (min-device-width: 768px) {
     html {
-      font-size: 93.75%;
-    }
-  }
-
-  @media screen and (min-device-width: 860px) {
-    html {
       font-size: 100%;
     }
   }
-  
-  @media screen and (min-device-width: 1080px) {
+
+  @media screen and (min-device-width: 820px) {
     html {
       font-size: 112.5%;
     }
   }
 
-  @media screen and (min-device-width: 1024px) {
+  // @media screen and (min-device-width: 860px) {
+  //   html {
+  //     font-size: 112.5%;
+  //   }
+  // }
+  
+  // @media screen and (min-device-width: 1080px) {
+  //   html {
+  //     font-size: 112.5%;
+  //   }
+  // }
+
+  @media screen and (min-device-width: 1023.9px) {
     html {
       // 18px
       font-size: 112.5%;

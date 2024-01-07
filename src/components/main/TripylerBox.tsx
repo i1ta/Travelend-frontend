@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import FindCard from "../commons/Card/Main/FindCard/FindCard";
-// import theme from "@/styles/theme";
 
 import {
   TripylerMainData

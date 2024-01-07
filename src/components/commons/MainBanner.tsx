@@ -158,10 +158,19 @@ export default function MainBanner () {
             </BannerImgWrapper>
             <BannerTitleWrapper>
               <BannerTitle>
-                여행의 모든 여정을 함께하다
+                <BannerTitleTxt>여행의</BannerTitleTxt>
+                <BannerTitleTxt>모든</BannerTitleTxt>
+                <BannerTitleTxt>여정을</BannerTitleTxt>
+                <BannerTitleTxt>함께하다</BannerTitleTxt>
               </BannerTitle>
               <BannerTxt>
-                함께 하고 싶은 여행자를 Trivelend에서 바로 찾아보세요
+                <BannerSubTitleTxt>함께</BannerSubTitleTxt>
+                <BannerSubTitleTxt>하고</BannerSubTitleTxt>
+                <BannerSubTitleTxt>싶은</BannerSubTitleTxt>
+                <BannerSubTitleTxt>여행자를</BannerSubTitleTxt>
+                <BannerSubTitleTxt>Trivelend에서</BannerSubTitleTxt>
+                <BannerSubTitleTxt>바로</BannerSubTitleTxt>
+                <BannerSubTitleTxt>찾아보세요</BannerSubTitleTxt>
               </BannerTxt>
             </BannerTitleWrapper>
 
@@ -234,13 +243,11 @@ export default function MainBanner () {
                         )}
                       </DesFilterTitleWrapper>
                       <Filter
-                        // style={{ width: "280px" }}
                         onClick={onOpenDestination}
                       >
                         <DesFilterInput>
                           {selectedDestination.city.name === ""
                             ? "선택"
-                            // : `${showDestination.country.name}, ${showDestination.city}`}
                             : (
                               <React.Fragment>
                                 <ShowDesTxt>{showDestination.country}</ShowDesTxt>
@@ -394,15 +401,24 @@ const BannerTitle = styled.div`
   position: relative;
   z-index: 100;
   // white-space: nowrap;
+
+  ${({theme}) => theme.media.mobile}{
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 4rem;
+    text-align: center;
+    justify-content: center;
+  }
 `;
 
-const TitleTxt = styled.span`
-  background: linear-gradient(to bottom, #77C0D2, #BBA9F6);
-  color: transparent;
-  -webkit-background-clip: text;
-  position: relative;
-  z-index: 100;
+const BannerTitleTxt = styled.span`
+  margin-right: 10px;
 `;
+
+const BannerSubTitleTxt = styled.span`
+  margin-right: 5px;
+`;
+
 
 const BannerTxt = styled.div`
   margin: 60px 0 0 0;
@@ -414,6 +430,14 @@ const BannerTxt = styled.div`
   position: relative;
   z-index: 100;
   // white-space: nowrap;
+
+  ${({theme}) => theme.media.mobile}{
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 2.5rem;
+    justify-content: center;
+  }
 `;
 
 // 필터링
@@ -602,7 +626,14 @@ const FilterMinusImg = styled.img`
 `;
 
 const FilterNum = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+
+  ${({theme}) => theme.media.tablet}{
+    font-size: 0.9rem;
+  }
+  ${({theme}) => theme.media.mobile}{
+    font-size: 1rem;
+  }
 `;
 
 const FilterPlusImg = styled.img`
@@ -647,6 +678,13 @@ const Input = styled.input`
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
+
+  ${({theme}) => theme.media.tablet}{
+    font-size: 0.9rem;
+  }
+  ${({theme}) => theme.media.mobile}{
+    font-size: 1rem;
+  }
 `;
 
 const FilterInput = styled.div`
@@ -658,17 +696,23 @@ const FilterInput = styled.div`
   text-align: center;
   align-items: center;
   justify-content: center;
+
+  ${({theme}) => theme.media.tablet}{
+    font-size: 0.9rem;
+  }
+  ${({theme}) => theme.media.mobile}{
+    font-size: 1rem;
+  }
 `;
 
 const DesFilterInput = styled(FilterInput)`
   display: flex;
-  gap: 3px;
   flex-wrap: wrap;
   position: relative;
+  gap: 3px;
 `
 
 const ShowDesTxt = styled.span`
-
 `;
 
 const FilterBtn = styled.div`
@@ -709,24 +753,27 @@ const FilterFindBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.9rem;
 
   ${({theme}) => theme.media.tablet}{
     width: 100%;
     height: 80px;
     border-radius: 10px;
+    font-size: 1.2rem;
   }
 
   ${({theme}) => theme.media.mobile}{
     width: 100%;
     height: 50px;
     border-radius: 10px;
+    font-size: 1.2rem;
   }
 `;
 
 const FilterFindBtnTxt = styled.div`
   margin-right: 4px;
   font-weight: 700;
-  font-size: 0.9rem;
+  // font-size: 0.9rem;
   color: #ffffff;
 `;
 
