@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useRef, useEffect, useState } from "react";
 import * as S from "./write.style";
 import axios from "axios";
+import Banner from "@/components/write/Banner";
 
 export default function TriplogWrite(props) {
   const [isOpenStep1, setIsOpenStep1] = useState(true);
@@ -9,6 +10,9 @@ export default function TriplogWrite(props) {
   const [isOpenStep3, setIsOpenStep3] = useState(true);
   const [isOpenCmbBox, setIsOpenCmbBox] = useState(false);
   const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
+  const test = {
+    e: <Banner />,
+  };
 
   // params변수
   const [title, setTitle] = useState("");
@@ -203,11 +207,7 @@ export default function TriplogWrite(props) {
 
   return (
     <>
-      <S.TitleBanner>
-        <S.TitleTxt>
-          <S.Title>여행 후기 게시물 {props.isEdit ? "수정" : "등록"}</S.Title>
-          <S.SubTitle>Trip’yler와 함께한 여행 후기를 들려주세요</S.SubTitle>
-        </S.TitleTxt>
+      <Banner isReview isEdit={props.isEdit}>
         <S.WriteForm>
           <S.StepWrapper>
             <S.FormTitleWrapper>
@@ -449,7 +449,7 @@ export default function TriplogWrite(props) {
             </S.SubmitBtn>
           </S.BtnWrapper>
         </S.WriteForm>
-      </S.TitleBanner>
+      </Banner>
       <S.FormBtm />
     </>
   );

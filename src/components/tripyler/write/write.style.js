@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const TitleBanner = styled.div`
   width: 100%;
   height: 500px;
-  background: rgba(0, 119, 182, 0.8);
+  background: ${({ theme }) => theme.colors.main2};
   display: flex;
   justify-content: center;
   position: relative;
@@ -32,7 +32,8 @@ export const SubTitle = styled.div`
 export const WriteForm = styled.div`
   position: absolute;
   top: 317px;
-  width: 1240px;
+  width: 95%;
+  max-width: 1240px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
@@ -182,7 +183,7 @@ export const InputBtn = styled.button`
   width: 170px;
   height: 50px;
   border-radius: 5px;
-  background: rgba(0, 180, 216, 0.6);
+  background: ${({ theme }) => theme.colors.main1};
   color: #fff;
   text-align: center;
   font-size: 18px;
@@ -313,7 +314,7 @@ export const fileReaderBtn = styled.label`
   width: 170px;
   height: 50px;
   border-radius: 5px;
-  background: rgba(0, 180, 216, 0.6);
+  background: ${({ theme }) => theme.colors.main1};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -370,7 +371,7 @@ export const CancelBtn = styled.button`
 `;
 
 export const SubmitBtn = styled(CancelBtn)`
-  background: #0077b6;
+  background: ${({ theme }) => theme.colors.main2};
   margin-left: 45px;
 `;
 
