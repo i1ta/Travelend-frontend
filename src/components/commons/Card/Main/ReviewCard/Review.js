@@ -104,9 +104,9 @@ export default function Review(props) {
 }
 
 const ReviewCard = styled.div`
-width: 100%;
-max-width: 415px;
-min-width: 346px;
+  width: 100%;
+  max-width: 415px;
+  min-width: 323px;
   height: 491px;
 
   background: #ffffff;
@@ -161,8 +161,7 @@ const ReviewCardHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  margin-bottom: 14px;
-  margin-top: 10px;
+  margin: 10px auto 14px auto;
 `;
 
 const ReviewInfo = styled.div`
@@ -172,7 +171,7 @@ const ReviewInfo = styled.div`
   justify-content: center;
   margin: 0 auto;
 
-  width: 84%;
+  width: 100%;
   height: 35px;
   background-color: #9ab3f5;
   border-radius: 5px;
@@ -198,7 +197,7 @@ const ReviewInfoTxt = styled.div`
 `;
 
 const ReviewSmallTxt = styled(ReviewInfoTxt)`
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: #666;
   font-weight: 300;
 `;
@@ -253,14 +252,14 @@ const ReviewUserInfoWrapper = styled.div`
 
 const ReviewUsername = styled.div`
   color: #666;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   height: 25px;
   line-height: 25px;
 `;
 
 const ReviewAge = styled.div`
   color: #666666;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   height: 26px;
   line-height: 26px;
 `;

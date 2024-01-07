@@ -156,7 +156,7 @@ export default function FindCard(props) {
 const ReviewCard = styled.div`
   width: 100%;
   max-width: 415px;
-  min-width: 346px;
+  min-width: 323px;
   height: 491px;
   
   background: #ffffff;
@@ -244,7 +244,7 @@ const ReviewInfoTxt = styled.div`
 `;
 
 const ReviewSmallTxt = styled(ReviewInfoTxt)`
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: #666;
   font-weight: 300;
 `;
@@ -317,14 +317,14 @@ const ReviewUserInfoWrapper = styled.div`
 
 const ReviewUsername = styled.div`
   color: #666;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   height: 25px;
   line-height: 25px;
 `;
 
 const ReviewAge = styled.div`
   color: #666666;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   height: 26px;
   line-height: 26px;
 `;
@@ -363,22 +363,15 @@ const ReviewCardContents = styled.div`
   height: 70px;
 
   font-weight: 400;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   line-height: 1;
   color: #333333;
 `;
 
 const ReviewCardContentsTitle = styled.div`
   color: #666666;
-  font-size: 0.6rem;
   font-weight: 500;
   margin: 5px 0 8px 0;
-`;
-
-const ReviewCardContentsContent = styled.div`
-  color: #333333;
-  font-size: 12;
-  line-height: 15px;
 `;
 
 const ReviewCardFooter = styled.div`
@@ -396,7 +389,7 @@ const ReviewCardTimeWrapper = styled.div`
 
 const ReviewCardTime = styled.div`
   color: #666666;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   height: 25px;
   line-height: 25px;
 `;
@@ -424,7 +417,7 @@ const ReviewReactTxt = styled.div`
   width: 10px;
   margin: 0 2px;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 0.6rem;
   line-height: 26px;
   color: #666666;
 `;
