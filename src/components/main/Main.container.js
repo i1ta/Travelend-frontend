@@ -2,8 +2,7 @@ import {
   FindCardFilter,
   FindCardList,
   JwtTokenState,
-  LoginState,
-  logout,
+  LoginState
 } from "@/States/LoginState";
 import Axios from "@/apis";
 import { useRouter } from "next/router";
@@ -28,17 +27,17 @@ export default function Main() {
   const [tripylerList, setTripylerList] = useState([]);
 
   // 토큰이 만료 확인
-  function checkToken() {
-    if (jwtInfo.expiryTime < new Date().getTime()) {
-      alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
-      router.push("/auth/signIn");
-      logout({ setJwtToken });
-      setIsLoggedIn(false);
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // function checkToken() {
+  //   if (jwtInfo.expiryTime < new Date().getTime()) {
+  //     alert("토큰이 만료되었습니다. 로그인을 다시 진행하여 주세요.");
+  //     router.push("/auth/signIn");
+  //     logout({ setJwtToken });
+  //     setIsLoggedIn(false);
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   // 로그인 여부 확인
   const checkLogin = async () => {
@@ -48,11 +47,11 @@ export default function Main() {
     }
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      checkToken();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     checkToken();
+  //   }
+  // }, []);
 
   // 초기값 불러오기
   useEffect(() => {
@@ -94,9 +93,6 @@ export default function Main() {
   // Trip'yler 찾기 필터링
   const router = useRouter();
   const onClcickFilterFind = async () => {
-    if (checkToken()) {
-      return;
-    }
     const requestData = {
       continentId: parseInt(selectedDestination.continent.id),
       endDate: tripDate[1],

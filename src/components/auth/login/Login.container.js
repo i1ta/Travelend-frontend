@@ -13,7 +13,7 @@ import {
   LoginState,
   NicknameState,
   login,
-} from "@/states/LoginState";
+} from "@/States/LoginState";
 
 import axios from "axios";
 
