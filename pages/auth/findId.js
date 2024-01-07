@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
-import FindIdForm from "../../src/components/units/auth/findInfo/FindId.container.js";
 import SocialLogin from "@/components/commons/Layout/SocialLogin.js/SocialLogin.js";
+import FindIdForm from "../../src/components/auth/findInfo/FindId.container.js";
 
 export default function findId() {
   return (

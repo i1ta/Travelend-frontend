@@ -6,7 +6,7 @@ import { KAKAO_REDIRECT_URL } from "@/OAuth/kakao.js";
 import { CALLBACK_URL } from "@/OAuth/naver.js";
 
 export default function SocialLogin() {
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=9dd98e572c5ca5fb5da7011d9ef2f27f&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`;
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URL}&response_type=code`;
   const NAVER_AUTH_URI = `https://nid.naver.com/oauth2.0/authorize?client_id=NvJntlXGqc8teHynzWCI&state=9kgsGTfH4j7IyAkg&redirect_uri=${CALLBACK_URL}&response_type=code`;
   const onKaKaoHandler = async () => {
     try {
