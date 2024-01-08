@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { LoginState } from "@/states/LoginState";
+import Banner from "@/components/write/Banner";
 
 export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
@@ -32,27 +33,27 @@ export default function FindTripylerWrite(props) {
     if (stepNum === "3") setIsOpenStep3((prev) => !prev);
   };
 
-  const onClickDate = () => {
-    setIsOpenCalendar((prev) => !prev);
-  };
+  // const onClickDate = () => {
+  //   setIsOpenCalendar((prev) => !prev);
+  // };
 
-  const onClickPlace = () => {
-    setIsOpenPlaceModal(true);
-  };
+  // const onClickPlace = () => {
+  //   setIsOpenPlaceModal(true);
+  // };
 
-  const onClickStyle = () => {
-    setIsOpenStyleModal(true);
-  };
+  // const onClickStyle = () => {
+  //   setIsOpenStyleModal(true);
+  // };
 
-  const onClickWithTripyler = () => {
-    setIsOpenWithTripyler(true);
-  };
+  // const onClickWithTripyler = () => {
+  //   setIsOpenWithTripyler(true);
+  // };
 
-  const onClickUpDownBtn = (event) => {
-    if (event.target.id === "down") {
-      if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
-    } else setTotalPeopleNum((prev) => prev + 1);
-  };
+  // const onClickUpDownBtn = (event) => {
+  //   if (event.target.id === "down") {
+  //     if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
+  //   } else setTotalPeopleNum((prev) => prev + 1);
+  // };
 
   const fetchImage = async (imgUrl) => {
     // await fetch(imgUrl).then(async (response) => {
@@ -164,42 +165,6 @@ export default function FindTripylerWrite(props) {
     setCommaPrice(parseInt(value).toLocaleString());
 
     setEstimatedPrice(parseInt(value));
-  };
-
-  // 이미지 뷰어
-  const [imageUrl, setImageUrl] = useState("");
-  const [imageName, setImageName] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
-
-    if (file) {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        setImageUrl(reader.result);
-        setImageName(file.name);
-      });
-      reader.readAsDataURL(file);
-    } else {
-      setImageUrl("");
-      setImageName("");
-    }
-  };
-
-  const onClickCancelBtn = () => {
-    alert("취소되었습니다.");
-    console.log(
-      shownPlace,
-      tripDate,
-      totalPeopleNum,
-      shownMyHashtag,
-      title,
-      content,
-      imageUrl,
-      selectedImage
-    );
   };
 
   // 아이디 검색
@@ -363,13 +328,7 @@ export default function FindTripylerWrite(props) {
 
   return (
     <>
-      <S.TitleBanner>
-        <S.TitleTxt>
-          <S.Title>
-            Trip’yler 찾기 게시물 {props.isEdit ? "수정" : "작성"}
-          </S.Title>
-          <S.SubTitle>본인에게 가장 적합한 여행자를 찾아보세요</S.SubTitle>
-        </S.TitleTxt>
+      <Banner isEdit={props.isEdit}>
         <S.WriteForm>
           <S.StepWrapper>
             <S.FormTitleWrapper>
@@ -572,7 +531,7 @@ export default function FindTripylerWrite(props) {
             </S.SubmitBtn>
           </S.BtnWrapper>
         </S.WriteForm>
-      </S.TitleBanner>
+      </Banner>
       <S.FormBtm />
 
       {isOpenPlaceModal && (
