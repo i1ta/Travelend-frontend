@@ -10,9 +10,6 @@ export default function TriplogWrite(props) {
   const [isOpenStep3, setIsOpenStep3] = useState(true);
   const [isOpenCmbBox, setIsOpenCmbBox] = useState(false);
   const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
-  const test = {
-    e: <Banner />,
-  };
 
   // params변수
   const [title, setTitle] = useState("");

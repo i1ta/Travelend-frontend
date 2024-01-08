@@ -1,45 +1,104 @@
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FaChevronDown } from "react-icons/fa6";
 
-export default function ReviewStep1() {
+interface TripylerWithListData {
+  age: 0;
+  gender: string;
+  nickname: string;
+  profileUrl: string;
+  userId: 0;
+}
+
+interface TripListData {
+  endDate: string;
+  nationName: string;
+  regDateTime: string;
+  regionName: string;
+  startDate: string;
+  title: string;
+  tripylerId: number;
+  tripylerWithList: TripylerWithListData[];
+}
+
+interface ReviewStep1Props {
+  isEdit?: boolean;
+}
+
+export default function ReviewStep1({ isEdit }: ReviewStep1Props) {
+  const [isOpenCmbBox, setIsOpenCmbBox] = useState(false);
+  const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
+  const [tripList, setTripList] = useState<TripListData[]>([]);
+  const [selectedInfo, setSelectedInfo] = useState<TripListData>();
+
+  const onClickCmbBox = () => {
+    setIsOpenCmbBox((prev) => !prev);
+  };
+
+  const onClickCmbBoxItem = (e: React.MouseEvent<HTMLDivElement>) => {
+    const value = parseInt(e.currentTarget.id);
+    setSelectedInfo(tripList[value]);
+    setIsOpenCmbBox(false);
+    setIsOpenWithTripList(false);
+  };
+
+  // 동행 Tripyler
+  const onClickWithTrip = () => {
+    setIsOpenWithTripList((prev) => !prev);
+  };
+
   return (
-    <StepInfoWrapper>
-      <InputInfoWrapper style={{ position: "relative" }}>
+    <StepContainer>
+      <ItemContainer style={{ position: "relative" }}>
         <InputTitle>여행기록 선택</InputTitle>
         <CmbBox
-          isEdit={isEdit}
-          onClick={!props?.isEdit ? onClickCmbBox : undefined}
+          style={{ cursor: isEdit ? "default" : "pointer" }}
+          onClick={!isEdit ? onClickCmbBox : undefined}
         >
-          <CmbBoxTxt>{selectedInfo.title || "선택"}</CmbBoxTxt>
-          {!isEdit && <CmbBoxArrow src="/icon/moreBtn.svg" />}
+          <div>{selectedInfo?.title || "선택"}</div>
+          {!isEdit && (
+            <FaChevronDown
+              style={{
+                fontSize: "20px",
+                color: "#333",
+                cursor: "pointer",
+                transform: isOpenCmbBox ? "rotate(180deg)" : "none",
+                transition: "transform 0.2s ease-in-out",
+              }}
+              onClick={() => setIsOpenCmbBox(!isOpenCmbBox)}
+            />
+          )}
         </CmbBox>
+
         {isOpenCmbBox && (
           <CmbBoxList>
             {tripList.map((el, idx) => (
               <CmbBoxListItem
                 key={el.tripylerId}
                 onClick={onClickCmbBoxItem}
-                id={idx}
+                id={idx.toString()}
               >
                 {el.title}
               </CmbBoxListItem>
             ))}
           </CmbBoxList>
         )}
-      </InputInfoWrapper>
+      </ItemContainer>
+
       <InfoBox>
         <InfoBoxItem>
           <InfoBoxTitle>여행지역</InfoBoxTitle>
           <InfoBoxInput>
-            {selectedInfo.nationName
-              ? `${selectedInfo.nationName}, ${selectedInfo.regionName}`
+            {selectedInfo?.nationName
+              ? `${selectedInfo?.nationName}, ${selectedInfo?.regionName}`
               : "선택"}
           </InfoBoxInput>
         </InfoBoxItem>
         <InfoBoxItem>
           <InfoBoxTitle>여행기간</InfoBoxTitle>
           <InfoBoxInput>
-            {selectedInfo.startDate
-              ? `${selectedInfo.startDate} ~ ${selectedInfo.endDate}`
+            {selectedInfo?.startDate
+              ? `${selectedInfo?.startDate} ~ ${selectedInfo?.endDate}`
               : "선택"}
           </InfoBoxInput>
         </InfoBoxItem>
@@ -47,9 +106,9 @@ export default function ReviewStep1() {
           <InfoBoxTitle>동행 Tripyler</InfoBoxTitle>
 
           <WithTripProfileList>
-            {selectedInfo.tripylerWithList ? (
+            {selectedInfo?.tripylerWithList ? (
               <>
-                {selectedInfo.tripylerWithList
+                {selectedInfo?.tripylerWithList
                   ?.filter((el, idx) => idx < 4)
                   .map((el, idx) => (
                     <WithTripProfileWrapper
@@ -62,9 +121,9 @@ export default function ReviewStep1() {
                       />
                     </WithTripProfileWrapper>
                   ))}
-                {selectedInfo.tripylerWithList.length > 4 && (
+                {selectedInfo?.tripylerWithList.length > 4 && (
                   <WithTripMoreBox onClick={onClickWithTrip}>
-                    +{selectedInfo.tripylerWithList.length - 4}
+                    +{selectedInfo?.tripylerWithList.length - 4}
                   </WithTripMoreBox>
                 )}
               </>
@@ -76,7 +135,7 @@ export default function ReviewStep1() {
             <WithTripList>
               <WithTripListTitle>Trip’yler 리스트</WithTripListTitle>
               <WithTripListWrapper>
-                {selectedInfo.tripylerWithList.map((el) => (
+                {selectedInfo?.tripylerWithList.map((el) => (
                   <WithTripListItem>
                     <WithTripListProfile>
                       <Image
@@ -91,62 +150,56 @@ export default function ReviewStep1() {
           )}
         </InfoBoxItem>
       </InfoBox>
-    </StepInfoWrapper>
+    </StepContainer>
   );
 }
 
-const StepInfoWrapper = styled.div`
-  margin-top: 50px;
+const StepContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 `;
 
-const InputInfoWrapper = styled.div`
+const ItemContainer = styled.div`
+  height: 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 40px;
+  justify-content: space-between;
 `;
 
 const InputTitle = styled.div`
-  width: 250px;
+  width: 23%;
   color: #333;
-  font-size: 20px;
-  font-weight: 500;
-  margin-right: 40px;
+  font-size: 16px;
+  font-weight: 700;
 `;
 
 const CmbBox = styled.div`
-  width: 790px;
-  height: 50px;
+  width: 75%;
+  height: 100%;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(217, 217, 217, 0.2);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #000;
-  font-size: 18px;
-  font-weight: 500;
-  cursor: ${(props) => (props.isEdit ? "default" : "pointer")};
-  padding: 0px 20px 0px 30px;
-`;
+  padding: 0 20px;
 
-const CmbBoxTxt = styled.div`
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-  width: 680px;
-`;
-
-const CmbBoxArrow = styled.img`
-  width: 20px;
+  div {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+  }
 `;
 
 const CmbBoxList = styled.div`
-  width: 790px;
+  width: 75%;
   height: 202px;
+
   position: absolute;
-  top: 48px;
-  left: 290px;
+  top: 50px;
+  right: 0;
   z-index: 50;
   background-color: #fff;
   overflow-y: auto;
@@ -156,7 +209,7 @@ const CmbBoxList = styled.div`
   border: 1px solid rgba(153, 153, 153, 0.5);
 
   &::-webkit-scrollbar {
-    width: 6px; /* 스크롤바 너비 설정 */
+    width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -171,8 +224,7 @@ const CmbBoxList = styled.div`
 `;
 
 const CmbBoxListItem = styled.div`
-  width: 790px;
-  /* background-color: aliceblue; */
+  width: 100%;
   height: 50px;
   display: flex;
   align-items: center;
@@ -185,32 +237,32 @@ const CmbBoxListItem = styled.div`
   font-weight: 500;
 
   &:hover {
-    background-color: rgba(0, 180, 216, 0.1);
-    /* color: #FFF; */
+    background-color: ${({ theme }) => theme.colors.main1};
+    color: #FFF;
   }
 `;
 
 const InfoBox = styled.div`
-  width: 1080px;
+  width: 100%;
   height: 180px;
+  padding: 0 3%;
   display: flex;
-  justify-content: center;
-  gap: 100px;
-  padding-top: 43px;
-  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
   background: rgba(217, 217, 217, 0.2);
 `;
 
 const InfoBoxTitle = styled.div`
   color: #333;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   margin-bottom: 15px;
 `;
 
 const InfoBoxInput = styled.div`
-  width: 250px;
+  width: 100%;
   height: 50px;
   border-radius: 5px;
   border: 1px solid rgba(153, 153, 153, 0.5);
@@ -225,6 +277,7 @@ const InfoBoxInput = styled.div`
 `;
 
 const InfoBoxItem = styled.div`
+  width: 28%;
   display: flex;
   flex-direction: column;
   align-items: center;

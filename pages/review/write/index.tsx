@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Banner from "../../../src/components/write/Banner";
-import TripylerStep1 from "../../../src/components/write/TripylerStep1";
-import TripylerStep2 from "../../../src/components/write/TripylerStep2";
-import TripylerStep3 from "../../../src/components/write/TripylerStep3";
+import ReviewStep1 from "../../../src/components/write/ReviewStep1";
+import ReviewStep2 from "../../../src/components/write/ReviewStep2";
+import ReviewStep3 from "../../../src/components/write/ReviewStep3";
 import Buttons from "../../../src/components/write/Buttons";
 
 import { FaChevronDown } from "react-icons/fa6";
@@ -12,15 +12,15 @@ export default function ReviewWritePage() {
   const steps = [
     {
       title: "여행 정보 선택",
-      content: <TripylerStep1 />,
+      content: <ReviewStep1 />,
     },
     {
       title: "내용 작성",
-      content: <TripylerStep2 />,
+      content: <ReviewStep2 />,
     },
     {
       title: "여행 한줄",
-      content: <TripylerStep3 />,
+      content: <ReviewStep3 />,
     },
   ];
   return (
