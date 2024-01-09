@@ -1,28 +1,32 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { IoImageOutline } from "react-icons/io5";
+import { TripylerStep3Props } from "@/interfaces/write";
 
-export default function TripylerStep3() {
-  // 이미지 뷰어
+export default function TripylerStep3({
+  isEdit,
+  setImage,
+}: TripylerStep3Props) {
   const [imageUrl, setImageUrl] = useState("");
   const [imageName, setImageName] = useState("");
-  const [selectedImage, setSelectedImage] = useState<File | null>();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file =
-      e.currentTarget.files !== null ? e.currentTarget.files[0] : null;
-    setSelectedImage(file);
+    const files = e.currentTarget.files;
+    if (files) {
+      const file = files[0];
+      setImage(file);
 
-    if (file) {
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        if (typeof reader.result === "string") setImageUrl(reader.result);
-        setImageName(file.name);
-      });
-      reader.readAsDataURL(file);
-    } else {
-      setImageUrl("");
-      setImageName("");
+      if (file) {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          if (typeof reader.result === "string") setImageUrl(reader.result);
+          setImageName(file.name);
+        });
+        reader.readAsDataURL(file);
+      } else {
+        setImageUrl("");
+        setImageName("");
+      }
     }
   };
 

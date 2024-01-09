@@ -5,22 +5,27 @@ import ReviewStep1 from "../../../src/components/write/ReviewStep1";
 import ReviewStep2 from "../../../src/components/write/ReviewStep2";
 import ReviewStep3 from "../../../src/components/write/ReviewStep3";
 import Buttons from "../../../src/components/write/Buttons";
-
+import TriplogWrite from "../../../src/components/review/write/write.container";
 import { FaChevronDown } from "react-icons/fa6";
 
 export default function ReviewWritePage() {
+  const [tripylerId, setTripylerId] = useState(0);
+  const [data, setData] = useState();
+  const [imageList, setImageList] = useState([]);
+  const [oneLine, setOneLine] = useState("");
+
   const steps = [
     {
       title: "여행 정보 선택",
-      content: <ReviewStep1 />,
+      content: <ReviewStep1 setId={setTripylerId} />,
     },
     {
       title: "내용 작성",
-      content: <ReviewStep2 />,
+      content: <ReviewStep2 setData={setData} setImageList={setImageList} />,
     },
     {
       title: "여행 한줄",
-      content: <ReviewStep3 />,
+      content: <ReviewStep3 setData={setOneLine} />,
     },
   ];
   return (
