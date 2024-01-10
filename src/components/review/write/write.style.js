@@ -33,7 +33,8 @@ export const SubTitle = styled.div`
 export const WriteForm = styled.div`
   position: absolute;
   top: 317px;
-  width: 1240px;
+  width: 95%;
+  max-width: 1240px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 5px 20px 3px rgba(153, 153, 153, 0.25);
@@ -532,7 +533,7 @@ export const CancelBtn = styled.button`
 `;
 
 export const SubmitBtn = styled(CancelBtn)`
-  background: #0077b6;
+  background: ${({ theme }) => theme.colors.main2};
   margin-left: 45px;
 `;
 

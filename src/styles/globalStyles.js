@@ -31,6 +31,7 @@ const style = css`
   }
 
   input {
+    border: none;
     outline: none;
   }
 
