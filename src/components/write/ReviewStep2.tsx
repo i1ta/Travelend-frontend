@@ -4,58 +4,48 @@ import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
 import { IoImageOutline } from "react-icons/io5";
+import { ReveiwStep2Props } from "@/interfaces/write";
 
-interface ImageData {
-  url: string | ArrayBuffer | null;
-  name: string;
-}
-
-export default function ReviewStep2() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  // 이미지
-  const [imageList, setImageList] = useState<ImageData[]>([]);
-  const [selectedImageList, setSelectedImageList] = useState<
-    (ImageData | File | null)[]
-  >([]);
-
+export default function ReviewStep2({
+  setData,
+  setImageData,
+  imageData,
+}: ReveiwStep2Props) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file =
       e.currentTarget.files !== null ? e.currentTarget.files[0] : null;
-    setSelectedImageList((prev) => [...prev, file]);
 
     if (file) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
-        imageList.length < 10 &&
-          setImageList((prev) => [
-            ...prev,
-            { url: reader.result, name: file.name },
-          ]);
+        imageData.length < 10 &&
+          setImageData((prev) => [...prev, { url: reader.result, file: file }]);
       });
       reader.readAsDataURL(file);
     }
   };
 
   const onClickDelBtn = (index: number) => {
-    setImageList(imageList.filter((el, idx) => idx !== index));
-    setSelectedImageList(selectedImageList.filter((el, idx) => idx !== index));
+    setImageData(imageData.filter((el, idx) => idx !== index));
   };
 
   return (
     <StepContainer>
       <TitleInput
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, title: e.target.value }))
+        }
         placeholder="제목을 입력해주세요"
-        defaultValue={title}
+        // defaultValue={title}
       ></TitleInput>
       <LongTextarea
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, content: e.target.value }))
+        }
         placeholder="내용을 입력해주세요"
-        defaultValue={content}
+        // defaultValue={content}
       ></LongTextarea>
-      {imageList.length === 0 ? (
+      {imageData.length === 0 ? (
         <>
           <NoImgWrapper htmlFor="first-upload-input">
             <NoImgIconWrapper>
@@ -76,13 +66,13 @@ export default function ReviewStep2() {
         </>
       ) : (
         <ImgWrapper>
-          {imageList.map((el, idx) => (
+          {imageData.map((el, idx) => (
             <ImageItem key={idx}>
               <ImageWrapper>
                 <img src={typeof el.url === "string" ? el.url : ""} />
               </ImageWrapper>
               <ImgNameWrapper>
-                <div>{el.name}</div>
+                <div>{el.file.name}</div>
                 <MdOutlineCancel
                   style={{ color: "#666", cursor: "pointer" }}
                   onClick={() => onClickDelBtn(idx)}
@@ -91,7 +81,7 @@ export default function ReviewStep2() {
             </ImageItem>
           ))}
 
-          {imageList.length < 10 && (
+          {imageData.length < 10 && (
             <ImgAddBtn htmlFor="upload-input">
               <FaPlus style={{ fontSize: "20px", color: "#333" }} />
               <div>이미지 추가</div>

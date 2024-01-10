@@ -31,6 +31,30 @@ export interface Step2Data {
   content: string;
 }
 
+export interface ImageData {
+  url: string | ArrayBuffer | null;
+  file: File;
+}
+
+export interface TripylerWithListData {
+  age: 0;
+  gender: string;
+  nickname: string;
+  profileUrl: string;
+  userId: 0;
+}
+
+export interface TripListData {
+  endDate: string;
+  nationName: string;
+  regDateTime: string;
+  regionName: string;
+  startDate: string;
+  title: string;
+  tripylerId: number;
+  tripylerWithList: TripylerWithListData[];
+}
+
 // Props
 
 export interface TripylerStep1Props {
@@ -64,4 +88,28 @@ export interface IDModalProps {
   data: Step1Data;
   setData: React.Dispatch<React.SetStateAction<Step1Data>>;
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface ReviewStep1Props {
+  isEdit?: boolean;
+  setId: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface ReveiwStep2Props {
+  setData: React.Dispatch<React.SetStateAction<Step2Data>>;
+  setImageData: React.Dispatch<React.SetStateAction<ImageData[]>>;
+  imageData: ImageData[];
+}
+
+export interface ReveiwStep3Props {
+  setData: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface ButtonsProps {
+  isEdit?: boolean;
+  isReview?: boolean;
+  image?: File | undefined;
+  tripylerData?: any;
+  reviewData?: any;
+  imageData?: ImageData[];
 }
