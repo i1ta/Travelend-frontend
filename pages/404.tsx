@@ -29,7 +29,7 @@ export default function NotFoundPage() {
             </Btn>
           </BtnWrapper>
         </TxtWrapper>
-        <img src="/img/404page.png" style={{ width: "500px" }} />
+        <Img src="/img/404page.png" style={{ width: "500px" }} />
       </Contents>
     </Container>
   );
@@ -92,4 +92,8 @@ const Btn = styled.button`
   font-weight: 600;
   text-align: center;
   color: white;
+`;
+
+const Img = styled.img`
+  width: "500px"
 `;

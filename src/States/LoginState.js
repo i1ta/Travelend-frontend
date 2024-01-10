@@ -1,4 +1,4 @@
-import { atom, selector, useSetRecoilState } from "recoil";
+import { atom, selector } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
@@ -52,6 +52,12 @@ export const logout = ({ setJwtToken }) => {
   // LoginState.set(false);
 };
 
+
+export const UserIdState = atom({
+  key: "UserIdState",
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const NicknameState = atom({
   key: "NicknameState",

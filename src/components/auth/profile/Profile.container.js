@@ -1,24 +1,24 @@
-import { useState, useEffect } from "react";
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import * as S from "./Profile.styles";
-import Modal from "@/components/commons/Modal/Modal";
-import NotMyProfile from "./MyProfile/NotMyProfile.container";
-import MyProfile from "./MyProfile/MyProfile.container";
-import MyCollections from "./MyCollections/MyCollections.container";
-import Triplog from "./Triplog/Triplog.container";
-import Messenger from "./Messenger/Messenger.container";
 import Block from "@/components/commons/Modal/Block";
+import Modal from "@/components/commons/Modal/Modal";
 import Report from "@/components/commons/Modal/Report";
+import Messenger from "./Messenger/Messenger.container";
+import MyCollections from "./MyCollections/MyCollections.container";
+import MyProfile from "./MyProfile/MyProfile.container";
+import NotMyProfile from "./MyProfile/NotMyProfile.container";
+import * as S from "./Profile.styles";
+import Triplog from "./Triplog/Triplog.container";
 
 import {
-  LoginState,
-  IsJwtValidSelector,
-  logout,
-  JwtTokenState,
   IsAdmin,
-} from "@/states/LoginState";
+  IsJwtValidSelector,
+  JwtTokenState,
+  LoginState,
+  logout,
+} from "@/States/LoginState";
 
 import axios from "axios";
 
@@ -32,6 +32,8 @@ export default function Profile() {
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+
+  console.log(router.query.userId);
 
   useEffect(() => {
     if (router.query.userId) {

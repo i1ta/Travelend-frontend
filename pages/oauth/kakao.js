@@ -10,6 +10,7 @@ import {
   JwtTokenState,
   LoginState,
   NicknameState,
+  UserIdState,
   login,
 } from "@/States/LoginState";
 
@@ -20,6 +21,7 @@ const OAuthKaKao = () => {
   const setIsFirstLogin = useSetRecoilState(IsFirstLogin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const setIsAdmin = useSetRecoilState(IsAdmin);
+  const setUserIdState = useSetRecoilState(UserIdState);
 
   const router = useRouter();
   console.log(router);
@@ -82,6 +84,7 @@ const OAuthKaKao = () => {
                     console.log(response2.data);
                     if (response2.status === 200) {
                       login({ jwtToken: response2.data.data.accessToken, setJwtToken });
+                      setUserIdState(response2.data.data.id);
                       setIsLoggedIn(true);
                       setNickname(response2.data.data.nickname);
                       setIsFirstLogin(response2.data.data.firstLogin);

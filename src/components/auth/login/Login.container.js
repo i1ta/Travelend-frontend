@@ -12,6 +12,7 @@ import {
   JwtTokenState,
   LoginState,
   NicknameState,
+  UserIdState,
   login,
 } from "@/States/LoginState";
 
@@ -38,6 +39,7 @@ export default function LoginForm() {
   const [nickname, setNickname] = useRecoilState(NicknameState);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
+  const setUserIdState = useSetRecoilState(UserIdState);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
 
   useEffect(() => {
@@ -85,6 +87,7 @@ export default function LoginForm() {
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);
+          setUserIdState(response.data.data.id);
           response.data.data.userRole === "ROLE_ADMIN"
             ? setIsAdmin(true)
             : setIsAdmin(false);

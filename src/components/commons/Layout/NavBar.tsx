@@ -4,6 +4,7 @@ import {
   IsFirstLogin,
   JwtTokenState,
   LoginState,
+  UserIdState,
   logout,
 } from "@/States/LoginState";
 import { useRouter } from "next/router";
@@ -25,6 +26,7 @@ export default function NavBar() {
   const [infoMsg, setInfoMsg] = useState<string[]>([]);
   const [infoMsgNum, setInfoMsgNum] = useState<number>(-1);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const userId = useRecoilValue(UserIdState);
 
   // 스크롤 이벤트
   let prevScrollPos = window.pageYOffset;
