@@ -1,10 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function TripylerStep2() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+import { TripylerStep2Props } from "@/interfaces/write";
 
+export default function TripylerStep2({ setData, isEdit }: TripylerStep2Props) {
   return (
     <StepContainer>
       <TitleContainer>
@@ -12,9 +11,9 @@ export default function TripylerStep2() {
         <input
           placeholder="제목을 입력해주세요"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
+            setData((prev) => ({ ...prev, title: e.target.value }))
           }
-          defaultValue={title}
+          // defaultValue={title}
         />
       </TitleContainer>
       <ContentContainer>
@@ -22,9 +21,9 @@ export default function TripylerStep2() {
         <textarea
           placeholder="내용을 입력해주세요"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setContent(e.target.value)
+            setData((prev) => ({ ...prev, content: e.target.value }))
           }
-          defaultValue={content}
+          // defaultValue={content}
         ></textarea>
       </ContentContainer>
     </StepContainer>

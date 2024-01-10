@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { LoginState } from "@/states/LoginState";
 import Banner from "@/components/write/Banner";
 
 export default function FindTripylerWrite(props) {

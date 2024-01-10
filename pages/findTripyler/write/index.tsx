@@ -6,23 +6,50 @@ import TripylerStep2 from "../../../src/components/write/TripylerStep2";
 import TripylerStep3 from "../../../src/components/write/TripylerStep3";
 import Buttons from "../../../src/components/write/Buttons";
 
+import {
+  MyHashtag,
+  Place,
+  Step1Data,
+  Step2Data,
+} from "../../../src/interfaces/write";
 import { FaChevronDown } from "react-icons/fa6";
 
 export default function FindTripylerWritePage() {
+  const [step1Data, setStep1Data] = useState<Step1Data>({
+    totalPeopleNum: 2,
+  });
+  const [step2Data, setStep2Data] = useState<Step2Data>();
+  const [placeData, setPlaceData] = useState<Place>();
+  const [image, setImage] = useState<File>();
+  const [hashtagList, setHashtagList] = useState<MyHashtag[]>([]);
+  const [tripDate, setTripDate] = useState<string[]>([]);
+
   const steps = [
     {
       title: "여행 정보 입력",
-      content: <TripylerStep1 />,
+      content: (
+        <TripylerStep1
+          data={step1Data}
+          placeData={placeData}
+          tripDate={tripDate}
+          hashtagList={hashtagList}
+          setData={setStep1Data}
+          setPlaceData={setPlaceData}
+          setHashtagList={setHashtagList}
+          setTripDate={setTripDate}
+        />
+      ),
     },
     {
       title: "내용 작성",
-      content: <TripylerStep2 />,
+      content: <TripylerStep2 setData={setStep2Data} />,
     },
     {
       title: "이미지 선택",
-      content: <TripylerStep3 />,
+      content: <TripylerStep3 setImage={setImage} />,
     },
   ];
+
   return (
     <>
       <Banner>
@@ -33,7 +60,17 @@ export default function FindTripylerWritePage() {
             return (
               <StepContainer key={el.title}>
                 <TitleWrapper>
-                  <TitleTxtWrapper>
+                  <TitleTxtWrapper
+                    onClick={() =>
+                      console.log(
+                        step1Data,
+                        step2Data,
+                        image,
+                        tripDate,
+                        placeData
+                      )
+                    }
+                  >
                     <div>Step {`${idx + 1}/${steps.length}`}</div>
                     <div>{el.title}</div>
                   </TitleTxtWrapper>
@@ -53,7 +90,24 @@ export default function FindTripylerWritePage() {
               </StepContainer>
             );
           })}
-          <Buttons />
+          <Buttons
+            tripylerData={{
+              ...step1Data,
+              ...step2Data,
+              tripylerWithList: [
+                ...(step1Data.tripylerWithList?.map((el) => el.nickname) || []),
+              ],
+              continentId: placeData?.continentId,
+              nationId: placeData?.nationId,
+              regionId: placeData?.regionId,
+              firstTripStyleId: hashtagList[0]?.id || 0,
+              secondTripStyleId: hashtagList[1]?.id || 0,
+              thirdTripStyleId: hashtagList[2]?.id || 0,
+              fourthTripStyleId: hashtagList[3]?.id || 0,
+              fifthTripStyleId: hashtagList[4]?.id || 0,
+            }}
+            image={image}
+          />
         </Form>
       </Banner>
       <div style={{ height: "2000px" }} />
@@ -74,6 +128,10 @@ const Form = styled.div`
   align-items: center;
   gap: 100px;
   padding: 100px 80px;
+
+  ${({ theme }) => theme.media.mobile} {
+    padding: 60px 50px;
+  }
 `;
 
 const StepContainer = styled.div`
