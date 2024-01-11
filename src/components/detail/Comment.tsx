@@ -203,7 +203,6 @@ const CmtInput = styled.input`
 
   border-radius: 10px;
   background: #f9fbff;
-  border: none;
 `;
 
 const CmtWriteBtn = styled.button`

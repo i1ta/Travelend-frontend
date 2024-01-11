@@ -76,7 +76,7 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "message" },
+        query: { category: "Messenger" },
       });
     }
   };
@@ -85,14 +85,14 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "myCollections" },
+        query: { category: "MyCollections" },
       });
     }
   };
 
   const onProfileBtn = () => {
     if (!checkToken()) {
-      router.push("/auth/profile");
+      router.push("/auth/profile?category=MyProfile");
     }
   };
 
@@ -238,7 +238,7 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   width: 95%;
   margin: auto;
 `;
@@ -248,25 +248,24 @@ const PageList = styled.ul`
   padding-left: 0;
   gap: 15px;
 
-  ${({theme}) => theme.media.tablet}{
-    display: none;
-  }
-  
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.tablet} {
     display: none;
   }
 
+  /* ${({ theme }) => theme.media.mobile}{
+    display: none;
+  } */
 `;
 
 const AuthList = styled(PageList)`
   gap: 0px;
   position: relative;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     display: none;
   }
-  
-  ${({theme}) => theme.media.mobile}{
+
+  ${({ theme }) => theme.media.mobile} {
     display: none;
   }
 `;
@@ -371,14 +370,15 @@ const InfoMsgBtn = styled.button`
 
 // 메뉴
 const MenuBtnWrapper = styled.div`
-  ${({theme}) => theme.media.desktop}{
-    display: none;
+  display: none;
+  ${({ theme }) => theme.media.tablet} {
+    display: flex;
   }
 `;
 
 const MenuBtn = styled.img`
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 `;
 
 const MenuWrapper = styled.div`
@@ -398,7 +398,6 @@ const MenuCloseBoxWrapper = styled.div`
   left: 0;
   width: 60%;
   height: 100vh;
-
 `;
 
 const MenuBoxWrapper = styled.div`

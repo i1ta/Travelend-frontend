@@ -21,9 +21,10 @@ import {
 } from "@/states/LoginState";
 
 import axios from "axios";
+import SideBar from "@/components/profile/SideBar";
 
 export default function Profile() {
-  const [selectedCategory, setSelectedCategory] = useState("MyProfile");
+  // const [selectedCategory, setSelectedCategory] = useState("MyProfile");
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
   const setJwtToken = useSetRecoilState(JwtTokenState);
 
@@ -32,26 +33,23 @@ export default function Profile() {
   const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
+  const { category } = router.query;
 
-  useEffect(() => {
-    if (router.query.userId) {
-      setSelectedCategory("NotMyProfile");
-    } else if (router.query.category == "message") {
-      setSelectedCategory("Messenger");
-    } else if (router.query.category == "myCollections") {
-      setSelectedCategory("MyCollections");
-    } else {
-      setSelectedCategory("MyProfile");
-    }
-  }, [router.query]);
+  // useEffect(() => {
+  //   if (router.query.userId) {
+  //     setSelectedCategory("NotMyProfile");
+  //   } else if (router.query.category == "message") {
+  //     setSelectedCategory("Messenger");
+  //   } else if (router.query.category == "myCollections") {
+  //     setSelectedCategory("MyCollections");
+  //   } else {
+  //     setSelectedCategory("MyProfile");
+  //   }
+  // }, [router.query]);
 
   const [userId, setUserId] = useState(parseInt(router.query.userId));
   const [notMyProfildData, setNotMyProfileData] = useState({});
   const [myProfileData, setMyProfileData] = useState({});
-
-  const onClickCategory = (event) => {
-    setSelectedCategory(event.target.id);
-  };
 
   const [msgListData, setMsgListData] = useState([]);
   const [msgData, setMsgData] = useState({
@@ -89,7 +87,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       if (router.query.user === "false") {
-        setSelectedCategory("NotMyProfile");
+        // setSelectedCategory("NotMyProfile");
       }
       axios.defaults.headers.common["x-auth-token"] =
         window.localStorage.getItem("login-token");
@@ -149,7 +147,7 @@ export default function Profile() {
     axios.defaults.headers.common["x-auth-token"] =
       window.localStorage.getItem("login-token");
 
-    if (selectedCategory === "MyProfile") fetchMyProfile();
+    if (category === "MyProfile") fetchMyProfile();
 
     // 쪽지 목록 api
     const fetchMsgList = async () => {
@@ -160,10 +158,10 @@ export default function Profile() {
         })
         .catch((error) => console.error(error));
     };
-    if (selectedCategory === "Messenger") fetchMsgList();
+    if (category === "Messenger") fetchMsgList();
 
     return () => {};
-  }, [selectedCategory]);
+  }, [category]);
 
   // 쪽지 보내기 api
   const handleSendMsg = async (content) => {
@@ -352,78 +350,10 @@ export default function Profile() {
   return (
     <>
       {isModify ? (
-        router.query.userId ? (
-          <S.Container>
-            <S.SideNotBar>
-              <S.ProfileImage data={notMyProfildData.profileUrl}>
-                <S.DefaultProfile
-                  src={
-                    notMyProfildData.profileUrl || "/icon/defaultProfile.png"
-                  }
-                  data={notMyProfildData.profileUrl}
-                />
-              </S.ProfileImage>
-              <S.Name>{notMyProfildData.username} 님의 프로필</S.Name>
-              <S.ProfileLine></S.ProfileLine>
-
-              <S.BlockWrapper>
-                <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
-                <S.BlockHypen />
-                <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
-              </S.BlockWrapper>
-            </S.SideNotBar>
-            {selectedCategory === "NotMyProfile" && (
-              <NotMyProfile data={notMyProfildData} />
-            )}
-          </S.Container>
-        ) : (
-          <S.Container>
-            <S.SideBar>
-              <S.ProfileImage data={selectedFile}>
-                <S.DefaultProfile
-                  src={selectedFile || "/icon/defaultProfile.png"}
-                  data={selectedFile}
-                />
-              </S.ProfileImage>
-
-              <S.Name>{myProfileData.username || "user"} 님</S.Name>
-
-              <S.CategoryWrapper>
-                <S.Category
-                  id="MyProfile"
-                  onClick={onClickCategory}
-                  selectedCategory={selectedCategory}
-                >
-                  My Profile
-                </S.Category>
-                <S.Category
-                  id="MyCollections"
-                  onClick={onClickCategory}
-                  selectedCategory={selectedCategory}
-                >
-                  My Collections
-                </S.Category>
-                <S.Category
-                  id="Triplog"
-                  onClick={onClickCategory}
-                  selectedCategory={selectedCategory}
-                >
-                  Triplog
-                </S.Category>
-                <S.Category
-                  id="Messenger"
-                  onClick={onClickCategory}
-                  selectedCategory={selectedCategory}
-                >
-                  Messenger
-                </S.Category>
-              </S.CategoryWrapper>
-              <S.LogoutWrapper onClick={onClickLogout}>
-                <S.LogoutImg src="/icon/logout.png" />
-                <S.LogoutTxt>Logout</S.LogoutTxt>
-              </S.LogoutWrapper>
-            </S.SideBar>
-            {selectedCategory === "MyProfile" && (
+        <S.Container>
+          <SideBar />
+          <div style={{ flex: "1" }}>
+            {category === "MyProfile" && (
               <MyProfile
                 data={myProfileData}
                 modifyProfile={modifyProfile}
@@ -431,7 +361,7 @@ export default function Profile() {
                 setModify={handleModify}
               />
             )}
-            {selectedCategory === "MyCollections" && (
+            {category === "MyCollections" && (
               <MyCollections
                 reviewData={myCollectionReviewData}
                 likeData={myCollectionLikeData}
@@ -439,14 +369,14 @@ export default function Profile() {
                 onOpenMyCollection={onOpenMyCollection}
               />
             )}
-            {selectedCategory === "Triplog" && (
+            {category === "Triplog" && (
               <Triplog
                 TripylersData={myTripylersData}
                 reviewData={myReviewsData}
                 onOpenTriplog={onOpenTriplog}
               />
             )}
-            {selectedCategory === "Messenger" && (
+            {category === "Messenger" && (
               <Messenger
                 msgListData={msgListData}
                 msgData={msgData}
@@ -454,8 +384,8 @@ export default function Profile() {
                 onClickMsgList={onClickMsgList}
               />
             )}
-          </S.Container>
-        )
+          </div>
+        </S.Container>
       ) : (
         <S.Container>
           <S.SideBar>
@@ -519,7 +449,7 @@ export default function Profile() {
               기본 프로필로 변경
             </S.profileBtn>
           </S.SideBar>
-          {selectedCategory === "MyProfile" && (
+          {/* {category === "MyProfile" && (
             <MyProfile
               data={myProfileData}
               isProfileModal={isModalOn}
@@ -528,10 +458,10 @@ export default function Profile() {
               fetchMyProfile={fetchMyProfile}
               setModify={handleModify}
             />
-          )}
-          {selectedCategory === "MyCollections" && <MyCollections />}
-          {selectedCategory === "Triplog" && <Triplog />}
-          {selectedCategory === "Messenger" && (
+          )} */}
+          {category === "MyCollections" && <MyCollections />}
+          {category === "Triplog" && <Triplog />}
+          {category === "Messenger" && (
             <Messenger
               msgListData={msgListData}
               msgData={msgData}
