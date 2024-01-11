@@ -1,17 +1,16 @@
+import { ReveiwStep3Props } from "@/interfaces/write";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function ReviewStep3() {
-  const [oneLine, setOneLine] = useState("");
-
+export default function ReviewStep3({ setData }: ReveiwStep3Props) {
   return (
     <StepContainer>
       <input
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setOneLine(e.target.value)
+          setData(e.target.value)
         }
         placeholder="우리의 여행을 한 줄로 표현해보세요!"
-        defaultValue={oneLine}
+        // defaultValue={oneLine}
       ></input>
     </StepContainer>
   );

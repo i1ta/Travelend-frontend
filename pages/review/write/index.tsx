@@ -7,11 +7,12 @@ import ReviewStep3 from "../../../src/components/write/ReviewStep3";
 import Buttons from "../../../src/components/write/Buttons";
 import TriplogWrite from "../../../src/components/review/write/write.container";
 import { FaChevronDown } from "react-icons/fa6";
+import { Step2Data } from "../../../src/interfaces/write";
 
 export default function ReviewWritePage() {
   const [tripylerId, setTripylerId] = useState(0);
-  const [data, setData] = useState();
-  const [imageList, setImageList] = useState([]);
+  const [data, setData] = useState<Step2Data>();
+  const [imageData, setImageData] = useState<ImageData[]>([]);
   const [oneLine, setOneLine] = useState("");
 
   const steps = [
@@ -21,7 +22,13 @@ export default function ReviewWritePage() {
     },
     {
       title: "내용 작성",
-      content: <ReviewStep2 setData={setData} setImageList={setImageList} />,
+      content: (
+        <ReviewStep2
+          setData={setData}
+          setImageData={setImageData}
+          imageData={imageData}
+        />
+      ),
     },
     {
       title: "여행 한줄",
@@ -58,7 +65,14 @@ export default function ReviewWritePage() {
               </StepContainer>
             );
           })}
-          <Buttons />
+          <Buttons
+            reviewData={{
+              ...data,
+              tripylerId,
+              oneLine,
+            }}
+            imageData={imageData}
+          />
         </Form>
       </Banner>
       <div style={{ height: "2000px" }} />
