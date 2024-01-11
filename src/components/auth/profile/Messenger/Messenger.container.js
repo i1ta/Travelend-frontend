@@ -3,7 +3,7 @@ import * as S from "./Messengser.styles";
 import Report from "@/components/commons/Modal/Report";
 import Block from "@/components/commons/Modal/Block";
 import { useRouter } from "next/router";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline, IoSend } from "react-icons/io5";
 
 export default function Messenger(props) {
   const router = useRouter();
@@ -77,23 +77,25 @@ export default function Messenger(props) {
         {props.msgData.chatRoomId ? (
           <S.MsgSection>
             <S.TopWrapper>
-              <S.UserWrapper
-                onClick={() =>
-                  router.push(
-                    `/auth/profile?userId=${props.msgData.recipientId}`
-                  )
-                }
-              >
-                <S.Profile
-                  src={props.msgData.profileUrl || "/icon/defaultProfile.png"}
-                ></S.Profile>
-                <div>{props.msgData?.name}</div>
-              </S.UserWrapper>
-              <S.BlockWrapper>
-                <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
-                <S.BlockHypen />
-                <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
-              </S.BlockWrapper>
+              <S.TopContent>
+                <S.UserWrapper
+                  onClick={() =>
+                    router.push(
+                      `/auth/profile?userId=${props.msgData.recipientId}`
+                    )
+                  }
+                >
+                  <S.Profile
+                    src={props.msgData.profileUrl || "/icon/defaultProfile.png"}
+                  ></S.Profile>
+                  <div>{props.msgData?.name}</div>
+                </S.UserWrapper>
+                <S.BlockWrapper>
+                  <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
+                  <S.BlockHypen />
+                  <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
+                </S.BlockWrapper>
+              </S.TopContent>
             </S.TopWrapper>
 
             <S.ChatWrapper ref={containerRef}>
@@ -175,7 +177,9 @@ export default function Messenger(props) {
                 autocomplete="off"
                 onChange={(e) => setInput(e.target.value)}
               ></input>
-              <button sendOn={input.length > 0}>Send</button>
+              <button sendOn={input.length > 0}>
+                <IoSend />
+              </button>
             </S.SendWrapper>
           </S.MsgSection>
         ) : (

@@ -88,11 +88,19 @@ export const NoneSelectedTxt = styled.div`
 
 export const TopWrapper = styled.div`
   width: 100%;
-  padding: 12px 30px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+`;
+
+export const TopContent = styled.div`
+  width: 100%;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #999999;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.main2};
 `;
 
 export const UserWrapper = styled.div`
@@ -102,7 +110,7 @@ export const UserWrapper = styled.div`
   cursor: pointer;
 
   div {
-    color: #333;
+    color: white;
     font-size: 18px;
   }
 `;
@@ -114,14 +122,14 @@ export const BlockWrapper = styled.div`
 `;
 
 export const BlockTxt = styled.div`
-  color: rgba(0, 0, 0, 0.5);
+  color: white;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
 
-  &:hover {
+  /* &:hover {
     color: ${({ theme }) => theme.colors.main2};
-  }
+  } */
 `;
 
 export const BlockHypen = styled.div`
@@ -200,23 +208,24 @@ export const SendWrapper = styled.form`
   align-items: center;
   gap: 8px;
   padding: 8px;
-  border-top: 1px solid #999999;
 
   input {
     flex: 1;
     font-size: 16px;
-    padding: 12px 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: rgba(154, 179, 245, 0.2);
   }
 
   button {
-    padding: 12px 20px;
+    padding: 12px;
     background: ${({ theme }) => theme.colors.main2};
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 1;
-    text-align: center;
+    font-size: 16px;
     color: #ffffff;
   }
 `;
