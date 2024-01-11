@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  min-height: calc(100vh - 100px);
+  /* min-height: calc(100vh - 100px); */
   display: flex;
   justify-content: center;
 `;
@@ -9,10 +9,10 @@ export const Container = styled.div`
 // 사이드 바
 
 export const SideBar = styled.section`
-  width: 335px;
-  min-height: 960px;
+  width: 300px;
+  /* min-height: 960px; */
   background-color: white;
-  box-shadow: 2px 0px 8px #999999;
+  box-shadow: 1px 0px 5px #ddd;
   z-index: 50;
   padding: 40px 0px;
 
@@ -30,7 +30,7 @@ export const ProfileLine = styled.div`
   height: 1px;
   background-color: #999999;
   margin-bottom: 1.5rem;
-`;  
+`;
 
 export const BlockWrapper = styled.div`
   display: flex;
@@ -56,47 +56,46 @@ export const BlockHypen = styled.div`
 `;
 
 export const ProfileImage = styled.div`
-  width: 280px;
-  height: 280px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background-color: #e6e6e6;
 
-  display: flex;           
+  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 `;
 
-
 export const profileFileBtn = styled.label`
-background-color: #ffffff;
-border: 1px solid #C8B6FF;
-border-radius: 15px;
-color: #000000;
-font-weight: bold;
-width: 250px;
-height: 70px;
-margin-top: 20px;
-padding: 10px 0;
-font-size: 20px;
-line-height: 50px;
-text-align: center;
-cursor: pointer;
-`
+  background-color: #ffffff;
+  border: 1px solid #c8b6ff;
+  border-radius: 15px;
+  color: #000000;
+  font-weight: bold;
+  width: 250px;
+  height: 70px;
+  margin-top: 20px;
+  padding: 10px 0;
+  font-size: 20px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+`;
 
 export const profileBtn = styled.button`
-background-color: #ffffff;
-border: 1px solid #C8B6FF;
-color: #000000;
-font-weight: bold;
-border-radius: 15px;
+  background-color: #ffffff;
+  border: 1px solid #c8b6ff;
+  color: #000000;
+  font-weight: bold;
+  border-radius: 15px;
 
-width: 250px;
-height: 70px;
-margin-top: 20px;
-padding: 10px 0;
-font-size: 20px;
-`
+  width: 250px;
+  height: 70px;
+  margin-top: 20px;
+  padding: 10px 0;
+  font-size: 20px;
+`;
 
 export const Name = styled.div`
   margin: 30px 0;
@@ -155,58 +154,56 @@ export const LogoutTxt = styled.div`
 `;
 
 export const Table = styled.table`
-    width: 1000px;
-    height: 520px;
+  width: 1000px;
+  height: 520px;
 
-    background-color: white;
-    margin-top: 100px;
-    border-collapse: collapse;
-    border-radius: 15px;
-    border-style: hidden;
-    box-shadow: 0 0 0 2px #C8B6FF;
+  background-color: white;
+  margin-top: 100px;
+  border-collapse: collapse;
+  border-radius: 15px;
+  border-style: hidden;
+  box-shadow: 0 0 0 2px #c8b6ff;
 `;
 
 export const Td = styled.td`
-    height: 30px;
-    width: 250px;
-    border: none;
-    font-size: 20px;
-    color: #666666;
+  height: 30px;
+  width: 250px;
+  border: none;
+  font-size: 20px;
+  color: #666666;
 `;
 
 export const StyleTd = styled(Td)`
-    background: #90E0EF;
-    width: 77px;
-    height: 30px;
-    border-radius: 20px;
-    color: white;
-    margin: 100px 100px;
-`
+  background: #90e0ef;
+  width: 77px;
+  height: 30px;
+  border-radius: 20px;
+  color: white;
+  margin: 100px 100px;
+`;
 
 export const Tc = styled(Td)`
-    text-align: center;
-    color: #C8B6FF;
-    border: none;
+  text-align: center;
+  color: #c8b6ff;
+  border: none;
 `;
 
-export const StyleBox = styled.div`
-    
-`;
+export const StyleBox = styled.div``;
 
 export const BtnWrapper = styled.div`
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
 `;
 
 export const Btn = styled.button`
-    border-radius: 50px;
-    background-color: #C8B6FF;
-    padding: 15px 50px;
-    border: none;
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: bold;
+  border-radius: 50px;
+  background-color: #c8b6ff;
+  padding: 15px 50px;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 // 프로필 모달 창
@@ -258,7 +255,7 @@ export const DefaultProfile = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
+`;
 
 export const ModalMbtiContent = styled.div`
   cursor: pointer;
