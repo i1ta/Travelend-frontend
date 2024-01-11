@@ -240,7 +240,7 @@ export default function MyProfile(props) {
 
   return (
     <>
-      {/* {isModify ? (
+      {isModify ? (
         <S.MyProfileWrapper>
           <S.StyleTitleWrapper>
             <S.StyleTitle>My Style</S.StyleTitle>
@@ -437,194 +437,194 @@ export default function MyProfile(props) {
             </S.CancleBtn>
           </S.BtnWrapper>
         </S.MyProfileWrapper>
-      ) : ( */}
-      <S.MyProfileWrapper>
-        <S.StyleTitleWrapper>
-          <S.Title style={{ marginRight: "30px" }}>My Style</S.Title>
-          {myHashtag.map(
-            (e) =>
-              e.name !== "" && (
-                <S.StyleHashTag id={e.id}>#{e.name}</S.StyleHashTag>
-              )
-          )}
-        </S.StyleTitleWrapper>
+      ) : (
+        <S.MyProfileWrapper>
+          <S.StyleTitleWrapper>
+            <S.Title style={{ marginRight: "30px" }}>My Style</S.Title>
+            {myHashtag.map(
+              (e) =>
+                e.name !== "" && (
+                  <S.StyleHashTag id={e.id}>#{e.name}</S.StyleHashTag>
+                )
+            )}
+          </S.StyleTitleWrapper>
 
-        <S.StyleContent>
-          {!props.data.firstBio &&
-            !props.data.secondBio &&
-            !props.data.thirdBio && (
-              <S.BioNoneWrapper>
-                <S.StyleNoneBioImg src="/icon/text.png" />
-                <S.StyleBio>소개를 입력해주세요</S.StyleBio>
-              </S.BioNoneWrapper>
+          <S.StyleContent>
+            {!props.data.firstBio &&
+              !props.data.secondBio &&
+              !props.data.thirdBio && (
+                <S.BioNoneWrapper>
+                  <S.StyleNoneBioImg src="/icon/text.png" />
+                  <S.StyleBio>소개를 입력해주세요</S.StyleBio>
+                </S.BioNoneWrapper>
+              )}
+
+            {props.data.firstBio && (
+              <S.BioWrapper>
+                <FaRegCheckSquare
+                  style={{
+                    fontSize: "20px",
+                    color: "#6179B6",
+                  }}
+                />
+                <S.StyleBio>
+                  함께 <span>{props.data.firstBio}</span> 여행을 떠나려고 해요.
+                </S.StyleBio>
+              </S.BioWrapper>
             )}
 
-          {props.data.firstBio && (
-            <S.BioWrapper>
-              <FaRegCheckSquare
-                style={{
-                  fontSize: "20px",
-                  color: "#6179B6",
-                }}
-              />
-              <S.StyleBio>
-                함께 <span>{props.data.firstBio}</span> 여행을 떠나려고 해요.
-              </S.StyleBio>
-            </S.BioWrapper>
-          )}
-
-          {props.data.secondBio && (
-            <S.BioWrapper>
-              <FaRegCheckSquare
-                style={{
-                  fontSize: "20px",
-                  color: "#6179B6",
-                }}
-              />
-              <S.StyleBio>
-                저는 <span>{props.data.secondBio}</span> 여행자에요.
-              </S.StyleBio>
-            </S.BioWrapper>
-          )}
-
-          {props.data.thirdBio && (
-            <S.BioWrapper>
-              <FaRegCheckSquare
-                style={{
-                  fontSize: "20px",
-                  color: "#6179B6",
-                }}
-              />
-              <S.StyleBio>{props.data.thirdBio}</S.StyleBio>
-            </S.BioWrapper>
-          )}
-        </S.StyleContent>
-
-        <S.Title style={{ width: "90%" }}>My Profile</S.Title>
-
-        <S.Table>
-          <tr>
-            <S.Tc>이름</S.Tc>
-            <S.Td>
-              <S.TdWrapper>
-                <div>{props.data.name}</div>
-                {props.data.namePrivate === true ? (
-                  <S.LockIcon
-                    id="name"
-                    src="/icon/lock.png"
-                    onClick={onOpenPrivate}
-                  ></S.LockIcon>
-                ) : (
-                  <S.LockIcon
-                    id="name"
-                    src="/icon/unlock.png"
-                    onClick={onClosePrivate}
-                  ></S.LockIcon>
-                )}
-              </S.TdWrapper>
-            </S.Td>
-            <S.Tc>MBTI</S.Tc>
-            <S.Td style={{ border: "none" }}>
-              <S.TdWrapper>
-                <div>{mbti}</div>
-                {props.data.mbtiPrivate === true ? (
-                  <S.LockIcon
-                    id="mbti"
-                    src="/icon/lock.png"
-                    onClick={onOpenPrivate}
-                  ></S.LockIcon>
-                ) : (
-                  <S.LockIcon
-                    id="mbti"
-                    src="/icon/unlock.png"
-                    onClick={onClosePrivate}
-                  ></S.LockIcon>
-                )}
-              </S.TdWrapper>
-            </S.Td>
-          </tr>
-          <tr>
-            <S.Tc>나이</S.Tc>
-            <S.Td>
-              <S.TdWrapper>
-                <div>{props.data.age}</div>
-              </S.TdWrapper>
-            </S.Td>
-            <S.Tc>Insta</S.Tc>
-            <S.Td style={{ border: "none" }}>
-              <S.TdWrapper>
-                <div>
-                  <a
-                    href="https://www.instagram.com/"
-                    style={{ "font-weight": "bold" }}
-                  >
-                    {props.data.instagram !== null &&
-                      `@${props.data.instagram}`}
-                  </a>
-                </div>
-                {props.data.instagramPrivate === true ? (
-                  <S.LockIcon
-                    id="instagram"
-                    src="/icon/lock.png"
-                    onClick={onOpenPrivate}
-                  ></S.LockIcon>
-                ) : (
-                  <S.LockIcon
-                    id="instagram"
-                    src="/icon/unlock.png"
-                    onClick={onClosePrivate}
-                  ></S.LockIcon>
-                )}
-              </S.TdWrapper>
-            </S.Td>
-          </tr>
-          <tr>
-            <S.Tc>성별</S.Tc>
-            {props.data.gender === "M" ? (
-              <S.Td>
-                <S.TdWrapper>
-                  <div>남</div>
-                </S.TdWrapper>
-              </S.Td>
-            ) : (
-              <S.Td>
-                <S.TdWrapper>
-                  <div>여</div>
-                </S.TdWrapper>
-              </S.Td>
+            {props.data.secondBio && (
+              <S.BioWrapper>
+                <FaRegCheckSquare
+                  style={{
+                    fontSize: "20px",
+                    color: "#6179B6",
+                  }}
+                />
+                <S.StyleBio>
+                  저는 <span>{props.data.secondBio}</span> 여행자에요.
+                </S.StyleBio>
+              </S.BioWrapper>
             )}
-            <S.Tc>연락처</S.Tc>
-            <S.Td style={{ border: "none" }}>
-              <S.TdWrapper>
-                <div>{formatPhone(phone)}</div>
-                {props.data.phonePrivate === true ? (
-                  <S.LockIcon
-                    id="phone"
-                    src="/icon/lock.png"
-                    onClick={onOpenPrivate}
-                  ></S.LockIcon>
-                ) : (
-                  <S.LockIcon
-                    id="phone"
-                    src="/icon/unlock.png"
-                    onClick={onClosePrivate}
-                  ></S.LockIcon>
-                )}
-              </S.TdWrapper>
-            </S.Td>
-          </tr>
-        </S.Table>
 
-        <S.Btn
-          onClick={() => {
-            setIsModify(true);
-            props.setModify(false);
-          }}
-        >
-          프로필 수정
-        </S.Btn>
-      </S.MyProfileWrapper>
-      {/* )} */}
+            {props.data.thirdBio && (
+              <S.BioWrapper>
+                <FaRegCheckSquare
+                  style={{
+                    fontSize: "20px",
+                    color: "#6179B6",
+                  }}
+                />
+                <S.StyleBio>{props.data.thirdBio}</S.StyleBio>
+              </S.BioWrapper>
+            )}
+          </S.StyleContent>
+
+          <S.Title style={{ width: "90%" }}>My Profile</S.Title>
+
+          <S.Table>
+            <tr>
+              <S.Tc>이름</S.Tc>
+              <S.Td>
+                <S.TdWrapper>
+                  <div>{props.data.name}</div>
+                  {props.data.namePrivate === true ? (
+                    <S.LockIcon
+                      id="name"
+                      src="/icon/lock.png"
+                      onClick={onOpenPrivate}
+                    ></S.LockIcon>
+                  ) : (
+                    <S.LockIcon
+                      id="name"
+                      src="/icon/unlock.png"
+                      onClick={onClosePrivate}
+                    ></S.LockIcon>
+                  )}
+                </S.TdWrapper>
+              </S.Td>
+              <S.Tc>MBTI</S.Tc>
+              <S.Td style={{ border: "none" }}>
+                <S.TdWrapper>
+                  <div>{mbti}</div>
+                  {props.data.mbtiPrivate === true ? (
+                    <S.LockIcon
+                      id="mbti"
+                      src="/icon/lock.png"
+                      onClick={onOpenPrivate}
+                    ></S.LockIcon>
+                  ) : (
+                    <S.LockIcon
+                      id="mbti"
+                      src="/icon/unlock.png"
+                      onClick={onClosePrivate}
+                    ></S.LockIcon>
+                  )}
+                </S.TdWrapper>
+              </S.Td>
+            </tr>
+            <tr>
+              <S.Tc>나이</S.Tc>
+              <S.Td>
+                <S.TdWrapper>
+                  <div>{props.data.age}</div>
+                </S.TdWrapper>
+              </S.Td>
+              <S.Tc>Insta</S.Tc>
+              <S.Td style={{ border: "none" }}>
+                <S.TdWrapper>
+                  <div>
+                    <a
+                      href="https://www.instagram.com/"
+                      style={{ "font-weight": "bold" }}
+                    >
+                      {props.data.instagram !== null &&
+                        `@${props.data.instagram}`}
+                    </a>
+                  </div>
+                  {props.data.instagramPrivate === true ? (
+                    <S.LockIcon
+                      id="instagram"
+                      src="/icon/lock.png"
+                      onClick={onOpenPrivate}
+                    ></S.LockIcon>
+                  ) : (
+                    <S.LockIcon
+                      id="instagram"
+                      src="/icon/unlock.png"
+                      onClick={onClosePrivate}
+                    ></S.LockIcon>
+                  )}
+                </S.TdWrapper>
+              </S.Td>
+            </tr>
+            <tr>
+              <S.Tc>성별</S.Tc>
+              {props.data.gender === "M" ? (
+                <S.Td>
+                  <S.TdWrapper>
+                    <div>남</div>
+                  </S.TdWrapper>
+                </S.Td>
+              ) : (
+                <S.Td>
+                  <S.TdWrapper>
+                    <div>여</div>
+                  </S.TdWrapper>
+                </S.Td>
+              )}
+              <S.Tc>연락처</S.Tc>
+              <S.Td style={{ border: "none" }}>
+                <S.TdWrapper>
+                  <div>{formatPhone(phone)}</div>
+                  {props.data.phonePrivate === true ? (
+                    <S.LockIcon
+                      id="phone"
+                      src="/icon/lock.png"
+                      onClick={onOpenPrivate}
+                    ></S.LockIcon>
+                  ) : (
+                    <S.LockIcon
+                      id="phone"
+                      src="/icon/unlock.png"
+                      onClick={onClosePrivate}
+                    ></S.LockIcon>
+                  )}
+                </S.TdWrapper>
+              </S.Td>
+            </tr>
+          </S.Table>
+
+          <S.Btn
+            onClick={() => {
+              setIsModify(true);
+              props.setModify(false);
+            }}
+          >
+            프로필 수정
+          </S.Btn>
+        </S.MyProfileWrapper>
+      )}
     </>
   );
 }

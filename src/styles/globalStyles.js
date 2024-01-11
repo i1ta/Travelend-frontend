@@ -12,6 +12,7 @@ const style = css`
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    line-height: 1;
   }
 
   li {
@@ -133,7 +134,7 @@ const style = css`
   //     font-size: 112.5%;
   //   }
   // }
-  
+
   // @media screen and (min-device-width: 1080px) {
   //   html {
   //     font-size: 112.5%;
