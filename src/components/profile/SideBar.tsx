@@ -6,14 +6,14 @@ import {
   logout,
   JwtTokenState,
   IsAdmin,
-} from "@/states/LoginState.js";
+} from "../../states/LoginState.js";
 import { useSetRecoilState } from "recoil";
 
 import { IoPower } from "react-icons/io5";
 
 export default function SideBar() {
   const router = useRouter();
-  const {category} = router.query;
+  const { category } = router.query;
   const [myProfileData, setMyProfileData] = useState<any>({});
   const [selectedFile, setSelectedFile] = useState(myProfileData.profileUrl);
 

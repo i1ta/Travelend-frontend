@@ -76,7 +76,7 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "message" },
+        query: { category: "Messenger" },
       });
     }
   };
@@ -85,14 +85,14 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "myCollections" },
+        query: { category: "MyCollections" },
       });
     }
   };
 
   const onProfileBtn = () => {
     if (!checkToken()) {
-      router.push("/auth/profile");
+      router.push("/auth/profile?category=MyProfile");
     }
   };
 
