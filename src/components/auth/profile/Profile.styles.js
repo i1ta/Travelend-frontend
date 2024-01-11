@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 100px);
   display: flex;
   justify-content: center;
 `;
