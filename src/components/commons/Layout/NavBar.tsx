@@ -316,11 +316,11 @@ const SignInBtn = styled.button`
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid #9ab3f5;
-  padding: 10px 0;
+  padding: 14px 0;
   text-align: center;
-
   color: #9ab3f5;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 `;
 
@@ -329,10 +329,10 @@ const SignUpBtn = styled.button`
   background-color: #9ab3f5;
   border-radius: 5px;
   color: white;
-  font-size: 18px;
-  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 0;
   text-align: center;
-  cursor: pointer;
 `;
 
 const InfoMsg = styled.div`
