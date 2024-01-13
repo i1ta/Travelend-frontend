@@ -5,7 +5,7 @@ export const MsgForm = styled.section`
   height: calc(100vh - 100px);
   display: flex;
   align-items: center;
-  border-top: 1px solid #999;
+  /* border-top: 1px solid #999; */
 `;
 
 // 쪽지 목록
@@ -13,11 +13,11 @@ export const MsgForm = styled.section`
 export const MsgListSection = styled.section`
   width: 30%;
   height: 100%;
-  border-right: 1px solid #999999;
   padding: 32px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  box-shadow: 1px 0px 5px #ddd;
 `;
 
 export const ListTitle = styled.div`
@@ -72,6 +72,7 @@ export const MsgSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: 1px 0px 5px #ddd;
 `;
 
 export const NoneSelectedImg = styled.img`

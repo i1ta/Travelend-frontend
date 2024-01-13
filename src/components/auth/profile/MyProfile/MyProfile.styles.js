@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MyProfileWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 100px);
-  padding-top: 20px;
+  padding-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +49,7 @@ export const StyleContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 
   border: 1px solid ${({ theme }) => theme.colors.main2};
   border-radius: 15px;
@@ -151,7 +151,7 @@ export const Title = styled.h1`
 // 테이블
 
 export const Table = styled.table`
-  margin: 16px 0 32px 0;
+  margin: 16px 0 36px 0;
   width: 90%;
   background-color: white;
   border-radius: 15px;
@@ -160,7 +160,7 @@ export const Table = styled.table`
 
 export const Td = styled.td`
   width: 35%;
-  padding: 20px;
+  padding: 24px 20px;
   font-size: 16px;
   color: #666666;
   border-right: 1px solid ${({ theme }) => theme.colors.main2};
