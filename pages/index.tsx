@@ -1,9 +1,6 @@
 import { useRecoilValue } from "recoil";
 import Main from "../src/components/main/Main.container";
-import {
-  RequestData,
-  TripylerMainData
-} from "../src/interfaces/main.ts";
+import { RequestData, TripylerMainData } from "../src/interfaces/main.ts";
 import { LoginState } from "../src/states/LoginState";
 
 import { useRouter } from "next/router";
@@ -46,7 +43,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Main/>
+      <Main />
     </>
   );
 }

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
 import * as S from "./MyCollections.styles";
-import axios from "axios";
-import FindCard from "@/components/commons/Card/MyCollections/FindCard";
 import FindListCard from "@/components/commons/Card/MyCollections/FindListCard";
 import ReviewCard from "@/components/commons/Card/MyCollections/ReviewCard";
 import ApplyCard from "@/components/commons/Card/MyCollections/ApplyCard";
