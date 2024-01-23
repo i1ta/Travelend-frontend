@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import Banner from "@/components/write/Banner";
+import Axios from "@/apis";
 
 export default function FindTripylerWrite(props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
@@ -21,7 +22,6 @@ export default function FindTripylerWrite(props) {
   const [isOpenStep3, setIsOpenStep3] = useState(true);
   const [data, setData] = useState({});
 
-  const apiPath = "https://api.tripyle.xyz";
   const router = useRouter();
   const { tripylerId } = router.query;
 
@@ -32,40 +32,23 @@ export default function FindTripylerWrite(props) {
     if (stepNum === "3") setIsOpenStep3((prev) => !prev);
   };
 
-  // const onClickDate = () => {
-  //   setIsOpenCalendar((prev) => !prev);
-  // };
-
-  // const onClickPlace = () => {
-  //   setIsOpenPlaceModal(true);
-  // };
-
-  // const onClickStyle = () => {
-  //   setIsOpenStyleModal(true);
-  // };
-
-  // const onClickWithTripyler = () => {
-  //   setIsOpenWithTripyler(true);
-  // };
-
-  // const onClickUpDownBtn = (event) => {
-  //   if (event.target.id === "down") {
-  //     if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
-  //   } else setTotalPeopleNum((prev) => prev + 1);
-  // };
+  const onClickUpDownBtn = (event) => {
+    if (event.target.id === "down") {
+      if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
+    } else setTotalPeopleNum((prev) => prev + 1);
+  };
 
   const fetchImage = async (imgUrl) => {
-    // await fetch(imgUrl).then(async (response) => {
-    //   const contentType = response.headers.get("content-type");
-    //   const blob = await response.blob();
-    //   const file = new File([blob], "fileName", { contentType });
-    //   setSelectedImage(file);
-    // });
+    await fetch(imgUrl).then(async (response) => {
+      const contentType = response.headers.get("content-type");
+      const blob = await response.blob();
+      const file = new File([blob], "fileName", { contentType });
+      setSelectedImage(file);
+    });
   };
 
   const fetchData = async () => {
-    await axios
-      .get(`${apiPath}/tripyler/${tripylerId}`)
+    await Axios.get(`/tripyler/${tripylerId}`)
       .then((res) => {
         const data = res.data.data;
         setData({ ...data });
@@ -99,9 +82,6 @@ export default function FindTripylerWrite(props) {
   };
 
   useEffect(() => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     props.isEdit && tripylerId && fetchData();
   }, [tripylerId]);
 
@@ -113,8 +93,7 @@ export default function FindTripylerWrite(props) {
     event.preventDefault();
     const value = event.target.search.value;
 
-    await axios
-      .get(`${apiPath}/tripyler/search?regionName=${value}`)
+    await Axios.get(`/tripyler/search?regionName=${value}`)
       .then((res) => {
         setPlace({ ...res.data.data });
         setErrPlace("");
@@ -174,8 +153,7 @@ export default function FindTripylerWrite(props) {
   const onSubmitFindID = async (event) => {
     event.preventDefault();
     const value = event.target.search.value;
-    await axios
-      .get(`${apiPath}/review/find-user?username=${value}`)
+    await Axios.get(`/review/find-user?username=${value}`)
       .then((res) => {
         if (res.data.data > 0) {
           if (withTripylerList.map((el) => el.nickname).includes(value)) {
@@ -214,6 +192,8 @@ export default function FindTripylerWrite(props) {
     );
   };
 
+  
+
   // 작성완료 버튼
   const onClickSubmitBtn = async () => {
     if (
@@ -248,13 +228,12 @@ export default function FindTripylerWrite(props) {
       );
       formData.append("images", selectedImage);
 
-      await axios
-        .post(apiPath + "/tripyler", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            accept: "application/json",
-          },
-        })
+      await Axios.post("/tripyler", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          accept: "application/json",
+        },
+      })
         .then((res) => {
           alert("게시물이 등록되었습니다");
           router.push("/findTripyler");
@@ -299,13 +278,12 @@ export default function FindTripylerWrite(props) {
       );
       formData.append("images", selectedImage);
 
-      await axios
-        .patch(apiPath + `/tripyler/${tripylerId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            accept: "application/json",
-          },
-        })
+      await Axios.patch(`/tripyler/${tripylerId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          accept: "application/json",
+        },
+      })
         .then((res) => {
           alert(res.data.data);
           router.push(`/findTripyler/${tripylerId}`);
@@ -352,21 +330,23 @@ export default function FindTripylerWrite(props) {
                       ? `${shownPlace.nationName}, ${shownPlace.regionName}`
                       : ""}
                   </S.MidInput>
-                  <S.InputBtn onClick={onClickPlace}>지역 선택</S.InputBtn>
+                  <S.InputBtn onClick={() => setIsOpenPlaceModal(true)}>
+                    지역 선택
+                  </S.InputBtn>
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper style={{ position: "relative" }}>
                   <S.InputTitle>여행일정</S.InputTitle>
                   <S.InputResultWrapper>
                     <S.InputResult
                       style={{ cursor: "pointer", width: "230px" }}
-                      onClick={onClickDate}
+                      onClick={() => setIsOpenCalendar((prev) => !prev)}
                     >
                       {tripDate.length === 0 ? "출발" : tripDate[0]}
                     </S.InputResult>
                     <S.InputLine></S.InputLine>
                     <S.InputResult
                       style={{ cursor: "pointer", width: "230px" }}
-                      onClick={onClickDate}
+                      onClick={() => setIsOpenCalendar((prev) => !prev)}
                     >
                       {tripDate.length === 0 ? "도착" : tripDate[1]}
                     </S.InputResult>
@@ -380,7 +360,11 @@ export default function FindTripylerWrite(props) {
                       />
                     </S.CalendarWrapper>
                   )}
-                  <S.InputBtn onClick={onClickDate}>일정선택</S.InputBtn>
+                  <S.InputBtn
+                    onClick={() => setIsOpenCalendar((prev) => !prev)}
+                  >
+                    일정선택
+                  </S.InputBtn>
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper>
                   <S.InputTitle>동행자 인원수</S.InputTitle>
@@ -408,7 +392,9 @@ export default function FindTripylerWrite(props) {
                       <S.Hashtag key={e.id}>#{e.name}</S.Hashtag>
                     ))}
                   </S.MidInput>
-                  <S.InputBtn onClick={onClickStyle}>스타일 선택</S.InputBtn>
+                  <S.InputBtn onClick={() => setIsOpenStyleModal(true)}>
+                    스타일 선택
+                  </S.InputBtn>
                 </S.InputInfoWrapper>
                 <S.InputInfoWrapper>
                   <S.InputTitle>예상 여행 경비</S.InputTitle>
@@ -428,7 +414,7 @@ export default function FindTripylerWrite(props) {
                       <S.TripylerID key={e.id}>@{e.nickname}</S.TripylerID>
                     ))}
                   </S.MidInput>
-                  <S.InputBtn onClick={onClickWithTripyler}>
+                  <S.InputBtn onClick={() => setIsOpenWithTripyler(true)}>
                     아이디 검색
                   </S.InputBtn>
                 </S.InputInfoWrapper>

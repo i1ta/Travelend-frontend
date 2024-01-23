@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { useRouter } from "next/router";
+import Axios from "@/apis";
 
 import * as S from "./Profile.styles";
 import Modal from "@/components/commons/Modal/Modal";
@@ -20,7 +21,6 @@ import {
   IsAdmin,
 } from "@/states/LoginState";
 
-import axios from "axios";
 import SideBar from "@/components/profile/SideBar";
 
 export default function Profile() {
@@ -30,7 +30,6 @@ export default function Profile() {
 
   const [_, setIsLoggedIn] = useRecoilState(LoginState);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
-  const apiPath = "https://api.tripyle.xyz";
 
   const router = useRouter();
   const { category } = router.query;
@@ -71,11 +70,7 @@ export default function Profile() {
 
   // My Profile api
   const fetchMyProfile = async () => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
-    await axios
-      .get(apiPath + "/profile/my-profile")
+    await Axios.get("/profile/my-profile")
       .then((response) => {
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
@@ -89,11 +84,8 @@ export default function Profile() {
       if (router.query.user === "false") {
         // setSelectedCategory("NotMyProfile");
       }
-      axios.defaults.headers.common["x-auth-token"] =
-        window.localStorage.getItem("login-token");
 
-      await axios
-        .get(apiPath + `/profile/${userId}`)
+      await Axios.get(`/profile/${userId}`)
         .then((res) => {
           setNotMyProfileData(res.data.data);
         })
@@ -120,22 +112,21 @@ export default function Profile() {
       await onClickUploadImg();
     }
 
-    await axios
-      .patch(
-        apiPath + "/profile/my-profile/update",
-        {
-          firstBio: getBio[0] || "",
-          firstTripStyleId: getHashtag[0]?.id || 0,
-          instagram: getInsta,
-          mbtiId: getMbtiIdx,
-          phone: getPhone,
-          secondBio: getBio[1] || "",
-          secondTripStyleId: getHashtag[1]?.id || 0,
-          thirdBio: getBio[2] || "",
-          thirdTripStyleId: getHashtag[2]?.id || 0,
-        },
-        { "Content-Type": "application/json" }
-      )
+    await Axios.patch(
+      "/profile/my-profile/update",
+      {
+        firstBio: getBio[0] || "",
+        firstTripStyleId: getHashtag[0]?.id || 0,
+        instagram: getInsta,
+        mbtiId: getMbtiIdx,
+        phone: getPhone,
+        secondBio: getBio[1] || "",
+        secondTripStyleId: getHashtag[1]?.id || 0,
+        thirdBio: getBio[2] || "",
+        thirdTripStyleId: getHashtag[2]?.id || 0,
+      },
+      { "Content-Type": "application/json" }
+    )
       .then((response) => {
         const responseData = { ...response.data.data };
         setMyProfileData(responseData);
@@ -144,15 +135,11 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     if (category === "MyProfile") fetchMyProfile();
 
     // 쪽지 목록 api
     const fetchMsgList = async () => {
-      await axios
-        .get(apiPath + "/chat/chatroom-list")
+      await Axios.get("/chat/chatroom-list")
         .then((response) => {
           setMsgListData([...response.data.data]);
         })
@@ -165,11 +152,10 @@ export default function Profile() {
 
   // 쪽지 보내기 api
   const handleSendMsg = async (content) => {
-    await axios
-      .post(apiPath + "/chat/send", {
-        content,
-        recipientId: msgData.recipientId,
-      })
+    await Axios.post("/chat/send", {
+      content,
+      recipientId: msgData.recipientId,
+    })
       .then(async (response) => {
         const result = await fetchMsgContents(msgData.chatRoomId);
         setMsgData((prev) => ({
@@ -189,7 +175,7 @@ export default function Profile() {
   // 채팅방 내용 읽어오는 api
   const fetchMsgContents = async (chatRoomId) => {
     try {
-      const response = await axios.get(apiPath + "/chat/" + chatRoomId);
+      const response = await Axios.get("/chat/" + chatRoomId);
       return response.data.data;
     } catch (error) {
       console.error(error);
@@ -260,8 +246,7 @@ export default function Profile() {
     const formData = new FormData();
     formData.append("images", chnFile);
 
-    await axios
-      .post(apiPath + "/profile/profile-picture", formData)
+    await Axios.post("/profile/profile-picture", formData)
       .then((response) => {
         fetchMyProfile();
         setSelectedFile(selectedUrl);
@@ -270,8 +255,7 @@ export default function Profile() {
   };
 
   const onClickDelImg = async () => {
-    await axios
-      .delete(apiPath + "/profile/profile-picture")
+    await Axios.delete("/profile/profile-picture")
       .then((response) => {
         fetchMyProfile();
       })
@@ -291,25 +275,19 @@ export default function Profile() {
 
   // My collection 리스트 가져오기
   const onOpenMyCollection = async () => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
-    await axios
-      .get(apiPath + "/my-collections/review-like-list")
+    await Axios.get("/my-collections/review-like-list")
       .then((res) => {
         setMyCollectionReviewData(res.data.data);
       })
       .catch((err) => console.log(err));
 
-    await axios
-      .get(apiPath + "/my-collections/tripyler-like-list")
+    await Axios.get("/my-collections/tripyler-like-list")
       .then((res) => {
         setMyCollectionLikeData(res.data.data);
       })
       .catch((err) => console.log(err));
 
-    await axios
-      .get(apiPath + "/my-collections/tripyler-apply-list")
+    await Axios.get("/my-collections/tripyler-apply-list")
       .then((res) => {
         setMyCollectionApplyData(res.data.data);
       })
@@ -318,18 +296,13 @@ export default function Profile() {
 
   // Triplog 리스트 가져오기
   const onOpenTriplog = async (e) => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
-    await axios
-      .get(apiPath + `/my-collections/my-reviews?year=${e}`)
+    await Axios.get(`/my-collections/my-reviews?year=${e}`)
       .then((res) => {
         setMyReviewsData(res.data.data);
       })
       .catch((err) => console.log(err));
 
-    await axios
-      .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
+    await Axios.get(`/my-collections/my-tripylers?year=${e}`)
       .then((res) => {
         setMyTripylersData(res.data.data);
       })

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import Axios from "@/apis";
 
 import * as S from "./Login.styles";
 
@@ -31,7 +32,7 @@ export default function LoginForm() {
 
   // 아이디 기억하기
   const [isRemember, setIsRemember] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['rememberUser']);
+  const [cookies, setCookie, removeCookie] = useCookies(["rememberUser"]);
 
   // 로그인 상태 설정
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
@@ -41,13 +42,12 @@ export default function LoginForm() {
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
 
   useEffect(() => {
-    if(cookies.rememberUser !== undefined){
+    if (cookies.rememberUser !== undefined) {
       setUsername(cookies.rememberUser.username);
       setPassword(cookies.rememberUser.password);
       // setState({...state, username: cookies.rememberId});
     }
   }, []);
-
 
   // Sign In 버튼 클릭 시
   const onSubmit = async () => {
@@ -64,19 +64,21 @@ export default function LoginForm() {
           username: username,
         };
 
-        const response = await axios.post(
-          "https://api.tripyle.xyz/user/login",
-          requestData,
-          { "Content-Type": "application/json; charset=utf-8" }
-        );
+        const response = await Axios.post("/user/login", requestData, {
+          "Content-Type": "application/json; charset=utf-8",
+        });
 
         if (response.status === 200 && response.data.data.accessToken) {
           // 아이디 기억하기
-          if(isRemember){
-            setCookie('rememberUser', {
-              username: username,
-              password: password
-            }, {maxAge: 24 * 60 * 60 * 7 * 1000});
+          if (isRemember) {
+            setCookie(
+              "rememberUser",
+              {
+                username: username,
+                password: password,
+              },
+              { maxAge: 24 * 60 * 60 * 7 * 1000 }
+            );
             setIsRemember(false);
           }
 
@@ -93,7 +95,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       setIsSubmitting(false);
-      if (error.response.status === 400) {
+      if (error.response?.status === 400) {
         alert("존재하지 않는 회원정보입니다.");
       }
       console.log(error);
@@ -112,7 +114,7 @@ export default function LoginForm() {
               placeholder="ID"
               required
               value={username}
-              onChange={(e) => {console.log(e.target.value); setUsername( e.target.value )}}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <S.Input
               id="password"
@@ -120,13 +122,23 @@ export default function LoginForm() {
               placeholder="PASSWORD"
               required
               value={password}
-              onChange={(e) => {console.log(e.target.value); setPassword( e.target.value )}}
-              onKeyDown={(e) => {if(e.key === "Enter"){onSubmit();}}}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSubmit();
+                }
+              }}
             />
           </S.InputWrapper>
           <S.CheckboxContainer>
             <S.CheckboxWrapper>
-              <S.CheckboxInput type="checkbox" id="loginChk" onClick={() => {setIsRemember((prev) => !prev)}}/>
+              <S.CheckboxInput
+                type="checkbox"
+                id="loginChk"
+                onClick={() => {
+                  setIsRemember((prev) => !prev);
+                }}
+              />
               <S.Label htmlFor="loginChk">Remember me</S.Label>
             </S.CheckboxWrapper>
             <S.Button type="button" disabled={isSubmitting} onClick={onSubmit}>
