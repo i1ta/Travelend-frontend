@@ -37,16 +37,20 @@ export const StyleHashTag = styled.div`
 
 export const StyleEditImg = styled.img`
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   justify-content: center;
-  margin-top: 5px;
 `;
 
-export const StyleWrapper = styled.div``;
+export const StyleWrapper = styled.div`
+margin-top: 16px;
+width: 100%;
+margin: 16px auto 0 auto;
+`;
 
 export const StyleContent = styled.div`
   width: 90%;
+  margin: 0 auto;
   padding: 12px 32px;
   display: flex;
   flex-direction: column;
@@ -105,6 +109,11 @@ export const StyleLineBio = styled(StyleBio)`
   border-bottom: 1.5px solid #c8b6ff;
 `;
 
+export const StyleModifySpan = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
 export const StyleModifyBioWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -120,7 +129,7 @@ export const StyleBioInput = styled.input`
   white-space: nowrap;
   margin: 0 20px;
   margin-bottom: 10px;
-  padding: 3px 10px;
+  padding: 8px 10px 3px 10px;
 
   border-top: none;
   border-left: none;
@@ -143,10 +152,19 @@ export const StyleLineBioInput = styled(StyleBio)`
   border-bottom: 1.5px solid #c8b6ff;
 `;
 
+export const TitleWrapper = styled.div`
+width: 90%;
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0 10px 0;
+  margin: 0 auto;
+`;
+
 export const Title = styled.h1`
   /* margin-right: 30px; */
   font-size: 32px;
   font-weight: 700;
+
   color: ${({ theme }) => theme.colors.main1};
 `;
 
@@ -273,7 +291,8 @@ export const phoneBtn = styled.div`
 `;
 
 export const BtnWrapper = styled.div`
-
+  display: flex;
+  gap: 20px;
 `;
 
 export const Btn = styled.button`
@@ -414,7 +433,7 @@ export const ModalMbtiContent = styled.div`
   font-size: 20px;
   padding: 10px 20px;
   margin: 10px 15px;
-  background-color: #90e0ef;
+  background-color: #0077B6;
   color: #ffffff;
   border-radius: 15px;
 

@@ -187,6 +187,7 @@ const ReviewHashtag = styled.div`
 
   color: #ffffff;
   font-size: 1.25rem;
+  line-height: 1.25rem;
   font-weight: bold;
   padding-top: 3px;
   padding: 4px 0.75rem 0 0.75rem;
@@ -233,15 +234,16 @@ const ReviewDetailTitle = styled.div`
   font-size: 1.25rem;
   color: #9ab3f5;
   font-weight: bold;
-  margin: 20px 0 0 0;
+  margin: 20px 0 10px 0;
 `;
 
 const ReviewDetailContent = styled.div`
   height: 117px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.5);
   display: flex;
   margin-bottom: 0.5rem;
+  line-height: 1.2rem;
   // align-items: center;
   // justify-content: center;
 
@@ -273,14 +275,17 @@ const ReviewInfoAdditionWrapper = styled.div`
 const ReviewInfoAdditionIcon = styled.img`
   width: 1.25rem;
   height: 1rem;
-  margin-right: 0.4rem;
-  margin-top: 5px;
+  margin-right: 8px;
+  margin-top: 10px;
 `;
 
 const ReviewInfoAdditionTxt = styled.div`
   font-size: 0.8rem;
   color: #666666;
   margin-right: 0.75rem;
+
+  display: flex;
+  align-items: center;
 `;
 
 const ReviewImgWrapper = styled.div`

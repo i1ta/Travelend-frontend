@@ -231,8 +231,8 @@ export default function ReviewMain() {
   return (
     <>
       <FindTripylerBanner
-        title="Trabelender 여행 후기"
-        subTitle="Trabelender가 함께한 여행 후기를 구경해보세요!"
+        title="Travelender 여행 후기"
+        subTitle="Travelender가 함께한 여행 후기를 구경해보세요!"
         review={true}
       />
       {isOpen ? (
@@ -475,7 +475,7 @@ export default function ReviewMain() {
       <S.ContentWrapper>
         <S.FindTripylerTitleWrapper>
           <S.FindTripylerTitle>
-            <div>Trip’yler의 인기 여행 후기</div>
+            <div>Travelender의 인기 여행 후기</div>
             <S.FindTripylerWriteBtn
               onClick={() => {
                 if (!isLoggedIn) {
