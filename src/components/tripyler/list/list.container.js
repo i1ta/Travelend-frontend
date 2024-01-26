@@ -620,6 +620,7 @@ export default function FindTripylerList() {
                           }
                         }
                       }}
+                      key={card.tripylerId}
                       id={card.tripylerId}
                       info={card}
                     />

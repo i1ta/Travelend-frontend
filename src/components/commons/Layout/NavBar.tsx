@@ -149,15 +149,15 @@ export default function NavBar() {
             </AuthList>
           ) : (
             <AuthList>
-              <AfterLoginItem id="0" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="0" num={infoMsgNum}>
                 <FiSend onClick={onMesseageBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
 
-              <AfterLoginItem id="1" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="1" num={infoMsgNum}>
                 <IoMdHeartEmpty  onClick={onLikeBtn} style={{color: "#666", fontSize: "28px", cursor: "pointer"}}/>
               </AfterLoginItem>
 
-              <AfterLoginItem id="2" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="2" num={infoMsgNum}>
                 <CgProfile onClick={onProfileBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
               {isFirstLogin && (
@@ -292,17 +292,20 @@ const BeforeLoginItem = styled.li`
   font-weight: bold;
 `;
 
-const AfterLoginItem = styled.li<{ infoMsgNum: number }>`
+interface AfterLoginItem {
+  id: string;
+  num: number;
+}
+
+const AfterLoginItem = styled.li<AfterLoginItem>`
   width: 40px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
-  background-color: ${(props) =>
-    props.id == String(props.infoMsgNum)
-      ? "rgba(179, 136, 235, 30%)"
-      : "transparent"};
+  background-color: ${({ id, num }) =>
+    id == String(num) ? "rgba(179, 136, 235, 30%)" : "transparent"};
 
   border-radius: 50%;
 `;
