@@ -1,5 +1,5 @@
+import Axios from "@/apis";
 import Banner from "@/components/write/Banner";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import * as S from "./write.style";
@@ -30,8 +30,7 @@ export default function TriplogWrite(props) {
 
   // 데이터 불러오기
   const fetchData = async () => {
-    await axios
-      .get(`${apiPath}/review/${reviewId}`)
+    await Axios.get(`/review/${reviewId}`)
       .then((res) => {
         const data = res.data.data;
         setTitle(data.reviewTitle);
@@ -60,8 +59,7 @@ export default function TriplogWrite(props) {
   };
 
   const fetchList = async () => {
-    await axios
-      .get(`${apiPath}/my-collections/my-all-tripylers`)
+    await Axios.get(`/my-collections/my-all-tripylers`)
       .then((res) => {
         setTripList([...res.data.data]);
       })
@@ -69,9 +67,6 @@ export default function TriplogWrite(props) {
   };
 
   useEffect(() => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     !props.isEdit && fetchList();
     reviewId && props.isEdit && fetchData();
   }, [reviewId]);
@@ -133,19 +128,17 @@ export default function TriplogWrite(props) {
         oneLine,
       };
 
-      await axios
-        .post(apiPath + "/review", requestData)
+      await Axios.post("/review", requestData)
         .then((res) => {
           if (selectedImageList.length > 0) {
             selectedImageList.forEach(async (el, idx) => {
               const formData = new FormData();
               formData.append("images", el);
 
-              await axios
-                .post(
-                  `${apiPath}/review/${res.data.data}/profile-picture`,
-                  formData
-                )
+              await Axios.post(
+                `/review/${res.data.data}/profile-picture`,
+                formData
+              )
                 .then((res) => {
                   if (idx === selectedImageList.length - 1) {
                     alert("후기가 등록되었습니다.");
@@ -184,13 +177,12 @@ export default function TriplogWrite(props) {
       );
       formData.append("images", imageList);
 
-      await axios
-        .patch(`${apiPath}/review/${reviewId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            accept: "application/json",
-          },
-        })
+      await Axios.patch(`/review/${reviewId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          accept: "application/json",
+        },
+      })
         .then((res) => {
           // alert(res.data.data);
           alert("작성이 완료되었습니다.");

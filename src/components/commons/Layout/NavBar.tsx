@@ -78,7 +78,7 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "message" },
+        query: { category: "Messenger" },
       });
     }
   };
@@ -87,14 +87,14 @@ export default function NavBar() {
     if (!checkToken()) {
       router.push({
         pathname: "/auth/profile",
-        query: { category: "myCollections" },
+        query: { category: "MyCollections" },
       });
     }
   };
 
   const onProfileBtn = () => {
     if (!checkToken()) {
-      router.push("/auth/profile");
+      router.push("/auth/profile?category=MyProfile");
     }
   };
 
@@ -151,15 +151,15 @@ export default function NavBar() {
             </AuthList>
           ) : (
             <AuthList>
-              <AfterLoginItem id="0" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="0" num={infoMsgNum}>
                 <FiSend onClick={onMesseageBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
 
-              <AfterLoginItem id="1" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="1" num={infoMsgNum}>
                 <IoMdHeartEmpty  onClick={onLikeBtn} style={{color: "#666", fontSize: "28px", cursor: "pointer"}}/>
               </AfterLoginItem>
 
-              <AfterLoginItem id="2" infoMsgNum={infoMsgNum}>
+              <AfterLoginItem id="2" num={infoMsgNum}>
                 <CgProfile onClick={onProfileBtn} style={{color: "#666", fontSize: "24px", cursor: "pointer"}}/>
               </AfterLoginItem>
               {isFirstLogin && (
@@ -240,7 +240,7 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   width: 95%;
   margin: auto;
 `;
@@ -250,25 +250,24 @@ const PageList = styled.ul`
   padding-left: 0;
   gap: 15px;
 
-  ${({theme}) => theme.media.tablet}{
-    display: none;
-  }
-  
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.tablet} {
     display: none;
   }
 
+  /* ${({ theme }) => theme.media.mobile}{
+    display: none;
+  } */
 `;
 
 const AuthList = styled(PageList)`
   gap: 0px;
   position: relative;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     display: none;
   }
-  
-  ${({theme}) => theme.media.mobile}{
+
+  ${({ theme }) => theme.media.mobile} {
     display: none;
   }
 `;
@@ -295,17 +294,20 @@ const BeforeLoginItem = styled.li`
   font-weight: bold;
 `;
 
-const AfterLoginItem = styled.li<{ infoMsgNum: number }>`
+interface AfterLoginItem {
+  id: string;
+  num: number;
+}
+
+const AfterLoginItem = styled.li<AfterLoginItem>`
   width: 40px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
-  background-color: ${(props) =>
-    props.id == String(props.infoMsgNum)
-      ? "rgba(179, 136, 235, 30%)"
-      : "transparent"};
+  background-color: ${({ id, num }) =>
+    id == String(num) ? "rgba(179, 136, 235, 30%)" : "transparent"};
 
   border-radius: 50%;
 `;
@@ -319,11 +321,11 @@ const SignInBtn = styled.button`
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid #9ab3f5;
-  padding: 10px 0;
+  padding: 14px 0;
   text-align: center;
-
   color: #9ab3f5;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 `;
 
@@ -332,10 +334,10 @@ const SignUpBtn = styled.button`
   background-color: #9ab3f5;
   border-radius: 5px;
   color: white;
-  font-size: 18px;
-  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 0;
   text-align: center;
-  cursor: pointer;
 `;
 
 const InfoMsg = styled.div`
@@ -383,8 +385,8 @@ const MenuBtnWrapper = styled.div`
 `;
 
 const MenuBtn = styled.img`
-    width: 2rem;
-    height: 2rem;
+  width: 2rem;
+  height: 2rem;
 `;
 
 const MenuWrapper = styled.div`
@@ -404,7 +406,6 @@ const MenuCloseBoxWrapper = styled.div`
   left: 0;
   width: 60%;
   height: 100vh;
-
 `;
 
 const MenuBoxWrapper = styled.div`

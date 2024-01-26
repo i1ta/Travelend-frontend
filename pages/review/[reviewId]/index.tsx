@@ -1,16 +1,13 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router.js";
-import {
-  MorePostData,
-  ReviewDetailData,
-} from "../../../src/interfaces/detail.js";
+import { MorePostData, ReviewDetailData } from "../../../src/interfaces/detail";
 import Axios from "../../../src/apis";
 
-import Banner from "../../../src/components/detail/Banner.js";
-import ReviewForm from "../../../src/components/detail/ReviewForm.js";
-import Comment from "../../../src/components/detail/Comment.js";
-import MorePost from "../../../src/components/detail/MorePost.js";
+import Banner from "../../../src/components/detail/Banner";
+import ReviewForm from "../../../src/components/detail/ReviewForm";
+import Comment from "../../../src/components/detail/Comment";
+import MorePost from "../../../src/components/detail/MorePost";
 
 export default function ReviewDetailPage() {
   const router = useRouter();

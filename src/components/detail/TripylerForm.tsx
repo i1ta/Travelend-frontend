@@ -191,7 +191,6 @@ const PostTitleWrapper = styled.div`
 const PostTitle = styled.div`
   color: #fff;
   font-size: 24px;
-  font-weight: 500;
 `;
 
 const PostTitleInfoWrapper = styled.div`
@@ -203,7 +202,6 @@ const PostTitleInfoWrapper = styled.div`
 const PostTitleInfo = styled.div`
   color: #fff;
   font-size: 16px;
-  font-weight: 500;
 `;
 
 const ContentsLoc = styled.div`
@@ -296,7 +294,6 @@ const UserID = styled.div`
 const UserInfo = styled.div`
   color: #666;
   font-size: 16px;
-  font-weight: 500;
 `;
 
 const TripylerInfoWrapper = styled.div`
@@ -314,7 +311,6 @@ const ContentsInfoWrapper = styled.div`
 const ContentsInfoTxt = styled.div`
   color: #666;
   font-size: 16px;
-  font-weight: 500;
 `;
 
 const ContentsMidTopWrapper = styled.div`
@@ -333,7 +329,6 @@ const ContentsMidBtmWrapper = styled.div`
 const MidBtmTitle = styled.div`
   color: #333;
   font-size: 24px;
-  font-weight: 500;
   margin-bottom: 24px;
 `;
 
@@ -363,7 +358,7 @@ const MidBtmBodyTxt = styled.div`
 
   color: #666;
   font-size: 16px;
-  font-weight: 500;
+  line-height: 150%;
 `;
 
 const ContentsBtmWrapper = styled.div`

@@ -1,31 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaChevronDown } from "react-icons/fa6";
+import { ReviewStep1Props, TripListData } from "@/interfaces/write";
+import Axios from "@/apis";
 
-interface TripylerWithListData {
-  age: 0;
-  gender: string;
-  nickname: string;
-  profileUrl: string;
-  userId: 0;
-}
-
-interface TripListData {
-  endDate: string;
-  nationName: string;
-  regDateTime: string;
-  regionName: string;
-  startDate: string;
-  title: string;
-  tripylerId: number;
-  tripylerWithList: TripylerWithListData[];
-}
-
-interface ReviewStep1Props {
-  isEdit?: boolean;
-}
-
-export default function ReviewStep1({ isEdit }: ReviewStep1Props) {
+export default function ReviewStep1({ isEdit, setId }: ReviewStep1Props) {
   const [isOpenCmbBox, setIsOpenCmbBox] = useState(false);
   const [isOpenWithTripList, setIsOpenWithTripList] = useState(false);
   const [tripList, setTripList] = useState<TripListData[]>([]);
@@ -38,14 +17,26 @@ export default function ReviewStep1({ isEdit }: ReviewStep1Props) {
   const onClickCmbBoxItem = (e: React.MouseEvent<HTMLDivElement>) => {
     const value = parseInt(e.currentTarget.id);
     setSelectedInfo(tripList[value]);
+    setId(tripList[value].tripylerId);
     setIsOpenCmbBox(false);
     setIsOpenWithTripList(false);
   };
 
-  // 동행 Tripyler
   const onClickWithTrip = () => {
     setIsOpenWithTripList((prev) => !prev);
   };
+
+  const fetchList = async () => {
+    await Axios.get(`/my-collections/my-all-tripylers`)
+      .then((res) => {
+        setTripList([...res.data.data]);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    !isEdit && fetchList();
+  }, []);
 
   return (
     <StepContainer>
@@ -238,7 +229,7 @@ const CmbBoxListItem = styled.div`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.main1};
-    color: #FFF;
+    color: #fff;
   }
 `;
 

@@ -370,6 +370,7 @@ const MidBtmBodyTxt = styled.div`
   color: #666;
   font-size: 16px;
   font-weight: 500;
+  line-height: 150%;
 `;
 
 const ContentsBtmWrapper = styled.div`

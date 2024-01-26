@@ -2,11 +2,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 const Axios = axios.create();
-if (process.browser) {
-  Axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+Axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+
+if (typeof window !== "undefined") {
   Axios.defaults.headers.common["x-auth-token"] =
     window.localStorage.getItem("login-token");
-//   Axios.defaults.withCredentials = true;
 }
 
 // 토큰 만료 시 refresh token 재발급

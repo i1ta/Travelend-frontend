@@ -1,92 +1,83 @@
-import styled from "@emotion/styled";
+import styled from "styled-components";
 
 export const MyProfileWrapper = styled.div`
-  width: 1105px;
-  min-height: 960px;
-  padding-top: 25px;
+  width: 100%;
+  height: calc(100vh - 100px);
+  padding-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #f7f7f7;
 `;
 
-
 export const StyleTitleWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-
-  width: 1000px;
+  align-items: center;
+  width: 90%;
+  margin-bottom: 16px;
 `;
 
-export const StyleTitle = styled.h1`
-  font-size: 36px;
-  color: #6179B6;
-  margin-bottom: 30px;
+export const StyleTitle = styled.div`
   margin-right: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.main1};
 `;
 
 export const StyleHashTag = styled.div`
-  line-height: 42px;
-  height: 42px;
-  font-size: 17px;
-  font-weight: bold;
-  background-color: #6179B6;
-  border: 1px solid #6179B6;
+  padding: 8px 24px;
+  margin-right: 12px;
+  background-color: ${({ theme }) => theme.colors.main2};
+  border-radius: 10px;
 
-  border-radius: 15px;
   color: #ffffff;
-  margin: 0 10px;
-  margin-top: 6px;
-  padding: 0 20px;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 export const StyleEditImg = styled.img`
   cursor: pointer;
-  width:30px;
+  width: 30px;
   height: 30px;
   justify-content: center;
   margin-top: 5px;
-`
+`;
 
 export const StyleWrapper = styled.div``;
 
 export const StyleContent = styled.div`
+  width: 90%;
+  padding: 12px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 36px;
 
-  border: 2.5px solid #6179B6;
+  border: 1px solid ${({ theme }) => theme.colors.main2};
   border-radius: 15px;
   background-color: white;
-  padding: auto;
 
-  width: 1000px;
-  height: 180px;
-
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 export const BioWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 0 50px;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const BioNoneWrapper = styled.div`
   text-align: center;
-`
+`;
 
 export const StyleBio = styled.div`
-  flex:1;
-  width: 100%;
-  height: 55px;
-  padding: 20px 0;
+  padding: 12px 0;
   color: #666666;
-`
 
-export const BioBold = styled.span`
-  color: #6179B6;
-`
+  span {
+    color: ${({ theme }) => theme.colors.main2};
+  }
+`;
 
 export const StyleBioImg = styled.img`
   width: 35px;
@@ -94,12 +85,12 @@ export const StyleBioImg = styled.img`
   margin-top: 15px;
   margin-right: 10px;
   object-fit: cover;
-`
+`;
 
 export const StyleNoneBioImg = styled.img`
-width: 60px;
-height: 60px;
-object-fit: cover;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
 `;
 
 export const StyleBioDelImg = styled(StyleBioImg)`
@@ -111,8 +102,8 @@ export const StyleBioDelImg = styled(StyleBioImg)`
 `;
 
 export const StyleLineBio = styled(StyleBio)`
-  border-bottom: 1.5px solid #6179B6;
-`
+  border-bottom: 1.5px solid #c8b6ff;
+`;
 
 export const StyleModifyBioWrapper = styled.div`
   display: flex;
@@ -135,10 +126,8 @@ export const StyleBioInput = styled.input`
   border-left: none;
   border-right: none;
 
-  color: ${(props) => 
-    props.max ? "#FF7373" : "#666666"
-  };
-`
+  color: ${(props) => (props.max ? "#FF7373" : "#666666")};
+`;
 
 export const StyleMaxErr = styled.span`
   font-size: 13px;
@@ -151,82 +140,65 @@ export const BioInputWrapper = styled.div`
 `;
 
 export const StyleLineBioInput = styled(StyleBio)`
-  border-bottom: 1.5px solid #6179B6;
-`
+  border-bottom: 1.5px solid #c8b6ff;
+`;
 
 export const Title = styled.h1`
-  width: 1000px;
-  font-size: 36px;
-  color: #6179B6;
-  margin-top: 60px;
-  margin-bottom: 30px;
+  /* margin-right: 30px; */
+  font-size: 32px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.main1};
 `;
 
 // 테이블
 
-export const TableWrapper = styled.div`
-  display: inline-block;
-  border-radius: 50px;
-`;
-
 export const Table = styled.table`
-  width: 1000px;
-  height: 420px;
+  margin: 16px 0 36px 0;
+  width: 90%;
   background-color: white;
-  margin-bottom: 15px;
-  padding: 10px;
-  border-collapse: collapse;
   border-radius: 15px;
-  border-style: hidden;
-  box-shadow: 0 0 0 2px #6179B6;
+  box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.main2};
 `;
 
 export const Td = styled.td`
-  max-height: 100px;
-  padding-left: 50px;
-  width: 230px;
-  border: none;
-  font-size: 20px;
+  width: 35%;
+  padding: 24px 20px;
+  font-size: 16px;
   color: #666666;
-  border-right: 2px solid #6179B6;
+  border-right: 1px solid ${({ theme }) => theme.colors.main2};
 `;
 
 export const ModifyTd = styled(Td)`
   max-width: 250px;
   height: 100px;
   padding-left: 0;
-`
+`;
 
-export const Tc = styled(Td)`
-  width: 100px;
+export const Tc = styled.td`
+  width: 15%;
   text-align: center;
-  color: #6179B6;
+  color: ${({ theme }) => theme.colors.main2};
   border: none;
+  font-size: 16px;
   font-weight: bold;
 `;
 
 export const TdWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 `;
 
-export const TdTxt = styled.div`
-
-`;
-
 export const LockIcon = styled.img`
-  width: 25px;
-  height: 30px;
-  margin-right: 30px;
+  width: 15px;
+  height: 20px;
   cursor: pointer;
 `;
 
 export const TdLine = styled.div`
-  height: 120px;
-  width: 2px;
-  background-color: #6179B6;
-`;  
+  height: 100%;
+  width: 1px;
+  background-color: #c8b6ff;
+`;
 
 // 수정 시 스타일
 
@@ -275,7 +247,7 @@ export const PhoneWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 10px;
-`
+`;
 
 export const PhoneInput = styled.input`
   padding: 0 20px;
@@ -298,31 +270,27 @@ export const phoneBtn = styled.div`
   text-align: center;
   justify-content: center;
   cursor: pointer;
-`
+`;
 
 export const BtnWrapper = styled.div`
-  align-items: center;
-  text-align: center;
-  margin-top: 45px;
+
 `;
 
 export const Btn = styled.button`
-  width: 200px;
-  height: 63px;
+  padding: 16px 36px;
   border-radius: 50px;
-  background-color: #9AB3F5;
-  border: none;
+  background-color: ${({ theme }) => theme.colors.main1};
+
   color: #ffffff;
   font-size: 18px;
   font-weight: bold;
-  margin: 0 20px;
 `;
 
 export const CancleBtn = styled(Btn)`
   border: 1px solid #9AB3F5;
   color: #9AB3F5;
   background-color: #ffffff;
-`
+`;
 
 export const ProfileImage = styled.div`
   width: 280px;
@@ -330,7 +298,7 @@ export const ProfileImage = styled.div`
   border-radius: 50%;
   background-color: #e6e6e6;
 
-  display: flex;           
+  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -349,7 +317,7 @@ export const ProfileWrapper = styled.div`
 
 export const ProfileFileInput = styled.input`
   background-color: #ffffff;
-`
+`;
 
 export const profileFileBtn = styled.label`
   background-color: #9AB3F5;
@@ -437,7 +405,7 @@ export const DefaultProfile = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
+`;
 
 export const ModalMbtiContent = styled.div`
   cursor: pointer;
@@ -588,7 +556,6 @@ export const ModalRecogHashtagWrapper = styled.div`
   flex-wrap: wrap;
   gap: 10px 10.5px;
 `;
-
 
 export const Hashtag = styled(ModalHashtag)`
   width: 130px;

@@ -3,6 +3,7 @@ import * as S from "./Messengser.styles";
 import Report from "@/components/commons/Modal/Report";
 import Block from "@/components/commons/Modal/Block";
 import { useRouter } from "next/router";
+import { IoChatbubbleEllipsesOutline, IoSend } from "react-icons/io5";
 
 export default function Messenger(props) {
   const router = useRouter();
@@ -76,23 +77,25 @@ export default function Messenger(props) {
         {props.msgData.chatRoomId ? (
           <S.MsgSection>
             <S.TopWrapper>
-              <S.UserWrapper
-                onClick={() =>
-                  router.push(
-                    `/auth/profile?userId=${props.msgData.recipientId}`
-                  )
-                }
-              >
-                <S.Profile
-                  src={props.msgData.profileUrl || "/icon/defaultProfile.png"}
-                ></S.Profile>
-                <S.RoomUserId>{props.msgData?.name}</S.RoomUserId>
-              </S.UserWrapper>
-              <S.BlockWrapper>
-                <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
-                <S.BlockHypen />
-                <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
-              </S.BlockWrapper>
+              <S.TopContent>
+                <S.UserWrapper
+                  onClick={() =>
+                    router.push(
+                      `/auth/profile?userId=${props.msgData.recipientId}`
+                    )
+                  }
+                >
+                  <S.Profile
+                    src={props.msgData.profileUrl || "/icon/defaultProfile.png"}
+                  ></S.Profile>
+                  <div>{props.msgData?.name}</div>
+                </S.UserWrapper>
+                <S.BlockWrapper>
+                  <S.BlockTxt onClick={toggleReport}>신고</S.BlockTxt>
+                  <S.BlockHypen />
+                  <S.BlockTxt onClick={toggleBlock}>차단</S.BlockTxt>
+                </S.BlockWrapper>
+              </S.TopContent>
             </S.TopWrapper>
 
             <S.ChatWrapper ref={containerRef}>
@@ -116,7 +119,13 @@ export default function Messenger(props) {
                     )}
                     <S.ChatBubbleWrapper isSend={e.sender}>
                       {e.sender ? (
-                        <>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-end",
+                            gap: "8px",
+                          }}
+                        >
                           <S.ChatTime
                             show={isHovered && hoverIndex === index}
                           >{`${e.sendTime.split("T")[1].split(":")[0]}:${
@@ -134,7 +143,7 @@ export default function Messenger(props) {
                           >
                             {e.content}
                           </S.ChatBubble>
-                        </>
+                        </div>
                       ) : (
                         <>
                           <S.ChatBubble
@@ -161,18 +170,27 @@ export default function Messenger(props) {
                 );
               })}
             </S.ChatWrapper>
+
             <S.SendWrapper onSubmit={props.onSubmitSendMsg}>
-              <S.SendInput
+              <input
                 name="message"
                 autocomplete="off"
                 onChange={(e) => setInput(e.target.value)}
-              ></S.SendInput>
-              <S.SendBtn sendOn={input.length > 0}>Send</S.SendBtn>
+              ></input>
+              <button sendOn={input.length > 0}>
+                <IoSend />
+              </button>
             </S.SendWrapper>
           </S.MsgSection>
         ) : (
           <S.MsgSection style={{ alignItems: "center" }}>
-            <S.NoneSelectedImg src="/icon/dialogue.png" />
+            <IoChatbubbleEllipsesOutline
+              style={{
+                color: "#666",
+                fontSize: "120px",
+                marginBottom: "24px",
+              }}
+            />
             <S.NoneSelectedTxt>쪽지 목록을 선택해주세요</S.NoneSelectedTxt>
           </S.MsgSection>
         )}

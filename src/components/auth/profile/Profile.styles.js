@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Container = styled.div`
-  min-height: calc(100vh - 120px);
+  /* min-height: calc(100vh - 100px); */
   display: flex;
   justify-content: center;
 `;
@@ -31,7 +31,7 @@ export const ProfileLine = styled.div`
   height: 1px;
   background-color: #999999;
   margin-bottom: 1.5rem;
-`;  
+`;
 
 export const BlockWrapper = styled.div`
   display: flex;
@@ -62,12 +62,11 @@ export const ProfileImage = styled.div`
   border-radius: 50%;
   background-color: #e6e6e6;
 
-  display: flex;           
+  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
 `;
-
 
 export const profileFileBtn = styled.label`
 background-color: #ffffff;
@@ -179,13 +178,13 @@ export const Td = styled.td`
 `;
 
 export const StyleTd = styled(Td)`
-    background: #90E0EF;
-    width: 77px;
-    height: 30px;
-    border-radius: 20px;
-    color: white;
-    margin: 100px 100px;
-`
+  background: #90e0ef;
+  width: 77px;
+  height: 30px;
+  border-radius: 20px;
+  color: white;
+  margin: 100px 100px;
+`;
 
 export const Tc = styled(Td)`
     text-align: center;
@@ -193,14 +192,12 @@ export const Tc = styled(Td)`
     border: none;
 `;
 
-export const StyleBox = styled.div`
-    
-`;
+export const StyleBox = styled.div``;
 
 export const BtnWrapper = styled.div`
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
 `;
 
 export const Btn = styled.button`
@@ -262,7 +259,7 @@ export const DefaultProfile = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
+`;
 
 export const ModalMbtiContent = styled.div`
   cursor: pointer;

@@ -1,17 +1,14 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import * as S from "./admin.style";
+import Axios from "@/apis";
 
 export default function Admin() {
-  const apipath = "https://api.tripyle.xyz";
   const [blcokList, setBlockList] = useState([]);
   const [reportList, setReportList] = useState([]);
 
   const fetchBlockList = async () => {
-    await axios
-      .get(`${apipath}/block/list`)
+    await Axios.get("/block/list")
       .then((res) => {
-        console.log(res);
         setBlockList(
           res.data.data.map((el) => ({
             id: el.id,
@@ -28,10 +25,8 @@ export default function Admin() {
   };
 
   const fetchReportList = async () => {
-    await axios
-      .get(`${apipath}/report/list`)
+    await Axios.get("/report/list")
       .then((res) => {
-        console.log(res);
         setReportList(
           res.data.data.map((el) => ({
             id: el.id,
@@ -50,9 +45,6 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    axios.defaults.headers.common["x-auth-token"] =
-      window.localStorage.getItem("login-token");
-
     fetchReportList();
     fetchBlockList();
   }, []);
@@ -80,11 +72,7 @@ export default function Admin() {
           </thead>
           <tbody>
             {blcokList?.map((el) => (
-              <tr
-                // id={el.id}
-                style={{ cursor: "pointer" }}
-                // onClick={onClickItem}
-              >
+              <tr key={el.id} style={{ cursor: "pointer" }}>
                 {el.item?.map((element) => (
                   <S.TableCell>{element}</S.TableCell>
                 ))}
@@ -117,11 +105,7 @@ export default function Admin() {
           </thead>
           <tbody>
             {reportList?.map((el) => (
-              <tr
-                id={el.id}
-                style={{ cursor: "pointer" }}
-                // onClick={onClickItem}
-              >
+              <tr key={el.id} style={{ cursor: "pointer" }}>
                 {el.item?.map((element) => (
                   <S.TableCell>{element}</S.TableCell>
                 ))}

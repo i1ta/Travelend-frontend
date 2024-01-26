@@ -2,7 +2,7 @@ import {
   FindCardFilter,
   FindCardList,
   JwtTokenState,
-  LoginState
+  LoginState,
 } from "@/States/LoginState";
 import Axios from "@/apis";
 import { useRouter } from "next/router";
@@ -71,7 +71,6 @@ export default function Main() {
             `/tripyler/list?isRecruiting=1&option=1`,
             requestData
           );
-          console.log(res.data.data);
           setTripylerList(res.data.data);
         } catch (error) {
           console.log(error);
@@ -146,7 +145,6 @@ export default function Main() {
         .post(`/review/list?option=4`, requestData)
         .then((res) => {
           setReviewList(res.data.data);
-          console.log(res.data.data);
         })
         .catch((error) => console.log(error));
     };
@@ -166,15 +164,13 @@ export default function Main() {
     <Container>
       <MainBanner />
 
-      <TripylerBox 
-        onClcickFilterFind={onClcickFilterFind} 
+      <TripylerBox
+        onClcickFilterFind={onClcickFilterFind}
         tripylerList={tripylerList}
       />
       <ReviewBanner />
-      <ReviewBox 
-        reviewList={reviewList}
-      />
-      <AdverBanner/>
+      <ReviewBox reviewList={reviewList} />
+      <AdverBanner />
     </Container>
   );
 }
@@ -185,4 +181,3 @@ export const Container = styled.div`
   flex-direction: column;
   margin: auto;
 `;
-

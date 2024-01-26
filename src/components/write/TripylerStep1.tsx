@@ -1,25 +1,27 @@
+import { MyHashtag, TripylerStep1Props } from "@/interfaces/write";
 import { useState } from "react";
 import styled from "styled-components";
+import CalendarTool from "@/components/commons/Tools/Calendar";
+import PlaceModal from "./PlaceModal";
+import StyleModal from "../commons/Modal/StyleModal";
+import IDModal from "./IDModal";
 
-interface MyHashtag {
-  id: number;
-  name: string;
-}
-
-export default function TripylerStep1() {
+export default function TripylerStep1({
+  isEdit,
+  data,
+  placeData,
+  tripDate,
+  hashtagList,
+  setData,
+  setPlaceData,
+  setTripDate,
+  setHashtagList,
+}: TripylerStep1Props) {
   const [isOpenPlaceModal, setIsOpenPlaceModal] = useState(false);
   const [isOpenStyleModal, setIsOpenStyleModal] = useState(false);
   const [isOpneWithTripyler, setIsOpenWithTripyler] = useState(false);
-  const [totalPeopleNum, setTotalPeopleNum] = useState(2);
-  const [shownMyHashtag, setShownMyHashtag] = useState<MyHashtag[]>([]);
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  // const [tripDate, setTripDate] = useState({
-  //   startDate: new Date(),
-  //   endDate: new Date(),
-  //   key: "selection",
-  // });
-  const [tripDate, setTripDate] = useState([]);
-  const [estimatedPrice, setEstimatedPrice] = useState(0);
+
   const [commaPrice, setCommaPrice] = useState("");
 
   const onChangeMoney = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,18 +31,21 @@ export default function TripylerStep1() {
       return;
     }
     setCommaPrice(parseInt(value).toLocaleString());
-
-    setEstimatedPrice(parseInt(value));
+    setData((prev) => ({ ...prev, estimatedPrice: parseInt(value) }));
   };
 
-  const onClickDate = () => {
-    setIsOpenCalendar((prev) => !prev);
-  };
-
-  const onClickUpDownBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (event.currentTarget.id === "down") {
-      if (totalPeopleNum > 1) setTotalPeopleNum((prev) => prev - 1);
-    } else setTotalPeopleNum((prev) => prev + 1);
+  const onClickUpDownBtn = (isUp: boolean) => {
+    if (isUp) {
+      setData((prev) => ({
+        ...prev,
+        totalPeopleNum: prev.totalPeopleNum + 1,
+      }));
+    } else if (data.totalPeopleNum > 1) {
+      setData((prev) => ({
+        ...prev,
+        totalPeopleNum: prev.totalPeopleNum - 1,
+      }));
+    }
   };
 
   return (
@@ -48,10 +53,9 @@ export default function TripylerStep1() {
       <ItemContainer>
         <InputTitle>여행지역</InputTitle>
         <GrayInput>
-          {/* {shownPlace.nationName
-            ? `${shownPlace.nationName}, ${shownPlace.regionName}`
-            : ""} */}
-          미정
+          {placeData?.nationName
+            ? `${placeData?.nationName}, ${placeData?.regionName}`
+            : ""}
         </GrayInput>
         <InputBtn onClick={() => setIsOpenPlaceModal(true)}>지역 선택</InputBtn>
       </ItemContainer>
@@ -59,15 +63,15 @@ export default function TripylerStep1() {
       <ItemContainer style={{ position: "relative" }}>
         <InputTitle>여행일정</InputTitle>
         <DateInput>
-          <div onClick={onClickDate}>
+          <div onClick={() => setIsOpenCalendar((prev) => !prev)}>
             {tripDate.length === 0 ? "출발" : tripDate[0]}
           </div>
           <div />
-          <div onClick={onClickDate}>
+          <div onClick={() => setIsOpenCalendar((prev) => !prev)}>
             {tripDate.length === 0 ? "도착" : tripDate[1]}
           </div>
         </DateInput>
-        {/* {isOpenCalendar && (
+        {isOpenCalendar && (
           <CalendarWrapper>
             <CalendarTool
               setIsOpenCalendar={setIsOpenCalendar}
@@ -75,20 +79,18 @@ export default function TripylerStep1() {
               restrict={true}
             />
           </CalendarWrapper>
-        )} */}
-        <InputBtn onClick={onClickDate}>일정선택</InputBtn>
+        )}
+        <InputBtn onClick={() => setIsOpenCalendar((prev) => !prev)}>
+          일정선택
+        </InputBtn>
       </ItemContainer>
 
       <ItemContainer>
         <InputTitle>동행자 인원수</InputTitle>
         <WhiteInput>
-          <button id="down" onClick={onClickUpDownBtn}>
-            -
-          </button>
-          <div>{totalPeopleNum}명</div>
-          <button id="up" onClick={onClickUpDownBtn}>
-            +
-          </button>
+          <button onClick={() => onClickUpDownBtn(false)}>-</button>
+          <div>{data?.totalPeopleNum}명</div>
+          <button onClick={() => onClickUpDownBtn(true)}>+</button>
         </WhiteInput>
         <EmptyBtn />
       </ItemContainer>
@@ -100,7 +102,7 @@ export default function TripylerStep1() {
         </InputTitle>
 
         <GrayInput style={{ gap: "16px" }}>
-          {shownMyHashtag.map((e) => (
+          {hashtagList.map((e) => (
             <Hashtag key={e.id}>#{e.name}</Hashtag>
           ))}
         </GrayInput>
@@ -126,9 +128,9 @@ export default function TripylerStep1() {
       <ItemContainer>
         <InputTitle>함께하는 Travelend</InputTitle>
         <GrayInput style={{ gap: "16px" }}>
-          {/* {shownWithTripylerList.map((e) => (
+          {data.tripylerWithList?.map((e) => (
             <TripylerID key={e.id}>@{e.nickname}</TripylerID>
-          ))} */}
+          ))}
         </GrayInput>
         <InputBtn
           onClick={() => {
@@ -138,6 +140,30 @@ export default function TripylerStep1() {
           아이디 검색
         </InputBtn>
       </ItemContainer>
+
+      {/* 모달창 */}
+      {isOpenPlaceModal && (
+        <PlaceModal
+          setPlaceData={setPlaceData}
+          setIsOpenModal={setIsOpenPlaceModal}
+        />
+      )}
+      {isOpenStyleModal && (
+        <StyleModal
+          data={hashtagList}
+          setData={setHashtagList}
+          setIsOpenModal={setIsOpenStyleModal}
+          limitLen="5"
+          placeholder="5개 필수"
+        />
+      )}
+      {isOpneWithTripyler && (
+        <IDModal
+          data={data}
+          setData={setData}
+          setIsOpenModal={setIsOpenWithTripyler}
+        />
+      )}
     </StepContainer>
   );
 }
@@ -278,13 +304,22 @@ const Hashtag = styled.div`
 const TripylerID = styled.div`
   padding: 0px 20px;
   height: 34px;
-  border: 1px solid #90e0ef;
+  border: 1px solid ${({ theme }) => theme.colors.main1};
   border-radius: 18px;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #90e0ef;
+  color: ${({ theme }) => theme.colors.main1};
   font-size: 14px;
   font-weight: 600;
+`;
+
+const CalendarWrapper = styled.div`
+  width: 350px;
+  height: 300px;
+  top: 50px;
+  left: 31%;
+  position: absolute;
+  background-color: aliceblue;
 `;

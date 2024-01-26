@@ -40,15 +40,27 @@ const TitleTxt = styled.div`
   align-items: center;
   color: #fff;
   gap: 28px;
+
+  ${({ theme }) => theme.media.mobile} {
+    gap: 20px;
+  }
 `;
 
 const Title = styled.div`
   font-size: 50px;
   font-weight: 700;
   margin-top: 140px;
+
+  ${({ theme }) => theme.media.mobile} {
+    font-size: 40px;
+  }
 `;
 
 const SubTitle = styled.div`
   font-size: 20px;
   font-weight: 500;
+
+  ${({ theme }) => theme.media.mobile} {
+    font-size: 18px;
+  }
 `;

@@ -111,7 +111,7 @@ export default function FindCard(props) {
           <ReviewHashTagWrapper>
             {props.info.hashtag.map((element, idx) => {
               if (0 <= idx && idx < 4) {
-                return <ReviewHashTag>#{element}</ReviewHashTag>;
+                return <ReviewHashTag key={idx}>#{element}</ReviewHashTag>;
               }
             })}
           </ReviewHashTagWrapper>
