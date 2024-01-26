@@ -37,7 +37,9 @@ export default function AdverBanner() {
         if (e.idx === adverIdx) {
           return (
             <AdBannerWrapper>
-              <AdImg src={e.img} key={e.idx} />
+              <AdImgWrapper>
+                <AdImg src={e.img} key={e.idx} />
+              </AdImgWrapper>
               <AdTitleWrapper>
                 {e.title.map((title: string, j: number) => (
                   <AdTitle
@@ -75,6 +77,10 @@ const AdBannerWrapper = styled.div`
   margin: 1.5rem auto;
 `;
 
+const AdImgWrapper = styled.div`
+  object-fit: cover;
+`;
+
 const AdImg = styled.img`
   height: 610px;
   max-width: 1920px;
@@ -97,7 +103,7 @@ const AdTitle = styled.div`
   left: 12.5rem;
 
   color: #fff;
-  font-size: 3.5rem;
+  font-size: 3.0rem;
   font-weight: bold;
   white-space: nowrap;
 `;

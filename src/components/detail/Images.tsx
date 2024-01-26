@@ -1,7 +1,6 @@
 import { useState } from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import styled from "styled-components";
-import { FaAngleRight } from "react-icons/fa6";
-import { FaAngleLeft } from "react-icons/fa6";
 
 interface ImagesProps {
   imgList: string[];
@@ -34,7 +33,7 @@ export default function Images({ imgList }: ImagesProps) {
           ?.filter((el, idx) => idx >= showImgNum && idx < showImgNum + 3)
           .map((el, idx) => (
             <ShowingImg key={idx}>
-              <img src={el} />
+              <img src={el} alt="img"/>
             </ShowingImg>
           ))}
 

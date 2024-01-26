@@ -1,7 +1,7 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { IoImageOutline } from "react-icons/io5";
 import { TripylerStep3Props } from "@/interfaces/write";
+import { useState } from "react";
+import { IoImageOutline } from "react-icons/io5";
+import styled from "styled-components";
 
 export default function TripylerStep3({
   isEdit,
@@ -34,7 +34,7 @@ export default function TripylerStep3({
     <StepContainer>
       <FileContainer>
         <InputTitle>첨부파일</InputTitle>
-        <input
+        <Input
           id="upload-input"
           type="file"
           accept="image/*"
@@ -48,7 +48,7 @@ export default function TripylerStep3({
         <InputTitle style={{ marginTop: "8px" }}>이미지 뷰어</InputTitle>
         <ImageViewer>
           {imageUrl ? (
-            <img src={imageUrl} />
+            <img src={imageUrl} alt="img"/>
           ) : (
             <>
               <IoImageOutline style={{ fontSize: "60px", color: "#666" }} />
@@ -148,3 +148,5 @@ const ImageViewer = styled.div`
     height: 100%;
   }
 `;
+
+const Input = styled.input``;

@@ -35,7 +35,9 @@
     "recoil": "^0.7.7",
     "recoil-persist": "^4.2.0",
     "styled-components": "^6.0.0-rc.1",
-    "swiper": "^11.0.5"
+    "swiper": "^11.0.5",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",

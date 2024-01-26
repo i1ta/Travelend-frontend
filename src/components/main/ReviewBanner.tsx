@@ -51,6 +51,10 @@ export const ReviewBannerImgOne = styled.img`
   width: 382px;
   height: 474px;
   border-radius: 30px; 
+
+  @media screen and (max-width: 1639.9px){
+    display: none;
+  }
 `;
 
 export const ReviewBannerImgTwoWrapper = styled(ReviewBannerImgOneWrapper)`

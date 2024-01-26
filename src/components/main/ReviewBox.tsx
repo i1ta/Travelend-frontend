@@ -29,7 +29,7 @@ export default function ReviewBox ({ reviewList } : Props) {
         }}
       >
       <FindTripylerTitle>
-          Trip'yler들의 여행 후기를 만나보세요
+          Travelender들의 여행 후기를 만나보세요
       </FindTripylerTitle>
       <BtnBigArrow src="icon/move.png"></BtnBigArrow>
     </ReviewTitleWrapper>

@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
+import { LoginState } from "../src/States/LoginState";
 import Main from "../src/components/main/Main.container";
 import { RequestData, TripylerMainData } from "../src/interfaces/main.ts";
-import { LoginState } from "../src/states/LoginState";
 
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";

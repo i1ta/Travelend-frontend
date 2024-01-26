@@ -1,5 +1,6 @@
+
+import { useState } from "react";
 import * as S from "./contact.styles";
-import { useEffect, useState } from "react";
 
 export default function ContactTripyle() {
   const [title, setTitle] = useState("");
@@ -104,7 +105,7 @@ export default function ContactTripyle() {
                   <S.NoImgTxt> 이미지 첨부</S.NoImgTxt>
                 </S.NoImgIconWrapper>
               </S.NoImgWrapper>
-              <input
+              <S.Input
                 id="first-upload-input"
                 type="file"
                 accept="image/*"
