@@ -7,7 +7,7 @@ export default function PlaceModal({
   setIsOpenModal,
   setPlaceData,
 }: PlaceModalProps) {
-  const [place, setPlace] = useState<Place>();
+  const [place, setPlace] = useState<Place | undefined>();
   const [errPlace, setErrPlace] = useState("");
 
   const onSubmitSearch = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +42,7 @@ export default function PlaceModal({
             name="search"
           ></ModalInput>
           <ModalInputBtn>
-            <img src="/icon/search.png" />
+            <img src="/icon/search.png" alt="search"/>
           </ModalInputBtn>
         </ModalInputWrapper>
         <ModalHashtagError>{errPlace}</ModalHashtagError>
