@@ -67,7 +67,7 @@ export default function LoginForm() {
         };
 
         const response = await axios.post(
-          "https://api.tripyle.xyz/user/login",
+          process.env.NEXT_PUBLIC_API_URL + "/user/login",
           requestData,
           { "Content-Type": "application/json; charset=utf-8" }
         );
@@ -83,6 +83,7 @@ export default function LoginForm() {
           }
 
           localStorage.setItem("login-token", response.data.data.accessToken);
+          localStorage.setItem("refreshToken", response.data.data.refreshToken);
           login({ jwtToken: response.data.data.accessToken, setJwtToken });
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
