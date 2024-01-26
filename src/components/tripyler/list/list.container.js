@@ -23,7 +23,6 @@ export default function FindTripylerList() {
   const jwtInfo = useRecoilValue(JwtTokenState);
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
-  const apipath = "https://api.tripyle.xyz";
 
   const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
@@ -627,7 +626,8 @@ const BannerTitle = styled.div`
 const BannerTxt = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 60px 0 0 0;
+  margin: 30px 0 0 0;
+  gap: 15px;
   font-style: normal;
   font-weight: 500;
   font-size: 1.25rem;
@@ -662,6 +662,11 @@ const FindFilter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 1200px){
+    width: auto;
+    left: 38%;
+  }
 
 ${({theme}) => theme.media.mobile}{
   width: auto;

@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { useState } from "react";
 import { ApplyFormProps } from "@/interfaces/apply";
+import { useState } from "react";
+import styled from "styled-components";
 
 export default function ApplyForm({
   isChecked,
@@ -42,11 +42,11 @@ export default function ApplyForm({
       <ContentsItem>
         <FormTitle>Trip’yler 신청 관련 안내사항</FormTitle>
         <Radio>
-          <input
+          <SmInput
             type="checkbox"
             checked={isChecked}
             onChange={onChangeCheckboxAll}
-          ></input>
+          ></SmInput>
           <div>모두 동의</div>
         </Radio>
         <AcceptItem>
@@ -58,11 +58,11 @@ export default function ApplyForm({
             목적으로 사용됩니다.
           </AcceptInfo>
           <Radio>
-            <input
+            <SmInput
               type="checkbox"
               checked={isChecked1}
               onChange={onChangeCheckbox1}
-            ></input>
+            ></SmInput>
             <div>확인했습니다.</div>
           </Radio>
         </AcceptItem>
@@ -77,11 +77,11 @@ export default function ApplyForm({
             Trip’yle는 여행 동반자 간의 적절한 상호 작용을 촉구합니다
           </AcceptInfo>
           <Radio>
-            <input
+            <SmInput
               type="checkbox"
               checked={isChecked2}
               onChange={onChangeCheckbox2}
-            ></input>
+            ></SmInput>
             <div>확인했습니다.</div>
           </Radio>
         </AcceptItem>
@@ -180,3 +180,5 @@ export const Input = styled.textarea`
   font-size: 16px;
   font-weight: 500;
 `;
+
+const SmInput = styled.input``;

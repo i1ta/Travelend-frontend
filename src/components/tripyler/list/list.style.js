@@ -84,11 +84,12 @@ export const BannerSubTitleTxt = styled.span`
 export const BannerTxt = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 60px 0 0 0;
+  margin: 30px 0 0 0;
+  gap: 10px;
   font-style: normal;
   font-weight: 500;
   font-size: 1.25rem;
-  line-height: 2rem;
+  line-height: 3rem;
   color: #666;
   position: relative;
   z-index: 100;

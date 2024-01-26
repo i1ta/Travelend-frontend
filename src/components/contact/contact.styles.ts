@@ -212,3 +212,7 @@ export const Btn = styled.button`
   text-align: center;
   cursor: pointer;
 `;
+
+export const Input = styled.input`
+  display: none;
+`

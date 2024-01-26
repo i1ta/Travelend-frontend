@@ -1,10 +1,9 @@
-import { useState } from "react";
 import styled from "styled-components";
 
-import { FaPlus } from "react-icons/fa";
-import { MdOutlineCancel } from "react-icons/md";
-import { IoImageOutline } from "react-icons/io5";
 import { ReveiwStep2Props } from "@/interfaces/write";
+import { FaPlus } from "react-icons/fa";
+import { IoImageOutline } from "react-icons/io5";
+import { MdOutlineCancel } from "react-icons/md";
 
 export default function ReviewStep2({
   setData,
@@ -55,7 +54,7 @@ export default function ReviewStep2({
             <NoImgSubTxt>
               여행 이미지는 최대 10장까지 첨부 가능합니다.
             </NoImgSubTxt>
-            <input
+            <Input
               id="first-upload-input"
               type="file"
               accept="image/*"
@@ -69,7 +68,7 @@ export default function ReviewStep2({
           {imageData.map((el, idx) => (
             <ImageItem key={idx}>
               <ImageWrapper>
-                <img src={typeof el.url === "string" ? el.url : ""} />
+                <img src={typeof el.url === "string" ? el.url : ""} alt="img"/>
               </ImageWrapper>
               <ImgNameWrapper>
                 <div>{el.file.name}</div>
@@ -85,7 +84,7 @@ export default function ReviewStep2({
             <ImgAddBtn htmlFor="upload-input">
               <FaPlus style={{ fontSize: "20px", color: "#333" }} />
               <div>이미지 추가</div>
-              <input
+              <Input
                 id="upload-input"
                 type="file"
                 accept="image/*"
@@ -255,3 +254,5 @@ const NoImgSubTxt = styled.div`
   color: #666;
   font-size: 16px;
 `;
+
+const Input = styled.input``;

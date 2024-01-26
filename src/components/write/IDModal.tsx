@@ -57,7 +57,7 @@ export default function IDModal({
         <ModalInputWrapper onSubmit={onSubmitFindID}>
           <ModalInput placeholder="아이디 검색" name="search"></ModalInput>
           <ModalInputBtn>
-            <img src="/icon/search.png" />
+            <img src="/icon/search.png" alt="search"/>
           </ModalInputBtn>
         </ModalInputWrapper>
         <ModalHashtagError>{errTripyler}</ModalHashtagError>

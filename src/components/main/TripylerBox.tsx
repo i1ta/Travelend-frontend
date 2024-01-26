@@ -23,7 +23,7 @@ export default function TripylerBox ( { onClcickFilterFind, tripylerList } : Pro
         <ContentWrapper>
           <ReviewTitleWrapper onClick={onClcickFilterFind}>
             <FindTripylerTitle>
-                함께 동행할 Trip’yler를 만나보세요
+                함께 동행할 Travelender를 만나보세요
             </FindTripylerTitle>
             <BtnBigArrow src="icon/move.png"></BtnBigArrow>
           </ReviewTitleWrapper>

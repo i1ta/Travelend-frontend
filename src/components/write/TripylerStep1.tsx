@@ -1,10 +1,10 @@
-import { MyHashtag, TripylerStep1Props } from "@/interfaces/write";
+import CalendarTool from "@/components/commons/Tools/Calendar";
+import { TripylerStep1Props } from "@/interfaces/write";
 import { useState } from "react";
 import styled from "styled-components";
-import CalendarTool from "@/components/commons/Tools/Calendar";
-import PlaceModal from "./PlaceModal";
 import StyleModal from "../commons/Modal/StyleModal";
 import IDModal from "./IDModal";
+import PlaceModal from "./PlaceModal";
 
 export default function TripylerStep1({
   isEdit,
@@ -119,7 +119,7 @@ export default function TripylerStep1({
         <InputTitle>예상 여행 경비</InputTitle>
         <WhiteInput>
           <div>약</div>
-          <input value={commaPrice.toLocaleString()} onChange={onChangeMoney} />
+          <Input value={commaPrice.toLocaleString()} onChange={onChangeMoney} placeholder=""/>
           <div>원</div>
         </WhiteInput>
         <EmptyBtn />
@@ -323,3 +323,6 @@ const CalendarWrapper = styled.div`
   position: absolute;
   background-color: aliceblue;
 `;
+
+
+const Input = styled.input``;
