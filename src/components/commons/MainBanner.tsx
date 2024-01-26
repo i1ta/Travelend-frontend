@@ -1,14 +1,11 @@
-import {
-  FindCardFilter,
-  FindCardList
-} from "@/States/LoginState";
+import { FindCardFilter, FindCardList } from "@/States/LoginState";
 import Axios from "@/apis";
 import onClickFilterFind from "@/hook/onClickFilterFind";
 import {
   Destination,
   FilterDestination,
   SelectedFilterDestination,
-  ShowFilterDestination
+  ShowFilterDestination,
 } from "@/interfaces/main";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -16,8 +13,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import Calendar from "./Tools/Calendar";
 
-
-export default function MainBanner () {
+export default function MainBanner() {
   const router = useRouter();
 
   // recoil
@@ -31,15 +27,18 @@ export default function MainBanner () {
     country: [],
     city: [],
   });
-  const [selectedDestination, setSelectedDestination] = useState<SelectedFilterDestination>({
-    continent: { id: 0, name: "" },
-    country: { id: 0, name: "" },
-    city: { id: 0, name: "" },
-  });
-  const [showDestination, setShowDestination] = useState<ShowFilterDestination>({
-    country: "",
-    city: "",
-  });
+  const [selectedDestination, setSelectedDestination] =
+    useState<SelectedFilterDestination>({
+      continent: { id: 0, name: "" },
+      country: { id: 0, name: "" },
+      city: { id: 0, name: "" },
+    });
+  const [showDestination, setShowDestination] = useState<ShowFilterDestination>(
+    {
+      country: "",
+      city: "",
+    }
+  );
 
   const onClcickFilterFind = async () => {
     // const requestData : RequestData  = {
@@ -97,48 +96,45 @@ export default function MainBanner () {
       if (selectedDestination.city.name !== "") {
         return;
       }
-      Axios.get("/destination/continent")
-        .then((res) => {
-            setDestination((prevDestination) => ({
-            continent: res.data.data,
-            country: [],
-            city: [],
-            }));
-        });
-    }
-  };
-
-  const onOpenCountry = (e : any) => {
-    setSelectedDestination((prev : SelectedFilterDestination): SelectedFilterDestination => ({
-      ...prev,
-      continent: { id: e.target.id, name: e.target.innerText },
-    }));
-
-    Axios
-      .get(`/destination/nation?continentId=${e.target.id}`)
-      .then((res) => {
+      Axios.get("/destination/continent").then((res) => {
         setDestination((prevDestination) => ({
-          ...prevDestination,
-          country: res.data.data,
+          continent: res.data.data,
+          country: [],
           city: [],
         }));
       });
+    }
   };
 
-  const onOpenCity = (e : any) => {
+  const onOpenCountry = (e: any) => {
+    setSelectedDestination(
+      (prev: SelectedFilterDestination): SelectedFilterDestination => ({
+        ...prev,
+        continent: { id: e.target.id, name: e.target.innerText },
+      })
+    );
+
+    Axios.get(`/destination/nation?continentId=${e.target.id}`).then((res) => {
+      setDestination((prevDestination) => ({
+        ...prevDestination,
+        country: res.data.data,
+        city: [],
+      }));
+    });
+  };
+
+  const onOpenCity = (e: any) => {
     setSelectedDestination((prev) => ({
       ...prev,
       country: { id: e.target.id, name: e.target.innerText },
     }));
 
-    Axios
-      .get(`/destination/region?nationId=${e.target.id}`)
-      .then((res) => {
-        setDestination((prevDestination) => ({
-          ...prevDestination,
-          city: res.data.data,
-        }));
-      });
+    Axios.get(`/destination/region?nationId=${e.target.id}`).then((res) => {
+      setDestination((prevDestination) => ({
+        ...prevDestination,
+        city: res.data.data,
+      }));
+    });
   };
 
   // 달력
@@ -150,325 +146,269 @@ export default function MainBanner () {
 
   // 검색어
   const [keyword, setKeyword] = useState("");
-    return (
-        <>
-          <Banner>
-            <BannerImgWrapper>
-              <BannerImg src="img/bannerImg.png" alt="banner"/>
-            </BannerImgWrapper>
-            <BannerTitleWrapper>
-              <BannerTitle>
-                <BannerTitleTxt>여행의</BannerTitleTxt>
-                <BannerTitleTxt>모든</BannerTitleTxt>
-                <BannerTitleTxt>여정을</BannerTitleTxt>
-                <BannerTitleTxt>함께하다</BannerTitleTxt>
-              </BannerTitle>
-              <BannerTxt>
-                <BannerSubTitleTxt>함께</BannerSubTitleTxt>
-                <BannerSubTitleTxt>하고</BannerSubTitleTxt>
-                <BannerSubTitleTxt>싶은</BannerSubTitleTxt>
-                <BannerSubTitleTxt>여행자를</BannerSubTitleTxt>
-                <BannerSubTitleTxt>Trivelend에서</BannerSubTitleTxt>
-                <BannerSubTitleTxt>바로</BannerSubTitleTxt>
-                <BannerSubTitleTxt>찾아보세요</BannerSubTitleTxt>
-              </BannerTxt>
-            </BannerTitleWrapper>
+  return (
+    <Banner>
+      <Content>
+        <BannerTitle>
+          <div>여행의 모든 여정을 함께하다</div>
+          <div>함께 하고 싶은 여행자를 Travelend에서 바로 찾아보세요</div>
+        </BannerTitle>
 
-            <FindFilter>
-              <FilterMainWrapper>
-                <FilterMiddleWrapper>
-                  <FilterFrontWrapper>
-                    <DesFilterWrapper>
-                      <DesFilterTitleWrapper>
-                        <FilterTitleImg src="icon/location.png"></FilterTitleImg>
-                        <FilterTitleTxt>여행지</FilterTitleTxt>
-                        {isCountry && (
-                          <CountrySelectWrapper>
-                            <ContinentSelect>
-                              {destination.continent.map((des : Destination) => (
-                                <ContinentContent
-                                  key={des.id}
-                                  id={des.id as unknown as string}
-                                  onClick={(e: any) => onOpenCountry(e)}
-                                  selected={
-                                    !!(selectedDestination.continent.name === des.name)
-                                  }
-                                >
-                                  {des.name}
-                                </ContinentContent>
-                              ))}
-                            </ContinentSelect>
-                            <CountrySelect>
-                              {destination.country.map((des : Destination) => (
-                                <ContinentContent
-                                    key={des.id}
-                                    id={des.id as unknown as string}
-                                    onClick={(e: any) => onOpenCity(e)}
-                                    selected={
-                                        selectedDestination.country.name === des.name
-                                    }
-                                >
-                                  {des.name}
-                                </ContinentContent>
-                              ))}
-                            </CountrySelect>
-                            <CitySelect>
-                              {destination.city.map((des : Destination) => (
-                                <ContinentContent
-                                    key={des.id}
-                                    id={des.id as unknown as string}
-                                    onClick={(e : any) => {
-                                        setIsCountry(false);
-                                        setSelectedDestination((prev) => ({
-                                          ...prev,
-                                          city: {
-                                              id: e.target.id,
-                                              name: e.target.innerText,
-                                          },
-                                        }));
-                                        setShowDestination({
-                                          country: selectedDestination.country?.name || "",
-                                          city: e.target.innerText,
-                                        });
-                                    }}
-                                    selected={
-                                        selectedDestination.city.name === des.name
-                                    }
-                                >
-                                  {des.name}
-                                </ContinentContent>
-                              ))}
-                            </CitySelect>
-                          </CountrySelectWrapper>
-                        )}
-                      </DesFilterTitleWrapper>
-                      <Filter
-                        onClick={onOpenDestination}
-                      >
-                        <DesFilterInput>
-                          {selectedDestination.city.name === ""
-                            ? "선택"
-                            : (
-                              <React.Fragment>
-                                <ShowDesTxt>{showDestination.country}</ShowDesTxt>
-                                <ShowDesTxt>,</ShowDesTxt>
-                                <ShowDesTxt>{showDestination.city}</ShowDesTxt>
-                              </React.Fragment>
-                            )
-                          }
-                        </DesFilterInput>
-                        <FilterBtn></FilterBtn>
-                      </Filter>
-                    </DesFilterWrapper>
-    
-                    <DateRangeFilterWrapper style={{ position: "relative" }}>
-                      <FilterTitleWrapper>
-                        <FilterTitleImg src="icon/calendar.png"></FilterTitleImg>
-                        <FilterTitleTxt>일정</FilterTitleTxt>
-                      </FilterTitleWrapper>
-                      <DateFilterWrapper
-                        onClick={(e) => {
-                          isOpenCalendar
-                            ? setIsOpenCalendar(false)
-                            : setIsOpenCalendar(true);
-                        }}
-                      >
-                        <Filter>
-                          <FilterInput>
-                            {tripDate.length === 0 ? `가는 날` : tripDate[0]}
-                          </FilterInput>
-                          <FilterBtn></FilterBtn>
-                        </Filter>
-                        <DateLine></DateLine>
-                        <Filter>
-                          <FilterInput>
-                            {tripDate.length === 0 ? `오는 날` : tripDate[1]}
-                          </FilterInput>
-                          <FilterBtn></FilterBtn>
-                        </Filter>
-                      </DateFilterWrapper>
-                      {isOpenCalendar && (
-                        <CalendarWrapper>
-                          <Calendar
-                            setIsOpenCalendar={setIsOpenCalendar}
-                            setTripDate={setTripDate}
-                            restrict={false}
-                          />
-                        </CalendarWrapper>
+        <FindFilter>
+          <FilterMainWrapper>
+            <FilterMiddleWrapper>
+              <FilterFrontWrapper>
+                <DesFilterWrapper>
+                  <DesFilterTitleWrapper>
+                    <FilterTitleImg src="icon/location.png"></FilterTitleImg>
+                    <FilterTitleTxt>여행지</FilterTitleTxt>
+                    {isCountry && (
+                      <CountrySelectWrapper>
+                        <ContinentSelect>
+                          {destination.continent.map((des: Destination) => (
+                            <ContinentContent
+                              key={des.id}
+                              id={des.id as unknown as string}
+                              onClick={(e: any) => onOpenCountry(e)}
+                              selected={
+                                !!(
+                                  selectedDestination.continent.name ===
+                                  des.name
+                                )
+                              }
+                            >
+                              {des.name}
+                            </ContinentContent>
+                          ))}
+                        </ContinentSelect>
+                        <CountrySelect>
+                          {destination.country.map((des: Destination) => (
+                            <ContinentContent
+                              key={des.id}
+                              id={des.id as unknown as string}
+                              onClick={(e: any) => onOpenCity(e)}
+                              selected={
+                                selectedDestination.country.name === des.name
+                              }
+                            >
+                              {des.name}
+                            </ContinentContent>
+                          ))}
+                        </CountrySelect>
+                        <CitySelect>
+                          {destination.city.map((des: Destination) => (
+                            <ContinentContent
+                              key={des.id}
+                              id={des.id as unknown as string}
+                              onClick={(e: any) => {
+                                setIsCountry(false);
+                                setSelectedDestination((prev) => ({
+                                  ...prev,
+                                  city: {
+                                    id: e.target.id,
+                                    name: e.target.innerText,
+                                  },
+                                }));
+                                setShowDestination({
+                                  country:
+                                    selectedDestination.country?.name || "",
+                                  city: e.target.innerText,
+                                });
+                              }}
+                              selected={
+                                selectedDestination.city.name === des.name
+                              }
+                            >
+                              {des.name}
+                            </ContinentContent>
+                          ))}
+                        </CitySelect>
+                      </CountrySelectWrapper>
+                    )}
+                  </DesFilterTitleWrapper>
+                  <Filter onClick={onOpenDestination}>
+                    <DesFilterInput>
+                      {selectedDestination.city.name === "" ? (
+                        "선택"
+                      ) : (
+                        <React.Fragment>
+                          <div>{showDestination.country}</div>
+                          <div>,</div>
+                          <div>{showDestination.city}</div>
+                        </React.Fragment>
                       )}
-                    </DateRangeFilterWrapper>
-    
-                    <NumFilterWrapper>
-                      <FilterTitleWrapper>
-                        <FilterTitleImg src="icon/user.png"></FilterTitleImg>
-                        <FilterTitleTxt>인원</FilterTitleTxt>
-                      </FilterTitleWrapper>
-                      <FilterSelect>
-                        <FilterMinusImg
-                          src="/icon/minus.png"
-                          onClick={(e) =>
-                            setSelectedNum((prev) => (prev <= 0 ? 0 : prev - 1))
-                          }
-                        ></FilterMinusImg>
-                        <FilterNum>
-                          {selectedNum <= 0 ? "선택" : `${selectedNum}명`}
-                        </FilterNum>
-                        <FilterPlusImg
-                          src="/icon/plus.png"
-                          onClick={(e) => setSelectedNum((prev) => prev + 1)}
-                        ></FilterPlusImg>
-                      </FilterSelect>
-                    </NumFilterWrapper>
-                  </FilterFrontWrapper>
-    
-                  <FilterBackWrapper>
-                    <FilterWrapper>
-                      <FilterTitleWrapper>
-                        <FilterTitleImg src="icon/searchBlack.png"></FilterTitleImg>
-                        <FilterTitleTxt>검색</FilterTitleTxt>
-                      </FilterTitleWrapper>
-                      <Input
-                        placeholder="직접 입력"
-                        onChange={(e) => setKeyword(e.target.value)}
+                    </DesFilterInput>
+                    <FilterBtn></FilterBtn>
+                  </Filter>
+                </DesFilterWrapper>
+
+                <DateRangeFilterWrapper style={{ position: "relative" }}>
+                  <FilterTitleWrapper>
+                    <FilterTitleImg src="icon/calendar.png"></FilterTitleImg>
+                    <FilterTitleTxt>일정</FilterTitleTxt>
+                  </FilterTitleWrapper>
+                  <DateFilterWrapper
+                    onClick={(e) => {
+                      isOpenCalendar
+                        ? setIsOpenCalendar(false)
+                        : setIsOpenCalendar(true);
+                    }}
+                  >
+                    <Filter>
+                      <FilterInput>
+                        {tripDate.length === 0 ? `가는 날` : tripDate[0]}
+                      </FilterInput>
+                      <FilterBtn></FilterBtn>
+                    </Filter>
+                    <DateLine></DateLine>
+                    <Filter>
+                      <FilterInput>
+                        {tripDate.length === 0 ? `오는 날` : tripDate[1]}
+                      </FilterInput>
+                      <FilterBtn></FilterBtn>
+                    </Filter>
+                  </DateFilterWrapper>
+                  {isOpenCalendar && (
+                    <CalendarWrapper>
+                      <Calendar
+                        setIsOpenCalendar={setIsOpenCalendar}
+                        setTripDate={setTripDate}
+                        restrict={false}
                       />
-                    </FilterWrapper>
-                  </FilterBackWrapper>
-                </FilterMiddleWrapper>
-                <FilterFindBtnWrapper>
-                  <FilterFindBtn onClick={onClcickFilterFind}>
-                    <FilterFindBtnTxt>여행자 찾기</FilterFindBtnTxt>
-                    <BtnArrow src="icon/arrow.png"></BtnArrow>
-                  </FilterFindBtn>
-                </FilterFindBtnWrapper>
-              </FilterMainWrapper>
-            </FindFilter>
-          </Banner>
-        </>
-    );
+                    </CalendarWrapper>
+                  )}
+                </DateRangeFilterWrapper>
+
+                <NumFilterWrapper>
+                  <FilterTitleWrapper>
+                    <FilterTitleImg src="icon/user.png"></FilterTitleImg>
+                    <FilterTitleTxt>인원</FilterTitleTxt>
+                  </FilterTitleWrapper>
+                  <FilterSelect>
+                    <FilterMinusImg
+                      src="/icon/minus.png"
+                      onClick={(e) =>
+                        setSelectedNum((prev) => (prev <= 0 ? 0 : prev - 1))
+                      }
+                    ></FilterMinusImg>
+                    <FilterNum>
+                      {selectedNum <= 0 ? "선택" : `${selectedNum}명`}
+                    </FilterNum>
+                    <FilterPlusImg
+                      src="/icon/plus.png"
+                      onClick={(e) => setSelectedNum((prev) => prev + 1)}
+                    ></FilterPlusImg>
+                  </FilterSelect>
+                </NumFilterWrapper>
+              </FilterFrontWrapper>
+
+              <FilterBackWrapper>
+                <FilterWrapper>
+                  <FilterTitleWrapper>
+                    <FilterTitleImg src="icon/searchBlack.png"></FilterTitleImg>
+                    <FilterTitleTxt>검색</FilterTitleTxt>
+                  </FilterTitleWrapper>
+                  <Input
+                    placeholder="직접 입력"
+                    onChange={(e) => setKeyword(e.target.value)}
+                  />
+                </FilterWrapper>
+              </FilterBackWrapper>
+            </FilterMiddleWrapper>
+
+            <FilterFindBtn onClick={onClcickFilterFind}>
+              <FilterFindBtnTxt>여행자 찾기</FilterFindBtnTxt>
+              <BtnArrow src="icon/arrow.png"></BtnArrow>
+            </FilterFindBtn>
+          </FilterMainWrapper>
+        </FindFilter>
+      </Content>
+    </Banner>
+  );
 }
 
 // 배너
 const Banner = styled.div`
-  margin-bottom: 200px;
+  width: 100%;
+  height: 600px;
+  margin-bottom: 120px;
+  padding-top: 116px;
+  background-color: aliceblue;
+  background-image: url("/img/bannerImg.png");
+  background-size: cover;
+  background-position: center;
 
   display: flex;
+  align-items: center;
   flex-direction: column;
-  margin: 0 auto;
-  padding-bottom: 200px;
+  margin-bottom: 150px;
 
-  ${({theme}) => theme.media.mobile}{
-    padding-bottom: 250px;
+  ${({ theme }) => theme.media.tablet} {
+    height: 840px;
+    margin-bottom: 100px;
   }
-  // align-items: center;
 `;
 
-const BannerImgWrapper = styled.div`
-  height: 854px;
-  width: 100%;
-  max-width: 1640px;
-  position: relative;
-
+const Content = styled.div`
+  width: 95%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-
-  object-fit: cover;
-  color: rgba(255, 255, 255, 1);
-`;
-
-const BannerImg = styled.img`
-  width: 100%;
-  height: 854px;
-  object-fit: cover;
-`;
-
-const BannerTitleWrapper = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  
-  width: 80%;
-  max-width: 1100px;
+  gap: 52px;
 `;
 
 const BannerTitle = styled.div`
-  margin: 200px 0 0 0;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 3rem;
-  line-height: 1;
-  color: white;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   z-index: 100;
-  // white-space: nowrap;
 
-  ${({theme}) => theme.media.mobile}{
-    display: flex;
-    flex-wrap: wrap;
-    line-height: 4rem;
-    text-align: center;
-    justify-content: center;
+  div {
+    ${({ theme }) => theme.media.tablet} {
+      display: flex;
+      line-height: 2.5rem;
+      text-align: center;
+      justify-content: center;
+    }
+
+    &:first-child {
+      font-weight: 700;
+      font-size: 3rem;
+      line-height: 1;
+      color: #fff;
+      ${({ theme }) => theme.media.mobile} {
+        font-size: 32px;
+      }
+    }
+
+    &:last-child {
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: #fff;
+    }
   }
 `;
 
-const BannerTitleTxt = styled.span`
-  margin-right: 10px;
-`;
-
-const BannerSubTitleTxt = styled.span`
-  margin-right: 5px;
-`;
-
-
-const BannerTxt = styled.div`
-  margin: 60px 0 0 0;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: #ffffff;
-  position: relative;
-  z-index: 100;
-  // white-space: nowrap;
-
-  ${({theme}) => theme.media.mobile}{
-    margin-top: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    line-height: 2.5rem;
-    justify-content: center;
-  }
-`;
-
-// 필터링
-// 필터링 가장 바깥 container
 const FindFilter = styled.div`
-  // width: 1400px;
-  width: 80%;
-  max-width: 1100px;
-  height: 309px;
+  width: 100%;
+  height: 300px;
 
   padding: 0px 4rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
   box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
 
-  position: absolute;
-  top: 550px;  
-  left: 50%;
-  transform: translate(-50%, 0);
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     width: auto;
     height: auto;
     padding: 2rem;
   }
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     width: auto;
     height: auto;
     padding: 3rem;
@@ -487,24 +427,19 @@ const FilterMainWrapper = styled.div`
   display: grid;
   align-items: center;
   justify-content: space-between;
-  grid-template-columns: 7.5fr 2.5fr;
+  grid-template-columns: 8fr 2fr;
   grid-template-rows: auto;
+  gap: 40px;
 
-  ${({theme}) => theme.media.desktop}{
-    grid-template-columns: 7.5fr 2.5fr;
-    grid-template-rows: auto;
-  }
-
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
-
 `;
 
 const FilterMiddleWrapper = styled.div`
@@ -519,52 +454,49 @@ const FilterFrontWrapper = styled.div`
   grid-template-rows: auto; // 한 개의 행
   gap: 20px; // 그리드 사이의 간격
 
-  ${({theme}) => theme.media.desktop}{
+  ${({ theme }) => theme.media.desktop} {
     grid-template-columns: 2.5fr 3.5fr 1.5fr;
     grid-template-rows: auto;
   }
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     gap: 40px;
-    // width: 550px;
-    width: 60vw;
+    width: 100%;
   }
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     grid-template-columns: auto;
-    grid-template-rows: repeat(3, 1fr);
-    width: 60vw;
+    grid-template-rows: repeat(2, 1fr);
+    width: 100%;
   }
 `;
-
 
 const FilterWrapper = styled.div`
   width: 100%;
 `;
 
 const DesFilterWrapper = styled(FilterWrapper)`
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     order: 0;
     // grid-column: 1 / 2;
   }
-`
+`;
 
 const DateRangeFilterWrapper = styled(FilterWrapper)`
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     order: 2;
     grid-column: 1 / 3;
   }
-`
+`;
 
 const NumFilterWrapper = styled(FilterWrapper)`
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     order: 1;
     // grid-column: 2 / 3;
   }
-`
-
+`;
 
 const FilterBackWrapper = styled.div`
   margin-top: 35px;
@@ -583,7 +515,7 @@ const Filter = styled.div`
   height: 50px;
   padding: 15px 20px;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -598,7 +530,7 @@ const FilterSelect = styled.div`
   height: 50px;
   padding: 0.75rem 1rem;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -614,12 +546,12 @@ const FilterMinusImg = styled.img`
   height: 0.6rem;
   cursor: pointer;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     width: 0.8rem;
     height: 0.8rem;
   }
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     width: 1rem;
     height: 1rem;
   }
@@ -628,10 +560,10 @@ const FilterMinusImg = styled.img`
 const FilterNum = styled.div`
   font-size: 0.8rem;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     font-size: 0.9rem;
   }
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     font-size: 1rem;
   }
 `;
@@ -641,12 +573,12 @@ const FilterPlusImg = styled.img`
   height: 0.6rem;
   cursor: pointer;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     width: 0.8rem;
     height: 0.8rem;
   }
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     width: 1rem;
     height: 1rem;
   }
@@ -659,30 +591,27 @@ const FilterTitleImg = styled.img`
 `;
 
 const FilterTitleTxt = styled.div`
-  font-style: normal;
   font-weight: 400;
-  font-size: 1rem;
-  line-height: 1;
+  font-size: 16px;
   color: #333333;
 `;
 
 const Input = styled.input`
   height: 50px;
-  // width: 46.25rem;
   width: 100%;
   padding: 0.75rem 1rem;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 10px;
   border: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 16px;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     font-size: 0.9rem;
   }
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     font-size: 1rem;
   }
 `;
@@ -697,10 +626,10 @@ const FilterInput = styled.div`
   align-items: center;
   justify-content: center;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     font-size: 0.9rem;
   }
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     font-size: 1rem;
   }
 `;
@@ -710,9 +639,6 @@ const DesFilterInput = styled(FilterInput)`
   flex-wrap: wrap;
   position: relative;
   gap: 3px;
-`
-
-const ShowDesTxt = styled.span`
 `;
 
 const FilterBtn = styled.div`
@@ -736,33 +662,27 @@ const DateLine = styled.div`
 `;
 
 // 여행자 찾기 버튼
-const FilterFindBtnWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const FilterFindBtn = styled.button`
-  width: 80%;
-  // min-width: 200px;
+  width: 100%;
   height: 170px;
-  border-radius: 20px;
+  border-radius: 10px;
   background: rgba(154, 179, 245, 0.8);
   border-radius: 50px;
-  margin-top: 33px;
+  margin-top: 12px;
 
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 0.9rem;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     width: 100%;
-    height: 80px;
+    height: 60px;
     border-radius: 10px;
     font-size: 1.2rem;
   }
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     width: 100%;
     height: 50px;
     border-radius: 10px;
@@ -800,7 +720,7 @@ const ContinentSelect = styled.div`
   border-right: 0.5px solid rgba(214, 214, 214, 0.5);
 `;
 
-const ContinentContent = styled.div<{selected: boolean}>`
+const ContinentContent = styled.div<{ selected: boolean }>`
   width: 100%;
   height: 40px;
   cursor: pointer;
@@ -878,18 +798,15 @@ const CitySelect = styled.div`
 
 // 달력
 
-
 const CalendarWrapper = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 
-
-position: relative;
-z-index: 101;
-bottom: 0px;
-right: 0px;
-
+  position: relative;
+  z-index: 101;
+  bottom: 0px;
+  right: 0px;
 `;
 
 const BtnArrow = styled.img``;

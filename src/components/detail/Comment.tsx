@@ -65,8 +65,8 @@ export default function Comment({ isReview }: CommentProps) {
         <CmtListWrapper>
           {data
             .filter((el: any, idx: number) => idx < cmtLen)
-            .map((el: any) => (
-              <CmtList>
+            .map((el: any, idx: number) => (
+              <CmtList key={idx}>
                 <ListTitle>{el.nickname}</ListTitle>
                 <CmtContents>{el.content}</CmtContents>
               </CmtList>
