@@ -105,15 +105,15 @@ export default function Buttons({
 
   const onClickCancelBtn = () => {
     // alert("취소");
-    // console.log(tripylerData);
-    console.log(reviewData);
+    console.log(tripylerData);
+    // console.log(reviewData);
     console.log(imageData);
   };
 
   return (
     <BtnWrapper>
       <CancelBtn onClick={onClickCancelBtn}>취소</CancelBtn>
-      <SubmitBtn onClick={!isReview ? onClickReviewBtn : onClickTripylerBtn}>
+      <SubmitBtn onClick={!isReview ? onClickTripylerBtn : onClickReviewBtn}>
         {isEdit ? "수정" : "작성"} 완료
       </SubmitBtn>
     </BtnWrapper>

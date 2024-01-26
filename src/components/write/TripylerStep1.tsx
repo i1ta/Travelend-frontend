@@ -31,7 +31,7 @@ export default function TripylerStep1({
       return;
     }
     setCommaPrice(parseInt(value).toLocaleString());
-    setData((prev) => ({ ...prev, estimatiedPrice: parseInt(value) }));
+    setData((prev) => ({ ...prev, estimatedPrice: parseInt(value) }));
   };
 
   const onClickUpDownBtn = (isUp: boolean) => {

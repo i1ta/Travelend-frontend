@@ -97,6 +97,8 @@ export default function FindTripylerWritePage() {
               tripylerWithList: [
                 ...(step1Data.tripylerWithList?.map((el) => el.nickname) || []),
               ],
+              startDate: tripDate[0],
+              endDate: tripDate[1],
               continentId: placeData?.continentId,
               nationId: placeData?.nationId,
               regionId: placeData?.regionId,
