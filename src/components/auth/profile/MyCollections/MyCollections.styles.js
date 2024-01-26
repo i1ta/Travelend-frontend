@@ -2,9 +2,9 @@ import FindCard from "@/components/commons/Card/MyCollections/FindCard";
 import styled from "@emotion/styled";
 
 export const MyCollectionsWrapper = styled.div`
-  width: 1105px;
-  min-height: 960px;
-  padding-top: 25px;
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  padding-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ export const CollectionTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
-  width: 1000px;
+  width: 90%;
   margin-top: 40px;
   margin-bottom: 15px;
 `;

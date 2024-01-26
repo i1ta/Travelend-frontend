@@ -144,7 +144,10 @@ export default function MyProfile(props) {
   };
 
   const handleSubmitModal = (e) => {
-    setMbti(e.target.innerText);
+    const tmpMbti = e.target.innerText;
+    if(tmpMbti !== "확인"){
+      setMbti(tmpMbti);
+    }
 
     for (let i = 0; i < 16; i++) {
       if (mbtiList[i].name == e.target.innerText) {
@@ -277,14 +280,16 @@ export default function MyProfile(props) {
                   <S.StyleBioImg src="/icon/blackCheck.png" />
                 )}
                 <S.StyleModifyBioWrapper>
-                  함께{" "}
+                  <S.StyleModifySpan>
+                    함께&nbsp;
+                  </S.StyleModifySpan>
                   <S.StyleBioInput
                     max={firstBio?.length > 50}
                     value={firstBio}
                     onChange={(e) => setFirstBio(e.target.value)}
                   />
                   <S.StyleMaxErr>{firstBio?.length} / 50 </S.StyleMaxErr>
-                  여행을 떠나려고 해요.
+                  <S.StyleModifySpan>여행을 떠나려고 해요.</S.StyleModifySpan>
                 </S.StyleModifyBioWrapper>
                 <S.StyleBioDelImg
                   onClick={(e) => setFirstBio("")}
@@ -299,14 +304,16 @@ export default function MyProfile(props) {
                   <S.StyleBioImg src="/icon/blackCheck.png" />
                 )}
                 <S.StyleModifyBioWrapper>
-                  저는{" "}
+                  <S.StyleModifySpan>
+                  저는&nbsp;
+                  </S.StyleModifySpan>
                   <S.StyleBioInput
                     max={secondBio?.length > 50}
                     value={secondBio}
                     onChange={(e) => setSecondBio(e.target.value)}
                   />
                   <S.StyleMaxErr>{secondBio?.length} / 50 </S.StyleMaxErr>
-                  여행자에요.
+                  <S.StyleModifySpan>여행자에요.</S.StyleModifySpan>
                 </S.StyleModifyBioWrapper>
                 <S.StyleBioDelImg
                   onClick={(e) => setSecondBio("")}
@@ -343,7 +350,9 @@ export default function MyProfile(props) {
             />
           )}
 
-          <S.Title>My Profile</S.Title>
+          <S.TitleWrapper>
+            <S.Title>My Profile</S.Title>
+          </S.TitleWrapper>
           {/* <S.TableWrapper> */}
             <S.Table>
               <tr>

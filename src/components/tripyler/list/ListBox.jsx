@@ -38,7 +38,7 @@ export default function ListBox ({
         <ContentWrapper>
         <FindTripylerTitleWrapper>
           <FindTripylerTitle>
-            <div>Trip'yler 찾기 게시물</div>
+            <div>Travelend 찾기 게시물</div>
             <FindTripylerWriteBtn
               onClick={() => {
                 if (!isLoggedIn) {

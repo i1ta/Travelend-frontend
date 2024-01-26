@@ -166,7 +166,7 @@ const ModalTitle = styled.div`
   width: 100%;
   height: 50px;
   border-radius: 10px 10px 0px 0px;
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   text-align: center;
   margin-bottom: 26px;
 
@@ -235,9 +235,9 @@ const ModalHashtag = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #90e0ef;
+  border: 1px solid #6179B6;
   border-radius: 30px;
-  background-color: #90e0ef;
+  background-color: #6179B6;
   cursor: pointer;
 
   font-weight: 500;
@@ -248,7 +248,7 @@ const ModalHashtag = styled.button`
 
 const ModalRecogHahstag = styled(ModalHashtag)`
   background-color: #ffffff;
-  color: #90e0ef;
+  color: #6179B6;
 `;
 
 const ModalRecogStyleWrapper = styled.div`
@@ -259,8 +259,8 @@ const ModalRecogStyleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 1px solid #90e0ef;
-  border-bottom: 1px solid #90e0ef;
+  border-top: 1px solid #6179B6;
+  border-bottom: 1px solid #6179B6;
 `;
 
 const ModalRecogTitle = styled.div`
@@ -275,7 +275,7 @@ const ModalRecogTitle = styled.div`
   font-weight: 700;
   font-size: 16px;
   text-align: center;
-  color: #90e0ef;
+  color: #6179B6;
 `;
 
 const ModalRecogHashtagWrapper = styled.div`
@@ -295,8 +295,8 @@ const ModalCancelBtn = styled.button`
   width: 80px;
   height: 30px;
   background-color: #ffffff;
-  color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   border-radius: 10px;
 
   text-align: center;
@@ -305,7 +305,7 @@ const ModalCancelBtn = styled.button`
 `;
 
 const ModalSubmitBtn = styled(ModalCancelBtn)`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border: none;
 `;
