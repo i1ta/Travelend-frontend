@@ -82,7 +82,15 @@ const AdImg = styled.img`
   opacity: 0.7;
 `;
 
-const AdTitleWrapper = styled.div``;
+const AdTitleWrapper = styled.div`
+  ${({theme}) => theme.media.tablet}{
+    display: none;
+  }
+
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+  }
+`;
 
 const AdTitle = styled.div`
   position: absolute;

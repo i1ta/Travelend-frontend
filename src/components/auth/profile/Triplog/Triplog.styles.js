@@ -22,7 +22,7 @@ export const CollectionTitleWrapper = styled.div`
 
 export const CollectionTitle = styled.h1`
   font-size: 36px;
-  color: #c8b6ff;
+  color: #9AB3F5;
   margin-bottom: 30px;
   margin-right: 30px;
 `;
@@ -32,7 +32,7 @@ export const CollectionWrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    border: 2.5px solid #c8b6ff;
+    border: 2.5px solid #6179B6;
     border-radius: 15px;
     background-color: white;
 
@@ -50,7 +50,7 @@ export const CollectionContentTitleWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  border-bottom: 2px solid #C8B6FF;
+  border-bottom: 2px solid #6179B6;
 `;
 
 export const CollectionContentTitleLeftWrapper = styled.div`
@@ -79,7 +79,7 @@ export const CollectionContentYearIcon = styled.img`
 export const CollectionContentYear = styled.div`
   font-size: 36px;
   font-weight: bold;
-  color: #C8B6FF;
+  color: #6179B6;
 `;
 
 export const CollectionContentIcon = styled.img`
@@ -100,7 +100,7 @@ export const CollectionContentCategoryIcon = styled(CollectionContentIcon)`
 export const CollectionContentTitle = styled.div`
   height: 100%;
   width: 200px;
-  color: #C8B6FF;
+  color: #6179B6;
   justify-content: center;
   margin-top: 18px;
 
@@ -113,14 +113,14 @@ export const CollectionContentTitle = styled.div`
   };
 
   color: ${(props) => 
-    props.selected === true ? "#C8B6FF" : "#D9D9D9"
+    props.selected === true ? "#6179B6" : "#D9D9D9"
   };
 `;
 
 export const CollectionContentLine = styled.div`
   height: 30px;
   width: 2px;
-  background-color: #C8B6FF;
+  background-color: #6179B6;
 `;
 
 export const CollectionContent = styled.div`

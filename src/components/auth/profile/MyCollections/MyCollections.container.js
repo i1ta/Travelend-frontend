@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import * as S from "./MyCollections.styles";
+import ApplyCard from "@/components/commons/Card/MyCollections/ApplyCard";
 import FindListCard from "@/components/commons/Card/MyCollections/FindListCard";
 import ReviewCard from "@/components/commons/Card/MyCollections/ReviewCard";
-import ApplyCard from "@/components/commons/Card/MyCollections/ApplyCard";
+import * as S from "./MyCollections.styles";
 
 export default function MyCollections(props) {
 
@@ -39,12 +39,12 @@ export default function MyCollections(props) {
             <S.CollectionContentLine></S.CollectionContentLine>
             <S.CollectionContentTitle selected={selectedCategory === 1} onClick={(e) => setSelectedCategory(1)}>찜한 여행 후기</S.CollectionContentTitle>
           </S.CollectionContentTitleLeftWrapper>
-          {selectedCategory === 0 && (
+          {/* {selectedCategory === 0 && ( */}
           <S.CollectionContentTitleRightWrapper>
             <S.CollectionContentCategoryIcon src="/icon/sortingComponent.png" onClick={(e) => setSortCategory(0)}></S.CollectionContentCategoryIcon>
             <S.CollectionContentCategoryIcon src="/icon/sortingList.png" onClick={(e) => setSortCategory(1)}></S.CollectionContentCategoryIcon>
           </S.CollectionContentTitleRightWrapper>
-          )}
+          {/* )} */}
         </S.CollectionContentTitleWrapper>
           
         {selectedCategory === 0 ? (

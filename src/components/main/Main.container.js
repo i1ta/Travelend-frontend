@@ -101,7 +101,8 @@ export default function Main() {
       totalPeopleNum: parseInt(selectedNum),
     };
 
-    await Axios.post(`/tripyler/list?isRecruiting=1&option=1`, requestData)
+    await Axios
+      .post(`/tripyler/list?isRecruiting=1&option=1`, requestData)
       .then((res) => {
         const arr = res.data.data;
         setFindCardList(res.data.data);
@@ -140,7 +141,8 @@ export default function Main() {
         totalPeopleNum: 0,
       };
 
-      await Axios.post(`/review/list?option=4`, requestData)
+      await Axios
+        .post(`/review/list?option=4`, requestData)
         .then((res) => {
           setReviewList(res.data.data);
         })

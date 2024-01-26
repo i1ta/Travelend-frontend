@@ -13,11 +13,11 @@ export interface MyHashtag {
 }
 
 export interface Place {
-  continentId: number;
-  nationId: number;
-  nationName: string;
-  regionId: number;
-  regionName: string;
+  continentId?: number;
+  nationId?: number;
+  nationName?: string;
+  regionId?: number;
+  regionName?: string;
 }
 
 export interface Step1Data {

@@ -10,6 +10,7 @@ import {
   JwtTokenState,
   LoginState,
   NicknameState,
+  UserIdState,
   login,
 } from "@/States/LoginState";
 
@@ -20,6 +21,7 @@ const OAuthKaKao = () => {
   const setIsFirstLogin = useSetRecoilState(IsFirstLogin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const setIsAdmin = useSetRecoilState(IsAdmin);
+  const setUserIdState = useSetRecoilState(UserIdState);
 
   const router = useRouter();
   console.log(router);
@@ -37,33 +39,6 @@ const OAuthKaKao = () => {
           }
         )
         .then((response) => {
-          // if (response.status === 200) {
-          //   axios
-          //     .post(
-          //       "https://api.tripyle.xyz/user/login/kakao",
-          //       {
-          //         snsId: response.data.id_token,
-          //         snsToken: response.data.access_token,
-          //       },
-          //       { "Content-Type": "application/json" }
-          //     )
-          //     .then((response2) => {
-          //       console.log(response2.data);
-          //       if (response2.status === 200) {
-          //         setIsLoggedIn(true);
-          //         setNickname(response2.data.data.nickname);
-          //         localStorage.setItem(
-          //           "login-token",
-          //           response2.data.data.accessToken
-          //         );
-          //         if (response2.data.data.needsAdditionalSignUp === true) {
-          //           router.push("/auth/join/signup");
-          //         }
-          //         router.push("/main");
-          //         setIsLoggedIn(true);
-          //       }
-          //     });
-          // }
           console.log(response);
           if (response.status === 200) {
             axios.get(`${process.env.NEXT_PUBLIC_PAGE_URL}/oauth/kakao?code=${router.query.code}`)
@@ -71,17 +46,14 @@ const OAuthKaKao = () => {
                 console.log(response.data.access_token);
                 axios
                   .post(
-                    `${process.env.NEXT_PUBLIC_API_URL}/user/login/kakao`,
-                    {
-                      "snsId": response.data.id_token,
-                      "snsToken" : response.data.access_token
-                    },
+                    `${process.env.NEXT_PUBLIC_API_URL}/user/login/kakao?accessTokenFromSocial=${response.data.access_token}`,
                     { "Content-Type": "application/json" }
                   )
                   .then((response2) => {
                     console.log(response2.data);
                     if (response2.status === 200) {
                       login({ jwtToken: response2.data.data.accessToken, setJwtToken });
+                      setUserIdState(response2.data.data.id);
                       setIsLoggedIn(true);
                       setNickname(response2.data.data.nickname);
                       setIsFirstLogin(response2.data.data.firstLogin);

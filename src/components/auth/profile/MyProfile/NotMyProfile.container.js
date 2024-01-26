@@ -1,7 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import * as S from "./NotMyProfile.styles";
-import axios from "axios";
 
 export default function NotMyProfile(props) {
     const lock = "비공개";

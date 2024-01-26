@@ -34,8 +34,10 @@ export default function FindTripylerBanner(props: any) {
 }
 
 const Banner = styled.div<{ review: boolean }>`
-  min-width: 1000px;
+  max-width: 1640px;
+  width: 100%;
   height: 570px;
+  margin: 0 auto;
 
   ${(props) => (props.review 
     ? 
@@ -56,12 +58,14 @@ const Banner = styled.div<{ review: boolean }>`
 
 const BannerContentsWrapper = styled.div`
   max-width: 1400px;
+  width: 100%;
   display: flex;
   justify-content: center;
 `;
 
 const BannerContents = styled.div`
-  width: 1400px;
+  max-width: 1400px;
+  width: 100%;
   height: 100%;
   position: relative;
 `;
@@ -70,7 +74,7 @@ const BannerTitle = styled.div<{ review: boolean }>`
   position: absolute;
   top: 150px;
   font-weight: bold;
-  font-size: 60px;
+  font-size: 3rem;
   display: flex;
   color: ${(props) => (props.review ? '#fff' : '#000')};
 `;
@@ -78,7 +82,7 @@ const BannerTitle = styled.div<{ review: boolean }>`
 const BannerSubTitle = styled.div<{ review: boolean }>`
   position: absolute;
   top: 246px;
-  font-size: 25px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
   color: ${(props) => (props.review ? '#fff' : theme.colors.text)};

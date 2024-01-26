@@ -4,10 +4,11 @@ import {
   LoginState,
   logout,
 } from "@/States/LoginState";
-import axios from "axios";
+import Axios from "@/apis";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import * as S from "./main.styles";
 
 import ReviewCard from "@/components/commons/Card/Main/ReviewCard/ReviewMain";
@@ -19,7 +20,6 @@ export default function ReviewMain() {
   const isJwtValid = useRecoilValue(IsJwtValidSelector); // JWT 토큰 유효성 가져오기
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const jwtInfo = useRecoilValue(JwtTokenState);
-  const apipath = "https://api.tripyle.xyz";
 
   const router = useRouter();
 
@@ -74,8 +74,8 @@ export default function ReviewMain() {
           totalPeopleNum: 0,
         };
 
-        await axios
-          .post(`${apipath}/review/list?option=1`, requestData)
+        await Axios
+          .post(`/review/list?option=1`, requestData)
           .then((res) => {
             setReviewList(res.data.data);
             console.log(res.data.data);
@@ -102,9 +102,9 @@ export default function ReviewMain() {
       totalPeopleNum: parseInt(selectedNum),
     };
 
-    await axios
+    await Axios
       .post(
-        `${apipath}/review/list?option=${parseInt(option || 1)}`,
+        `/review/list?option=${parseInt(option || 1)}`,
         requestData
       )
       .then((res) => {
@@ -149,7 +149,7 @@ export default function ReviewMain() {
       }
     }
 
-    await axios.get(apipath + "/destination/continent").then((res) => {
+    await Axios.get("/destination/continent").then((res) => {
       setDestination((prevDestination) => ({
         continent: res.data.data,
         country: [],
@@ -164,8 +164,8 @@ export default function ReviewMain() {
       continent: { id: e.target.id, name: e.target.innerText },
     }));
 
-    axios
-      .get(`${apipath}/destination/nation?continentId=${e.target.id}`)
+    Axios
+      .get(`/destination/nation?continentId=${e.target.id}`)
       .then((res) => {
         setDestination((prevDestination) => ({
           ...prevDestination,
@@ -181,8 +181,8 @@ export default function ReviewMain() {
       country: { id: e.target.id, name: e.target.innerText },
     }));
 
-    axios
-      .get(`${apipath}/destination/region?nationId=${e.target.id}`)
+    Axios
+      .get(`/destination/region?nationId=${e.target.id}`)
       .then((res) => {
         setDestination((prevDestination) => ({
           ...prevDestination,
@@ -231,14 +231,14 @@ export default function ReviewMain() {
   return (
     <>
       <FindTripylerBanner
-        title="Trip'yler 여행 후기"
-        subTitle="Trip'yler가 함께한 여행 후기를 구경해보세요!"
+        title="Trabelender 여행 후기"
+        subTitle="Trabelender가 함께한 여행 후기를 구경해보세요!"
         review={true}
       />
       {isOpen ? (
         <S.Banner>
           <S.FindFilter>
-            <S.FilterMainWrapper>
+            <FilterMainWrapper>
               <S.FilterMiddleWrapper>
                 <S.FilterBackWrapper>
                   <S.FilterWrapper>
@@ -249,13 +249,12 @@ export default function ReviewMain() {
                     <S.Input
                       value={keyword}
                       onChange={(e) => setKeyword(e.target.value)}
-                      style={{ width: "925px" }}
                       placeholder="직접 입력"
                     />
                   </S.FilterWrapper>
                 </S.FilterBackWrapper>
                 <S.FilterFrontWrapper>
-                  <S.FilterWrapper>
+                  <S.DesFilterWrapper>
                     <S.FilterTitleWrapper>
                       <S.FilterTitleImg src="/icon/location.png"></S.FilterTitleImg>
                       <S.FilterTitleTxt>여행지</S.FilterTitleTxt>
@@ -318,7 +317,6 @@ export default function ReviewMain() {
                       )}
                     </S.FilterTitleWrapper>
                     <S.Filter
-                      style={{ width: "280px" }}
                       onClick={onOpenDestination}
                     >
                       <S.FilterInput>
@@ -328,16 +326,15 @@ export default function ReviewMain() {
                       </S.FilterInput>
                       <S.FilterBtn></S.FilterBtn>
                     </S.Filter>
-                  </S.FilterWrapper>
+                  </S.DesFilterWrapper>
 
-                  <S.FilterWrapper>
+                  <S.DateRangeFilterWrapper>
                     <S.FilterTitleWrapper>
                       <S.FilterTitleImg src="/icon/calendar.png"></S.FilterTitleImg>
                       <S.FilterTitleTxt>일정</S.FilterTitleTxt>
                     </S.FilterTitleWrapper>
                     <S.DateFilterWrapper>
                       <S.Filter
-                        style={{ width: "200px" }}
                         onClick={(e) => {
                           if (isStartMonth) {
                             setIsStartMonth(false);
@@ -353,7 +350,7 @@ export default function ReviewMain() {
                         <S.FilterBtn></S.FilterBtn>
                       </S.Filter>
                       <S.DateLine></S.DateLine>
-                      <S.Filter style={{ width: "200px" }}>
+                      <S.Filter>
                         <S.FilterInput>
                           {date.endMonth ? `${date.endMonth}월` : `오는 날`}
                         </S.FilterInput>
@@ -407,9 +404,9 @@ export default function ReviewMain() {
                         </S.EndMonthSelectWrapper>
                       </S.CalendarWrapper>
                     )}
-                  </S.FilterWrapper>
+                  </S.DateRangeFilterWrapper>
 
-                  <S.FilterWrapper>
+                  <S.NumFilterWrapper>
                     <S.FilterTitleWrapper>
                       <S.FilterTitleImg src="/icon/user.png"></S.FilterTitleImg>
                       <S.FilterTitleTxt>인원</S.FilterTitleTxt>
@@ -429,14 +426,14 @@ export default function ReviewMain() {
                         onClick={(e) => setSelectedNum((prev) => prev + 1)}
                       ></S.FilterPlusImg>
                     </S.FilterSelect>
-                  </S.FilterWrapper>
+                  </S.NumFilterWrapper>
                 </S.FilterFrontWrapper>
               </S.FilterMiddleWrapper>
-              <S.FilterFindBtn onClick={onClcickFilterFind}>
+              <FilterFindBtn onClick={onClcickFilterFind}>
                 <S.FilterFindBtnTxt>여행후기 찾기</S.FilterFindBtnTxt>
                 <S.BtnArrow src="/icon/arrow.png"></S.BtnArrow>
-              </S.FilterFindBtn>
-            </S.FilterMainWrapper>
+              </FilterFindBtn>
+            </FilterMainWrapper>
             <S.FilterCloseIcon
               src="/icon/close.png"
               onClick={() => setIsOpen(false)}
@@ -457,7 +454,6 @@ export default function ReviewMain() {
                     <S.Input
                       value={keyword}
                       onChange={(e) => setKeyword(e.target.value)}
-                      style={{ width: "925px" }}
                       placeholder="직접 입력"
                     />
                   </S.FilterWrapper>
@@ -553,3 +549,38 @@ export default function ReviewMain() {
     </>
   );
 }
+
+const FilterMainWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  gap: 1rem;
+
+  ${({theme}) => theme.media.tablet}{
+    flex-direction: column;
+  }
+  ${({theme}) => theme.media.mobile}{
+    flex-direction: column;
+  }
+`;
+
+// 여행후기 찾기 버튼
+const FilterFindBtn = styled.button`
+  // width: 160px;
+  width: 25%;
+  height: 60px;
+  background: #AEC2F7;
+  border-radius: 50px;
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${({theme}) => theme.media.tablet}{
+    width: 100%;
+  }
+  ${({theme}) => theme.media.mobile}{
+    width: 100%;
+  }
+`;

@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
-import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
-import { useRouter } from "next/router";
 import Axios from "@/apis";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import * as S from "./Profile.styles";
-import Modal from "@/components/commons/Modal/Modal";
-import NotMyProfile from "./MyProfile/NotMyProfile.container";
-import MyProfile from "./MyProfile/MyProfile.container";
-import MyCollections from "./MyCollections/MyCollections.container";
-import Triplog from "./Triplog/Triplog.container";
-import Messenger from "./Messenger/Messenger.container";
 import Block from "@/components/commons/Modal/Block";
+import Modal from "@/components/commons/Modal/Modal";
 import Report from "@/components/commons/Modal/Report";
+import Messenger from "./Messenger/Messenger.container";
+import MyCollections from "./MyCollections/MyCollections.container";
+import MyProfile from "./MyProfile/MyProfile.container";
+import * as S from "./Profile.styles";
+import Triplog from "./Triplog/Triplog.container";
 
 import {
-  LoginState,
-  IsJwtValidSelector,
-  logout,
-  JwtTokenState,
   IsAdmin,
-} from "@/states/LoginState";
+  IsJwtValidSelector,
+  JwtTokenState,
+  LoginState,
+  logout,
+} from "@/States/LoginState";
 
 import SideBar from "@/components/profile/SideBar";
+import axios from "axios";
 
 export default function Profile() {
   // const [selectedCategory, setSelectedCategory] = useState("MyProfile");
@@ -33,18 +33,21 @@ export default function Profile() {
 
   const router = useRouter();
   const { category } = router.query;
+  console.log(category);
 
-  // useEffect(() => {
-  //   if (router.query.userId) {
-  //     setSelectedCategory("NotMyProfile");
-  //   } else if (router.query.category == "message") {
-  //     setSelectedCategory("Messenger");
-  //   } else if (router.query.category == "myCollections") {
-  //     setSelectedCategory("MyCollections");
-  //   } else {
-  //     setSelectedCategory("MyProfile");
-  //   }
-  // }, [router.query]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    if (router.query.userId) {
+      setSelectedCategory("NotMyProfile");
+    } else if (router.query.category == "message") {
+      setSelectedCategory("Messenger");
+    } else if (router.query.category == "myCollections") {
+      setSelectedCategory("MyCollections");
+    } else {
+      setSelectedCategory("MyProfile");
+    }
+  }, [router.query]);
 
   const [userId, setUserId] = useState(parseInt(router.query.userId));
   const [notMyProfildData, setNotMyProfileData] = useState({});
@@ -132,7 +135,7 @@ export default function Profile() {
         setMyProfileData(responseData);
       })
       .catch((error) => console.error(error));
-  };
+  }; 
 
   useEffect(() => {
     if (category === "MyProfile") fetchMyProfile();
@@ -298,12 +301,14 @@ export default function Profile() {
   const onOpenTriplog = async (e) => {
     await Axios.get(`/my-collections/my-reviews?year=${e}`)
       .then((res) => {
+        console.log(res.data.data);
         setMyReviewsData(res.data.data);
       })
       .catch((err) => console.log(err));
 
     await Axios.get(`/my-collections/my-tripylers?year=${e}`)
       .then((res) => {
+        console.log(res.data.data);
         setMyTripylersData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -324,7 +329,7 @@ export default function Profile() {
     <>
       {isModify ? (
         <S.Container>
-          <SideBar />
+          <SideBar notMyProfildData={notMyProfildData}/>
           <div style={{ flex: "1" }}>
             {category === "MyProfile" && (
               <MyProfile
@@ -422,7 +427,7 @@ export default function Profile() {
               기본 프로필로 변경
             </S.profileBtn>
           </S.SideBar>
-          {/* {category === "MyProfile" && (
+          {category === "MyProfile" && (
             <MyProfile
               data={myProfileData}
               isProfileModal={isModalOn}
@@ -431,7 +436,7 @@ export default function Profile() {
               fetchMyProfile={fetchMyProfile}
               setModify={handleModify}
             />
-          )} */}
+          )}
           {category === "MyCollections" && <MyCollections />}
           {category === "Triplog" && <Triplog />}
           {category === "Messenger" && (

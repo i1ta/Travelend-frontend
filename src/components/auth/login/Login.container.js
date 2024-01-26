@@ -1,9 +1,9 @@
+import Axios from "@/apis";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import Axios from "@/apis";
 
 import * as S from "./Login.styles";
 
@@ -13,10 +13,10 @@ import {
   JwtTokenState,
   LoginState,
   NicknameState,
+  UserIdState,
   login,
 } from "@/States/LoginState";
 
-import axios from "axios";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -39,6 +39,7 @@ export default function LoginForm() {
   const [nickname, setNickname] = useRecoilState(NicknameState);
   const [isFirstLogin, setIsFirstLogin] = useRecoilState(IsFirstLogin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
+  const setUserIdState = useSetRecoilState(UserIdState);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
 
   useEffect(() => {
@@ -83,10 +84,12 @@ export default function LoginForm() {
           }
 
           localStorage.setItem("login-token", response.data.data.accessToken);
+          localStorage.setItem("refreshToken", response.data.data.refreshToken);
           login({ jwtToken: response.data.data.accessToken, setJwtToken });
           setIsLoggedIn(true);
           setNickname(response.data.data.nickname);
           setIsFirstLogin(response.data.data.firstLogin);
+          setUserIdState(response.data.data.id);
           response.data.data.userRole === "ROLE_ADMIN"
             ? setIsAdmin(true)
             : setIsAdmin(false);

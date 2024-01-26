@@ -7,14 +7,14 @@ export default function TriplogFindcard (props) {
        <>
         <TriplogFindCardWrapper onClick={(e) => router.push(`/findTripyler/${props.info.tripylerId}`)}>
             <TriplogFindImgWrapper>
-                <TriplogFindDesWrapper>
+                {/* <TriplogFindDesWrapper>
                     <TriplogFindDesIcon src="/icon/location.png"></TriplogFindDesIcon>
                     <TriplogFindDes>{props.info.regionName}</TriplogFindDes>
 
-                </TriplogFindDesWrapper>
-                <ReviewImgWrapper>
-                <TriplogFindImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></TriplogFindImg>
-                </ReviewImgWrapper>
+                </TriplogFindDesWrapper> */}
+                {/* <ReviewImgWrapper> */}
+                    <TriplogFindImg src={props.info.imageUrl === null ? "/img/defaultImg.png" : props.info.imageUrl}></TriplogFindImg>
+                {/* </ReviewImgWrapper> */}
             </TriplogFindImgWrapper>
             <TriplogFindContentWrapper>
                 <TriplogFindContentTitle>{props.info.title}</TriplogFindContentTitle>
@@ -40,13 +40,13 @@ export default function TriplogFindcard (props) {
 
 const TriplogFindCardWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 
-  width: 880px;
-  height: 125px;
+  width: 266px;
+  height: 278px;
   box-shadow: 0px 10px 30px 10px rgba(102, 102, 102, 0.12);
-  background-color: #A0BBFF;
+  background-color: #fff;
   border-radius: 10px;
 
   margin-top: 30px;
@@ -58,45 +58,23 @@ const TriplogFindCardWrapper = styled.div`
 const TriplogFindImgWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    width: 220px;
-`;
-
-const TriplogFindDesWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-left: 25px;
-    margin-bottom: 6px;
-`;
-
-const TriplogFindDesIcon = styled.img`
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-`;
-
-const TriplogFindDes = styled.div`
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: bold;
-`;
-
-const ReviewImgWrapper = styled.div`
-width: 170px;
-    height: 75px;
+    width: 100%;
+    height: 60%;
 `;
 
 const TriplogFindImg = styled.img`
-    width: 170px;
-    height: 75px;
+    width: 100%
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     border: 5px solid rgba(255, 255, 255, 0.7);
-    margin-left: 25px;
+    // margin-left: 25px;
 `;
 
 const TriplogFindContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 40%;
 `;
 
 const TriplogFindContentTitle = styled.div`
@@ -105,7 +83,8 @@ const TriplogFindContentTitle = styled.div`
     font-weight: bold;
     background-color: #ffffff;
     border-radius: 10px;
-    width: 643px;
+    // width: 643px;
+    width: 100%;
     height: 27px;
     padding: 3px 10px;
 `;

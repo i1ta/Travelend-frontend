@@ -43,6 +43,8 @@ export const StyleEditImg = styled.img`
   margin-top: 5px;
 `;
 
+export const StyleWrapper = styled.div``;
+
 export const StyleContent = styled.div`
   width: 90%;
   padding: 12px 32px;
@@ -209,7 +211,7 @@ export const EmailFirstInput = styled.input`
   padding: 0 20px;
   height: 52px;
   width: 142px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
 `;
@@ -224,7 +226,7 @@ export const EmailSecondSelect = styled.select`
   padding: 0 20px;
   height: 52px;
   width: 161px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
   box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
@@ -236,7 +238,7 @@ export const EmailOption = styled.option`
 
 export const mbti = styled.span`
   cursor: pointer;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   padding: 10px 20px;
 `;
@@ -251,7 +253,7 @@ export const PhoneInput = styled.input`
   padding: 0 20px;
   height: 52px;
   width: 200px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
 `;
@@ -263,11 +265,15 @@ export const phoneBtn = styled.div`
   font-size: 15px;
   color: white;
   border-radius: 15px;
-  background-color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  background-color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   text-align: center;
   justify-content: center;
   cursor: pointer;
+`;
+
+export const BtnWrapper = styled.div`
+
 `;
 
 export const Btn = styled.button`
@@ -281,8 +287,8 @@ export const Btn = styled.button`
 `;
 
 export const CancleBtn = styled(Btn)`
-  border: 1px solid #c8b6ff;
-  color: #c8b6ff;
+  border: 1px solid #9AB3F5;
+  color: #9AB3F5;
   background-color: #ffffff;
 `;
 
@@ -314,7 +320,7 @@ export const ProfileFileInput = styled.input`
 `;
 
 export const profileFileBtn = styled.label`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   width: 150px;
   height: 50px;
   margin-top: 10px;
@@ -327,9 +333,9 @@ export const profileFileBtn = styled.label`
 
 export const profileRegisterBtn = styled.button`
   background-color: #ffffff;
-  color: #c8b6ff;
+  color: #9AB3F5;
   font-weight: bold;
-  border: 4px solid #c8b6ff;
+  border: 4px solid #9AB3F5;
   border-radius: 15px;
   width: 100px;
   height: 50px;
@@ -339,7 +345,7 @@ export const profileRegisterBtn = styled.button`
 `;
 
 export const profileBtn = styled.button`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border-radius: 15px;
   padding: 0 20px;
@@ -378,7 +384,7 @@ export const ModalTitle = styled.div`
   width: 100%;
   height: 50px;
   border-radius: 10px 10px 0px 0px;
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   text-align: center;
   margin-bottom: 26px;
 
@@ -428,8 +434,8 @@ export const ModalCancelBtn = styled.button`
   width: 100px;
   height: 40px;
   background-color: #ffffff;
-  color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   border-radius: 10px;
   margin: 0 10px;
 
@@ -439,7 +445,7 @@ export const ModalCancelBtn = styled.button`
 `;
 
 export const ModalSubmitBtn = styled(ModalCancelBtn)`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border: none;
 `;

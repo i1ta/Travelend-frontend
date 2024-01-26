@@ -19,7 +19,7 @@ export const StyleTitleWrapper = styled.div`
 
 export const StyleTitle = styled.h1`
   font-size: 36px;
-  color: #c8b6ff;
+  color: #6179B6;
   margin-bottom: 30px;
   margin-right: 30px;
 `;
@@ -29,8 +29,8 @@ export const StyleHashTag = styled.div`
   height: 42px;
   font-size: 17px;
   font-weight: bold;
-  background-color: #90e0ef;
-  border: 1px solid #90e0ef;
+  background-color: #6179B6;
+  border: 1px solid #6179B6;
 
   border-radius: 15px;
   color: #ffffff;
@@ -55,7 +55,7 @@ export const StyleContent = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  border: 2.5px solid #c8b6ff;
+  border: 2.5px solid #6179B6;
   border-radius: 15px;
   background-color: white;
   padding: auto;
@@ -85,7 +85,7 @@ export const StyleBio = styled.div`
 `
 
 export const BioBold = styled.span`
-  color: #9471FF;
+  color: #6179B6;
 `
 
 export const StyleBioImg = styled.img`
@@ -111,7 +111,7 @@ export const StyleBioDelImg = styled(StyleBioImg)`
 `;
 
 export const StyleLineBio = styled(StyleBio)`
-  border-bottom: 1.5px solid #c8b6ff;
+  border-bottom: 1.5px solid #6179B6;
 `
 
 export const StyleModifyBioWrapper = styled.div`
@@ -151,13 +151,13 @@ export const BioInputWrapper = styled.div`
 `;
 
 export const StyleLineBioInput = styled(StyleBio)`
-  border-bottom: 1.5px solid #c8b6ff;
+  border-bottom: 1.5px solid #6179B6;
 `
 
 export const Title = styled.h1`
   width: 1000px;
   font-size: 36px;
-  color: #c8b6ff;
+  color: #6179B6;
   margin-top: 60px;
   margin-bottom: 30px;
 `;
@@ -178,7 +178,7 @@ export const Table = styled.table`
   border-collapse: collapse;
   border-radius: 15px;
   border-style: hidden;
-  box-shadow: 0 0 0 2px #c8b6ff;
+  box-shadow: 0 0 0 2px #6179B6;
 `;
 
 export const Td = styled.td`
@@ -188,7 +188,7 @@ export const Td = styled.td`
   border: none;
   font-size: 20px;
   color: #666666;
-  border-right: 2px solid #C8B6FF;
+  border-right: 2px solid #6179B6;
 `;
 
 export const ModifyTd = styled(Td)`
@@ -200,7 +200,7 @@ export const ModifyTd = styled(Td)`
 export const Tc = styled(Td)`
   width: 100px;
   text-align: center;
-  color: #c8b6ff;
+  color: #6179B6;
   border: none;
   font-weight: bold;
 `;
@@ -225,7 +225,7 @@ export const LockIcon = styled.img`
 export const TdLine = styled.div`
   height: 120px;
   width: 2px;
-  background-color: #C8B6FF;
+  background-color: #6179B6;
 `;  
 
 // 수정 시 스타일

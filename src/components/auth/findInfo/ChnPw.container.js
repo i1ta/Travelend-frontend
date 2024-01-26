@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useForm } from "react-hook-form";
 
 import * as S from "./ChnPw.styles";
 
-import axios from 'axios';
+import Axios from "@/apis";
 
 export default function ChnPwForm() {
   const router = useRouter();
@@ -23,8 +23,8 @@ export default function ChnPwForm() {
         "username": router.query.username
       };
       console.log(requestData);
-      const response = await axios.post(
-        'https://api.tripyle.xyz/user/password/change',
+      const response = await Axios.post(
+        '/user/password/change',
         requestData,
         {"Content-Type": "application/json; charset=utf-8"}
       );

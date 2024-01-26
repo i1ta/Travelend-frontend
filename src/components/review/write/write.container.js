@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
-import { useRef, useEffect, useState } from "react";
-import * as S from "./write.style";
 import Axios from "@/apis";
 import Banner from "@/components/write/Banner";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import * as S from "./write.style";
 
 export default function TriplogWrite(props) {
   const [isOpenStep1, setIsOpenStep1] = useState(true);
@@ -16,6 +16,7 @@ export default function TriplogWrite(props) {
   const [content, setContent] = useState("");
   const [oneLine, setOneLine] = useState("");
 
+  const apiPath = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
   const { reviewId } = router.query;
 

@@ -1,9 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { useEffect, useState, useRef } from 'react';
 
 import * as S from "./FindId.styles";
 
-import axios from 'axios';
+import Axios from "@/apis";
 
 export default function FindIdForm() {
   const { register, handleSubmit, getValues, watch, formState: {errors} } = useForm();
@@ -35,8 +35,8 @@ export default function FindIdForm() {
       }
       // 휴대폰 인증 완료했을 경우
       if(authConfirm === true){
-        const response = await axios.post(
-          'https://api.tripyle.xyz/user/auth/name',
+        const response = await Axios.post(
+          '/user/auth/name',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );
@@ -71,8 +71,8 @@ export default function FindIdForm() {
         }
         console.log(requestData);
         alert('전화번호가 발송되었습니다.');
-        const response = await axios.post(
-          'https://api.tripyle.xyz/user/authentication-code/send',
+        const response = await Axios.post(
+          '/user/authentication-code/send',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );

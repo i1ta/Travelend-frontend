@@ -1,27 +1,27 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import {
+  IsAdmin,
+  JwtTokenState,
   LoginState,
   logout,
-  JwtTokenState,
-  IsAdmin,
-} from "../../states/LoginState.js";
-import { useSetRecoilState } from "recoil";
+} from "../../States/LoginState.js";
 
 import { IoPower } from "react-icons/io5";
 
-export default function SideBar() {
+export default function SideBar({ notMyProfildData }) {
   const router = useRouter();
   const { category } = router.query;
-  const [myProfileData, setMyProfileData] = useState<any>({});
+  const [myProfileData, setMyProfileData] = useState({});
   const [selectedFile, setSelectedFile] = useState(myProfileData.profileUrl);
 
   const setIsLoggedIn = useSetRecoilState(LoginState);
   const setIsAdmin = useSetRecoilState(IsAdmin);
   const setJwtToken = useSetRecoilState(JwtTokenState);
 
-  const onClickCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickCategory = (event) => {
     router.push(`/auth/profile?category=${event.currentTarget.id}`);
   };
 
@@ -53,10 +53,11 @@ export default function SideBar() {
         <SideNotBar>
           <ProfileImage>
             <img
-              src={notMyProfildData.profileUrl || "/icon/defaultProfile.png"}
+              src={notMyProfildData?.profileUrl || "/icon/defaultProfile.png"}
+              alt="profileUrl"
             />
           </ProfileImage>
-          <Name>{notMyProfildData.username} 님의 프로필</Name>
+          <Name>{notMyProfildData?.username} 님의 프로필</Name>
           <ProfileLine></ProfileLine>
 
           <BlockWrapper>
@@ -68,10 +69,13 @@ export default function SideBar() {
       ) : (
         <Container>
           <ProfileImage>
-            <img src={selectedFile || "/icon/defaultProfile.png"} />
+            <img 
+              src={selectedFile || "/icon/defaultProfile.png"} 
+              alt="selectedFile"
+            />
           </ProfileImage>
 
-          <Name>{myProfileData.username || "user"} 님</Name>
+          <Name>{myProfileData?.username || "user"} 님</Name>
 
           <CategoryWrapper>
             <Category

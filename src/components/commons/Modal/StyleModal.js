@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
 import Axios from "@/apis";
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 
 // 필수 props: data, setData, setIsOpenModal, limitLen(최대 제한 개수)
 // 선택 props: placeholder
 export default function StyleModal(props) {
+  const apiPath = process.env.NEXT_PUBLIC_API_URL;
   const [errorHashtag, setErrorHashtag] = useState("");
   const [myHashtag, setMyHashtag] = useState([]);
   const [hashtagList, setHashtagList] = useState([]);

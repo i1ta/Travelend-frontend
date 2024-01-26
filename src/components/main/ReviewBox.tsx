@@ -85,8 +85,8 @@ display: grid;
 align-items: center;
 justify-content: center;
 
-// grid-template-columns: 1fr 1fr 1fr;
-// grid-template-rows: auto auto auto;
+grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
 grid-gap: 20px;
 
 ${({theme}) => theme.media.desktop}{

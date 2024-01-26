@@ -9,12 +9,13 @@ export const Container = styled.div`
 // 사이드 바
 
 export const SideBar = styled.section`
-  width: 300px;
-  /* min-height: 960px; */
+  // width: 335px;
+  width: 16.75rem;
+  min-height: 960px;
   background-color: white;
-  box-shadow: 1px 0px 5px #ddd;
+  box-shadow: 2px 0px 8px #ccc;
   z-index: 50;
-  padding: 40px 0px;
+  padding: 40px 2rem;
 
   display: flex;
   flex-direction: column;
@@ -22,11 +23,11 @@ export const SideBar = styled.section`
 `;
 
 export const SideNotBar = styled(SideBar)`
-  padding: 250px 0;
+  padding: 12.5rem 0;
 `;
 
 export const ProfileLine = styled.div`
-  width: 250px;
+  width: 12.5rem;
   height: 1px;
   background-color: #999999;
   margin-bottom: 1.5rem;
@@ -40,12 +41,12 @@ export const BlockWrapper = styled.div`
 
 export const BlockTxt = styled.div`
   color: rgba(0, 0, 0, 0.5);
-  font-size: 13px;
+  font-size: 6.5rem;
   font-weight: 500;
   cursor: pointer;
 
   &:hover {
-    color: #c8b6ff;
+    color: #9AB3F5;
   }
 `;
 
@@ -56,8 +57,8 @@ export const BlockHypen = styled.div`
 `;
 
 export const ProfileImage = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 14rem;
+  height: 14rem;
   border-radius: 50%;
   background-color: #e6e6e6;
 
@@ -68,46 +69,48 @@ export const ProfileImage = styled.div`
 `;
 
 export const profileFileBtn = styled.label`
-  background-color: #ffffff;
-  border: 1px solid #c8b6ff;
-  border-radius: 15px;
-  color: #000000;
-  font-weight: bold;
-  width: 250px;
-  height: 70px;
-  margin-top: 20px;
-  padding: 10px 0;
-  font-size: 20px;
-  line-height: 50px;
-  text-align: center;
-  cursor: pointer;
-`;
+background-color: #ffffff;
+border: 1px solid #9AB3F5;
+border-radius: 15px;
+color: #000000;
+font-weight: bold;
+// width: 250px;
+width: 12.5rem;
+height: 70px;
+margin-top: 20px;
+padding: 10px 0;
+font-size: 1rem;
+line-height: 50px;
+text-align: center;
+cursor: pointer;
+`
 
 export const profileBtn = styled.button`
-  background-color: #ffffff;
-  border: 1px solid #c8b6ff;
-  color: #000000;
-  font-weight: bold;
-  border-radius: 15px;
+background-color: #ffffff;
+border: 1px solid #9AB3F5;
+color: #000000;
+font-weight: bold;
+border-radius: 15px;
 
-  width: 250px;
-  height: 70px;
-  margin-top: 20px;
-  padding: 10px 0;
-  font-size: 20px;
-`;
+// width: 250px;
+width: 12.5rem;
+height: 70px;
+margin-top: 20px;
+padding: 10px 0;
+font-size: 1rem;
+`
 
 export const Name = styled.div`
   margin: 30px 0;
   color: #666666;
-  font-size: 24px;
+  font-size: 1.2rem;
   font-weight: 700;
 `;
 
 export const Point = styled.div`
   margin-bottom: 40px;
   color: #666666;
-  font-size: 18px;
+  font-size: 0.9rem;
   font-weight: 700;
 `;
 
@@ -121,10 +124,10 @@ export const CategoryWrapper = styled.div`
 `;
 
 export const Category = styled.button`
-  width: 280px;
+  width: 14rem;
   height: 70px;
   margin-bottom: 30px;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 500;
   border-radius: 10px;
   cursor: pointer;
@@ -132,7 +135,7 @@ export const Category = styled.button`
   line-height: 64px;
 
   background-color: ${(props) =>
-    props.selectedCategory == props.id ? "#C8B6FF" : "#ffffff"};
+    props.selectedCategory == props.id ? "#9AB3F5" : "#ffffff"};
   color: ${(props) =>
     props.selectedCategory == props.id ? "#ffffff" : "#666666"};
 `;
@@ -143,34 +146,35 @@ export const LogoutWrapper = styled.button`
 `;
 
 export const LogoutImg = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 1.25rem;
+  height: 1.25rem;
   margin-right: 8px;
 `;
 
 export const LogoutTxt = styled.div`
-  font-size: 20px;
+  font-size: 1rem;
   color: #999999;
 `;
 
 export const Table = styled.table`
-  width: 1000px;
-  height: 520px;
+    max-width: 1000px;
+    width: 50rem;
+    height: 520px;
 
-  background-color: white;
-  margin-top: 100px;
-  border-collapse: collapse;
-  border-radius: 15px;
-  border-style: hidden;
-  box-shadow: 0 0 0 2px #c8b6ff;
+    background-color: white;
+    margin-top: 100px;
+    border-collapse: collapse;
+    border-radius: 15px;
+    border-style: hidden;
+    box-shadow: 0 0 0 2px #9AB3F5;
 `;
 
 export const Td = styled.td`
-  height: 30px;
-  width: 250px;
-  border: none;
-  font-size: 20px;
-  color: #666666;
+    height: 30px;
+    width: 250px;
+    border: none;
+    font-size: 1rem;
+    color: #666666;
 `;
 
 export const StyleTd = styled(Td)`
@@ -183,9 +187,9 @@ export const StyleTd = styled(Td)`
 `;
 
 export const Tc = styled(Td)`
-  text-align: center;
-  color: #c8b6ff;
-  border: none;
+    text-align: center;
+    color: #9AB3F5;
+    border: none;
 `;
 
 export const StyleBox = styled.div``;
@@ -197,13 +201,13 @@ export const BtnWrapper = styled.div`
 `;
 
 export const Btn = styled.button`
-  border-radius: 50px;
-  background-color: #c8b6ff;
-  padding: 15px 50px;
-  border: none;
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
+    border-radius: 50px;
+    background-color: #9AB3F5;
+    padding: 15px 50px;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
 `;
 
 // 프로필 모달 창
@@ -234,7 +238,7 @@ export const ModalTitle = styled.div`
   width: 100%;
   height: 50px;
   border-radius: 10px 10px 0px 0px;
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   text-align: center;
   margin-bottom: 26px;
 
@@ -297,8 +301,8 @@ export const ModalCancelBtn = styled.button`
   width: 100px;
   height: 40px;
   background-color: #ffffff;
-  color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   border-radius: 10px;
   margin: 0 10px;
 
@@ -308,7 +312,7 @@ export const ModalCancelBtn = styled.button`
 `;
 
 export const ModalSubmitBtn = styled(ModalCancelBtn)`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border: none;
 `;

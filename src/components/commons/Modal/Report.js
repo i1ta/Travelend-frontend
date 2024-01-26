@@ -1,6 +1,6 @@
+import Axios from "@/apis";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import Block from "./Block";
 
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -25,8 +25,8 @@ export default function Report(props) {
   };
 
   const fetchList = async () => {
-    await axios
-      .get(`https://api.tripyle.xyz/report/reason`)
+    await Axios
+      .get(`/report/reason`)
       .then((res) => {
         console.log(res);
         setReasonList([...res.data.data]);
@@ -39,8 +39,8 @@ export default function Report(props) {
   }, []);
 
   const onClickSubmit = async () => {
-    await axios
-      .post(`https://api.tripyle.xyz/report`, {
+    await Axios
+      .post(`/report`, {
         content,
         reportReasonId: reason?.id,
         reporteeId: props.id,

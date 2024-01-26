@@ -77,15 +77,15 @@ const ReviewHashTagWrapper = styled.div`
 
 const ReviewHashTag = styled.div`
     height: 25px;
-    width: 65px;
+    // width: 65px;
 
     padding: 5px 8px;
     margin-right: 15px;
-    background: #00b4d8;
+    background: #6179B6;
     border-radius: 30px;
     text-align: center;
 
     font-weight: 500;
-    font-size: 5px;
+    font-size: 10px;
     color: #ffffff;
 `;
