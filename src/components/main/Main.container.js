@@ -22,7 +22,6 @@ export default function Main() {
   const [findCardFilter, setFindCardFilter] = useRecoilState(FindCardFilter);
   const setJwtToken = useSetRecoilState(JwtTokenState);
   const jwtInfo = useRecoilValue(JwtTokenState);
-  const apipath = "https://api.tripyle.xyz";
 
   const [tripylerList, setTripylerList] = useState([]);
 
@@ -69,7 +68,7 @@ export default function Main() {
 
         try {
           const res = await Axios.post(
-            `${apipath}/tripyler/list?isRecruiting=1&option=1`,
+            `/tripyler/list?isRecruiting=1&option=1`,
             requestData
           );
           console.log(res.data.data);
@@ -104,7 +103,7 @@ export default function Main() {
     };
 
     await Axios
-      .post(`${apipath}/tripyler/list?isRecruiting=1&option=1`, requestData)
+      .post(`/tripyler/list?isRecruiting=1&option=1`, requestData)
       .then((res) => {
         const arr = res.data.data;
         setFindCardList(res.data.data);
@@ -144,7 +143,7 @@ export default function Main() {
       };
 
       await Axios
-        .post(`${apipath}/review/list?option=4`, requestData)
+        .post(`/review/list?option=4`, requestData)
         .then((res) => {
           setReviewList(res.data.data);
           console.log(res.data.data);

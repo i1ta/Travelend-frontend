@@ -45,14 +45,16 @@ export default function ReviewMain(props) {
           <ReviewCardDesWrapper>
             <ReviewCardDes>
               <ReviewCardDesIcon src="/icon/location.png"></ReviewCardDesIcon>
-              <ReviewCardNation>{props.info.nationName}</ReviewCardNation>
-              <ReviewCardRegion>·</ReviewCardRegion>
-              <ReviewCardRegion>{props.info.regionName}</ReviewCardRegion>
+              <ReviewCardDesNameWrapper>
+                <ReviewCardNation>{props.info.nationName}</ReviewCardNation>
+                <ReviewCardRegion>·</ReviewCardRegion>
+                <ReviewCardRegion>{props.info.regionName}</ReviewCardRegion>
+              </ReviewCardDesNameWrapper>
             </ReviewCardDes>
             <ReviewHashtagWrapper ref={ref}>
               <ReviewHashtag>#{props.info.hashtags[0]}</ReviewHashtag>
-              <ReviewHashtag>#{props.info.hashtags[1]}</ReviewHashtag>
-              <ReviewHashtag>#{props.info.hashtags[2]}</ReviewHashtag>
+              <ReviewMobileHiddenHashtag>#{props.info.hashtags[1]}</ReviewMobileHiddenHashtag>
+              <ReviewHiddenHashtag>#{props.info.hashtags[2]}</ReviewHiddenHashtag>
             </ReviewHashtagWrapper>
           </ReviewCardDesWrapper>
           <ReviewLine></ReviewLine>
@@ -98,11 +100,13 @@ const ReviewContents = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-left: 20px;
+  margin-left: 1rem;
+  width: 100%;
 `;
 
 const ReviewCard = styled.div`
-  width: 1400px;
+  width: 100%;
+  max-width: 1400px;
   height: 340px;
 
   margin-bottom: 50px;
@@ -112,12 +116,17 @@ const ReviewCard = styled.div`
 
   align-items: center;
   cursor: pointer;
+
+ 
+
+
 `;
 
 const ReviewCardContentWrapper = styled.div`
-  width: 824px;
+  max-width: 824px;
+  width: 58.8%;
   height: 340px;
-  padding: 30px 0;
+  padding: 1.5rem 0;
 
   display: flex;
   flex-direction: column;
@@ -128,32 +137,38 @@ const ReviewCardDesWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-left: 30px;
+  margin-left: 1.5rem;
   height: 70px;
 `;
 
 const ReviewCardDes = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
 `;
 
 const ReviewCardDesIcon = styled.img`
-  width: 18px;
-  height: 20px;
+  width: 0.9rem;
+  height: 1rem;
 
   margin-top: 10px;
 `;
 
+const ReviewCardDesNameWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const ReviewCardNation = styled.div`
-  font-size: 30px;
+  font-size: 1.5rem;
   color: #666666;
-  margin-left: 10px;
+  margin-left: 0.5rem;
 `;
 
 const ReviewCardRegion = styled.div`
-  font-size: 30px;
+  font-size: 1.5rem;
   color: #000000;
-  margin-left: 10px;
+  margin-left: 0.5rem;
 `;
 
 const ReviewHashtagWrapper = styled.div`
@@ -165,39 +180,57 @@ const ReviewHashtagWrapper = styled.div`
 const ReviewHashtag = styled.div`
   background-color: ${theme.colors.review};
   border-radius: 30px;
-  width: px;
+  width: 100%;
   height: 43px;
 
   text-align: center;
 
   color: #ffffff;
-  font-size: 25px;
+  font-size: 1.25rem;
   font-weight: bold;
   padding-top: 3px;
-  padding: 4px 15px 0 15px;
+  padding: 4px 0.75rem 0 0.75rem;
   margin: 0 7px;
+  white-space: nowrap;
+`;
+
+const ReviewHiddenHashtag = styled(ReviewHashtag)`
+  @media screen and (max-width: 1023.9px){
+    display: none;
+  }
+  @media screen and (max-width: 767.9px){
+    display: none;
+  }
+`;
+
+const ReviewMobileHiddenHashtag = styled(ReviewHashtag)`
+  @media screen and (max-width: 767.9px){
+    display: none;
+  }
 `;
 
 const ReviewLine = styled.div`
   height: 0.5px;
-  width: 294px;
+  // max-width: 294px;
+  width: 90%;
   background-color: #d6d6d6;
-  margin-left: 30px;
+  margin-left: 1.5rem;
   // margin-top: 20px;
 `;
 const ReviewLongLine = styled(ReviewLine)`
-  width: 765px;
+  // width: 765px;
+  width: 90%;
 `;
 
 const ReviewDetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 30px;
+  padding: 0 1.5rem;
   height: 150px;
 `;
 
 const ReviewDetailTitle = styled.div`
-  font-size: 25px;
+  font-size: 1.25rem;
   color: #9ab3f5;
   font-weight: bold;
   margin: 20px 0 0 0;
@@ -205,25 +238,30 @@ const ReviewDetailTitle = styled.div`
 
 const ReviewDetailContent = styled.div`
   height: 117px;
-  font-size: 16px;
+  font-size: 0.8rem;
   color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
+  margin-bottom: 0.5rem;
+  // align-items: center;
   // justify-content: center;
+
+  @media screen and (max-width: 767.9px){
+    overflow: hidden;
+  }
 `;
 
 const ReviewInfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 15px 30px;
+  padding: 15px 1.5rem;
   // margin-top: 30px;
   height: 60px;
 `;
 
 const ReviewInfoTime = styled.div`
   font-size: #666666;
-  font-size: 16px;
+  font-size: 0.8rem;
   margin-left: 10px;
 `;
 
@@ -233,25 +271,28 @@ const ReviewInfoAdditionWrapper = styled.div`
 `;
 
 const ReviewInfoAdditionIcon = styled.img`
-  width: 25px;
-  height: 20px;
-  margin-right: 8px;
+  width: 1.25rem;
+  height: 1rem;
+  margin-right: 0.4rem;
   margin-top: 5px;
 `;
 
 const ReviewInfoAdditionTxt = styled.div`
-  font-size: 16px;
+  font-size: 0.8rem;
   color: #666666;
-  margin-right: 15px;
+  margin-right: 0.75rem;
 `;
 
 const ReviewImgWrapper = styled.div`
-  width: 530px;
+  max-width: 530px;
+  width: 100%;
   height: 282px;
+  padding-right: 1rem;
 `;
 
 const ReviewCardImg = styled.img`
-  width: 530px;
+  max-width: 530px;
+  width: 100%;
   height: 282px;
   object-fit: cover;
 `;

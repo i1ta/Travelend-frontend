@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
-import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from "react-hook-form";
 
 import * as S from "./FindPw.styles";
 
-import axios from 'axios';
+import Axios from "@/apis";
 
 export default function FindPwForm() {
   const router = useRouter();
@@ -35,8 +35,8 @@ export default function FindPwForm() {
         "username": getValues("id"),
       }
       if(authConfirm === true){
-        const response = await axios.post(
-          'https://api.tripyle.xyz/user/auth/username',
+        const response = await Axios.post(
+          '/user/auth/username',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );
@@ -73,8 +73,8 @@ export default function FindPwForm() {
         }
         console.log(requestData);
         alert('전화번호가 발송되었습니다.');
-        const response = await axios.post(
-          'https://api.tripyle.xyz/user/authentication-code/send',
+        const response = await Axios.post(
+          '/user/authentication-code/send',
           requestData,
           {"Content-Type": "application/json; charset=utf-8"}
         );

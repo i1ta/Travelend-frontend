@@ -29,7 +29,7 @@ export default function Profile() {
 
   const [_, setIsLoggedIn] = useRecoilState(LoginState);
   const [isAdmin, setIsAdmin] = useRecoilState(IsAdmin);
-  const apiPath = "https://api.tripyle.xyz";
+  const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
   const router = useRouter();
 
@@ -145,7 +145,7 @@ export default function Profile() {
         setMyProfileData(responseData);
       })
       .catch((error) => console.error(error));
-  };
+  }; 
 
   useEffect(() => {
     axios.defaults.headers.common["x-auth-token"] =
@@ -328,6 +328,7 @@ export default function Profile() {
     await axios
       .get(apiPath + `/my-collections/my-reviews?year=${e}`)
       .then((res) => {
+        console.log(res.data.data);
         setMyReviewsData(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -335,6 +336,7 @@ export default function Profile() {
     await axios
       .get(apiPath + `/my-collections/my-tripylers?year=${e}`)
       .then((res) => {
+        console.log(res.data.data);
         setMyTripylersData(res.data.data);
       })
       .catch((err) => console.log(err));

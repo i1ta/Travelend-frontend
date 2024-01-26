@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-import * as S from "./MyProfile.styles";
+import Axios from "@/apis";
 import Modal from "@/components/commons/Modal/Modal";
 import StyleModal from "@/components/commons/Modal/StyleModal";
 import axios from "axios";
+import * as S from "./MyProfile.styles";
 
 export default function MyProfile(props) {
   const formatPhone = (phoneNum) => {
@@ -37,8 +38,8 @@ export default function MyProfile(props) {
       setMbti(props.data.mbti);
 
       // mbti 리스트 받아오기
-      await axios
-      .get(apiPath + "/profile/mbti")
+      await Axios
+      .get("/profile/mbti")
       .then( async (response) => {
 
         setMbtiList(response.data.data);
@@ -57,8 +58,8 @@ export default function MyProfile(props) {
     if(myHashtag.length === 0){
 
       // hashtag 리스트 받아오기
-      await axios
-      .get(apiPath + "/hashtag/list")
+      await Axios
+      .get("/hashtag/list")
       .then((response) => {
         setHashtagList([...response.data.data]);
       })
@@ -101,7 +102,7 @@ export default function MyProfile(props) {
   const [isModifyCheckModal, setIsModifyCheckModal] = useState(false);
   const [isStyleModalOpen, setIsStyleModalOpen] = useState(false); // 스타일 모달
 
-  const apiPath = "https://api.tripyle.xyz";
+  const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
   }, [isModify]);
@@ -115,8 +116,8 @@ export default function MyProfile(props) {
 
 
   const handleOpenModal = async () => {
-    await axios
-      .get(apiPath + "/profile/mbti")
+    await Axios
+      .get("/profile/mbti")
       .then( async (response) => {
         setMbtiList(response.data.data);
       })
@@ -179,8 +180,8 @@ export default function MyProfile(props) {
   const [authAnswer, setAuthAnswer] = useState('');
 
   const onHandleAuth = async (e) => {
-    await axios
-        .post(apiPath + "/user/authentication-code/send", {
+    await Axios
+        .post("/user/authentication-code/send", {
           "phone": phone
         })
         .then((response) => {

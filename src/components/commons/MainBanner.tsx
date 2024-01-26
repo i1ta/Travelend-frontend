@@ -549,18 +549,31 @@ const DesFilterWrapper = styled(FilterWrapper)`
     order: 0;
     // grid-column: 1 / 2;
   }
+  ${({theme}) => theme.media.mobile}{
+    order: 0;
+    // grid-column: 1 / 2;
+  }
 `
 
 const DateRangeFilterWrapper = styled(FilterWrapper)`
+  // grid-column: 1 / 3;
   ${({theme}) => theme.media.tablet}{
     order: 2;
     grid-column: 1 / 3;
+  }
+  ${({theme}) => theme.media.mobile}{
+    order: 1;
+    grid-column: 1 / 2;
   }
 `
 
 const NumFilterWrapper = styled(FilterWrapper)`
   ${({theme}) => theme.media.tablet}{
     order: 1;
+    // grid-column: 2 / 3;
+  }
+  ${({theme}) => theme.media.mobile}{
+    order: 2;
     // grid-column: 2 / 3;
   }
 `

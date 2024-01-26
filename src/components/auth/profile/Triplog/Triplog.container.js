@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
+import FindCard from "@/components/commons/Card/MyCollections/FindCard";
+import ReviewCard from "@/components/commons/Card/MyCollections/ReviewCard";
 import * as S from "./Triplog.styles";
-import axios from "axios";
-import FindCard from "@/components/commons/Card/Triplog/FindCard";
-import ReviewCard from "@/components/commons/Card/Triplog/ReviewCard"
 
 export default function Triplog(props) {
 
@@ -12,6 +11,7 @@ export default function Triplog(props) {
 
   useEffect( () => {
     props.onOpenTriplog(year);
+    console.log(props);
   }, [year]);
 
   

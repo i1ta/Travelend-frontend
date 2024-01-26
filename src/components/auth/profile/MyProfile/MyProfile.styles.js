@@ -20,7 +20,7 @@ export const StyleTitleWrapper = styled.div`
 
 export const StyleTitle = styled.h1`
   font-size: 36px;
-  color: #c8b6ff;
+  color: #6179B6;
   margin-bottom: 30px;
   margin-right: 30px;
 `;
@@ -30,8 +30,8 @@ export const StyleHashTag = styled.div`
   height: 42px;
   font-size: 17px;
   font-weight: bold;
-  background-color: #90e0ef;
-  border: 1px solid #90e0ef;
+  background-color: #6179B6;
+  border: 1px solid #6179B6;
 
   border-radius: 15px;
   color: #ffffff;
@@ -55,7 +55,7 @@ export const StyleContent = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  border: 2.5px solid #c8b6ff;
+  border: 2.5px solid #6179B6;
   border-radius: 15px;
   background-color: white;
   padding: auto;
@@ -85,7 +85,7 @@ export const StyleBio = styled.div`
 `
 
 export const BioBold = styled.span`
-  color: #9471FF;
+  color: #6179B6;
 `
 
 export const StyleBioImg = styled.img`
@@ -111,7 +111,7 @@ export const StyleBioDelImg = styled(StyleBioImg)`
 `;
 
 export const StyleLineBio = styled(StyleBio)`
-  border-bottom: 1.5px solid #c8b6ff;
+  border-bottom: 1.5px solid #6179B6;
 `
 
 export const StyleModifyBioWrapper = styled.div`
@@ -151,13 +151,13 @@ export const BioInputWrapper = styled.div`
 `;
 
 export const StyleLineBioInput = styled(StyleBio)`
-  border-bottom: 1.5px solid #c8b6ff;
+  border-bottom: 1.5px solid #6179B6;
 `
 
 export const Title = styled.h1`
   width: 1000px;
   font-size: 36px;
-  color: #c8b6ff;
+  color: #6179B6;
   margin-top: 60px;
   margin-bottom: 30px;
 `;
@@ -178,7 +178,7 @@ export const Table = styled.table`
   border-collapse: collapse;
   border-radius: 15px;
   border-style: hidden;
-  box-shadow: 0 0 0 2px #c8b6ff;
+  box-shadow: 0 0 0 2px #6179B6;
 `;
 
 export const Td = styled.td`
@@ -188,7 +188,7 @@ export const Td = styled.td`
   border: none;
   font-size: 20px;
   color: #666666;
-  border-right: 2px solid #C8B6FF;
+  border-right: 2px solid #6179B6;
 `;
 
 export const ModifyTd = styled(Td)`
@@ -200,7 +200,7 @@ export const ModifyTd = styled(Td)`
 export const Tc = styled(Td)`
   width: 100px;
   text-align: center;
-  color: #c8b6ff;
+  color: #6179B6;
   border: none;
   font-weight: bold;
 `;
@@ -225,7 +225,7 @@ export const LockIcon = styled.img`
 export const TdLine = styled.div`
   height: 120px;
   width: 2px;
-  background-color: #C8B6FF;
+  background-color: #6179B6;
 `;  
 
 // 수정 시 스타일
@@ -239,7 +239,7 @@ export const EmailFirstInput = styled.input`
   padding: 0 20px;
   height: 52px;
   width: 142px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
 `;
@@ -254,7 +254,7 @@ export const EmailSecondSelect = styled.select`
   padding: 0 20px;
   height: 52px;
   width: 161px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
   box-shadow: 0 0 0 rgb(255, 255, 255), 0.2em 0.2em 1em rgba(0, 0, 0, 0.3);
@@ -266,7 +266,7 @@ export const EmailOption = styled.option`
 
 export const mbti = styled.span`
   cursor: pointer;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   padding: 10px 20px;
 `;
@@ -281,7 +281,7 @@ export const PhoneInput = styled.input`
   padding: 0 20px;
   height: 52px;
   width: 200px;
-  border: 2px solid #c8b6ff;
+  border: 2px solid #9AB3F5;
   border-radius: 15px;
   font-size: 20px;
 `;
@@ -293,8 +293,8 @@ export const phoneBtn = styled.div`
   font-size: 15px;
   color: white;
   border-radius: 15px;
-  background-color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  background-color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   text-align: center;
   justify-content: center;
   cursor: pointer;
@@ -310,7 +310,7 @@ export const Btn = styled.button`
   width: 200px;
   height: 63px;
   border-radius: 50px;
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   border: none;
   color: #ffffff;
   font-size: 18px;
@@ -319,8 +319,8 @@ export const Btn = styled.button`
 `;
 
 export const CancleBtn = styled(Btn)`
-  border: 1px solid #c8b6ff;
-  color: #c8b6ff;
+  border: 1px solid #9AB3F5;
+  color: #9AB3F5;
   background-color: #ffffff;
 `
 
@@ -352,7 +352,7 @@ export const ProfileFileInput = styled.input`
 `
 
 export const profileFileBtn = styled.label`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   width: 150px;
   height: 50px;
   margin-top: 10px;
@@ -365,9 +365,9 @@ export const profileFileBtn = styled.label`
 
 export const profileRegisterBtn = styled.button`
   background-color: #ffffff;
-  color: #c8b6ff;
+  color: #9AB3F5;
   font-weight: bold;
-  border: 4px solid #c8b6ff;
+  border: 4px solid #9AB3F5;
   border-radius: 15px;
   width: 100px;
   height: 50px;
@@ -377,7 +377,7 @@ export const profileRegisterBtn = styled.button`
 `;
 
 export const profileBtn = styled.button`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border-radius: 15px;
   padding: 0 20px;
@@ -416,7 +416,7 @@ export const ModalTitle = styled.div`
   width: 100%;
   height: 50px;
   border-radius: 10px 10px 0px 0px;
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   text-align: center;
   margin-bottom: 26px;
 
@@ -466,8 +466,8 @@ export const ModalCancelBtn = styled.button`
   width: 100px;
   height: 40px;
   background-color: #ffffff;
-  color: #c8b6ff;
-  border: 1px solid #c8b6ff;
+  color: #9AB3F5;
+  border: 1px solid #9AB3F5;
   border-radius: 10px;
   margin: 0 10px;
 
@@ -477,7 +477,7 @@ export const ModalCancelBtn = styled.button`
 `;
 
 export const ModalSubmitBtn = styled(ModalCancelBtn)`
-  background-color: #c8b6ff;
+  background-color: #9AB3F5;
   color: #ffffff;
   border: none;
 `;

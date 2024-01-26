@@ -84,7 +84,13 @@ const AdImg = styled.img`
 `;
 
 const AdTitleWrapper = styled.div`
+  ${({theme}) => theme.media.tablet}{
+    display: none;
+  }
 
+  ${({theme}) => theme.media.mobile}{
+    display: none;
+  }
 `;
 
 const AdTitle = styled.div`

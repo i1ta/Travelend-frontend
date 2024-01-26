@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "@emotion/styled";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 // 필수 props: data, setData, setIsOpenModal, limitLen(최대 제한 개수)
 // 선택 props: placeholder
 export default function StyleModal(props) {
-  const apiPath = "https://api.tripyle.xyz";
+  const apiPath = process.env.NEXT_PUBLIC_API_URL;
   const [errorHashtag, setErrorHashtag] = useState("");
   const [myHashtag, setMyHashtag] = useState([]);
   const [hashtagList, setHashtagList] = useState([]);

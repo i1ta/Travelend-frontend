@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 export default function MyCollectionsFindCard (props) {
   const router = useRouter();
     return(
+      <>
+      {
+        props && props.data && 
         <ReviewCard style={{'cursor': 'pointer'}} onClick={(e) => router.push(`/review/${props.data.reviewId}`)}>
           <ReviewImgWrapper>
             <ReviewImg src={props.data.imageUrl === null ? "/img/defaultImg.png" : props.data.imageUrl}></ReviewImg>
@@ -45,6 +48,8 @@ export default function MyCollectionsFindCard (props) {
             </ReviewUserWrapper>
             
         </ReviewCard>
+      }
+      </>
     )
 }
 
@@ -195,7 +200,7 @@ const ReviewHashTag = styled.button`
 
   padding: 0px 8px;
   margin-right: 8px;
-  background: #00b4d8;
+  background: #6179B6;
   border-radius: 30px;
 
   font-weight: 500;

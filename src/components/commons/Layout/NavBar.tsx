@@ -373,8 +373,12 @@ const InfoMsgBtn = styled.button`
 
 // 메뉴
 const MenuBtnWrapper = styled.div`
-  ${({theme}) => theme.media.desktop}{
-    display: none;
+  display: none;
+  ${({theme}) => theme.media.mobile}{
+    display: block;
+  }
+  ${({theme}) => theme.media.tablet}{
+    display: block;
   }
 `;
 
