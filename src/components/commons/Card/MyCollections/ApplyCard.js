@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function MyCollectionsFindCard (props) {
   console.log(props.data);
@@ -198,7 +197,7 @@ const ReviewHashTag = styled.button`
 
   padding: 0px 8px;
   margin-right: 8px;
-  background: #00b4d8;
+  background: #6179B6;
   border-radius: 30px;
 
   font-weight: 500;

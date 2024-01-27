@@ -1,7 +1,7 @@
+import Axios from "@/apis";
 import { useState } from "react";
-import axios from "axios";
-import Confirm from "./Confirm";
 import Alert from "./Alert";
+import Confirm from "./Confirm";
 
 // 필수 props: name(제목에 나올 이름), id(차단유저 아이디), toggleBlock
 export default function Block(props) {
@@ -12,8 +12,8 @@ export default function Block(props) {
   const alertTitle = `${props.name}님이 차단되었습니다.`;
 
   const onClickSubmit = async () => {
-    await axios
-      .post(`https://api.tripyle.xyz/block`, {
+    await Axios
+      .post(`/block`, {
         blockeeId: props.id,
       })
       .then((res) => {

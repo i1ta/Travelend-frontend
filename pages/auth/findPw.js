@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
-import FindPwForm from "../../src/components/units/auth/findInfo/FindPw.container.js";
 import SocialLogin from "@/components/commons/Layout/SocialLogin.js/SocialLogin.js";
+import FindPwForm from "../../src/components/auth/findInfo/FindPw.container.js";
 
 export default function findPw() {
   return (

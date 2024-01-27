@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 
-import ChnPwForm from "../../src/components/units/auth/findInfo/ChnPw.container.js";
-import Header from "@/components/commons/Layout/Layout";
 import SocialLogin from "@/components/commons/Layout/SocialLogin.js/SocialLogin.js";
+import ChnPwForm from "../../src/components/auth/findInfo/ChnPw.container.js";
 
 export default function chnPw() {
   return (
