@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 const Axios = axios.create();
 
-Axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+Axios.defaults.baseURL = "https://api.travelend.co.kr";
 
 if (typeof window !== "undefined") {
   Axios.defaults.headers.common["x-auth-token"] =
