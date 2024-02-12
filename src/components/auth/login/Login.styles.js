@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -32,16 +32,10 @@ export const Input = styled.input`
   border-radius: 10px;
   border: 1px solid #d6d5d5;
 
-  font-size: 15px;
-
-  padding: 15px 20px;
+  font-size: 16px;
+  padding: 20px;
   margin: 0.6rem;
   width: 500px;
-  height: 70px;
-
-  &:focus {
-    outline: none;
-  }
 `;
 
 export const CheckboxContainer = styled.div`
@@ -52,45 +46,43 @@ export const CheckboxContainer = styled.div`
 
 export const CheckboxWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-left: 20px;
-`;
+  gap: 8px;
 
-export const CheckboxInput = styled.input`
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 50%;
-  border: 2.5px solid #d6d5d5;
-  appearance: none;
-  cursor: pointer;
-  transition: background 0.2s;
+  input {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    border: 2px solid ${({ theme }) => theme.colors.main1};
+    appearance: none;
+    cursor: pointer;
+    transition: background 0.2s;
 
-  &:checked {
-    background: #d6d5d5;
-    border: none;
-    content: "✔";
+    &:checked {
+      background: ${({ theme }) => theme.colors.main1};
+      border: none;
+      content: "✔";
+    }
+  }
+
+  label {
+    color: #666666;
+    font-size: 16px;
+    letter-spacing: -0.3px;
   }
 `;
 
-export const Label = styled.label`
-  color: #666666;
-  font-size: 16px;
-  letter-spacing: -0.3px;
-  margin-left: 8px;
-
-  cursor: pointer;
-`;
-
 export const Button = styled.button`
-  border-radius: 100px;
+  border-radius: 10px;
   border: none;
-  background-color: #c8b6ff;
+  background-color: ${({ theme }) => theme.colors.main1};
   color: #ffffff;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
 
-  padding: 15px 20px;
+  padding: 20px;
   margin: 20px;
 
   width: 500px;
-  height: 70px;
 `;

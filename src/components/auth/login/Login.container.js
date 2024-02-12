@@ -15,8 +15,7 @@ import {
   NicknameState,
   UserIdState,
   login,
-} from "@/States/LoginState";
-
+} from "@/states/LoginState";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -135,14 +134,14 @@ export default function LoginForm() {
           </S.InputWrapper>
           <S.CheckboxContainer>
             <S.CheckboxWrapper>
-              <S.CheckboxInput
+              <input
                 type="checkbox"
                 id="loginChk"
                 onClick={() => {
                   setIsRemember((prev) => !prev);
                 }}
               />
-              <S.Label htmlFor="loginChk">Remember me</S.Label>
+              <label htmlFor="loginChk">Remember me</label>
             </S.CheckboxWrapper>
             <S.Button type="button" disabled={isSubmitting} onClick={onSubmit}>
               Sign In
