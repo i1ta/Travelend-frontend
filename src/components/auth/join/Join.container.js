@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import * as S from "./Join.styles";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import StyleModal from "@/components/commons/Modal/StyleModal";
+import Axios from "@/apis";
 
 export default function Join() {
   // 라이브러리 변수
@@ -19,7 +19,6 @@ export default function Join() {
   const [isCheckedAll, setIsCheckedAll] = useState(false);
 
   // 기타 state
-  const apiPath = "https://api.tripyle.xyz";
   const [isSendCheckNum, setIsSendCheckNum] = useState(false);
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState("");
@@ -49,10 +48,9 @@ export default function Join() {
       return;
     } else {
       setErrorID("");
-      axios
-        .get(apiPath + "/user/username/check/" + username)
-        .then((response) => {
-          if (response.data.data == true) {
+      Axios.get(`/user/username/check/${username}`)
+        .then((res) => {
+          if (res.data.data == true) {
             alert("중복되는 ID입니다. 다른 ID를 입력해주세요.");
             setIsUsernameAuth(false);
           } else {
@@ -73,10 +71,9 @@ export default function Join() {
       return;
     } else {
       // 문자 전송 api
-      axios
-        .post(apiPath + "/user/authentication-code/send", {
-          phone,
-        })
+      Axios.post("/user/authentication-code/send", {
+        phone,
+      })
         .then((response) => {
           setAuthCheckNum(response.data.data);
           setErrorPhone("");
@@ -186,19 +183,18 @@ export default function Join() {
     } else setErrorCheckBox("");
 
     // signup api 요청
-    await axios
-      .post(apiPath + "/user/signup", {
-        birthDate,
-        email,
-        firstTripStyleId: shownMyHashtag[0]?.id || 0,
-        gender,
-        name,
-        password,
-        phone,
-        secondTripStyleId: shownMyHashtag[1]?.id || 0,
-        thirdTripStyleId: shownMyHashtag[2]?.id || 0,
-        username,
-      })
+    await Axios.post("/user/signup", {
+      birthDate,
+      email,
+      firstTripStyleId: shownMyHashtag[0]?.id || 0,
+      gender,
+      name,
+      password,
+      phone,
+      secondTripStyleId: shownMyHashtag[1]?.id || 0,
+      thirdTripStyleId: shownMyHashtag[2]?.id || 0,
+      username,
+    })
       .then((response) => {
         alert("회원가입을 축하드립니다");
         router.push("/auth/signIn");

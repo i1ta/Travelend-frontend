@@ -222,7 +222,7 @@ export const AcceptWrapper = styled.div`
     cursor: pointer;
 
     &:checked {
-      background-color: #c8b6ff;
+      background-color: ${({ theme }) => theme.colors.main1};
       border: none;
       content: "✔";
     }
