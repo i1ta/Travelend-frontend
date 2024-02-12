@@ -238,7 +238,7 @@ export const AcceptWrapper = styled.div`
 export const EnrollBtn = styled.button`
   width: 60%;
   padding: 20px 0;
-  background: ${({ theme }) => theme.colors.main2};
+  background: ${({ theme }) => theme.colors.main1};
   border-radius: 5px;
   margin: 40px 0 200px 0;
   margin-left: 5%;
