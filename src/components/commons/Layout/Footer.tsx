@@ -25,12 +25,12 @@ export default function Footer() {
           <Section>
             <Title>Quick Link</Title>
             <MenuWrapper>
-              <Menu onClick={() => router.push("/main")}>소개</Menu>
+              <Menu onClick={() => router.push("/introduce")}>소개</Menu>
               <Menu onClick={() => router.push("/findTripyler")}>
                 동행자 찾기
               </Menu>
               <Menu onClick={() => router.push("/review")}>여행 후기</Menu>
-              <Menu onClick={() => router.push("/main")}>Contact</Menu>
+              <Menu onClick={() => router.push("/contact")}>Contact</Menu>
             </MenuWrapper>
           </Section>
           <InfoSection>
@@ -92,19 +92,19 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
 
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     display: none;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
   }
 `;
 
 const InfoSection = styled(Section)`
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     display: block;
     text-align: center;
   }
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     display: block;
     text-align: center;
     margin: 0 auto;
@@ -145,10 +145,10 @@ const Item = styled.div`
   align-items: center;
   gap: 10px;
 
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     justify-content: center;
   }
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     justify-content: center;
   }
 `;

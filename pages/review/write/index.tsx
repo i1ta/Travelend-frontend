@@ -72,6 +72,7 @@ export default function ReviewWritePage() {
               oneLine,
             }}
             imageData={imageData}
+            isReview
           />
         </Form>
       </Banner>

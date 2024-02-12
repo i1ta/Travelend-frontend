@@ -126,8 +126,8 @@ export default function ReviewStep1({ isEdit, setId }: ReviewStep1Props) {
             <WithTripList>
               <WithTripListTitle>Trip’yler 리스트</WithTripListTitle>
               <WithTripListWrapper>
-                {selectedInfo?.tripylerWithList.map((el) => (
-                  <WithTripListItem>
+                {selectedInfo?.tripylerWithList.map((el, idx) => (
+                  <WithTripListItem key={idx}>
                     <WithTripListProfile>
                       <Image
                         src={el.profileUrl || "/icon/defaultProfile.png"}
