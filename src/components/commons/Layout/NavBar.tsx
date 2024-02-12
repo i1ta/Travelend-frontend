@@ -45,6 +45,7 @@ export default function NavBar() {
       router.push("/auth/signIn");
       logout({ setJwtToken });
       setIsLoggedIn(false);
+      setIsAdmin(false);
       return true;
     } else {
       return false;
@@ -127,17 +128,23 @@ export default function NavBar() {
                 if(!checkToken()) {
                   router.push("/findTripyler"); setFindCardFilter({});
                 }
-              } 
+              } else {
+                alert("로그인이 필요한 서비스입니다.");
+                router.push("/auth/signIn");}
             }}>Travelender 찾기</Item>
             <Item onClick={() => {
               if(isLoggedIn) {
                 if(!checkToken()){
-                  router.push("/review")}}
+                  router.push("/review")}
+                }
+                else {
+                  alert("로그인이 필요한 서비스입니다.");
+                  router.push("/auth/signIn");}
                 }
               } 
             >여행 후기</Item>
             <Item onClick={() => router.push("/contact")}>Contact</Item>
-            {isAdmin && <AdminItem onClick={() => router.push("/admin")}>관리자 페이지</AdminItem>}
+            {isLoggedIn && isAdmin && <AdminItem onClick={() => router.push("/admin")}>관리자 페이지</AdminItem>}
           </PageList>
 
           {!isLoggedIn ? (
@@ -376,10 +383,10 @@ const InfoMsgBtn = styled.button`
 // 메뉴
 const MenuBtnWrapper = styled.div`
   display: none;
-  ${({theme}) => theme.media.mobile}{
+  ${({ theme }) => theme.media.mobile} {
     display: block;
   }
-  ${({theme}) => theme.media.tablet}{
+  ${({ theme }) => theme.media.tablet} {
     display: block;
   }
 `;

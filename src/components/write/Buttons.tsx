@@ -35,7 +35,10 @@ export default function Buttons({
           alert("게시물이 등록되었습니다");
           router.push("/findTripyler");
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          console.log(tripylerData);
+        });
     } else {
       // ========== 찾기 수정 api ==========
       await Axios.patch(`/tripyler/${tripylerId}`, formData, {
@@ -48,7 +51,10 @@ export default function Buttons({
           alert(res.data.data);
           router.push(`/findTripyler/${tripylerId}`);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+          console.log(tripylerData);
+        });
     }
   };
 
