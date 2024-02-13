@@ -32,7 +32,7 @@ const OAuthKaKao = () => {
     if (code) {
       axios
         .post(
-          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_LOCAL_URL}/oauth/kakao&code=${router.query.code}`,
+          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_PAGE_URL}/oauth/kakao&code=${router.query.code}`,
 
           {
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
